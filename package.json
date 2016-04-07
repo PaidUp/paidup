@@ -3,7 +3,6 @@
   "version": "3.0.0",
   "main": "server/app.js",
   "dependencies": {
-    "ABAValidator": "1.0.5",
     "TDCore": "https://github.com/talosdigital/TDCore/tarball/master",
     "async": "1.5.2",
     "body-parser": "1.15.0",
