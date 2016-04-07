@@ -1,0 +1,65 @@
+{
+  "name": "PaidUp",
+  "version": "3.0.0",
+  "main": "server/app.js",
+  "dependencies": {
+    "ABAValidator": "1.0.5",
+    "TDCore": "https://github.com/talosdigital/TDCore/tarball/master",
+    "async": "1.5.2",
+    "body-parser": "1.15.0",
+    "camelize": "1.0.0",
+    "composable-middleware": "0.3.0",
+    "compression": "1.6.1",
+    "connect-mongo": "1.1.0",
+    "cookie-parser": "1.4.1",
+    "ejs": "2.4.1",
+    "email-templates": "2.3.0",
+    "errorhandler": "1.4.3",
+    "express": "4.13.4",
+    "express-jwt": "3.3.0",
+    "express-session": "1.13.0",
+    "fb": "1.0.2",
+    "jsonwebtoken": "5.7.0",
+    "lodash": "4.8.2",
+    "method-override": "2.3.5",
+    "moment": "2.12.0",
+    "mongoose": "4.4.11",
+    "node-uuid": "1.4.7",
+    "nodemailer": "2.3.0",
+    "passport": "0.3.2",
+    "passport-local": "1.0.0",
+    "pmx": "^0.6.1",
+    "prerender-node": "^2.2.1",
+    "pu-commerce-connect": "^0.4.17",
+    "pu-schedule-connect": "^2.2.5",
+    "q": "^1.4.1",
+    "serve-favicon": "2.3.0",
+    "snakeize": "0.1.0",
+    "socket.io": "1.4.5",
+    "socket.io-client": "1.4.5",
+    "socketio-jwt": "4.3.4",
+    "urlencode": "1.1.0",
+    "v8-profiler": "^5.6.0",
+    "wkhtmltopdf": "0.1.6"
+  },
+  "devDependencies": {
+    "faker": "3.1.0",
+    "supertest": "1.2.0",
+    "nightwatch": "0.8.18"
+  },
+  "engines": {
+    "node": "4.4.2"
+  },
+  "scripts": {
+    "start": "node server/app.js",
+    "test": "node *.spec.js"
+  },
+  "private": true,
+  "config": {
+    "blanket": {
+      "pattern": [
+        "varity/lib"
+      ]
+    }
+  }
+}
