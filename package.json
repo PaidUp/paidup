@@ -1,6 +1,10 @@
 {
   "name": "paid-up",
-  "version": "3.0.0",
+  "description": "paidUp application",
+  "version": "1.0.0",
+  "author": "@paidUp company",
+  "license": "private",
+  "private": true,
   "main": "server/app.js",
   "dependencies": {
     "TDCore": "https://github.com/talosdigital/TDCore/tarball/master",
@@ -37,14 +41,24 @@
   },
   "scripts": {
     "start": "node server/app.js",
-    "test": "node *.spec.js"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean:dist": "rm -rf dist",
+    "clean:build": "rm -rf build",
+    "create:dist": "mkdir dist",
+    "create:build": "mkdir build",
+    "jenkins": "npm run clean:build && npm run create:build && npm test",
+    "build:server": "cp -R server/ dist/server",
+    "build:client": "cp -R client/ dist/public",
+    "build": "npm run clean:dist && npm run create:dist && npm run build:server && npm run build:client"
   },
-  "private": true,
   "config": {
     "blanket": {
       "pattern": [
         "varity/lib"
       ]
     }
-  }
+  },
+  "keywords": [
+    "paidUp"
+  ]
 }
