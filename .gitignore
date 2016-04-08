@@ -35,5 +35,7 @@ node_modules
 .DS_Store
 client/e2eNW/reports/
 
-#dorectories
+#directories
 bin
+dist
+var/logs/*
