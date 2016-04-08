@@ -4,9 +4,7 @@
   "main": "server/app.js",
   "dependencies": {
     "TDCore": "https://github.com/talosdigital/TDCore/tarball/master",
-    "async": "1.5.2",
     "body-parser": "1.15.0",
-    "camelize": "1.0.0",
     "composable-middleware": "0.3.0",
     "compression": "1.6.1",
     "cookie-parser": "1.4.1",
@@ -14,7 +12,6 @@
     "email-templates": "2.3.0",
     "errorhandler": "1.4.3",
     "express": "4.13.4",
-    "fb": "1.0.2",
     "lodash": "4.8.2",
     "method-override": "2.3.5",
     "moment": "2.12.0",
