@@ -23,11 +23,11 @@ module.exports = function (app) {
   })
 
   // Insert routes below
+  app.use('/api/v1/auth', require('./api/auth'))
+  app.use('/api/v1/user', require('./api/user'))
   // app.use('/api/v1/payment', require('./api/payment'))
   // app.use('/api/v1/commerce', require('./api/commerce'))
-  // app.use('/api/v1/user', require('./api/user'))
   // app.use('/api/v1/application', require('./api/application'))
-  // app.use('/api/v1/auth', require('./api/auth'))
   // app.use('/api/v1/notification', require('./api/notifications'))
   // app.use('/api/v1/logger', require('./api/logger'))
   app.route('/google55233ee6abe86e62.html').get(function (req, res) {

@@ -14,7 +14,6 @@ const cookieParser = require('cookie-parser')
 const errorHandler = require('errorhandler')
 const path = require('path')
 const config = require('./environment')
-const passport = require('passport')
 
 module.exports = function (app) {
   const env = app.get('env')
@@ -28,7 +27,6 @@ module.exports = function (app) {
   app.use(bodyParser.json())
   app.use(methodOverride())
   app.use(cookieParser())
-  app.use(passport.initialize())
   if (env === 'production') {
     app.use(favicon(path.join(config.root, 'public', 'favicon.ico')))
     app.use(express.static(path.join(config.root, 'public'), { maxAge: oneDay * 8 }))
