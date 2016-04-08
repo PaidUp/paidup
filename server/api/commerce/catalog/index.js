@@ -1,0 +1,12 @@
+'use strict'
+
+const express = require('express')
+const controller = require('./catalog.controller')
+const authService = require('../../auth/auth.service')
+const router = express.Router()
+
+router.get('/category/:categoryId', authService.isAuthenticated(), controller.list)
+router.get('/grouped/product/:productId', authService.isAuthenticated(), controller.groupedProducts)
+router.get('/product/:productId', authService.isAuthenticated(), controller.catalogInfo)
+
+module.exports = router
