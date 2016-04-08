@@ -13,7 +13,7 @@ module.exports[404] = function pageNotFound (req, res) {
 
   res.status(result.status)
   res.render(viewFilePath, function (err) {
-    if (err) { return res.status(statusCode).json(result, result) }
+    if (err) { return res.status(statusCode).json(result) }
 
     res.render(viewFilePath)
   })
