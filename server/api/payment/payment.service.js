@@ -115,7 +115,7 @@ function fetchCard (customerId, cardId, cb) {
   })
 }
 
-function capturev3 (order, cb) {
+function capture (order, cb) {
   let newmeta = {
     organizationId: order.paymentsPlan[0].productInfo.organizationId,
     organizationName: order.paymentsPlan[0].productInfo.organizationName,
@@ -242,4 +242,4 @@ exports.addLegalCustomer = addLegalCustomer
 exports.updateAccount = updateAccount
 exports.updateCustomer = updateCustomer
 exports.fetchCustomer = fetchCustomer
-exports.capturev3 = capturev3
+exports.capture = capture
