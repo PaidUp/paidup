@@ -3,7 +3,7 @@
 const config = require('../../config/environment')
 const paymentService = require('./payment.service')
 const logger = require('../../config/logger')
-const CommerceConnect = require('pu-commerce-connect')
+const CommerceConnect = require('paidup-commerce-connect')
 const pmx = require('pmx')
 const Q = require('q')
 // https://www.npmjs.com/package/q

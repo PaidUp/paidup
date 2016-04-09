@@ -5,7 +5,7 @@ const userService = require('../user/user.service')
 const logger = require('../../config/logger')
 const paymentEmailService = require('./payment.email.service')
 const tdPaymentService = require('TDCore').paymentService
-const CommerceConnect = require('pu-commerce-connect')
+const CommerceConnect = require('paidup-commerce-connect')
 
 function createCustomer (user, cb) {
   tdPaymentService.init(config.connections.payment)

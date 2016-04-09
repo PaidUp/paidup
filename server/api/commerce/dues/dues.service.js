@@ -1,7 +1,7 @@
 'use strict'
 
 let config = require('../../../config/environment/index')
-const PUScheduleConnect = require('pu-schedule-connect')
+const PUScheduleConnect = require('paidup-schedule-connect')
 const logger = require('../../../config/logger')
 
 function calculateDues (params, cb) {

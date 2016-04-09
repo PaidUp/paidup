@@ -1,7 +1,7 @@
 'use strict'
 
-const CommerceConnector = require('pu-commerce-connect')
-const ScheduleConnector = require('pu-schedule-connect')
+const CommerceConnector = require('paidup-commerce-connect')
+const ScheduleConnector = require('paidup-schedule-connect')
 const config = require('../../../config/environment')
 const CatalogService = require('../catalog/catalog.service')
 const userService = require('../../user/user.service')
