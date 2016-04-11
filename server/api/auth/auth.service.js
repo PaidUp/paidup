@@ -10,7 +10,6 @@ var tdUserService = require('TDCore').userService
  */
 function isAuthenticated () {
   return compose()
-    // Validate token jwt and redis
     .use(function (req, res, next) {
       let token = getTokenFromRequest(req)
       req.headers.authorization = 'Bearer ' + token
@@ -41,7 +40,7 @@ function getTokenFromRequest (req) {
     token = req.body.token
   } else if (req.query && req.query.hasOwnProperty('access_token')) {
     token = req.query.token
-  } else if (req.headers.authorization) {
+  } else if (req.headers && req.headers.authorization) {
     token = req.headers.authorization.slice(7, req.headers.authorization.length)
   }
   return token
@@ -120,3 +119,4 @@ exports.emailUpdate = emailUpdate
 exports.passwordUpdate = passwordUpdate
 exports.isAuthenticated = isAuthenticated
 exports.getSessionSalt = getSessionSalt
+exports.getTokenFromRequest = getTokenFromRequest
