@@ -17,15 +17,15 @@
     "email-templates": "2.3.0",
     "errorhandler": "1.4.3",
     "express": "4.13.4",
-    "lodash": "^4.9.0",
+    "lodash": "^4.10.0",
     "method-override": "2.3.5",
     "moment": "2.12.0",
     "morgan": "^1.7.0",
-    "nodemailer": "^2.3.1",
-    "pmx": "^0.6.1",
-    "prerender-node": "^2.2.1",
+    "nodemailer": "^2.3.2",
     "paidup-commerce-connect": "^0.4.21",
     "paidup-schedule-connect": "^2.2.10",
+    "pmx": "^0.6.1",
+    "prerender-node": "^2.2.1",
     "q": "^1.4.1",
     "serve-favicon": "2.3.0",
     "winston": "^2.2.0"
@@ -34,14 +34,17 @@
     "connect-livereload": "^0.5.4",
     "faker": "3.1.0",
     "nightwatch": "0.8.18",
-    "supertest": "1.2.0"
+    "proxyquire": "^1.7.4",
+    "sinon": "^1.17.3",
+    "supertest": "1.2.0",
+    "tape": "^4.5.1"
   },
   "engines": {
     "node": "4.4.2"
   },
   "scripts": {
     "start": "node server/app.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "NODE_ENV=test node server/**/*.spec.js",
     "clean:dist": "rm -rf dist",
     "clean:build": "rm -rf build",
     "create:dist": "mkdir dist",

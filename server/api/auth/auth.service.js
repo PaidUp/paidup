@@ -119,4 +119,3 @@ exports.emailUpdate = emailUpdate
 exports.passwordUpdate = passwordUpdate
 exports.isAuthenticated = isAuthenticated
 exports.getSessionSalt = getSessionSalt
-exports.getTokenFromRequest = getTokenFromRequest
