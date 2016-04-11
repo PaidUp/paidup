@@ -2,7 +2,7 @@
 const config = require('../../../config/environment')
 const TDCommerceService = require('TDCore').commerceService
 const logger = require('../../../config/logger')
-const CommerceConnect = require('pu-commerce-connect')
+const CommerceConnect = require('paidup-commerce-connect')
 
 function cartCreate (cb) {
   TDCommerceService.init(config.connections.commerce)
