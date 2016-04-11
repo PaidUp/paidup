@@ -44,7 +44,7 @@
   },
   "scripts": {
     "start": "node server/app.js",
-    "test": "NODE_ENV=test node server/**/*.spec.js",
+    "test": "NODE_ENV=test node server/api/auth/auth.service.spec.js",
     "clean:dist": "rm -rf dist",
     "clean:build": "rm -rf build",
     "create:dist": "mkdir dist",

@@ -1,6 +1,6 @@
 'use strict'
 var test = require('tape')
-var proxyquire = require('proxyquire').noCallThru()
+var proxyquire = require('proxyquire')// .noCallThru()
 
 test('getTokenFromRequest without error', function (t) {
   var authService = proxyquire('./auth.service', {
@@ -13,7 +13,8 @@ test('getTokenFromRequest without error', function (t) {
           return cb(null, true)
         }
       },
-      userService: {}
+      userService: {},
+      '@noCallThru': true
     }
   })
   t.plan(2)
@@ -35,7 +36,8 @@ test('getTokenFromRequest with error', function (t) {
           return cb(true)
         }
       },
-      userService: {}
+      userService: {},
+      '@noCallThru': true
     }
   })
   t.plan(2)
