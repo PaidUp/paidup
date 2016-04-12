@@ -1,6 +1,10 @@
 'use strict'
 const test = require('tape')
 const proxyquire = require('proxyquire')// .noCallThru()
+// https://github.com/thlorenz/proxyquire
+// const sinon = require('sinon')
+// http://sinonjs.org/docs/
+
 let authService = proxyquire('./auth.service', {
   'TDCore': {
     authService: {
