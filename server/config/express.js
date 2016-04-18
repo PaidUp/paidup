@@ -35,7 +35,7 @@ module.exports = function (app) {
   }
 
   if (env === 'development' || env === 'test') {
-    app.use(require('connect-livereload')())
+    // app.use(require('connect-livereload')())
     app.use(express.static(path.join(config.root, '.tmp')))
     app.use(express.static(path.join(config.root, 'client'), { maxAge: (oneDay * 8) }))
     app.set('appPath', config.root + '/client')

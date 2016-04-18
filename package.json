@@ -36,6 +36,7 @@
     "winston": "^2.2.0"
   },
   "devDependencies": {
+    "browser-sync": "^2.12.3",
     "connect-livereload": "^0.5.4",
     "faker": "3.1.0",
     "nightwatch": "0.8.18",
@@ -60,7 +61,8 @@
     "build:client": "browserify client/js/src/app.js -o client/js/bundle.js && cp -R client/ dist/public",
     "build": "npm run clean:dist && npm run create:dist && npm run build:server && npm run build:client",
     "production": "NODE_ENV=production node dist/server/app.js",
-    "front:watchify": "watchify client/js/src/app.js --verbose --debug --outfile client/js/bundle.js"
+    "front:watchify": "watchify client/js/src/app.js --verbose --debug --outfile client/js/bundle.js",
+    "front:livereload": "browser-sync start --proxy localhost:9000 --files client !client/js/src"
   },
   "config": {
     "blanket": {
