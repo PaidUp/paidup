@@ -41,4 +41,4 @@ dist
 var/logs/*
 
 #Frontend
-client/bundle.js
+client/js/bundle.js

@@ -1,19 +1,19 @@
 <div class="container">
   <div class="row">
     <div class="col s12 m4 offset-m4 whiteContainer">
-      <form action="#">
-        <input placeholder="Email" id="email" type="text" class="validate">
-        <input placeholder="Password" id="email" type="password" class="validate">
-      </form>
+      <div>
+        <input placeholder="Email" id="email" type="text" class="validate" ng-model="loginInfo.email" />
+        <input placeholder="Password" id="password" type="password" class="validate" ng-model="loginInfo.password" />
+      </div>
       <!--Contenedor de Botones-->
       <div class="buttonsContainer">
-        <a href="#" class="buttonGreen waves-effect waves-light">LOGIN</a>
+        <a ng-click="normalLogin()" class="buttonGreen waves-effect waves-light">LOGIN</a>
         <br />
         <br />
-        <a href="#" class="buttonFacebook waves-effect">Login with Facebook</a>
+        <a ng-click="facebookLogin()" class="buttonFacebook waves-effect">Login with Facebook</a>
         <br />
         <br />
-        <a href="#" class="buttonGreen waves-effect waves-light">SIGN UP</a>
+        <a ui-sref="singup" class="buttonGreen waves-effect waves-light">SIGN XUP</a>
       </div>
     </div>
   </div>
