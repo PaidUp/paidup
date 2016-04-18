@@ -259,38 +259,24 @@ var all = {
     user: {
       urlPrefix: '/api/v1',
       isHttp: false,
-      host: 'localhost',
+      host: 'http://develop.getpaidup.com/',
       port: 9001,
       token: 'TDUserToken-CHANGE-ME!'
     },
     payment: {
       urlPrefix: '/api/v1',
       isHttp: false,
-      host: 'localhost',
+      host: 'http://develop.getpaidup.com/',
       port: 9005,
       token: 'TDPaymentToken-CHANGE-ME!'
-    },
-    loan: {
-      urlPrefix: '/api/v1',
-      isHttp: false,
-      host: 'localhost',
-      port: 9004,
-      token: 'TDLoanToken-CHANGE-ME!'
     },
     commerce: {
       urlPrefix: '/api/v1',
       isHttp: false,
-      host: 'localhost',
+      host: 'http://develop.getpaidup.com/',
       port: 9002,
       token: 'TDCommerceToken-CHANGE-ME!',
-      baseUrl: 'http://localhost:9002'
-    },
-    userLoan: {
-      urlPrefix: '/api/v1',
-      isHttp: false,
-      host: 'localhost',
-      port: 9010,
-      token: 'TDUserLoanToken-CHANGE-ME!'
+      baseUrl: 'http://develop.getpaidup.com/:9002'
     },
     schedule: {
       urlPrefix: '/api/v2',
@@ -298,7 +284,7 @@ var all = {
       host: 'localhost',
       port: 9006,
       token: 'tdschedule-secret',
-      baseUrl: 'http://localhost:9006'
+      baseUrl: 'http://develop.getpaidup.com/:9006'
     }
   },
   logger: {
