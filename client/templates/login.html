@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="col s12 m4 offset-m4 login-container">
+    <img src="../img/paidUpLogoWhite.png" alt="logo" class="logo-img">
+    <div class="error red-text text-darken-2" ng-bind="error"></div>
+    <div class="inputs">
+      <input placeholder="Email" id="email" type="text" class="validate" ng-model="user.email" />
+      <input placeholder="Password" id="password" type="password" class="validate" ng-model="user.password" />
+    </div>
+    <!--Contenedor de Botones-->
+    <div class="buttonsContainer">
+      <a ng-click="localLogin()" class="button-green waves-effect waves-light">LOGIN</a>      
+      <a ng-click="forgotLink()" class="forgot-link waves-effect">Forgot your email or password?</a>      
+      <a ng-click="facebookLogin()" class="button-facebook waves-effect"><i class="fa fa-lg fa-facebook" aria-hidden="true"></i> Login with Facebook</a>
+      <div class="horizontal-bar"></div>
+      <a ui-sref="singup" class="button-green button-sign-up waves-effect waves-light">SIGN UP</a>
+    </div>
+  </div>
+</div>

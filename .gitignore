@@ -39,3 +39,7 @@ client/e2eNW/reports/
 bin
 dist
 var/logs/*
+
+#Frontend
+client/js/bundle.js
+client/css/style.css

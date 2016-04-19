@@ -1,0 +1,275 @@
+/* LESS Variables */
+
+@c-green-back: #67bc3b;
+@c-gray-back: #d7d7d7;
+@c-gray-font: #939393;
+@c-black-font: #393939;
+@small-up: ~"only screen";
+@small-only: ~"only screen and (max-width: 600px)";
+@medium-up: ~"only screen and (min-width:601px)";
+@medium-only: ~"only screen and (min-width:601px) and (max-width:991px)";
+@large-up: ~"only screen and (min-width:992px)";
+
+
+@font-face{
+	font-family: 'The_Northern_Block';
+	src: url(../fonts/The_Northern_Block_Ltd__Brokman_Medium.otf);
+}
+
+@font-face{
+	font-family: 'The_Northern_Block_Book';
+	src: url(../fonts/The_Northern_Block_Ltd__Brokman_Book.otf);
+}
+
+
+html, body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	font-family: 'The_Northern_Block_Book';
+}
+
+/*
+  FOOTER
+  */
+
+  footer.page-footer{
+    background-color: transparent;
+    font-size: 12px;
+    font-weight: bold;
+    overflow: visible;
+    .container{
+      text-align: center;
+      @media @medium-up{
+        text-align: left;
+      }
+      .right-footer{
+        float: none;
+        clear: both;
+        @media @medium-up{
+          clear: inherit;
+          float: right;
+        }
+      } 
+      .left-footer{
+        float: none;
+        clear: both;
+        @media @medium-up{
+          clear: inherit;
+          float: left;
+        }
+      }
+      div{
+        margin: 15px 0px;
+      }
+      .fa-phone, .fa-comment{
+        color: @c-green-back;
+      }
+      .feedback{
+        margin-left: 25px;
+      }
+    }
+  }
+
+/*
+  LOGIN PAGE
+  */
+  .loginpage{
+    .login-container{
+      margin-top: 50px;
+      @media @medium-up{
+        margin-top: 120px;
+      }
+    }
+    .logo-img{
+     margin: 0px auto;
+     text-align: center;
+     display: block;
+     text-align: center;
+   }
+   .error{
+    text-align: center;
+    margin: 30px auto 0px auto;
+   }
+   .inputs{
+    margin-top: 10px;
+    input{
+      padding: 10px 15px;
+      width: 100%;
+      display: block;
+      margin: 10px auto;
+      @media @medium-up{
+        width: 300px;
+      }
+    }
+  }
+  .forgot-link{
+    color: @c-green-back;
+    font-weight: bold;
+    margin: 8px 0px;
+    text-decoration: underline;
+    display: block;
+  }
+  .button-facebook{
+    display: block;
+    border: 1px solid #3b5998;
+    color: #3b5998;
+    padding: 8px 30px;
+    font-size: 1.1em;
+    font-weight: bold;
+    border-radius: 20px;
+    margin: 20px auto;
+    width: 100%;
+    @media @medium-up{
+      width: 250px;
+    }
+    .fa-facebook{
+      margin-right: 5px;
+    }
+  }
+  .horizontal-bar{
+    border-top: 1px solid #ccc;
+    width: 100%;
+    margin: 30px 0px;
+  }
+  .button-green {
+    width: 100%;
+    @media @medium-up{
+      width: 250px;
+    }
+    display: block;
+    background: @c-green-back;
+    padding: 8px 30px;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #FFF;
+    border-radius: 20px;
+    margin: 30px auto;
+  }
+  .button-sign-up{
+    background-color: @c-gray-back;
+    color: @c-black-font;
+  }
+}
+
+/*
+  SingUp PAGE
+  */
+  .signUp_page {
+   background: url(../img/background.jpg) no-repeat center center fixed;
+   -webkit-background-size:cover;
+   -moz-background-size:cover;
+   -ms-background-size:cover;
+   -o-background-size:cover;
+   background-size:cover;
+   position: relative;
+ }
+
+ .signUp_page:before {
+   content: "";
+   display: block;
+   position: absolute;
+   top: 0;
+   width: 100%;
+   height: 100%;
+   background: rgba(0, 0, 0, 0.4);
+   z-index: -1;
+ }
+
+ .mainLogo {
+  background: url(../img/logo@2x.png) no-repeat center center;
+  display: inline-block;
+  width: 108px;
+  height: 76px;
+  background-size: 100%;
+  text-indent: -9999px;
+  margin: 20px 0;
+}
+
+.textWhite {
+	font-family: 'The_Northern_Block';
+	color: #FFF;
+	text-transform: uppercase;
+	font-size: 1.2em;
+}
+
+.loginSup {
+  margin: 5% 0;
+  text-align: right;
+}
+
+
+.loginSup > div, .loginSup > a {
+  display: inline-block;
+  margin: 0 11px;
+}
+
+.whiteContainer {
+	background: #FFF;
+	border-radius: 20px;
+	padding: 0.6% 1.6% !important;
+}
+
+.greyText {
+	font-family: 'The_Northern_Block';
+	font-size: 18px;
+	color: #393939;
+}
+
+.greenTitle {
+	color: #86ba50;
+	font-family: 'The_Northern_Block';
+	font-size: 28px;
+	text-align: center;
+	font-weight: normal;
+	margin-bottom: 37px;
+}
+
+.whiteContainer .buttonGreen {
+	margin: auto;
+}
+
+.buttonsContainer {
+	text-align: center;
+}
+
+.whiteContainer label {
+	color: #3d6d7f;
+	font-family: 'The_Northern_Block';
+	font-size: 18px !important;
+	line-height: 19px !important;
+}
+
+.whiteContainer label > span {
+	font-family: 'The_Northern_Block_Book';
+	color: #393939;
+	font-size: 14px;
+}
+
+.whiteContainer form {
+	width: 80%;
+	margin: auto;
+}
+
+form p {
+	margin-bottom: 37px !important;
+}
+
+.lastNote {
+	font-size: 14px;
+	color: #787878;
+	text-align: center;
+}
+
+.lastNote strong {
+	color: #67bc3b;
+}
+
+input[type="text"], input[type="password"]  {
+  width: 100%;
+  padding: 7px;
+  border-radius: 20px;
+  border: 1px solid #DCDCDC;
+  margin: 10px 0;
+}

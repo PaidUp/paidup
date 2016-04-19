@@ -1,1 +1,23 @@
-PaidUp
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="favicon.ico">
+  <title>PaidUp</title>
+
+  <link href="css/materialize.css" rel="stylesheet">
+  <link href="css/font-awesome.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+</head>
+<body ng-app='paidUpApp' ng-Controller='AppCtrl' ng-class='PageOptions.pageClass'>
+  <div id="header" ng-include="'templates/header.html'" ng-if="PageOptions.showHeader"></div>
+  <div ui-view></div>
+  <div id="footer" ng-include="'templates/footer.html'" ng-if="PageOptions.showFooter"></div>  
+  <script src="js/bundle.js"></script>
+</body>
+</html>
