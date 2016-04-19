@@ -1,6 +1,11 @@
 'use strict'
 
-module.exports = function ($stateProvider, $urlRouterProvider, FacebookProvider) {
+module.exports = function ($stateProvider, $urlRouterProvider, FacebookProvider, $locationProvider) {
+  // Remove initial Hash in URL
+  $locationProvider.html5Mode({
+    enabled: true,
+    requireBase: false
+  })
   //
   // Facebook API key
   FacebookProvider.init('717631811625048')

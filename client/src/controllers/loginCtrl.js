@@ -2,7 +2,7 @@
 
 module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', function ($scope, $state, AuthService, TrackerService) {
   // Initialization
-  $scope.PageOptions.pageClass = 'loginpage'
+  $scope.PageOptions.pageClass = 'login-page'
   $scope.PageOptions.showHeader = false
   $scope.PageOptions.showFooter = true
   $scope.user = {
