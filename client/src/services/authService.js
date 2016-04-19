@@ -21,7 +21,6 @@ module.exports = [ '$rootScope', '$http', 'UserService', 'SessionService', 'Face
   var isParent = true
 
   return {
-
     getDest: function () {
       return dest
     },
@@ -36,7 +35,7 @@ module.exports = [ '$rootScope', '$http', 'UserService', 'SessionService', 'Face
     },
 
     setDest: function () {
-      dest = 'athletes'
+      dest = 'singup'
     },
 
     setIsParent: function () {
@@ -46,6 +45,7 @@ module.exports = [ '$rootScope', '$http', 'UserService', 'SessionService', 'Face
     updateCurrentUser: function () {
       $rootScope.currentUser = UserService.get(SessionService.getCurrentSession())
     },
+
     updateCurrentUserSync: function (cb) {
       UserService.get(SessionService.getCurrentSession()).$promise.then(function (user) {
         cb(user)

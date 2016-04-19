@@ -1,6 +1,9 @@
 /* LESS Variables */
 
-@c-green: #67bc3b;
+@c-green-back: #67bc3b;
+@c-gray-back: #d7d7d7;
+@c-gray-font: #939393;
+@c-black-font: #393939;
 @small-up: ~"only screen";
 @small-only: ~"only screen and (max-width: 600px)";
 @medium-up: ~"only screen and (min-width:601px)";
@@ -60,7 +63,7 @@ html, body {
         margin: 15px 0px;
       }
       .fa-phone, .fa-comment{
-        color: @c-green;
+        color: @c-green-back;
       }
       .feedback{
         margin-left: 25px;
@@ -84,8 +87,12 @@ html, body {
      display: block;
      text-align: center;
    }
+   .error{
+    text-align: center;
+    margin: 30px auto 0px auto;
+   }
    .inputs{
-    margin-top: 50px;
+    margin-top: 10px;
     input{
       padding: 10px 15px;
       width: 100%;
@@ -97,7 +104,7 @@ html, body {
     }
   }
   .forgot-link{
-    color: @c-green;
+    color: @c-green-back;
     font-weight: bold;
     margin: 8px 0px;
     text-decoration: underline;
@@ -131,7 +138,7 @@ html, body {
       width: 250px;
     }
     display: block;
-    background: @c-green;
+    background: @c-green-back;
     padding: 8px 30px;
     font-size: 1.2em;
     font-weight: bold;
@@ -139,6 +146,10 @@ html, body {
     color: #FFF;
     border-radius: 20px;
     margin: 30px auto;
+  }
+  .button-sign-up{
+    background-color: @c-gray-back;
+    color: @c-black-font;
   }
 }
 
