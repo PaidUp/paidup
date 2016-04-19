@@ -13,12 +13,12 @@ module.exports = function ($stateProvider, $urlRouterProvider, FacebookProvider)
   $stateProvider
     .state('singup', {
       url: '/singup',
-      templateUrl: '../../templates/singup_1.html',
+      templateUrl: '../templates/singup_1.html',
       controller: 'SingUpCtrl'
     })
     .state('login', {
       url: '/login',
-      templateUrl: '../../templates/login.html',
+      templateUrl: '../templates/login.html',
       controller: 'LoginCtrl'
     })
 }
