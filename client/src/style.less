@@ -1,3 +1,13 @@
+/* LESS Variables */
+
+@c-green: #67bc3b;
+@small-up: ~"only screen";
+@small-only: ~"only screen and (max-width: 600px)";
+@medium-up: ~"only screen and (min-width:601px)";
+@medium-only: ~"only screen and (min-width:601px) and (max-width:991px)";
+@large-up: ~"only screen and (min-width:992px)";
+
+
 @font-face{
 	font-family: 'The_Northern_Block';
 	src: url(../fonts/The_Northern_Block_Ltd__Brokman_Medium.otf);
@@ -16,29 +26,147 @@ html, body {
 	font-family: 'The_Northern_Block_Book';
 }
 
+/*
+  FOOTER
+  */
 
-.signUp_page {
-	background: url(../img/background.jpg) no-repeat center center fixed;
-	-webkit-background-size:cover;
-	-moz-background-size:cover;
-	-ms-background-size:cover;
-	-o-background-size:cover;
-	background-size:cover;
-	position: relative;
+  footer.page-footer{
+    background-color: transparent;
+    font-size: 12px;
+    font-weight: bold;
+    overflow: visible;
+    .container{
+      text-align: center;
+      @media @medium-up{
+        text-align: left;
+      }
+      .right-footer{
+        float: none;
+        clear: both;
+        @media @medium-up{
+          clear: inherit;
+          float: right;
+        }
+      } 
+      .left-footer{
+        float: none;
+        clear: both;
+        @media @medium-up{
+          clear: inherit;
+          float: left;
+        }
+      }
+      div{
+        margin: 15px 0px;
+      }
+      .fa-phone, .fa-comment{
+        color: @c-green;
+      }
+      .feedback{
+        margin-left: 25px;
+      }
+    }
+  }
+
+/*
+  LOGIN PAGE
+  */
+  .loginpage{
+    .login-container{
+      margin-top: 50px;
+      @media @medium-up{
+        margin-top: 120px;
+      }
+    }
+    .logo-img{
+     margin: 0px auto;
+     text-align: center;
+     display: block;
+     text-align: center;
+   }
+   .inputs{
+    margin-top: 50px;
+    input{
+      padding: 10px 15px;
+      width: 100%;
+      display: block;
+      margin: 10px auto;
+      @media @medium-up{
+        width: 300px;
+      }
+    }
+  }
+  .forgot-link{
+    color: @c-green;
+    font-weight: bold;
+    margin: 8px 0px;
+    text-decoration: underline;
+    display: block;
+  }
+  .button-facebook{
+    display: block;
+    border: 1px solid #3b5998;
+    color: #3b5998;
+    padding: 8px 30px;
+    font-size: 1.1em;
+    font-weight: bold;
+    border-radius: 20px;
+    margin: 20px auto;
+    width: 100%;
+    @media @medium-up{
+      width: 250px;
+    }
+    .fa-facebook{
+      margin-right: 5px;
+    }
+  }
+  .horizontal-bar{
+    border-top: 1px solid #ccc;
+    width: 100%;
+    margin: 30px 0px;
+  }
+  .button-green {
+    width: 100%;
+    @media @medium-up{
+      width: 250px;
+    }
+    display: block;
+    background: @c-green;
+    padding: 8px 30px;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #FFF;
+    border-radius: 20px;
+    margin: 30px auto;
+  }
 }
 
-.signUp_page:before {
-	content: "";
-	display: block;
-	position: absolute;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	background: rgba(0, 0, 0, 0.4);
-	z-index: -1;
-}
+/*
+  SingUp PAGE
+  */
+  .signUp_page {
+   background: url(../img/background.jpg) no-repeat center center fixed;
+   -webkit-background-size:cover;
+   -moz-background-size:cover;
+   -ms-background-size:cover;
+   -o-background-size:cover;
+   background-size:cover;
+   position: relative;
+ }
 
-.mainLogo {
+ .signUp_page:before {
+   content: "";
+   display: block;
+   position: absolute;
+   top: 0;
+   width: 100%;
+   height: 100%;
+   background: rgba(0, 0, 0, 0.4);
+   z-index: -1;
+ }
+
+ .mainLogo {
   background: url(../img/logo@2x.png) no-repeat center center;
   display: inline-block;
   width: 108px;
@@ -60,14 +188,6 @@ html, body {
   text-align: right;
 }
 
-.buttonGreen {
-  background: #67bc3b;
-  padding: 6px 30px;
-  font-size: 1.2em;
-  text-transform: uppercase;
-  color: #FFF;
-  border-radius: 20px;
-}
 
 .loginSup > div, .loginSup > a {
   display: inline-block;

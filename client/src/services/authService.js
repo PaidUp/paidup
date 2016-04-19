@@ -17,13 +17,10 @@ module.exports = [ '$rootScope', '$http', 'UserService', 'SessionService', 'Face
     delete $rootScope.currentUser
   })
 
-  var dest = 'athletes'
+  var dest = 'singup'
   var isParent = true
 
   return {
-    getS: function () {
-      return 'DDD'
-    },
 
     getDest: function () {
       return dest

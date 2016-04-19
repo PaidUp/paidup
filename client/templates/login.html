@@ -1,20 +1,17 @@
-<div class="container">
-  <div class="row">
-    <div class="col s12 m4 offset-m4 whiteContainer">
-      <div>
-        <input placeholder="Email" id="email" type="text" class="validate" ng-model="loginInfo.email" />
-        <input placeholder="Password" id="password" type="password" class="validate" ng-model="loginInfo.password" />
-      </div>
-      <!--Contenedor de Botones-->
-      <div class="buttonsContainer">
-        <a ng-click="normalLogin()" class="buttonGreen waves-effect waves-light">LOGIN</a>
-        <br />
-        <br />
-        <a ng-click="facebookLogin()" class="buttonFacebook waves-effect">Login with Facebook</a>
-        <br />
-        <br />
-        <a ui-sref="singup" class="buttonGreen waves-effect waves-light">SIGN UP</a>
-      </div>
+<div class="row">
+  <div class="col s12 m4 offset-m4 login-container">
+    <img src="../img/paidUpLogoWhite.png" alt="logo" class="logo-img">
+    <div class="inputs">
+      <input placeholder="Email" id="email" type="text" class="validate" ng-model="user.email" />
+      <input placeholder="Password" id="password" type="password" class="validate" ng-model="user.password" />
+    </div>
+    <!--Contenedor de Botones-->
+    <div class="buttonsContainer">
+      <a ng-click="localLogin()" class="button-green waves-effect waves-light">LOGIN</a>      
+      <a ng-click="forgotLink()" class="forgot-link waves-effect">Forgot your email or password?</a>      
+      <a ng-click="facebookLogin()" class="button-facebook waves-effect"><i class="fa fa-lg fa-facebook" aria-hidden="true"></i> Login with Facebook</a>
+      <div class="horizontal-bar"></div>
+      <a ui-sref="singup" class="button-green waves-effect waves-light">SIGN UP</a>
     </div>
   </div>
 </div>

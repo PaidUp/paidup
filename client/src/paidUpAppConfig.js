@@ -3,7 +3,7 @@
 module.exports = function ($stateProvider, $urlRouterProvider, FacebookProvider) {
   //
   // Facebook API key
-  FacebookProvider.init('499580560213861 717631811625048')
+  FacebookProvider.init('717631811625048')
   // FacebookProvider.init('499580560213861')
   //
   // For any unmatched url, redirect to /state1
