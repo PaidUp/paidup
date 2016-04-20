@@ -1,0 +1,41 @@
+<div class="center">
+  <div class="steps-count selected"></div>
+  <div class="steps-count selected"></div>
+  <div class="steps-count selected"></div>
+</div>
+
+<p class="title">
+  Link a debit or credit card to start making payments.
+</p>
+
+<div class="inputs">
+  <input placeholder="Card Number" type="text" ng-model="user.email" />
+  <div class="row two-colums">
+    <div class="col s12 m6">
+      <input placeholder="Expiration Date" type="text" ng-model="user.email" />
+    </div>
+    <div class="col s12 m6">
+      <input placeholder="Security Code" type="text" ng-model="user.email" />
+    </div>
+  </div>
+  <div class="section-title">Billing Address</div>
+  <input placeholder="Street Address" type="text" ng-model="user.email" />
+  <input placeholder="City" type="text" ng-model="user.email" />
+  <div class="row two-colums">
+    <div class="select-container col s12 m6">
+      <select ng-model="user.state" ng-class="containsValue ? 'selected' : ''" ng-change="containsValue = true">
+        <option value="" disabled selected class="placeholder">State</option>
+        <option value="NY">New York</option>
+      </select>
+    </div>
+    <div class="col s12 m6">
+      <input placeholder="Zip Code" type="text" ng-model="user.email" />
+    </div>
+  </div>
+</div>
+
+
+<div class="buttons-container">
+  <a ui-sref="singup.step3p" class="button-green button-agree">Link Card</a>
+  <a ui-sref="singup.step4p" class="skip-card-info">I'll do this later</a>
+</div>

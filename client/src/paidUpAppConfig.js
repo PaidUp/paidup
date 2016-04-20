@@ -20,10 +20,25 @@ module.exports = function ($stateProvider, $urlRouterProvider, FacebookProvider,
       url: '/singup',
       templateUrl: '../templates/singup.html'
     })
-    .state('singup.step1', {
-      url: '/step1',
-      templateUrl: '../templates/singup.step1.html',
-      controller: 'SingUp1Ctrl'
+    .state('singup.step0', {
+      url: '/step0',
+      templateUrl: '../templates/singup.step0.html',
+      controller: 'SingUp0Ctrl'
+    })
+    .state('singup.step1p', {
+      url: '/step1p',
+      templateUrl: '../templates/singup.step1p.html',
+      controller: 'SingUp1pCtrl'
+    })
+    .state('singup.step2p', {
+      url: '/step2p',
+      templateUrl: '../templates/singup.step2p.html',
+      controller: 'SingUp2pCtrl'
+    })
+    .state('singup.step3p', {
+      url: '/step3p',
+      templateUrl: '../templates/singup.step3p.html',
+      controller: 'SingUp3pCtrl'
     })
     .state('login', {
       url: '/login',
