@@ -1,0 +1,25 @@
+<div class="center">
+  <div class="steps-count selected"></div>
+  <div class="steps-count"></div>
+  <div class="steps-count"></div>
+</div>
+<p class="title">
+  You're almost there. 
+  <br>
+  We just need a few details from you.
+</p>
+<div class="center">
+  <img src="../img/singup1.png" alt="Personal Account" class="center">
+</div>
+<h4>Personal Account</h4>
+
+<div class="inputs">
+  <input placeholder="Your E-mail" type="text" ng-model="user.email" />
+  <input placeholder="Create your password" type="text" ng-model="user.password1" />
+  <input placeholder="Confirm your password" type="text" ng-model="user.passwrod2" />
+</div>
+
+<div class="buttons-container">
+  <a ui-sref="singup.step2p" class="button-green">NEXT</a>
+  <a ng-click="facebookSignUp()" class="button-facebook waves-effect"><i class="fa fa-lg fa-facebook" aria-hidden="true"></i> Sing up with Facebook</a>
+</div>
