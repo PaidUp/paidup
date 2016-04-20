@@ -1,8 +1,15 @@
 'use strict'
 
-module.exports = [ '$scope', 'LoginService', function ($scope, LoginService) {
-  $scope.greet = LoginService.greet()
-  $scope.PageOptions.pageClass = 'signup-page'
-  $scope.PageOptions.showHeader = false
-  $scope.PageOptions.showFooter = true
+module.exports = [ '$scope', 'SingUpService', '$state', function ($scope, SingUpService, $state) {
+  $scope.userType = ''
+
+  $scope.next = function () {
+    if ($scope.userType === '') {
+      $scope.error = 'Please select a type'
+      return
+    }
+    $scope.error = ''
+    SingUpService.setType($scope.userType)
+    $state.go('^.step1')
+  }
 }]
