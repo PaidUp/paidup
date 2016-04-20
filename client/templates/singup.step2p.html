@@ -14,11 +14,13 @@
   <input placeholder="Street Address" type="text" ng-model="user.email" />
   <input placeholder="City" type="text" ng-model="user.email" />
   <div class="row two-colums">
-    <div class="select-container col s12 m6">
-      <select ng-model="user.state" ng-class="containsValue ? 'selected' : ''" ng-change="containsValue = true">
-        <option value="" disabled selected class="placeholder">State</option>
-        <option value="NY">New York</option>
-      </select>
+    <div class="col s12 m6">
+      <div class="select-container">
+        <select ng-model="user.state" ng-class="containsValue ? 'selected' : ''" ng-change="containsValue = true">
+          <option value="" disabled selected class="placeholder">State</option>
+          <option value="NY">New York</option>
+        </select>
+      </div>
     </div>
     <div class="col s12 m6">
       <input placeholder="Zip Code" type="text" ng-model="user.email" />

@@ -327,7 +327,11 @@ SINGUP PAGES
         margin: 10px;
       }
       .select-container{
+        position: relative;
+        padding: 0px;
         select{
+          height: 40px;
+          line-height: normal;
           -webkit-appearance:none;
           -moz-appearance:none;
           appearance:none;
@@ -336,7 +340,6 @@ SINGUP PAGES
             color: @c-black-font;
           }
         }
-        position: relative;
         &:after{          
           content:'>';
           color:@c-green-font;
@@ -345,7 +348,7 @@ SINGUP PAGES
           -ms-transform:rotate(90deg);
           transform:rotate(90deg);
           right:20px; 
-          top:15px;
+          top:4px;
           font-size: 22px;
           position:absolute;
           pointer-events:none;
@@ -372,14 +375,14 @@ SINGUP PAGES
       }
       .two-colums{
         margin-bottom: 0px;
-        div:first-child{
+        div.col:first-child{
           padding: 0px;
           @media @medium-up{
             padding-left: 0px;
             padding-right: 5px; 
           } 
         }
-        div:last-child{
+        div.col:last-child{
           padding: 0px;
           @media @medium-up{
             padding-right: 0px;
