@@ -42,6 +42,7 @@
     "connect-livereload": "^0.5.4",
     "faker": "3.1.0",
     "less": "^2.6.1",
+    "less-plugin-autoprefix": "^1.5.1",
     "less-plugin-clean-css": "^1.5.1",
     "nightwatch": "0.8.18",
     "npm-watch": "^0.1.4",
@@ -70,7 +71,7 @@
     "build": "npm run clean:dist && npm run create:dist && npm run build:server && npm run build:client",
     "production": "NODE_ENV=production node dist/server/app.js",
     "front:browserify": "browserify client/src/app.js --verbose --debug --outfile client/js/bundle.js",
-    "front:less": "lessc client/src/style.less client/css/style.css  --clean-css='--s1 --compatibility=ie8'",
+    "front:less": "lessc client/src/style.less client/css/style.css --autoprefix='> 1%, last 2 versions, Firefox ESR'  --clean-css='--s1 --compatibility=ie8'",
     "front:livereload": "browser-sync start --proxy localhost:9000 --reload-delay 800 --files client !client/src",
     "watch": "npm-watch"
   },

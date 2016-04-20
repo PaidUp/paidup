@@ -3,8 +3,7 @@
 module.exports = function ($stateProvider, $urlRouterProvider, FacebookProvider, $locationProvider) {
   // Remove initial Hash in URL
   $locationProvider.html5Mode({
-    enabled: true,
-    requireBase: false
+    enabled: true
   })
   //
   // Facebook API key
@@ -17,9 +16,14 @@ module.exports = function ($stateProvider, $urlRouterProvider, FacebookProvider,
   // Now set up the states
   $stateProvider
     .state('singup', {
+      abstract: true,
       url: '/singup',
-      templateUrl: '../templates/singup_1.html',
-      controller: 'SingUpCtrl'
+      templateUrl: '../templates/singup.html'
+    })
+    .state('singup.step1', {
+      url: '/step1',
+      templateUrl: '../templates/singup.step1.html',
+      controller: 'SingUp1Ctrl'
     })
     .state('login', {
       url: '/login',
