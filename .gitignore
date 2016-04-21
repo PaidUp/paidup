@@ -42,4 +42,4 @@ var/logs/*
 
 #Frontend
 client/js/bundle.js
-client/css/style.css
+client/css/style.min.css

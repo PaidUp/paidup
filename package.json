@@ -11,6 +11,8 @@
     "angular": "^1.5.5",
     "angular-cookies": "^1.5.5",
     "angular-resource": "^1.5.5",
+    "angular-sanitize": "^1.5.5",
+    "angular-translate": "^2.11.0",
     "angular-ui-router": "^0.2.18",
     "angulartics": "^1.0.3",
     "angulartics-google-analytics": "^0.1.4",
@@ -44,6 +46,7 @@
     "less": "^2.6.1",
     "less-plugin-autoprefix": "^1.5.1",
     "less-plugin-clean-css": "^1.5.1",
+    "minifyify": "^7.3.3",
     "nightwatch": "0.8.18",
     "npm-watch": "^0.1.4",
     "proxyquire": "^1.7.4",
@@ -56,7 +59,7 @@
   },
   "watch": {
     "front:less": "client/src/style.less",
-    "front:browserify": "client/src/**/*.js"
+    "front:browserify:dev": "client/src/**/*.js"
   },
   "scripts": {
     "start": "node server/app.js",
@@ -67,12 +70,13 @@
     "create:build": "mkdir build",
     "jenkins": "npm run clean:build && npm run create:build && npm test",
     "build:server": "cp -R server/ dist/server",
-    "build:client": "browserify client/src/app.js -o client/js/bundle.js && npm run front:less && cp -R client/ dist/public",
+    "build:client": "npm run front:browserify:prod && npm run front:less && cp -R client/ dist/public && rm -rf dist/public/src",
     "build": "npm run clean:dist && npm run create:dist && npm run build:server && npm run build:client",
     "production": "NODE_ENV=production node dist/server/app.js",
-    "front:browserify": "browserify client/src/app.js --verbose --debug --outfile client/js/bundle.js",
+    "front:browserify:dev": "browserify client/src/app.js --verbose --debug --outfile client/js/bundle.js",
+    "front:browserify:prod": "browserify client/src/app.js -p [minifyify --no-map] > client/js/bundle.js",
     "front:less": "lessc client/src/style.less client/css/style.min.css --autoprefix='> 1%, last 2 versions, Firefox ESR'  --clean-css='--s1 --compatibility=ie8'",
-    "front:livereload": "browser-sync start --proxy localhost:9000 --reload-delay 800 --files client !client/src",
+    "front:livereload": "browser-sync start --proxy localhost:9000 --reload-delay 900 --files client !client/src",
     "watch": "npm-watch"
   },
   "config": {

@@ -1,15 +1,26 @@
 'use strict'
+var englishTranslations = require('./translations/en')
+var spanishTranslations = require('./translations/es')
 
-module.exports = function ($stateProvider, $urlRouterProvider, FacebookProvider, $locationProvider) {
+module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$locationProvider', '$translateProvider', function ($stateProvider, $urlRouterProvider, FacebookProvider, $locationProvider, $translateProvider) {
   // Remove initial Hash in URL
   $locationProvider.html5Mode({
     enabled: true
   })
-  //
+
   // Facebook API key
   FacebookProvider.init('717631811625048')
   // FacebookProvider.init('499580560213861')
-  //
+
+  // TRANSLATE MODULE CONFIG
+  $translateProvider.translations('en', englishTranslations)
+
+  $translateProvider.translations('es', spanishTranslations)
+
+  $translateProvider.preferredLanguage('en')
+  $translateProvider.useSanitizeValueStrategy('sanitize')
+
+  // UI ROUTER
   // For any unmatched url, redirect to /state1
   $urlRouterProvider.otherwise('/login')
   //
@@ -77,3 +88,4 @@ module.exports = function ($stateProvider, $urlRouterProvider, FacebookProvider,
       controller: 'LoginCtrl'
     })
 }
+]

@@ -12,6 +12,20 @@
       <a ng-click="facebookLogin()" class="button-facebook waves-effect"><i class="fa fa-lg fa-facebook" aria-hidden="true"></i> Login with Facebook</a>
       <div class="horizontal-bar"></div>
       <a ui-sref="singup.step0" class="button-green button-green-login button-sign-up waves-effect waves-light">SIGN UP</a>
+      
+      <!-- TRANSLATE DEMO PART -->
+      <!-- 
+        BEST to use translate as a directive as below or for dynamic codes (error code from server) use translate Service from Controller
+      -->
+      <div class="horizontal-bar"></div>
+      <div translate="TITLE"></div>
+      <a ng-click="changeLang('en')">EN</a>
+      &nbsp;/&nbsp;
+      <a ng-click="changeLang('es')">ES</a>
+      <br>
+      <a ng-click="fetchErrorCode()" translate="ACTION"></a>
+      <!-- TRANSLATE DEMO PART END -->
+
     </div>
   </div>
 </div>
