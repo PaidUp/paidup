@@ -5,30 +5,27 @@
   <div class="steps-count selected"></div>
   <div class="steps-count"></div>
 </div>
-
 <p class="title">
-  We need details about your organization.
+  Where do you want us to deposit your money?
 </p>
 <div class="input-help-text note-text">
-  The Patriot Act require us to capture information about your business to prevent money laundering. Necessary information but standard. Not to worry.
+  Routing numbers are 9 digits long. Please use the none designated for paper and electronic (not wire) transfer.
 </div>
+
 <div class="inputs">
-  <div class="select-container">
-    <select ng-model="user.state" ng-class="containsValue ? 'selected' : ''" ng-change="containsValue = true">
-      <option value="" disabled selected class="placeholder">Business Type</option>
-      <option value="NY">New York</option>
-    </select>
-  </div>
-  <input placeholder="Legal Business Name" type="text" ng-model="user.email" />
-  <div class="input-help-text">
-    Please provde the legal name of your business exactly as it appears on your tax documents to avoid any delays in getting paid.
-  </div>
-  <input placeholder="Employer Identification Number (EIN)" type="text" ng-model="user.email" />
-
-
+  <input placeholder="Routing Number (ABA)" type="text" ng-model="user.email" />
+  <div class="input-help-text">Chase Bank</div>
+  <input placeholder="Account Number (DDA)" type="text" ng-model="user.email" />
+  <input placeholder="Re-Enter Account Number (DDA)" type="text" ng-model="user.email" />
+  <div class="agree-checkbox">
+    <input type="checkbox" id="agreeTerms" />
+    <label for="agreeTerms" class="input-help-text">
+     By signing up, I agree with the PaidUp's <a href="">Terms of Service</a>, <a href="">Privacy Policy</a> &amp; <a href="">Stripe Connectec Account Agreement</a>.
+   </label>
+ </div>
 </div>
 
 
 <div class="buttons-container">
-  <a ui-sref="singup.step4b" class="button-green button-agree">Next</a>
+  <a ui-sref="singup.step5b" class="button-green button-agree">Agree and Create Account</a>
 </div>

@@ -19,11 +19,7 @@ module.exports = function ($stateProvider, $urlRouterProvider, FacebookProvider,
       abstract: true,
       url: '/singup',
       templateUrl: '../templates/singup.html',
-      controller: function ($scope) {
-        $scope.PageOptions.pageClass = 'signup-page'
-        $scope.PageOptions.showHeader = false
-        $scope.PageOptions.showFooter = true
-      }
+      controller: 'SingUpCtrl'
     })
     .state('singup.step0', {
       url: '/step0',
@@ -40,20 +36,40 @@ module.exports = function ($stateProvider, $urlRouterProvider, FacebookProvider,
       templateUrl: '../templates/singup.step2p.html',
       controller: 'SingUp2pCtrl'
     })
-    .state('singup.step2b', {
-      url: '/step2b',
-      templateUrl: '../templates/singup.step2b.html',
-      controller: 'SingUp2bCtrl'
-    })
     .state('singup.step3p', {
       url: '/step3p',
       templateUrl: '../templates/singup.step3p.html',
       controller: 'SingUp3pCtrl'
     })
+    .state('singup.step2b', {
+      url: '/step2b',
+      templateUrl: '../templates/singup.step2b.html',
+      controller: 'SingUp2bCtrl'
+    })
     .state('singup.step3b', {
       url: '/step3b',
       templateUrl: '../templates/singup.step3b.html',
       controller: 'SingUp3bCtrl'
+    })
+    .state('singup.step4b', {
+      url: '/step4b',
+      templateUrl: '../templates/singup.step4b.html',
+      controller: 'SingUp4bCtrl'
+    })
+    .state('singup.step5b', {
+      url: '/step5b',
+      templateUrl: '../templates/singup.step5b.html',
+      controller: 'SingUp5bCtrl'
+    })
+    .state('singup.step6b', {
+      url: '/step6b',
+      templateUrl: '../templates/singup.step6b.html',
+      controller: 'SingUp6bCtrl'
+    })
+    .state('singup.welcome', {
+      url: '/welcome',
+      templateUrl: '../templates/singup.welcome.html',
+      controller: 'SingUpWelcomeCtrl'
     })
     .state('login', {
       url: '/login',

@@ -1,6 +1,7 @@
 'use strict'
 
 module.exports = [ '$scope', 'SingUpService', '$state', function ($scope, SingUpService, $state) {
+  
   $scope.userType = SingUpService.getType()
   $scope.next = function () {
     if ($scope.userType === 'personal') {
