@@ -74,7 +74,7 @@
     "build": "npm run clean:dist && npm run create:dist && npm run build:server && npm run build:client",
     "production": "NODE_ENV=production node dist/server/app.js",
     "front:browserify:dev": "browserify client/src/app.js --verbose --debug --outfile client/js/bundle.js",
-    "front:browserify:prod": "browserify client/src/app.js -p [minifyify --no-map] > client/js/bundle.js",
+    "front:browserify:prod": "mkdir -p client/js && browserify client/src/app.js -p [minifyify --no-map] > client/js/bundle.js",
     "front:less": "lessc client/src/style.less client/css/style.min.css --autoprefix='> 1%, last 2 versions, Firefox ESR'  --clean-css='--s1 --compatibility=ie8'",
     "front:livereload": "browser-sync start --proxy localhost:9000 --reload-delay 900 --files client !client/src",
     "watch": "npm-watch"
