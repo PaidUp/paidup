@@ -1,5 +1,7 @@
 /* LESS Variables */
 
+@family-regular: ~'The_Northern_Block_Book';
+@family-medium: ~'The_Northern_Block';
 @c-green-back: #67bc3b;
 @c-green-font: #86ba50;
 @c-gray-back: #d7d7d7;
@@ -109,6 +111,7 @@ footer.page-footer{
     text-align: center;
     @media @large-up{
       text-align: left;
+      width: 80%;
     }
     .right-footer{
       a{
@@ -126,6 +129,9 @@ footer.page-footer{
         @media @medium-up{
           margin-left: 25px;
           display: inline-block;
+        }
+        @media @large-up{
+          margin-top: 0px;
         }
       }
     } 
@@ -433,5 +439,71 @@ SINGUP PAGES
         color: @c-green-font;
       }
     }   
+  }
+}
+
+/*
+DASHBOARD PAGES
+*/
+.dashboard-page {
+  background-color: #f1f1f1;
+  // DASHBOARD HEADER
+  .dashboard-header{
+    background-color: #fff;
+    width: 90%;
+    margin: 0 auto;
+    .header-container{
+      width: 100%;
+    }
+    div{
+      display:inline-block;
+    }      
+    .img-logo{
+      margin: 20px 30px;
+      img{
+        width: 80px;
+        height: 59px;
+      }
+    }
+    .navigation-items{
+      margin: 10px 0px;
+      li{
+        font-size: 20px;
+        color: @c-gray-font;
+        font-family: @family-medium;
+        display:inline-block;
+        padding: 15px;        
+        border-right: 1px solid @c-gray-back;
+        &:last-child{
+          border-right: none;
+          padding-right: 0px;
+        }        
+      }
+    }
+    .help{
+      color: @c-gray-font;
+      font-family: @family-medium;
+      font-size: 18px;
+      margin-top: 40px;
+      float:left;
+    }
+    .setting{
+      float:left;
+      margin-top: 33px;
+      i{
+        font-size: 40px;
+        color:@c-green-font;
+      }
+    } 
+    .logout-button{
+      float:left;
+      margin-top: 33px;
+      .button-green{
+        width:125px;
+        display:inline-block;
+        margin:0px;
+        padding: 6px 30px;
+      }
+    }        
   }
 }

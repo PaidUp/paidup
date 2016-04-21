@@ -16,9 +16,9 @@
   <base href="/" />
 </head>
 <body ng-app='paidUpApp' ng-Controller='AppCtrl' ng-class='PageOptions.pageClass'>
-  <div ng-include="'/templates/header.main.html'" ng-if="PageOptions.showHeader"></div>
+  <!-- <div ng-include="'/templates/header.main.html'" ng-if="PageOptions.showHeader"></div> -->
   <div ui-view></div>
-  <div ng-include="'/templates/footer.html'" ng-if="PageOptions.showFooter"></div>  
+  <div ng-include="'/templates/footer.html'"></div>  
   <script src="/js/bundle.js"></script>
 </body>
 </html>
