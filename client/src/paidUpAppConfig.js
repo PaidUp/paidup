@@ -1,6 +1,6 @@
 'use strict'
 
-module.exports = function ($stateProvider, $urlRouterProvider, FacebookProvider, $locationProvider) {
+module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$locationProvider', function ($stateProvider, $urlRouterProvider, FacebookProvider, $locationProvider) {
   // Remove initial Hash in URL
   $locationProvider.html5Mode({
     enabled: true
@@ -77,3 +77,4 @@ module.exports = function ($stateProvider, $urlRouterProvider, FacebookProvider,
       controller: 'LoginCtrl'
     })
 }
+]
