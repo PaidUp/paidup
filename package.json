@@ -70,7 +70,7 @@
     "create:build": "mkdir build",
     "jenkins": "npm run clean:build && npm run create:build && npm test",
     "build:server": "cp -R server/ dist/server",
-    "build:client": "npm run front:browserify:prod && npm run front:less && mkdir -p dist && mkdir -p dist/public && cp -R client/ dist/public && rm -rf dist/public/src",
+    "build:client": "npm run front:browserify:prod && npm run front:less && mkdir -p dist && mkdir -p dist/public && cp -R client/* dist/public && rm -rf dist/public/src",
     "build": "npm run clean:dist && npm run create:dist && npm run build:server && npm run build:client",
     "production": "NODE_ENV=production node dist/server/app.js",
     "front:browserify:dev": "browserify client/src/app.js --verbose --debug --outfile client/js/bundle.js",
