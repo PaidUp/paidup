@@ -1,6 +1,6 @@
 'use strict'
 
-module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', function ($scope, $state, AuthService, TrackerService) {
+module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$translate', function ($scope, $state, AuthService, TrackerService, $translate) {
   // Initialization
   $scope.PageOptions.pageClass = 'login-page'
   $scope.PageOptions.showHeader = false
@@ -10,6 +10,18 @@ module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', function
     password: ''
   }
   $scope.error = ''
+
+  // TRANSLATE FUNCTION
+  $scope.changeLang = function (lang) {
+    $translate.use(lang)
+  }
+  $scope.fetchErrorCode = function () {
+    // Get error code from server async
+    var errorCodeFromServer = '404'
+    $translate('ERRORS.' + errorCodeFromServer).then(function (translationMsg) {
+      $scope.error = translationMsg
+    })
+  }
 
   // Functions
   $scope.localLogin = function () {
