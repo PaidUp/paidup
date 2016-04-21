@@ -2,15 +2,24 @@
   <div class="steps-count selected"></div>
   <div class="steps-count selected"></div>
   <div class="steps-count"></div>
+  <div class="steps-count"></div>
+  <div class="steps-count"></div>
 </div>
 <p class="title">
-  Just a few more pieces of information and you're on your way.
+  Let's get some information about you first.
 </p>
 
+<div class="input-help-text note-text">
+  This information is required for us to verify your identity. This helps to keep everyone's payments safe and meet government regulations.
+</div>
 <div class="inputs">
   <input placeholder="Legal First Name" type="text" ng-model="user.email" />
-  <div class="input-help-text">Provide your name as it appears in legal documents to avoid delays in getting paid (e.g. Michael not Mike).</div>
+  <div class="input-help-text">
+    Provide your name as it appears in legal documents to avoid delays in getting paid (e.g. Michael not Mike).
+  </div>
   <input placeholder="Legal Last Name" type="text" ng-model="user.email" />
+  <input placeholder="Date of Birth" type="text" ng-model="user.email" />
+  <input placeholder="Social Security Number" type="text" ng-model="user.email" />
   <input placeholder="Street Address" type="text" ng-model="user.email" />
   <input placeholder="City" type="text" ng-model="user.email" />
   <div class="row two-colums">
@@ -27,15 +36,9 @@
     </div>
   </div>
   <input placeholder="Phone Number" type="text" ng-model="user.email" />
-  <div class="agree-checkbox">
-    <input type="checkbox" id="agreeTerms" />
-    <label for="agreeTerms" class="input-help-text">
-     By signing up, I agree with the PaidUp's <a href="">Terms of Service</a>, <a href="">Privacy Policy</a> &amp; <a href="">Stripe Connectec Account Agreement</a>.
-   </label>
- </div>
 </div>
 
 
 <div class="buttons-container">
-  <a ui-sref="singup.step3p" class="button-green button-agree">Agree and Create Account</a>
+  <a ui-sref="singup.step3b" class="button-green button-agree">Next</a>
 </div>

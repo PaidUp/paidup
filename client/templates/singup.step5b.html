@@ -2,14 +2,18 @@
   <div class="steps-count selected"></div>
   <div class="steps-count selected"></div>
   <div class="steps-count selected"></div>
+  <div class="steps-count selected"></div>
+  <div class="steps-count selected"></div>
 </div>
 
 <p class="title">
-  Link a debit or credit card to start making payments.
+  This is the final step. There's a one time setup fee.
 </p>
-
+<div class="input-help-text note-text">
+  You'll be charged a $250 one time setup fee. We collect that now but credit you back the $250 once we process the first payment for your business.
+</div>
 <div class="inputs">
-  <input placeholder="Card Number" type="text" ng-model="user.email" />
+  <input placeholder="Debit or Credit Card Number" type="text" ng-model="user.email" />
   <div class="row two-colums">
     <div class="col s12 m6">
       <input placeholder="Expiration Date" type="text" ng-model="user.email" />
@@ -38,6 +42,6 @@
 
 
 <div class="buttons-container">
-  <a ui-sref="singup.welcome" class="button-green button-agree">Link Card</a>
-  <a ui-sref="singup.welcome" class="skip-card-info">I'll do this later</a>
+  <a ui-sref="singup.welcome" class="button-green button-agree">Pay $250 Setup Fee</a>
+  <a ui-sref="singup.step6b" class="skip-card-info">I have a referral code</a>
 </div>

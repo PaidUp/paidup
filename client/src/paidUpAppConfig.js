@@ -18,17 +18,18 @@ module.exports = function ($stateProvider, $urlRouterProvider, FacebookProvider,
     .state('singup', {
       abstract: true,
       url: '/singup',
-      templateUrl: '../templates/singup.html'
+      templateUrl: '../templates/singup.html',
+      controller: 'SingUpCtrl'
     })
     .state('singup.step0', {
       url: '/step0',
       templateUrl: '../templates/singup.step0.html',
       controller: 'SingUp0Ctrl'
     })
-    .state('singup.step1p', {
-      url: '/step1p',
-      templateUrl: '../templates/singup.step1p.html',
-      controller: 'SingUp1pCtrl'
+    .state('singup.step1', {
+      url: '/step1',
+      templateUrl: '../templates/singup.step1.html',
+      controller: 'SingUp1Ctrl'
     })
     .state('singup.step2p', {
       url: '/step2p',
@@ -39,6 +40,36 @@ module.exports = function ($stateProvider, $urlRouterProvider, FacebookProvider,
       url: '/step3p',
       templateUrl: '../templates/singup.step3p.html',
       controller: 'SingUp3pCtrl'
+    })
+    .state('singup.step2b', {
+      url: '/step2b',
+      templateUrl: '../templates/singup.step2b.html',
+      controller: 'SingUp2bCtrl'
+    })
+    .state('singup.step3b', {
+      url: '/step3b',
+      templateUrl: '../templates/singup.step3b.html',
+      controller: 'SingUp3bCtrl'
+    })
+    .state('singup.step4b', {
+      url: '/step4b',
+      templateUrl: '../templates/singup.step4b.html',
+      controller: 'SingUp4bCtrl'
+    })
+    .state('singup.step5b', {
+      url: '/step5b',
+      templateUrl: '../templates/singup.step5b.html',
+      controller: 'SingUp5bCtrl'
+    })
+    .state('singup.step6b', {
+      url: '/step6b',
+      templateUrl: '../templates/singup.step6b.html',
+      controller: 'SingUp6bCtrl'
+    })
+    .state('singup.welcome', {
+      url: '/welcome',
+      templateUrl: '../templates/singup.welcome.html',
+      controller: 'SingUpWelcomeCtrl'
     })
     .state('login', {
       url: '/login',

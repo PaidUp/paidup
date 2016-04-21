@@ -120,6 +120,14 @@ footer.page-footer{
         clear: inherit;
         float: right;
       }
+      .feedback{
+        display: block;
+        margin: 10px 0px;
+        @media @medium-up{
+          margin-left: 25px;
+          display: inline-block;
+        }
+      }
     } 
     .left-footer{
       float: none;
@@ -134,9 +142,6 @@ footer.page-footer{
     }
     .fa-phone, .fa-comment{
       color: @c-green-back;
-    }
-    .feedback{
-      margin-left: 25px;
     }
   }
 }
@@ -173,8 +178,11 @@ LOGIN PAGE
   }  
   .horizontal-bar{
     border-top: 1px solid #ccc;
+    margin: 30px auto;
     width: 100%;
-    margin: 30px 0px;
+    @media @medium-up{
+      width: 275px;
+    }
   }
   .buttons-container{
     text-align: center;
@@ -307,6 +315,17 @@ SINGUP PAGES
       text-align: center;
       font-weight: normal;
       margin: 0px 0px 10px 0px;
+      text-transform: capitalize;
+    }
+    .input-help-text{
+      font-family: 'The_Northern_Block_Book';
+      color: @c-black-font;
+      font-size: 13px;
+      margin: 0px 20px;
+    }
+    .note-text{
+      margin: 30px 10px;
+      font-size: 14px;
     }
     .inputs{
       input[type="text"], input[type="password"], select{
@@ -316,7 +335,11 @@ SINGUP PAGES
         margin: 10px;
       }
       .select-container{
+        position: relative;
+        padding: 0px;
         select{
+          height: 40px;
+          line-height: normal;
           -webkit-appearance:none;
           -moz-appearance:none;
           appearance:none;
@@ -325,7 +348,6 @@ SINGUP PAGES
             color: @c-black-font;
           }
         }
-        position: relative;
         &:after{          
           content:'>';
           color:@c-green-font;
@@ -334,7 +356,7 @@ SINGUP PAGES
           -ms-transform:rotate(90deg);
           transform:rotate(90deg);
           right:20px; 
-          top:15px;
+          top:4px;
           font-size: 22px;
           position:absolute;
           pointer-events:none;
@@ -361,14 +383,14 @@ SINGUP PAGES
       }
       .two-colums{
         margin-bottom: 0px;
-        div:first-child{
+        div.col:first-child{
           padding: 0px;
           @media @medium-up{
             padding-left: 0px;
             padding-right: 5px; 
           } 
         }
-        div:last-child{
+        div.col:last-child{
           padding: 0px;
           @media @medium-up{
             padding-right: 0px;
@@ -381,13 +403,7 @@ SINGUP PAGES
         a{
           color: @c-green-font;
         }
-      }
-      .input-help-text{
-        font-family: 'The_Northern_Block_Book';
-        color: @c-black-font;
-        font-size: 13px;
-        margin: 0px 20px;
-      }
+      }     
     }
     .buttons-container{
       text-align: center;

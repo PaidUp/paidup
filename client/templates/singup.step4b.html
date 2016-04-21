@@ -1,0 +1,31 @@
+<div class="center">
+  <div class="steps-count selected"></div>
+  <div class="steps-count selected"></div>
+  <div class="steps-count selected"></div>
+  <div class="steps-count selected"></div>
+  <div class="steps-count"></div>
+</div>
+<p class="title">
+  Where do you want us to deposit your money?
+</p>
+<div class="input-help-text note-text">
+  Routing numbers are 9 digits long. Please use the none designated for paper and electronic (not wire) transfer.
+</div>
+
+<div class="inputs">
+  <input placeholder="Routing Number (ABA)" type="text" ng-model="user.email" />
+  <div class="input-help-text">Chase Bank</div>
+  <input placeholder="Account Number (DDA)" type="text" ng-model="user.email" />
+  <input placeholder="Re-Enter Account Number (DDA)" type="text" ng-model="user.email" />
+  <div class="agree-checkbox">
+    <input type="checkbox" id="agreeTerms" />
+    <label for="agreeTerms" class="input-help-text">
+     By signing up, I agree with the PaidUp's <a href="">Terms of Service</a>, <a href="">Privacy Policy</a> &amp; <a href="">Stripe Connectec Account Agreement</a>.
+   </label>
+ </div>
+</div>
+
+
+<div class="buttons-container">
+  <a ui-sref="singup.step5b" class="button-green button-agree">Agree and Create Account</a>
+</div>
