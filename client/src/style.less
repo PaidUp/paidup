@@ -543,49 +543,92 @@ DASHBOARD PAGES
       padding: 0px;
       .row .col{
         padding:0px;
-      }
-      .user{
-        background-color: @c-blue-back;
-        height: 120px;
-        padding: 0px;
-        padding: 25px 0px 0px 40px;
-        
-        width:100%;
-        position:relative;
-        .user-name{
-          margin-left: 20px;
-          color:#fff;
-          font-size: 30px;
-        }
-        &:after{
-          content:'';
-          width: 0;
-          height: 0;
-          position:absolute;
-          top:0px;
-          right:0px;
-          border-bottom: 120px solid @c-green-back;
-          border-left: 120px solid transparent;
-          display:none;
-          @media @medium-up{
-            display:block;
+        .user{
+          padding: 25px 0px 0px 40px;
+          background-color: @c-blue-back;
+          height: 120px;
+          width:100%;
+          position:relative;
+          .user-name{
+            margin-left: 20px;
+            color:#fff;
+            font-size: 30px;
           }
+          &:after{
+            content:'';
+            width: 0;
+            height: 0;
+            position:absolute;
+            top:0px;
+            right:0px;
+            border-bottom: 120px solid @c-green-back;
+            border-left: 120px solid transparent;
+            display:none;
+            @media @medium-up{
+              display:block;
+            }
 
+          }
+        }
+        .action-buttons{
+          background-color: @c-green-back;
+          height: 120px;
+          padding-top: 15px;
+          text-align: center;
+          .dashboard-button{
+            margin-right: 20px;
+            display:inline-block;
+            cursor:pointer;
+          }
+          .payment-button{
+            cursor:pointer;
+            display:inline-block;
+          }
         }
       }
       
-      .action-buttons{
-        background-color: @c-green-back;
-        height: 120px;
-        padding-top: 15px;
-        text-align: center;
-        .dashboard-button{
-          margin-right: 20px;
-          display:inline-block;
+    }
+  }
+
+  // SUMMARY MAIN
+  .summary-main{
+    min-height: 500px;
+    margin: 0 auto;
+    width: 100%;
+    @media @large-up{
+      width: 90%;
+    }
+    .summary-main-container{
+      width: 100%;
+      padding: 0px 20px;
+      .right-column{
+        @media @small-only{
+          margin-top: 20px;
         }
-        .payment-button{
-          display:inline-block;
+      }
+      .white-container{
+        background: #FFF;
+        border-radius: 15px;
+        padding: 15px;
+        width: 100%;
+        text-align: left;
+        .title{
+          color:@c-blue-font;
+          font-family: @family-medium;
+          font-size: 18px;
+          border-bottom: 2px solid @c-blue-font;
+          margin-bottom: 15px;
         }
+        p{
+          font-size: 14px;
+        }
+        a.green-link{
+          color:@c-green-font;
+          text-decoration: underline;
+          cursor: pointer;
+        }
+
+        
       }
     }
   }
