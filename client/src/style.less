@@ -1,6 +1,6 @@
 /* LESS Variables */
 
-@family-regular: ~'The_Northern_Block_Book';
+@family-book: ~'The_Northern_Block_Book';
 @family-medium: ~'The_Northern_Block';
 @c-green-back: #67bc3b;
 @c-green-font: #86ba50;
@@ -14,6 +14,7 @@
 @medium-up: ~"only screen and (min-width:601px)";
 @medium-only: ~"only screen and (min-width:601px) and (max-width:991px)";
 @large-up: ~"only screen and (min-width:992px)";
+@xlarge-up: ~"only screen and (min-width:1200px)";
 
 
 @font-face{
@@ -31,7 +32,7 @@ html, body {
 	height: 100%;
 	margin: 0;
 	padding: 0;
-  font-family: 'The_Northern_Block_Book';
+  font-family: @family-book;
 }
 
 /*
@@ -106,7 +107,7 @@ footer.page-footer{
   font-size: 13px;
   overflow: visible;
   font-family: 'The_Northern_Block';
-  color: #9e9e9e;
+  color: @c-gray-font;
   .container{
     text-align: center;
     @media @large-up{
@@ -115,13 +116,17 @@ footer.page-footer{
     }
     .right-footer{
       a{
-        color: #9e9e9e;
+        color: @c-gray-font;
       }
       float: none;
       clear: both;
       @media @large-up{
         clear: inherit;
         float: right;
+      }
+      .phone{
+        color:@c-green-font;
+        text-decoration: underline;
       }
       .feedback{
         display: block;
@@ -450,14 +455,18 @@ DASHBOARD PAGES
   // DASHBOARD HEADER
   .dashboard-header{
     background-color: #fff;
-    width: 90%;
     margin: 0 auto;
+    width: 100%;
+    @media @large-up{
+      width: 90%;
+    }
     .header-container{
       width: 100%;
-    }
-    div{
-      display:inline-block;
-    }      
+      padding: 0px;
+      @media @large-up{
+        padding: 0px 40px;
+      }
+    }       
     .img-logo{
       margin: 20px 30px;
       img{
@@ -468,12 +477,13 @@ DASHBOARD PAGES
     .navigation-items{
       margin: 10px 0px;
       li{
-        font-size: 20px;
+        font-size: 18px;
         color: @c-gray-font;
         font-family: @family-medium;
         display:inline-block;
         padding: 15px;        
         border-right: 1px solid @c-gray-back;
+        cursor: pointer;
         &:last-child{
           border-right: none;
           padding-right: 0px;
@@ -481,15 +491,27 @@ DASHBOARD PAGES
       }
     }
     .help{
+      display:none;
+      @media @xlarge-up{
+        display:block;
+      }
       color: @c-gray-font;
       font-family: @family-medium;
       font-size: 18px;
       margin-top: 40px;
+      margin-right: 25px;
       float:left;
+      .phone{
+        color: @c-green-font;
+        text-decoration: underline;
+        cursor:pointer;
+      }
     }
     .setting{
       float:left;
       margin-top: 33px;
+      margin-right: 25px;
+      cursor:pointer;
       i{
         font-size: 40px;
         color:@c-green-font;
