@@ -14,11 +14,17 @@
   <img ng-src="../img/singup-{{userType}}.png" alt="Personal Account" class="center">
 </div>
 <h4>{{userType}} Account</h4>
-
 <div class="inputs">
-  <input placeholder="Your E-mail" type="text" ng-model="user.email" />
-  <input placeholder="Create your password" type="text" ng-model="user.password1" />
-  <input placeholder="Confirm your password" type="text" ng-model="user.passwrod2" />
+  <form name="form" novalidate>
+    <input placeholder="Your E-mail" type="email" name="uEmail" ng-model="user.email" required ng-model-options="{ updateOn: 'blur' }"/>
+    <small class="error" ng-show="form.uEmail.$error.email">Not a valid email.</small>
+    <small class="error" ng-show="form.uEmail.$error.required && form.uEmail.$touched">What's your email address?</small>
+    <input placeholder="Create your password" type="password" name="uPass1" ng-model="user.password1" required ng-minlength="6"  ng-model-options="{ updateOn: 'blur' }"/>
+    <small class="error" ng-show="form.uPass1.$touched && (form.uPass1.$error.minlength || form.uPass1.$error.required)">Min 6 Characters</small>
+    <input placeholder="Confirm your password" type="password" name="uPass2" ng-model="user.password2" required ng-minlength="6" ng-model-options="{ updateOn: 'blur' }" ng-blur="validatePassword(form)" />
+    <small class="error" ng-show="form.uPass2.$touched && (form.uPass2.$error.minlength || form.uPass2.$error.required)">Min 6 Characters</small>
+    <small class="error" ng-show="form.uPass2.$error.match">Password do not match</small>
+  </form>
 </div>
 
 <div class="buttons-container">

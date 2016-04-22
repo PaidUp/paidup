@@ -22,8 +22,18 @@ module.exports = [ function () {
 
   function isValidSession () {
     return (
-      angular.isDefined(user.type)
-      )
+    angular.isDefined(user.type)
+    )
+  }
+
+  function runFormControlsValidation (form) {
+    angular.forEach(form, function (obj) {
+      if (angular.isDefined(obj) && angular.isDefined(obj.$validate)) {
+        obj.$validate()
+        obj.$setTouched()
+      }
+    })
+    return
   }
 
   return {
@@ -31,6 +41,7 @@ module.exports = [ function () {
     getType: getType,
     setReferralCode: setReferralCode,
     getReferralCode: getReferralCode,
-    isValidSession: isValidSession
+    isValidSession: isValidSession,
+    runFormControlsValidation: runFormControlsValidation
   }
 }]

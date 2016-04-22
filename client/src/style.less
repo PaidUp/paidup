@@ -10,6 +10,7 @@
 @c-blue-font: #3d6d7f;
 @c-blue-back: #006d81;
 @c-facebook: #3b5998;
+@c-error:#e53935;
 @small-up: ~"only screen";
 @small-only: ~"only screen and (max-width: 600px)";
 @medium-up: ~"only screen and (min-width:601px)";
@@ -69,7 +70,10 @@ COMMONS
   text-align: center;
 }
 
-input[type="text"], input[type="password"], select{
+input[type="text"], 
+input[type="password"], 
+input[type="email"], 
+select{
   padding: 10px 15px;
   width: 100%;
   display: block;
@@ -340,7 +344,21 @@ SINGUP PAGES
       font-size: 14px;
     }
     .inputs{
-      input[type="text"], input[type="password"], select{
+      form{
+        input.ng-invalid.ng-touched {
+          border-color: @c-error;
+        }
+        small.error{
+          color: @c-error;
+          margin-top: -8px;
+          display: block;
+          margin-left: 16px;
+        }
+      } 
+      input[type="text"],
+      input[type="password"],
+      input[type="email"],
+      select{
         width: 100%;      
       }
       .section-title{
