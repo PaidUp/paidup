@@ -3,8 +3,6 @@
 module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$translate', function ($scope, $state, AuthService, TrackerService, $translate) {
   // Initialization
   $scope.PageOptions.pageClass = 'login-page'
-  $scope.PageOptions.showHeader = false
-  $scope.PageOptions.showFooter = true
   $scope.user = {
     email: '',
     password: ''

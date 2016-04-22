@@ -26,6 +26,16 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
   //
   // Now set up the states
   $stateProvider
+    .state('dashboard', {
+      abstract: true,
+      url: '/dashboard',
+      templateUrl: '../templates/dashboard.html',
+      controller: 'DashboardCtrl'
+    })
+    .state('dashboard.summary', {
+      url: '/summary',
+      templateUrl: '../templates/dashboard.summary.html'
+    })
     .state('singup', {
       abstract: true,
       url: '/singup',
