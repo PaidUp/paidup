@@ -464,7 +464,7 @@ DASHBOARD PAGES
     }
     .header-container{
       width: 100%;
-      padding: 0px;
+      padding: 0px 0px 0px 40px;
       @media @large-up{
         padding: 0px 40px;
       }
@@ -548,9 +548,8 @@ DASHBOARD PAGES
         background-color: @c-blue-back;
         height: 120px;
         padding: 0px;
-        @media @large-up{
-          padding: 25px 0px 0px 40px;
-        }
+        padding: 25px 0px 0px 40px;
+        
         width:100%;
         position:relative;
         .user-name{
@@ -567,6 +566,11 @@ DASHBOARD PAGES
           right:0px;
           border-bottom: 120px solid @c-green-back;
           border-left: 120px solid transparent;
+          display:none;
+          @media @medium-up{
+            display:block;
+          }
+
         }
       }
       
@@ -574,8 +578,13 @@ DASHBOARD PAGES
         background-color: @c-green-back;
         height: 120px;
         padding-top: 15px;
+        text-align: center;
         .dashboard-button{
           margin-right: 20px;
+          display:inline-block;
+        }
+        .payment-button{
+          display:inline-block;
         }
       }
     }
