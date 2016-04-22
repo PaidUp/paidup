@@ -22,7 +22,7 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
 
   // UI ROUTER
   // For any unmatched url, redirect to /state1
-  $urlRouterProvider.otherwise('/dashboard/summary')
+  $urlRouterProvider.otherwise('/login')
   //
   // Now set up the states
   $stateProvider
