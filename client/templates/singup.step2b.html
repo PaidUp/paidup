@@ -13,32 +13,115 @@
   This information is required for us to verify your identity. This helps to keep everyone's payments safe and meet government regulations.
 </div>
 <div class="inputs">
-  <input placeholder="Legal First Name" type="text" ng-model="user.email" />
-  <div class="input-help-text">
-    Provide your name as it appears in legal documents to avoid delays in getting paid (e.g. Michael not Mike).
-  </div>
-  <input placeholder="Legal Last Name" type="text" ng-model="user.email" />
-  <input placeholder="Date of Birth" type="text" ng-model="user.email" />
-  <input placeholder="Social Security Number" type="text" ng-model="user.email" />
-  <input placeholder="Street Address" type="text" ng-model="user.email" />
-  <input placeholder="City" type="text" ng-model="user.email" />
-  <div class="row two-colums">
-    <div class="col s12 m6">
-      <div class="select-container">
-        <select ng-model="user.state" ng-class="containsValue ? 'selected' : ''" ng-change="containsValue = true">
-          <option value="" disabled selected class="placeholder">State</option>
-          <option value="NY">New York</option>
-        </select>
+  <form name="form" novalidate>
+    <input 
+    type="text" 
+    name="uFirstName" 
+    placeholder="Legal First Name" 
+    required 
+    ng-model="user.firstName" 
+    maxlength="128" 
+    ng-pattern="/^[a-zA-Z\s]*$/" 
+    ng-model-options="{ updateOn: 'blur' }" />
+    <small class="error" ng-show="form.uFirstName.$error.required && form.uFirstName.$touched">First Name is required</small>  
+    <small class="error" ng-show="form.uFirstName.$error.maxlength && form.uFirstName.$touched">First Name exceeds 128 characters</small>  
+    <small class="error" ng-show="form.uFirstName.$error.pattern && form.uFirstName.$touched">First Name should only contain letters</small>
+
+    <div class="input-help-text">
+      Provide your name as it appears in legal documents to avoid delays in getting paid (e.g. Michael not Mike).
+    </div>
+
+    <input
+    type="text" 
+    name="uLastName" 
+    placeholder="Legal Last Name" 
+    required 
+    ng-model="user.lastName" 
+    maxlength="128" 
+    ng-pattern="/^[a-zA-Z\s]*$/" 
+    ng-model-options="{ updateOn: 'blur' }" />
+    <small class="error" ng-show="form.uLastName.$error.required && form.uLastName.$touched">Last Name is required</small>  
+    <small class="error" ng-show="form.uLastName.$error.maxlength && form.uLastName.$touched">Last Name exceeds 128 characters</small>  
+    <small class="error" ng-show="form.uLastName.$error.pattern && form.uLastName.$touched">Last Name should only contain letters</small> 
+
+    <input type="text" 
+    name="uDateOfBirth" 
+    placeholder="Date of Birth (mm/dd/yyyy)" 
+    required
+    ng-pattern="/^((((0[13578])|([13578])|(1[02]))[\/](([1-9])|([0-2][0-9])|(3[01])))|(((0[469])|([469])|(11))[\/](([1-9])|([0-2][0-9])|(30)))|((2|02)[\/](([1-9])|([0-2][0-9]))))[\/]\d{4}$|^\d{4}$/"
+    ng-model="user.dateOfBirth" 
+    ng-model-options="{ updateOn: 'blur' }" />
+    <small class="error" ng-show="form.uDateOfBirth.$error.required && form.uDateOfBirth.$touched">Date of Birth is required</small>
+    <small class="error" ng-show="form.uDateOfBirth.$error.pattern && form.uDateOfBirth.$touched">Invalid date format</small>
+
+     <input type="text" 
+    name="uSSN" 
+    placeholder="Social Security Number (XXX-XX-XXXX)" 
+    required
+    ng-pattern="/^\d{3}-?\d{2}-?\d{4}$/"
+    ng-model="user.SSN" 
+    ng-model-options="{ updateOn: 'blur' }" />
+    <small class="error" ng-show="form.uSSN.$error.required && form.uSSN.$touched">SSN is required</small>
+    <small class="error" ng-show="form.uSSN.$error.pattern && form.uSSN.$touched">Invalid SSN format</small>
+    
+    <input type="text" 
+    name="uStreetAddress" 
+    placeholder="Street Address" 
+    required 
+    ng-model="user.streetAddress" 
+    ng-model-options="{ updateOn: 'blur' }" />
+    <small class="error" ng-show="form.uStreetAddress.$error.required && form.uStreetAddress.$touched">Street Address is required</small>
+
+    <input type="text" 
+    name="uCity" 
+    placeholder="City" 
+    required 
+    ng-model="user.city" 
+    ng-model-options="{ updateOn: 'blur' }" />
+    <small class="error" ng-show="form.uCity.$error.required && form.uCity.$touched">City is required</small> 
+
+    <div class="row two-colums">
+      <div class="col s12 m6">
+        <div class="select-container">
+          <select ng-model="user.state" name="uState" ng-class="containsValue ? 'selected' : ''" ng-change="containsValue = true" required>
+            <option value="" disabled selected class="placeholder">State</option>
+            <option ng-repeat="state in states" value="{{state.abbreviation}}">
+              {{state.abbreviation}}
+            </option>
+          </select>
+          <small class="error" ng-show="form.uState.$error.required && form.uState.$touched">State is required</small>  
+        </div>
+      </div>
+      <div class="col s12 m6">
+        <input type="text" 
+        name="uZipCode" 
+        placeholder="Zip Code" 
+        required 
+        ng-model="user.zipCode" 
+        ng-model-options="{ updateOn: 'blur' }" />
+        <small class="error" ng-show="form.uZipCode.$error.required && form.uZipCode.$touched">Zip Code is required</small> 
       </div>
     </div>
-    <div class="col s12 m6">
-      <input placeholder="Zip Code" type="text" ng-model="user.email" />
-    </div>
-  </div>
-  <input placeholder="Phone Number" type="text" ng-model="user.email" />
+    <input 
+    type="text" 
+    placeholder="Phone Number"
+    name="uPhone" 
+    ng-model="user.phone"
+    required
+    ng-pattern="/^(?:\(\d{3}\)|\d{3})[- ]?\d{3}[- ]?\d{4}$/"
+    ng-model-options="{ updateOn: 'blur' }" 
+    />
+    <!-- (541) 754-3010 VALID -->
+    <!-- (541) 7543010 VALID -->
+    <!-- (541) 754 3010 VALID -->
+    <!-- (541)754 3010 VALID -->
+    <!-- 5417543010 VALID -->
+    <small class="error" ng-show="form.uPhone.$error.required && form.uPhone.$touched">Phone is required</small>
+    <small class="error" ng-show="form.uPhone.$error.pattern && form.uPhone.$touched">Invalid phone format</small>
+  </form>
 </div>
 
 
 <div class="buttons-container">
-  <a ui-sref="singup.step3b" class="button-green button-agree">Next</a>
+  <a ng-click="next()" class="button-green button-agree">Next</a>
 </div>

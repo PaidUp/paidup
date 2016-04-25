@@ -11,6 +11,13 @@ module.exports = [ '$scope', 'SingUpService', '$state', function ($scope, SingUp
     SingUpService.runFormControlsValidation(f)
     if (f.$valid) {
       console.log('VALID')
+      SingUpService.setCredentials($scope.user)
+      if ($scope.userType === 'personal') {
+        $state.go('^.step2p')
+      }
+      if ($scope.userType === 'business') {
+        $state.go('^.step2b')
+      }
     } else {
       console.log('INVALID')
     }
@@ -23,11 +30,4 @@ module.exports = [ '$scope', 'SingUpService', '$state', function ($scope, SingUp
       f.uPass2.$setValidity('match', true)
     }
   }
-
-// if ($scope.userType === 'personal') {
-//   $state.go('^.step2p')
-// }
-// if ($scope.userType === 'business') {
-//   $state.go('^.step2b')
-// }
 }]

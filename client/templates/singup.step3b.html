@@ -13,22 +13,40 @@
   The Patriot Act require us to capture information about your business to prevent money laundering. Necessary information but standard. Not to worry.
 </div>
 <div class="inputs">
-  <div class="select-container">
-    <select ng-model="user.state" ng-class="containsValue ? 'selected' : ''" ng-change="containsValue = true">
-      <option value="" disabled selected class="placeholder">Business Type</option>
-      <option value="NY">New York</option>
-    </select>
-  </div>
-  <input placeholder="Legal Business Name" type="text" ng-model="user.email" />
-  <div class="input-help-text">
-    Please provde the legal name of your business exactly as it appears on your tax documents to avoid any delays in getting paid.
-  </div>
-  <input placeholder="Employer Identification Number (EIN)" type="text" ng-model="user.email" />
-
-
+  <form name="form" novalidate>
+    <div class="select-container">
+      <select ng-model="user.businessType" name="uBusinessType" required ng-class="containsValue ? 'selected' : ''" ng-change="containsValue = true">
+        <option value="" disabled class="placeholder">Business Type</option>
+        <option ng-repeat="businessType in businessTypes" value="{{businessType}}">
+              {{businessType}}
+        </option>
+      </select>
+      <small class="error" ng-show="form.uBusinessType.$error.required && form.uBusinessType.$touched">BusinessType is required</small>  
+    </div>
+    <input 
+    type="text" 
+    name="uBusinessName" 
+    placeholder="Legal Business Name" 
+    required 
+    ng-model="user.businessName" 
+    ng-model-options="{ updateOn: 'blur' }" />
+    <small class="error" ng-show="form.uBusinessName.$error.required && form.uBusinessName.$touched">Business Name is required</small>  
+    <div class="input-help-text">
+      Please provde the legal name of your business exactly as it appears on your tax documents to avoid any delays in getting paid.
+    </div>
+    <input type="text" 
+    name="uEIN" 
+    placeholder="Employer Identification Number (EIN) (XX-XXXXXXX)" 
+    required
+    ng-pattern="/^\d{2}-?\d{7}$/"
+    ng-model="user.EIN" 
+    ng-model-options="{ updateOn: 'blur' }" />
+    <small class="error" ng-show="form.uEIN.$error.required && form.uEIN.$touched">EIN is required</small>
+    <small class="error" ng-show="form.uEIN.$error.pattern && form.uEIN.$touched">Invalid EIN format</small>
+  </form>
 </div>
 
 
 <div class="buttons-container">
-  <a ui-sref="singup.step4b" class="button-green button-agree">Next</a>
+  <a ng-click="next()" class="button-green button-agree">Next</a>
 </div>

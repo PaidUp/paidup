@@ -144,7 +144,7 @@ module.exports = [ '$rootScope', '$http', 'UserService', 'SessionService', 'Face
     createUser: function (user, successFn, errorFn) {
       var success = successFn || angular.noop
       var error = errorFn || angular.noop
-      user.isParent = isParent
+      // user.isParent = isParent
       UserService.save(user, success, function (httpResponse) {
         error(httpResponse.data)
       })
