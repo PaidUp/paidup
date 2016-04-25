@@ -9,23 +9,49 @@
   Where do you want us to deposit your money?
 </p>
 <div class="input-help-text note-text">
-  Routing numbers are 9 digits long. Please use the none designated for paper and electronic (not wire) transfer.
+  Routing numbers are 9 digits long. Please use the one designated for paper and electronic (not wire) transfer.
 </div>
 
 <div class="inputs">
-  <input placeholder="Routing Number (ABA)" type="text" ng-model="user.email" />
-  <div class="input-help-text">Chase Bank</div>
-  <input placeholder="Account Number (DDA)" type="text" ng-model="user.email" />
-  <input placeholder="Re-Enter Account Number (DDA)" type="text" ng-model="user.email" />
-  <div class="agree-checkbox">
-    <input type="checkbox" id="agreeTerms" />
-    <label for="agreeTerms" class="input-help-text">
-     By signing up, I agree with the PaidUp's <a href="">Terms of Service</a>, <a href="">Privacy Policy</a> &amp; <a href="">Stripe Connectec Account Agreement</a>.
-   </label>
- </div>
+  <form name="form" novalidate>
+
+    <input type="text" 
+    name="uRoutingNumber" 
+    placeholder="Routing Number (ABA)" 
+    required 
+    ng-model="user.routingNumber" 
+    ng-model-options="{ updateOn: 'blur' }" />
+    <small class="error" ng-show="form.uRoutingNumber.$error.required && form.uRoutingNumber.$touched">Routing Number is required</small>   
+
+
+    <div class="input-help-text">Chase Bank</div>
+
+    <input type="text" 
+    name="uDDA1" 
+    placeholder="Account Number (DDA)" 
+    required 
+    ng-model="user.DDA1" 
+    ng-model-options="{ updateOn: 'blur' }" />
+    <small class="error" ng-show="form.uDDA1.$error.required && form.uDDA1.$touched">Account Number is required</small>   
+    <input type="text" 
+    name="uDDA2" 
+    placeholder="Re-Enter Account Number (DDA)" 
+    required 
+    ng-model="user.DDA2" 
+    ng-model-options="{ updateOn: 'blur' }"
+    ng-blur="validateDDA(form)" />
+    <small class="error" ng-show="form.uDDA2.$error.match">Account Numbers do not match</small>
+    <div class="agree-checkbox">
+      <small class="error" ng-show="form.agreeTerms.$error.terms">Please agree to terms</small> 
+      <input type="checkbox" id="agreeTerms" name="agreeTerms" ng-model="agreeTerms" />
+      <label for="agreeTerms" class="input-help-text">
+        By signing up, I agree with the PaidUp's <a href="">Terms of Service</a>, <a href="">Privacy Policy</a> &amp; <a href="">Stripe Connectec Account Agreement</a>.
+      </label>
+    </div>
+  </form>
 </div>
 
 
 <div class="buttons-container">
-  <a ui-sref="singup.step5b" class="button-green button-agree">Agree and Create Account</a>
+  <a ng-click="next()" class="button-green button-agree">Agree and Create Account</a>
 </div>

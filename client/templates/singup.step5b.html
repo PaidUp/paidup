@@ -13,35 +13,37 @@
   You'll be charged a $250 one time setup fee. We collect that now but credit you back the $250 once we process the first payment for your business.
 </div>
 <div class="inputs">
-  <input placeholder="Debit or Credit Card Number" type="text" ng-model="user.email" />
-  <div class="row two-colums">
-    <div class="col s12 m6">
-      <input placeholder="Expiration Date" type="text" ng-model="user.email" />
-    </div>
-    <div class="col s12 m6">
-      <input placeholder="Security Code" type="text" ng-model="user.email" />
-    </div>
-  </div>
-  <div class="section-title">Billing Address</div>
-  <input placeholder="Street Address" type="text" ng-model="user.email" />
-  <input placeholder="City" type="text" ng-model="user.email" />
-  <div class="row two-colums">
-    <div class="col s12 m6">
-      <div class="select-container">
-        <select ng-model="user.state" ng-class="containsValue ? 'selected' : ''" ng-change="containsValue = true">
-          <option value="" disabled selected class="placeholder">State</option>
-          <option value="NY">New York</option>
-        </select>
+  <form name="form" novalidate>
+    <input placeholder="Debit or Credit Card Number" type="text" ng-model="user.email" />
+    <div class="row two-colums">
+      <div class="col s12 m6">
+        <input placeholder="Expiration Date" type="text" ng-model="user.email" />
+      </div>
+      <div class="col s12 m6">
+        <input placeholder="Security Code" type="text" ng-model="user.email" />
       </div>
     </div>
-    <div class="col s12 m6">
-      <input placeholder="Zip Code" type="text" ng-model="user.email" />
+    <div class="section-title">Billing Address</div>
+    <input placeholder="Street Address" type="text" ng-model="user.email" />
+    <input placeholder="City" type="text" ng-model="user.email" />
+    <div class="row two-colums">
+      <div class="col s12 m6">
+        <div class="select-container">
+          <select ng-model="user.state" ng-class="containsValue ? 'selected' : ''" ng-change="containsValue = true">
+            <option value="" disabled selected class="placeholder">State</option>
+            <option value="NY">New York</option>
+          </select>
+        </div>
+      </div>
+      <div class="col s12 m6">
+        <input placeholder="Zip Code" type="text" ng-model="user.email" />
+      </div>
     </div>
-  </div>
+  </form>
 </div>
 
 
 <div class="buttons-container">
-  <a ui-sref="singup.welcome" class="button-green button-agree">Pay $250 Setup Fee</a>
+<a ng-click="payFee()" class="button-green button-agree">Pay $250 Setup Fee</a>
   <a ui-sref="singup.step6b" class="skip-card-info">I have a referral code</a>
 </div>
