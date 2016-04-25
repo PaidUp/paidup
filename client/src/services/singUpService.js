@@ -77,32 +77,38 @@ module.exports = [ 'AuthService', 'UserService', function (AuthService, UserServ
       // })
       return err
     }
-    user.address.userId = '571e57eecfcddfd1585ad7f2'
-    UserService.createAddress(user.address).then(function (data) {
-      console.log('addresscreated')
-    }).catch(error)
-    // AuthService.createUser(
-    //   user.info,
-    //   function (newUser) {
-    //     var newUserId = newUser.userId
-    //     console.log('userCreated')
-    //     // Account created - Linking Credentials
-    //     AuthService.addCredentials(newUserId, user.credentials, function () {
-    //       // Linking Address
-    //       // user.address.userId = newUserId
-    //       user.phoneInfo.userId = newUserId
-    //       // UserService.createContact(user.phoneInfo).then(function (data) {
-    //       //   return 'success'
-    //       // }).catch(error)
 
-  //     //   TrackerService.create('signup success', {
-  //     //     firstName: $scope.user.firstName,
-  //     //     lastName: $scope.user.lastName,
-  //     //     email: $scope.user.email,
-  //     //     roleType: $scope.showRole ? 'Payer' : 'Payee'
-  //     //   })
-  //     }, error)
-  //   }, error)
+    AuthService.createUser(
+      user.info,
+      function (newUser) {
+        var newUserId = newUser.userId
+        console.log('userCreated')
+        // Account created - Linking Credentials
+        AuthService.addCredentials(newUserId, user.credentials, function () {
+          AuthService.login(user.credentials, function () {
+            user.address.userId = newUserId
+            // UserService.createAddress(user.address).then(function (data) {
+            //   console.log('addresscreated')
+            // }).catch(error)
+            user.phoneInfo.userId = newUserId
+            UserService.createContact(user.phoneInfo).then(function (data) {
+              return 'success'
+            }).catch(error)
+          }, error)
+          // Linking Address
+          // user.address.userId = newUserId
+          // UserService.createContact(user.phoneInfo).then(function (data) {
+          //   return 'success'
+          // }).catch(error)
+
+        //   TrackerService.create('signup success', {
+        //     firstName: $scope.user.firstName,
+        //     lastName: $scope.user.lastName,
+        //     email: $scope.user.email,
+        //     roleType: $scope.showRole ? 'Payer' : 'Payee'
+        //   })
+        }, error)
+      }, error)
   }
 
   function saveBusinessInfo (u) {
