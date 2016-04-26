@@ -3,6 +3,9 @@ var angular = require('angular')
 
 module.exports = [ '$scope', 'SingUpService', '$state', 'AuthService', function ($scope, SingUpService, $state, AuthService) {
   $scope.userType = SingUpService.getType()
+  $scope.facebookSingUpTemplate = '<i class="fa fa-lg fa-facebook" aria-hidden="true"></i> Sing up with Facebook'
+  $scope.loader = '<i class="fa fa-circle-o-notch fa-spin"></i>'
+  $scope.loading = false
   $scope.next = function () {
     // Validation start
     var f = $scope.form
@@ -33,6 +36,7 @@ module.exports = [ '$scope', 'SingUpService', '$state', 'AuthService', function 
   }
 
   $scope.facebookSignUp = function () {
+    $scope.loading = true
     var success = function (user) {
       SingUpService.setFacebookSingUp(true)
       if ($scope.userType === 'personal') {

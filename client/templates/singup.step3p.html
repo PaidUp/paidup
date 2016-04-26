@@ -9,35 +9,61 @@
 </p>
 
 <div class="inputs">
-  <input placeholder="Card Number" type="text" ng-model="user.email" />
-  <div class="row two-colums">
-    <div class="col s12 m6">
-      <input placeholder="Expiration Date" type="text" ng-model="user.email" />
-    </div>
-    <div class="col s12 m6">
-      <input placeholder="Security Code" type="text" ng-model="user.email" />
-    </div>
-  </div>
-  <div class="section-title">Billing Address</div>
-  <input placeholder="Street Address" type="text" ng-model="user.email" />
-  <input placeholder="City" type="text" ng-model="user.email" />
-  <div class="row two-colums">
-    <div class="col s12 m6">
-      <div class="select-container">
-        <select ng-model="user.state" ng-class="containsValue ? 'selected' : ''" ng-change="containsValue = true">
-          <option value="" disabled selected class="placeholder">State</option>
-          <option value="NY">New York</option>
-        </select>
+  <form name="form" novalidate>
+    <input placeholder="Card Number" type="text" ng-model="cardNumber" ui-mask="9999999999999999999" ui-mask-placeholder ui-mask-placeholder-char="space"/>
+    <div class="row two-colums">
+      <div class="col s12 m6">
+        <input placeholder="Exp. Date (MM/YY)" type="text" ng-model="expDate" ui-mask="99 / 99"  ui-mask-placeholder ui-mask-placeholder-char="_"/>
+      </div>
+      <div class="col s12 m6">
+        <input placeholder="Security Code" type="text" ng-model="secCode" ui-mask="9999" ui-mask-placeholder ui-mask-placeholder-char="space"/>
       </div>
     </div>
-    <div class="col s12 m6">
-      <input placeholder="Zip Code" type="text" ng-model="user.email" />
+
+    <div class="section-title">Billing Address</div>
+    
+    <input type="text" 
+    name="bStreetAddress" 
+    placeholder="Street Address" 
+    required 
+    ng-model="billingAddress.streetAddress" 
+    ng-model-options="{ updateOn: 'blur' }" />
+    <small class="error" ng-show="form.bStreetAddress.$error.required && form.bStreetAddress.$touched">Street Address is required</small> 
+
+    <input type="text" 
+    name="bCity" 
+    placeholder="City" 
+    required 
+    ng-model="billingAddress.city" 
+    ng-model-options="{ updateOn: 'blur' }" />
+    <small class="error" ng-show="form.bCity.$error.required && form.bCity.$touched">City is required</small>  
+    <div class="row two-colums">
+      <div class="col s12 m6">
+        <div class="select-container">
+          <select ng-model="billingAddress.state" name="bState" ng-class="containsValue ? 'selected' : ''" ng-change="containsValue = true" required>
+            <option value="" disabled selected class="placeholder">State</option>
+            <option ng-repeat="state in states" value="{{state.abbreviation}}">
+              {{state.abbreviation}}
+            </option>
+          </select>
+          <small class="error" ng-show="form.bState.$error.required && form.bState.$touched">State is required</small>  
+        </div>
+      </div>
+      <div class="col s12 m6">
+        <input type="text" 
+        name="bZipCode" 
+        placeholder="Zip Code" 
+        required 
+        ng-model="billingAddress.zipCode" 
+        ng-model-options="{ updateOn: 'blur' }" />
+        <small class="error" ng-show="form.bZipCode.$error.required && form.bZipCode.$touched">Zip Code is required</small>  
+      </div>
     </div>
-  </div>
+  </form>
 </div>
 
 
 <div class="buttons-container">
-  <a ui-sref="singup.welcome" class="button-green button-agree">Link Card</a>
+  <button ng-click="linkCard()" class="button-green button-agree" ng-disabled="loading" ng-bind-html="loading ? loader : 'Link Card'"></button>
   <a ui-sref="singup.welcome" class="skip-card-info">I'll do this later</a>
 </div>

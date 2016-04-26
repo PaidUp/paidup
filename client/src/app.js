@@ -9,6 +9,7 @@ require('angular-translate')
 require('./vendor/angular-facebook')
 require('angulartics')
 require('angulartics-google-analytics')
+require('angular-ui-mask')
 
 var paidUpApp = angular.module('paidUpApp', [
   'ui.router',
@@ -18,7 +19,8 @@ var paidUpApp = angular.module('paidUpApp', [
   'pascalprecht.translate',
   'facebook',
   'angulartics',
-  'angulartics.google.analytics' ])
+  'angulartics.google.analytics',
+  'ui.mask' ])
 
 paidUpApp.config(require('./appConfig'))
 paidUpApp.run(require('./appRun'))

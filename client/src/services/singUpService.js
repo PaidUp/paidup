@@ -79,6 +79,28 @@ module.exports = [ 'AuthService', 'UserService', '$q', function (AuthService, Us
     }
   }
 
+  function createBillingAddress (billingAddress) {
+    return $q(function (resolve, reject) {
+      var bAddress = {}
+      bAddress.type = 'billing'
+      bAddress.label = 'billing'
+      bAddress.country = 'USA'
+      bAddress.address1 = billingAddress.streetAddress
+      bAddress.address2 = ''
+      bAddress.city = billingAddress.city
+      bAddress.state = billingAddress.state
+      bAddress.zipCode = billingAddress.zipCode
+      var error = function (err) {
+        reject(err)
+      }
+      var currentUser = AuthService.getCurrentUser()
+      bAddress.userId = currentUser._id
+      UserService.createAddress(bAddress).then(function () {
+        resolve('success')
+      }).catch(error)
+    })
+  }
+
   function createPersonalAccountFacebook (u) {
     return $q(function (resolve, reject) {
       completePersonalUserInfo(u)
@@ -180,6 +202,7 @@ module.exports = [ 'AuthService', 'UserService', '$q', function (AuthService, Us
     saveBusinessOrganization: saveBusinessOrganization,
     saveBusinessBank: saveBusinessBank,
     setFacebookSingUp: setFacebookSingUp,
-    getFacebookSingUp: getFacebookSingUp
+    getFacebookSingUp: getFacebookSingUp,
+    createBillingAddress: createBillingAddress
   }
 }]

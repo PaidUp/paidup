@@ -4,4 +4,8 @@ module.exports = [ '$scope', 'AuthService', '$state', function ($scope, AuthServ
   $scope.PageOptions.pageClass = 'dashboard-page'
   $scope.user = AuthService.getCurrentUser()
   console.log($scope.user)
+  $scope.logout = function () {
+    AuthService.logout()
+    $state.go('login')
+  }
 }]
