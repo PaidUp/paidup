@@ -10,13 +10,17 @@
 
 <div class="inputs">
   <form name="form" novalidate>
-    <input placeholder="Card Number" type="text" ng-model="cardNumber" ui-mask="9999999999999999999" ui-mask-placeholder ui-mask-placeholder-char="space"/>
+    <input placeholder="Card Number" type="text" ng-model="cardNumber" name="cNum" ui-mask="999999999999?9?9?9?9?9?9?9" ui-mask-placeholder ui-mask-placeholder-char="space" ng-blur="validateCardInfo(form)"/>
+    <small class="error" ng-show="form.cNum.$error.cNum && form.cNum.$touched">Card Number not valid</small>  
     <div class="row two-colums">
       <div class="col s12 m6">
-        <input placeholder="Exp. Date (MM/YY)" type="text" ng-model="expDate" ui-mask="99 / 99"  ui-mask-placeholder ui-mask-placeholder-char="_"/>
+      <input placeholder="Exp. Date (MM/YY)" type="text" ng-model="expDate" name="cExpDate" ui-mask="99/99" model-view-value="true"  ui-mask-placeholder ui-mask-placeholder-char="_" required ng-blur="validateCardInfo(form)" />
+        <small class="error" ng-show="form.cExpDate.$error.cExpDate && form.cExpDate.$touched">Expire Date not valid</small> 
       </div>
       <div class="col s12 m6">
-        <input placeholder="Security Code" type="text" ng-model="secCode" ui-mask="9999" ui-mask-placeholder ui-mask-placeholder-char="space"/>
+        <input placeholder="Security Code" type="text" ng-model="secCode" name="cSecCode" ui-mask="999?9" ui-mask-placeholder ui-mask-placeholder-char="space" required ng-model-options="{ updateOn: 'blur' }" />
+        <small class="error" ng-show="form.cSecCode.$error.required && form.cSecCode.$touched">Security Code is required</small> 
+        <small class="error" ng-show="form.cSecCode.$error.mask && form.cSecCode.$touched">Security Code not valid</small> 
       </div>
     </div>
 

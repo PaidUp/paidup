@@ -2,7 +2,10 @@
 var englishTranslations = require('./translations/en')
 var spanishTranslations = require('./translations/es')
 
-module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$locationProvider', '$translateProvider', '$httpProvider', function ($stateProvider, $urlRouterProvider, FacebookProvider, $locationProvider, $translateProvider, $httpProvider) {
+module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$locationProvider', '$translateProvider', '$httpProvider', 'uiMask.ConfigProvider', function ($stateProvider, $urlRouterProvider, FacebookProvider, $locationProvider, $translateProvider, $httpProvider, uiMaskConfigProvider) {
+  // UI MAsk
+  uiMaskConfigProvider.clearOnBlur(false)
+
   // Remove initial Hash in URL
   $locationProvider.html5Mode({
     enabled: true
