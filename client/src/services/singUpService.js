@@ -98,38 +98,27 @@ module.exports = [ 'AuthService', 'UserService', '$q', function (AuthService, Us
   }
 
   function createPersonalAccount (u) {
-    completePersonalUserInfo(u)
-    var error = function (err) {
-      // $scope.error = err.message
-      // TrackerService.create('signup error' , {
-      //   firstName: $scope.user.firstName,
-      //   lastName: $scope.user.lastName,
-      //   email: $scope.user.email,
-      //   errorMessage: err.message
-      // })
-      console.log('error', err)
-      return err
-    }
-
-    // Facebook Logic HERE
-    AuthService.createUser(
-      user.info,
-      function (newUser) {
-        var newUserId = newUser.userId
-        console.log('user created')
-        // Account created - Linking Credentials
-        AuthService.addCredentials(newUserId, user.credentials, function () {
-          console.log('credentials created')
-          user.address.userId = newUserId
-          UserService.createAddress(user.address).then(function () {
-            console.log('address created')
-            user.phoneInfo.userId = newUserId
-            UserService.createContact(user.phoneInfo).then(function () {
-              console.log('phone created')
+    return $q(function (resolve, reject) {
+      completePersonalUserInfo(u)
+      var error = function (err) {
+        reject(err)
+      }
+      AuthService.createUser(
+        user.info,
+        function (newUser) {
+          var newUserId = newUser.userId
+          // Account created - Linking Credentials
+          AuthService.addCredentials(newUserId, user.credentials, function () {
+            user.address.userId = newUserId
+            UserService.createAddress(user.address).then(function () {
+              user.phoneInfo.userId = newUserId
+              UserService.createContact(user.phoneInfo).then(function () {
+                resolve('success')
+              }).catch(error)
             }).catch(error)
-          }).catch(error)
+          }, error)
         }, error)
-      }, error)
+    })
   }
 
   function saveBusinessInfo (u) {

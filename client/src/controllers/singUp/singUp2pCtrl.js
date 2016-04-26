@@ -1,7 +1,7 @@
 'use strict'
 var angular = require('angular')
 
-module.exports = [ '$scope', 'SingUpService', '$state', 'UserService', 'AuthService', function ($scope, SingUpService, $state, UserService, AuthService) {
+module.exports = [ '$scope', 'SingUpService', '$state', 'UserService', 'AuthService', 'TrackerService', function ($scope, SingUpService, $state, UserService, AuthService, TrackerService) {
   $scope.user = {}
   var isFacebookSingUp = SingUpService.getFacebookSingUp()
   if (isFacebookSingUp) {
@@ -29,9 +29,22 @@ module.exports = [ '$scope', 'SingUpService', '$state', 'UserService', 'AuthServ
       }
       promise.then(function (message) {
         console.log(message)
+        TrackerService.create('signup success', {
+          firstName: $scope.user.firstName,
+          lastName: $scope.user.lastName,
+          email: SingUpService.getUser().credentials.email,
+          roleType: AuthService.getIsParent() ? 'Payer' : 'Payee'
+        })
         $state.go('^.step3p')
       }, function (err) {
+        TrackerService.create('signup error', {
+          firstName: $scope.user.firstName,
+          lastName: $scope.user.lastName,
+          email: SingUpService.getUser().credentials.email,
+          errorMessage: err.message
+        })
         console.log('ERROR', err)
+        $scope.error = err
         $scope.loading = false
       })
     } else {
