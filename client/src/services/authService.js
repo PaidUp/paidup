@@ -42,6 +42,10 @@ module.exports = [ '$rootScope', '$http', 'UserService', 'SessionService', 'Face
       isParent = true
     },
 
+    setParent: function (_isParent) {
+      isParent = _isParent
+    },
+
     updateCurrentUser: function () {
       $rootScope.currentUser = UserService.get(SessionService.getCurrentSession())
     },
@@ -253,6 +257,20 @@ module.exports = [ '$rootScope', '$http', 'UserService', 'SessionService', 'Face
      */
     getCurrentUser: function () {
       return $rootScope.currentUser
+
+    // if (!angular.isDefined($rootScope.currentUser)) {
+    //   return false
+    // } else {
+    //   if ($rootScope.currentUser.hasOwnProperty('$promise')) {
+    //     $rootScope.currentUser.$promise.then(function () {
+    //       return $rootScope.currentUser
+    //     }).catch(function () {
+    //       return false
+    //     })
+    //   } else {
+    //     return $rootScope.currentUser
+    //   }
+    // }
     },
 
     /**

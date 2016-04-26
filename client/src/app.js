@@ -21,6 +21,7 @@ var paidUpApp = angular.module('paidUpApp', [
   'angulartics.google.analytics' ])
 
 paidUpApp.config(require('./appConfig'))
+paidUpApp.run(require('./appRun'))
 
 // one require statement per sub directory instead of One per file
 require('./services')

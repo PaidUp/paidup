@@ -12,6 +12,14 @@ module.exports = [ 'AuthService', 'UserService', function (AuthService, UserServ
     return user.type
   }
 
+  function setFacebookSingUp (facebookSingUp) {
+    user.facebookSingUp = facebookSingUp
+  }
+
+  function getFacebookSingUp () {
+    return user.facebookSingUp
+  }
+
   function getUser () {
     return user
   }
@@ -167,6 +175,8 @@ module.exports = [ 'AuthService', 'UserService', function (AuthService, UserServ
     saveBusinessInfo: saveBusinessInfo,
     saveBusinessOrganization: saveBusinessOrganization,
     saveBusinessBank: saveBusinessBank,
-    createBusinessAccount: createBusinessAccount
+    createBusinessAccount: createBusinessAccount,
+    setFacebookSingUp: setFacebookSingUp,
+    getFacebookSingUp: getFacebookSingUp
   }
 }]

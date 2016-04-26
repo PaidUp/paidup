@@ -1,7 +1,7 @@
 'use strict'
 var angular = require('angular')
 
-module.exports = [ '$scope', 'SingUpService', '$state', function ($scope, SingUpService, $state) {
+module.exports = [ '$scope', 'SingUpService', '$state', 'AuthService', function ($scope, SingUpService, $state, AuthService) {
   $scope.userType = SingUpService.getType()
   $scope.next = function () {
     // Validation start
@@ -11,6 +11,7 @@ module.exports = [ '$scope', 'SingUpService', '$state', function ($scope, SingUp
     SingUpService.runFormControlsValidation(f)
     if (f.$valid) {
       console.log('VALID')
+      SingUpService.setFacebookSingUp(false)
       SingUpService.setCredentials($scope.user)
       if ($scope.userType === 'personal') {
         $state.go('^.step2p')
@@ -29,5 +30,21 @@ module.exports = [ '$scope', 'SingUpService', '$state', function ($scope, SingUp
     } else {
       f.uPass2.$setValidity('match', true)
     }
+  }
+
+  $scope.facebookSignUp = function () {
+    var success = function (user) {
+      SingUpService.setFacebookSingUp(true)
+      if ($scope.userType === 'personal') {
+        $state.go('^.step2p')
+      }
+      if ($scope.userType === 'business') {
+        $state.go('^.step2b')
+      }
+    }
+    var error = function (err) {
+      console.log(err)
+    }
+    AuthService.loginFacebook(success, error)
   }
 }]

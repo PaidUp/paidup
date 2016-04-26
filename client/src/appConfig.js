@@ -30,7 +30,10 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
       abstract: true,
       url: '/dashboard',
       templateUrl: '../templates/dashboard.html',
-      controller: 'DashboardCtrl'
+      controller: 'DashboardCtrl',
+      data: {
+        requireLogin: true
+      }
     })
     .state('dashboard.summary', {
       url: '/summary',
@@ -40,7 +43,10 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
       abstract: true,
       url: '/singup',
       templateUrl: '../templates/singup.html',
-      controller: 'SingUpCtrl'
+      controller: 'SingUpCtrl',
+      data: {
+        requireLogin: false
+      }
     })
     .state('singup.step0', {
       url: '/step0',
@@ -95,7 +101,10 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
     .state('login', {
       url: '/login',
       templateUrl: '../templates/login.html',
-      controller: 'LoginCtrl'
+      controller: 'LoginCtrl',
+      data: {
+        requireLogin: false
+      }
     })
 }
 ]

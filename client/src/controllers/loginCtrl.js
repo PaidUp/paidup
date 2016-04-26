@@ -9,10 +9,11 @@ module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$transl
   }
   $scope.error = ''
 
-  // TRANSLATE FUNCTION
+  // TRANSLATE DEMO - START
   $scope.changeLang = function (lang) {
     $translate.use(lang)
   }
+
   $scope.fetchErrorCode = function () {
     // Get error code from server async
     var errorCodeFromServer = '404'
@@ -20,6 +21,7 @@ module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$transl
       $scope.error = translationMsg
     })
   }
+  // TRANSLATE DEMO - END
 
   // Functions
   $scope.localLogin = function () {
@@ -35,17 +37,14 @@ module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$transl
     $scope.error = ''
     var credentials = {
       rememberMe: true,
-      email: $scope.user.email,
-      password: $scope.user.password
+      email: u.email,
+      password: u.password
     }
     var success = function () {
-      console.log('user', AuthService.getCurrentUser())
-
       TrackerService.create('login success', {
-        roleType: AuthService.getCurrentUser().roles[0] === 'user' ? 'Personal' : 'Bussines'
+        roleType: AuthService.getCurrentUser().roles[0] === 'user' ? 'Payer' : 'Payee'
       })
-      $state.go(AuthService.getDest())
-      AuthService.setDest()
+      $state.go('dashboard.summary')
     }
     var error = function (err) {
       TrackerService.trackFormErrors('login error', err.message)
@@ -60,11 +59,9 @@ module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$transl
 
   $scope.facebookLogin = function () {
     var success = function (user) {
-      console.log('user', AuthService.getCurrentUser())
-      var roleType = AuthService.getIsParent() ? 'Personal' : 'Bussines'
+      var roleType = AuthService.getIsParent() ? 'Payer' : 'Payee'
       TrackerService.create('Login Facebook', {roleType: roleType})
-      $state.go(AuthService.getDest())
-      AuthService.setDest()
+      $state.go('dashboard.summary')
     }
     var error = function (err) {
       console.log(err)
