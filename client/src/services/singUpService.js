@@ -1,7 +1,7 @@
 'use strict'
 var angular = require('angular')
 
-module.exports = [ 'AuthService', 'UserService', function (AuthService, UserService) {
+module.exports = [ 'AuthService', 'UserService', '$q', function (AuthService, UserService, $q) {
   var user = {}
 
   function setType (type) {
@@ -56,11 +56,13 @@ module.exports = [ 'AuthService', 'UserService', function (AuthService, UserServ
     return
   }
 
-  function createPersonalAccount (u) {
+  // Internal helper
+  function completePersonalUserInfo (u) {
     user.info = {}
     user.info.firstName = u.firstName
     user.info.lastName = u.lastName
     user.info.isParent = true
+    AuthService.setParent(true)
     user.address = {}
     user.address.type = 'shipping'
     user.address.label = 'shipping'
@@ -75,6 +77,28 @@ module.exports = [ 'AuthService', 'UserService', function (AuthService, UserServ
       type: 'telephone',
       value: u.phone
     }
+  }
+
+  function createPersonalAccountFacebook (u) {
+    return $q(function (resolve, reject) {
+      completePersonalUserInfo(u)
+      // TO DO: Check if names are different
+      var error = function (err) {
+        reject(err)
+      }
+      var currentUser = AuthService.getCurrentUser()
+      user.address.userId = currentUser._id
+      UserService.createAddress(user.address).then(function () {
+        user.phoneInfo.userId = currentUser._id
+        UserService.createContact(user.phoneInfo).then(function () {
+          resolve('success')
+        }).catch(error)
+      }).catch(error)
+    })
+  }
+
+  function createPersonalAccount (u) {
+    completePersonalUserInfo(u)
     var error = function (err) {
       // $scope.error = err.message
       // TrackerService.create('signup error' , {
@@ -83,38 +107,27 @@ module.exports = [ 'AuthService', 'UserService', function (AuthService, UserServ
       //   email: $scope.user.email,
       //   errorMessage: err.message
       // })
+      console.log('error', err)
       return err
     }
 
+    // Facebook Logic HERE
     AuthService.createUser(
       user.info,
       function (newUser) {
         var newUserId = newUser.userId
-        console.log('userCreated')
+        console.log('user created')
         // Account created - Linking Credentials
         AuthService.addCredentials(newUserId, user.credentials, function () {
-          AuthService.login(user.credentials, function () {
-            user.address.userId = newUserId
-            // UserService.createAddress(user.address).then(function (data) {
-            //   console.log('addresscreated')
-            // }).catch(error)
+          console.log('credentials created')
+          user.address.userId = newUserId
+          UserService.createAddress(user.address).then(function () {
+            console.log('address created')
             user.phoneInfo.userId = newUserId
-            UserService.createContact(user.phoneInfo).then(function (data) {
-              return 'success'
+            UserService.createContact(user.phoneInfo).then(function () {
+              console.log('phone created')
             }).catch(error)
-          }, error)
-          // Linking Address
-          // user.address.userId = newUserId
-          // UserService.createContact(user.phoneInfo).then(function (data) {
-          //   return 'success'
-          // }).catch(error)
-
-        //   TrackerService.create('signup success', {
-        //     firstName: $scope.user.firstName,
-        //     lastName: $scope.user.lastName,
-        //     email: $scope.user.email,
-        //     roleType: $scope.showRole ? 'Payer' : 'Payee'
-        //   })
+          }).catch(error)
         }, error)
       }, error)
   }
@@ -172,10 +185,11 @@ module.exports = [ 'AuthService', 'UserService', function (AuthService, UserServ
     runFormControlsValidation: runFormControlsValidation,
     setCredentials: setCredentials,
     createPersonalAccount: createPersonalAccount,
+    createPersonalAccountFacebook: createPersonalAccountFacebook,
+    createBusinessAccount: createBusinessAccount,
     saveBusinessInfo: saveBusinessInfo,
     saveBusinessOrganization: saveBusinessOrganization,
     saveBusinessBank: saveBusinessBank,
-    createBusinessAccount: createBusinessAccount,
     setFacebookSingUp: setFacebookSingUp,
     getFacebookSingUp: getFacebookSingUp
   }
