@@ -266,25 +266,26 @@ var all = {
     payment: {
       urlPrefix: '/api/v1',
       isHttp: false,
-      host: 'http://develop.getpaidup.com/',
+      host: 'develop.getpaidup.com',
       port: 9005,
-      token: 'TDPaymentToken-CHANGE-ME!'
+      token: 'TDPaymentToken-CHANGE-ME!',
+      baseUrl: 'http://develop.getpaidup.com:9005/'
     },
     commerce: {
       urlPrefix: '/api/v1',
       isHttp: false,
-      host: 'http://develop.getpaidup.com/',
+      host: 'develop.getpaidup.com',
       port: 9002,
       token: 'TDCommerceToken-CHANGE-ME!',
-      baseUrl: 'http://develop.getpaidup.com/:9002'
+      baseUrl: 'http://develop.getpaidup.com:9002/'
     },
     schedule: {
       urlPrefix: '/api/v2',
       isHttp: false,
-      host: 'localhost',
+      host: 'develop.getpaidup.com',
       port: 9006,
       token: 'tdschedule-secret',
-      baseUrl: 'http://develop.getpaidup.com/:9006'
+      baseUrl: 'http://develop.getpaidup.com:9006/'
     }
   },
   logger: {
