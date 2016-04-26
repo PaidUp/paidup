@@ -8,6 +8,9 @@ module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$transl
     password: ''
   }
   $scope.error = ''
+  $scope.facebookLoginTemplate = '<i class="fa fa-lg fa-facebook" aria-hidden="true"></i> Login with Facebook'
+  $scope.loader = '<i class="fa fa-circle-o-notch fa-spin"></i>'
+  $scope.loading = false
 
   // TRANSLATE DEMO - START
   $scope.changeLang = function (lang) {
@@ -34,6 +37,7 @@ module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$transl
       $scope.error = 'Please enter password'
       return
     }
+    $scope.loading = true
     $scope.error = ''
     var credentials = {
       rememberMe: true,
@@ -48,6 +52,7 @@ module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$transl
     }
     var error = function (err) {
       TrackerService.trackFormErrors('login error', err.message)
+      $scope.loading = false
       $scope.error = err.message
       TrackerService.create('login error', {
         errorMessage: err.message,
@@ -58,6 +63,7 @@ module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$transl
   }
 
   $scope.facebookLogin = function () {
+    $scope.loading = true
     var success = function (user) {
       var roleType = AuthService.getIsParent() ? 'Payer' : 'Payee'
       TrackerService.create('Login Facebook', {roleType: roleType})
@@ -65,6 +71,7 @@ module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$transl
     }
     var error = function (err) {
       console.log(err)
+      $scope.loading = false
     }
     AuthService.loginFacebook(success, error)
   }

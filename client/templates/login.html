@@ -7,9 +7,9 @@
       <input placeholder="Password" id="password" type="password" class="validate" ng-model="user.password" />
     </div>
     <div class="buttons-container">
-      <a ng-click="localLogin()" class="button-green button-green-login waves-effect waves-light">LOGIN</a>      
+    <button ng-click="localLogin()" class="button-green button-green-login" ng-disabled="loading" ng-bind-html="loading ? loader : 'LOGIN'"></button>
       <a ng-click="forgotLink()" class="forgot-link waves-effect">Forgot your email or password?</a>      
-      <a ng-click="facebookLogin()" class="button-facebook waves-effect"><i class="fa fa-lg fa-facebook" aria-hidden="true"></i> Login with Facebook</a>
+      <button ng-click="facebookLogin()" class="button-facebook" ng-disabled="loading" ng-bind-html="loading ? loader : facebookLoginTemplate"></button>
       <div class="horizontal-bar"></div>
       <a ui-sref="singup.step0" class="button-green button-green-login button-sign-up waves-effect waves-light">SIGN UP</a>
       

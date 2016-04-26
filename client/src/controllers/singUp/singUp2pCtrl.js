@@ -8,6 +8,8 @@ module.exports = [ '$scope', 'SingUpService', '$state', 'UserService', 'AuthServ
     var currentUser = AuthService.getCurrentUser()
     $scope.user.firstName = currentUser.firstName
     $scope.user.lastName = currentUser.lastName
+    // Setting just for the tracker service below
+    SingUpService.setCredentials({email: currentUser.email, password1: ''})
     console.log(currentUser)
   }
   $scope.states = UserService.getStates()
