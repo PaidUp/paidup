@@ -2,7 +2,10 @@
 var englishTranslations = require('./translations/en')
 var spanishTranslations = require('./translations/es')
 
-module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$locationProvider', '$translateProvider', function ($stateProvider, $urlRouterProvider, FacebookProvider, $locationProvider, $translateProvider) {
+module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$locationProvider', '$translateProvider', '$httpProvider', 'uiMask.ConfigProvider', function ($stateProvider, $urlRouterProvider, FacebookProvider, $locationProvider, $translateProvider, $httpProvider, uiMaskConfigProvider) {
+  // UI MAsk
+  uiMaskConfigProvider.clearOnBlur(false)
+
   // Remove initial Hash in URL
   $locationProvider.html5Mode({
     enabled: true
@@ -11,6 +14,9 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
   // Facebook API key
   FacebookProvider.init('717631811625048')
   // FacebookProvider.init('499580560213861')
+
+  // HTTP INTERCEPTORS
+  $httpProvider.interceptors.push('AuthInterceptor')
 
   // TRANSLATE MODULE CONFIG
   $translateProvider.translations('en', englishTranslations)
@@ -30,7 +36,10 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
       abstract: true,
       url: '/dashboard',
       templateUrl: '../templates/dashboard.html',
-      controller: 'DashboardCtrl'
+      controller: 'DashboardCtrl',
+      data: {
+        requireLogin: true
+      }
     })
     .state('dashboard.summary', {
       url: '/summary',
@@ -40,7 +49,10 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
       abstract: true,
       url: '/singup',
       templateUrl: '../templates/singup.html',
-      controller: 'SingUpCtrl'
+      controller: 'SingUpCtrl',
+      data: {
+        requireLogin: false
+      }
     })
     .state('singup.step0', {
       url: '/step0',
@@ -95,7 +107,10 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
     .state('login', {
       url: '/login',
       templateUrl: '../templates/login.html',
-      controller: 'LoginCtrl'
+      controller: 'LoginCtrl',
+      data: {
+        requireLogin: false
+      }
     })
 }
 ]

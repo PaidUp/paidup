@@ -1,7 +1,7 @@
 'use strict'
 var angular = require('angular')
 
-module.exports = [ 'AuthService', 'UserService', function (AuthService, UserService) {
+module.exports = [ 'AuthService', 'UserService', '$q', function (AuthService, UserService, $q) {
   var user = {}
 
   function setType (type) {
@@ -10,6 +10,14 @@ module.exports = [ 'AuthService', 'UserService', function (AuthService, UserServ
 
   function getType () {
     return user.type
+  }
+
+  function setFacebookSingUp (facebookSingUp) {
+    user.facebookSingUp = facebookSingUp
+  }
+
+  function getFacebookSingUp () {
+    return user.facebookSingUp
   }
 
   function getUser () {
@@ -48,11 +56,13 @@ module.exports = [ 'AuthService', 'UserService', function (AuthService, UserServ
     return
   }
 
-  function createPersonalAccount (u) {
+  // Internal helper
+  function completePersonalUserInfo (u) {
     user.info = {}
     user.info.firstName = u.firstName
     user.info.lastName = u.lastName
     user.info.isParent = true
+    AuthService.setParent(true)
     user.address = {}
     user.address.type = 'shipping'
     user.address.label = 'shipping'
@@ -67,48 +77,70 @@ module.exports = [ 'AuthService', 'UserService', function (AuthService, UserServ
       type: 'telephone',
       value: u.phone
     }
-    var error = function (err) {
-      // $scope.error = err.message
-      // TrackerService.create('signup error' , {
-      //   firstName: $scope.user.firstName,
-      //   lastName: $scope.user.lastName,
-      //   email: $scope.user.email,
-      //   errorMessage: err.message
-      // })
-      return err
-    }
+  }
 
-    AuthService.createUser(
-      user.info,
-      function (newUser) {
-        var newUserId = newUser.userId
-        console.log('userCreated')
-        // Account created - Linking Credentials
-        AuthService.addCredentials(newUserId, user.credentials, function () {
-          AuthService.login(user.credentials, function () {
+  function createBillingAddress (billingAddress) {
+    return $q(function (resolve, reject) {
+      var bAddress = {}
+      bAddress.type = 'billing'
+      bAddress.label = 'billing'
+      bAddress.country = 'USA'
+      bAddress.address1 = billingAddress.streetAddress
+      bAddress.address2 = ''
+      bAddress.city = billingAddress.city
+      bAddress.state = billingAddress.state
+      bAddress.zipCode = billingAddress.zipCode
+      var error = function (err) {
+        reject(err)
+      }
+      var currentUser = AuthService.getCurrentUser()
+      bAddress.userId = currentUser._id
+      UserService.createAddress(bAddress).then(function () {
+        resolve('success')
+      }).catch(error)
+    })
+  }
+
+  function createPersonalAccountFacebook (u) {
+    return $q(function (resolve, reject) {
+      completePersonalUserInfo(u)
+      // TO DO: Check if names are different
+      var error = function (err) {
+        reject(err)
+      }
+      var currentUser = AuthService.getCurrentUser()
+      user.address.userId = currentUser._id
+      UserService.createAddress(user.address).then(function () {
+        user.phoneInfo.userId = currentUser._id
+        UserService.createContact(user.phoneInfo).then(function () {
+          resolve('success')
+        }).catch(error)
+      }).catch(error)
+    })
+  }
+
+  function createPersonalAccount (u) {
+    return $q(function (resolve, reject) {
+      completePersonalUserInfo(u)
+      var error = function (err) {
+        reject(err)
+      }
+      AuthService.createUser(
+        user.info,
+        function (newUser) {
+          var newUserId = newUser.userId
+          // Account created - Linking Credentials
+          AuthService.addCredentials(newUserId, user.credentials, function () {
             user.address.userId = newUserId
-            // UserService.createAddress(user.address).then(function (data) {
-            //   console.log('addresscreated')
-            // }).catch(error)
-            user.phoneInfo.userId = newUserId
-            UserService.createContact(user.phoneInfo).then(function (data) {
-              return 'success'
+            UserService.createAddress(user.address).then(function () {
+              user.phoneInfo.userId = newUserId
+              UserService.createContact(user.phoneInfo).then(function () {
+                resolve('success')
+              }).catch(error)
             }).catch(error)
           }, error)
-          // Linking Address
-          // user.address.userId = newUserId
-          // UserService.createContact(user.phoneInfo).then(function (data) {
-          //   return 'success'
-          // }).catch(error)
-
-        //   TrackerService.create('signup success', {
-        //     firstName: $scope.user.firstName,
-        //     lastName: $scope.user.lastName,
-        //     email: $scope.user.email,
-        //     roleType: $scope.showRole ? 'Payer' : 'Payee'
-        //   })
         }, error)
-      }, error)
+    })
   }
 
   function saveBusinessInfo (u) {
@@ -164,9 +196,13 @@ module.exports = [ 'AuthService', 'UserService', function (AuthService, UserServ
     runFormControlsValidation: runFormControlsValidation,
     setCredentials: setCredentials,
     createPersonalAccount: createPersonalAccount,
+    createPersonalAccountFacebook: createPersonalAccountFacebook,
+    createBusinessAccount: createBusinessAccount,
     saveBusinessInfo: saveBusinessInfo,
     saveBusinessOrganization: saveBusinessOrganization,
     saveBusinessBank: saveBusinessBank,
-    createBusinessAccount: createBusinessAccount
+    setFacebookSingUp: setFacebookSingUp,
+    getFacebookSingUp: getFacebookSingUp,
+    createBillingAddress: createBillingAddress
   }
 }]

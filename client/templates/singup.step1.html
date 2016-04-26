@@ -29,5 +29,5 @@
 
 <div class="buttons-container">
   <a ng-click="next()" class="button-green">Next</a>
-  <a ng-click="facebookSignUp()" class="button-facebook waves-effect"><i class="fa fa-lg fa-facebook" aria-hidden="true"></i> Sing up with Facebook</a>
+  <button ng-click="facebookSignUp()" class="button-facebook" ng-disabled="loading" ng-bind-html="loading ? loader : facebookSingUpTemplate"></button>
 </div>

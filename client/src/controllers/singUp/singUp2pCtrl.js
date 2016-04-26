@@ -1,10 +1,20 @@
 'use strict'
 var angular = require('angular')
 
-module.exports = [ '$scope', 'SingUpService', '$state', 'UserService', function ($scope, SingUpService, $state, UserService) {
-  var user = SingUpService.getUser()
-  console.log(user)
+module.exports = [ '$scope', 'SingUpService', '$state', 'UserService', 'AuthService', 'TrackerService', function ($scope, SingUpService, $state, UserService, AuthService, TrackerService) {
+  $scope.user = {}
+  var isFacebookSingUp = SingUpService.getFacebookSingUp()
+  if (isFacebookSingUp) {
+    var currentUser = AuthService.getCurrentUser()
+    $scope.user.firstName = currentUser.firstName
+    $scope.user.lastName = currentUser.lastName
+    // Setting just for the tracker service below
+    SingUpService.setCredentials({email: currentUser.email, password1: ''})
+    console.log(currentUser)
+  }
   $scope.states = UserService.getStates()
+  $scope.loading = false
+  $scope.loader = '<i class="fa fa-circle-o-notch fa-spin"></i>'
   $scope.next = function () {
     // Validation start
     var f = $scope.form
@@ -12,8 +22,33 @@ module.exports = [ '$scope', 'SingUpService', '$state', 'UserService', function 
     SingUpService.runFormControlsValidation(f)
     if (f.$valid) {
       console.log('VALID')
-      console.log(SingUpService.createPersonalAccount($scope.user))
-      // $state.go('^.step3p')
+      $scope.loading = true
+      var promise
+      if (isFacebookSingUp) {
+        promise = SingUpService.createPersonalAccountFacebook($scope.user)
+      } else {
+        promise = SingUpService.createPersonalAccount($scope.user)
+      }
+      promise.then(function (message) {
+        console.log(message)
+        TrackerService.create('signup success', {
+          firstName: $scope.user.firstName,
+          lastName: $scope.user.lastName,
+          email: SingUpService.getUser().credentials.email,
+          roleType: AuthService.getIsParent() ? 'Payer' : 'Payee'
+        })
+        $state.go('^.step3p')
+      }, function (err) {
+        TrackerService.create('signup error', {
+          firstName: $scope.user.firstName,
+          lastName: $scope.user.lastName,
+          email: SingUpService.getUser().credentials.email,
+          errorMessage: err.message
+        })
+        console.log('ERROR', err)
+        $scope.error = err
+        $scope.loading = false
+      })
     } else {
       console.log('INVALID')
     }
