@@ -50,9 +50,12 @@
     required
     ng-pattern="/^((((0[13578])|([13578])|(1[02]))[\/](([1-9])|([0-2][0-9])|(3[01])))|(((0[469])|([469])|(11))[\/](([1-9])|([0-2][0-9])|(30)))|((2|02)[\/](([1-9])|([0-2][0-9]))))[\/]\d{4}$|^\d{4}$/"
     ng-model="user.dateOfBirth" 
-    ng-model-options="{ updateOn: 'blur' }" />
+    ng-model-options="{ updateOn: 'blur' }" 
+    ui-mask="99/99/99?9?9"
+    ui-mask-placeholder />
     <small class="error" ng-show="form.uDateOfBirth.$error.required && form.uDateOfBirth.$touched">Date of Birth is required</small>
     <small class="error" ng-show="form.uDateOfBirth.$error.pattern && form.uDateOfBirth.$touched">Invalid date format</small>
+    <small class="error" ng-show="form.uDateOfBirth.$error.mask && form.uDateOfBirth.$touched">Invalid date</small>
 
      <input type="text" 
     name="uSSN" 
@@ -60,9 +63,12 @@
     required
     ng-pattern="/^\d{3}-?\d{2}-?\d{4}$/"
     ng-model="user.SSN" 
-    ng-model-options="{ updateOn: 'blur' }" />
+    ng-model-options="{ updateOn: 'blur' }" 
+    ui-mask="999-99-9999"
+    ui-mask-placeholder />
     <small class="error" ng-show="form.uSSN.$error.required && form.uSSN.$touched">SSN is required</small>
     <small class="error" ng-show="form.uSSN.$error.pattern && form.uSSN.$touched">Invalid SSN format</small>
+    <small class="error" ng-show="form.uSSN.$error.mask && form.uSSN.$touched">Invalid SSN</small>
     
     <input type="text" 
     name="uStreetAddress" 
