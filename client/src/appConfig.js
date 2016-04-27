@@ -35,15 +35,28 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
     .state('dashboard', {
       abstract: true,
       url: '/dashboard',
-      templateUrl: '../templates/dashboard.html',
+      templateUrl: '../templates/dashboard/dashboard.html',
       controller: 'DashboardCtrl',
       data: {
         requireLogin: true
       }
     })
     .state('dashboard.summary', {
-      url: '/summary',
-      templateUrl: '../templates/dashboard.summary.html'
+      abstract: true,
+      templateUrl: '../templates/dashboard/dashboard.summary.html'
+    })
+    .state('dashboard.summary.components', {
+      url: '^/dashboard/summary',
+      views: {
+        'accounts': {
+          templateUrl: '../templates/dashboard/dashboard.accounts.box.html',
+          controller: 'AccountBoxCtrl'
+        },
+        'recentTransactions': {
+          templateUrl: '../templates/dashboard/dashboard.recent.box.html',
+          controller: 'RecentBoxCtrl'
+        }
+      }
     })
     .state('singup', {
       abstract: true,
