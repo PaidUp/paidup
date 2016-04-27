@@ -25,8 +25,14 @@
 <div class="summary-main">
   <div class="summary-main-container">
     <div class="row">
-      <div ui-view="accounts"></div>
-      <div ui-view="recentTransactions"></div>
+      <div class="col s12 m12 l4">
+        <div ui-view="nextPayment"></div>
+        <div ui-view="activeOrders"></div>
+        <div ui-view="accounts"></div>
+      </div>
+      <div class="col s12 m12 l8 right-column">
+        <div ui-view="recentTransactions"></div>
+      </div>
     </div>
   </div>
 </div>

@@ -1,0 +1,31 @@
+<div ng-class="activeAccountMenu ? 'accounts-menu active' : 'accounts-menu'" ng-controller="AccountsMenuCtrl">
+  <div class="header">
+    <div class="title">Payment Accounts</div>
+    <div class="close" ng-click="activeAccountMenu = false"><i class="fa fa-times"></i></div>
+    <div class="clearfix"></div>
+  </div>  
+  <ul class="accounts-list">
+    <li class="clearfix">
+      <div class="icon-container"><i class="fa fa-cc-visa"></i></div>
+      <div class="account-name">
+        <div>Bank of America Visa</div> 
+        <div class="card-number">x-1234</div>
+      </div>
+    </li> 
+    <li class="clearfix">
+      <div class="icon-container"><i class="fa fa-cc-amex"></i></div>
+      <div class="account-name">
+        <div>American Express</div> 
+        <div class="card-number">x-1234</div>
+      </div>
+    </li> 
+    <li class="clearfix selected">
+      <div class="icon-container"><i class="fa fa-bank"></i></div>
+      <div class="account-name">
+        <div>USSA Bank Savings</div> 
+        <div class="card-number">x-1234</div>
+      </div>
+    </li>    
+  </ul>
+  <div class="add-new">Add a new account</div>
+</div>

@@ -3,10 +3,13 @@
 @family-book: ~'The_Northern_Block_Book';
 @family-medium: ~'The_Northern_Block';
 @c-green-back: #67bc3b;
+@c-green-light-back: #eef9e9;
 @c-green-font: #86ba50;
 @c-gray-back: #d7d7d7;
 @c-gray-font: #939393;
+@c-gray-dark-font: #6e6e6e;
 @c-black-font: #393939;
+@c-black-back: #323335;
 @c-blue-font: #3d6d7f;
 @c-blue-back: #006d81;
 @c-facebook: #3b5998;
@@ -620,6 +623,77 @@ DASHBOARD PAGES
     }
   }
 
+  // ACCOUNTS MENU
+  .accounts-menu{
+    background-color: @c-black-back;
+    color:#fff;
+    font-family: @family-medium;
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    padding: 20px 0px;
+    width:100%;
+    height:100%;
+    right: -600px;
+    transition: all .5s ease;
+
+    &.active{
+      right: 0px;
+    }
+    @media @medium-up{
+      height:initial;
+      width:400px;
+    }
+    .header{
+      margin:0px 25px;
+      border-bottom: 2px solid #fff;
+      .title{
+        font-size: 22px;
+        float:left;      
+      }
+      .close{
+        float:right;
+        font-size: 22px;
+        cursor: pointer;
+      }
+    }
+    .add-new{
+      margin:20px 25px;
+      border-top: 2px solid #fff;
+      font-size: 18px;
+      cursor:pointer;
+      padding-top: 10px;
+    }
+    .accounts-list{  
+      margin: 30px 0px 100px 0px;
+
+      li{
+        &.selected{
+          background-color: @c-green-back;
+        }
+        cursor:pointer;
+        font-size: 15px;
+        padding: 15px 25px;
+        .icon-container{
+          float:left;
+          margin-right: 20px;
+          width:40px;
+          text-align: center;
+          .fa{
+            font-size: 30px;
+          }
+        }
+        .account-name{
+          float:left;
+          .card-number{
+            margin-top: -5px;
+            font-size: 12px;
+          } 
+        }
+      }         
+    }
+  }
+
   // SUMMARY MAIN
   .summary-main{
     min-height: 500px;
@@ -630,7 +704,10 @@ DASHBOARD PAGES
     }
     .summary-main-container{
       width: 100%;
-      padding: 0px 20px;
+      padding: 0px;
+      @media @medium-up{
+        padding: 0px 20px;
+      }
       .right-column{
         @media @small-only{
           margin-top: 20px;
@@ -640,6 +717,7 @@ DASHBOARD PAGES
         background: #FFF;
         border-radius: 15px;
         padding: 15px;
+        margin-top: 15px;
         width: 100%;
         text-align: left;
         .title{
@@ -657,8 +735,219 @@ DASHBOARD PAGES
           text-decoration: underline;
           cursor: pointer;
         }
+        .accounts-list{         
+          li{
+            cursor:pointer;
+            color: @c-blue-font;
+            font-size: 15px;
+            margin-top: 10px;
+            font-family: @family-medium;
+            .icon-container{
+              float:left;
+              margin-right: 20px;
+              width:40px;
+              text-align: center;
+              .fa{
+                font-size: 30px;
+                color: @c-green-back;
+              }
+            }
+            .account-name{
+              margin-top: 5px;
+              float:left;
+              .card-number{
+                font-size: 12px;
+                color:@c-gray-font;
+              } 
+            }
+          }         
+        }
+        .bottom-link{
+          font-size: 15px;
+          text-align: center;
+          margin-top: 20px;
+          color:@c-green-font;
+          font-family: @family-medium;
+          cursor:pointer;
+        }
+        .single-row-table{
+          font-family: @family-medium;
+          margin-top: 20px;
+          cursor:pointer;
+          .date{
+            float:left;
+            padding: 0px;
+            margin-right: 10px;
+            @media @xlarge-up{
+              margin-right: 20px;
+            }
+            .month{
+              color: @c-blue-font;
+              font-size: 12px;
+              @media @medium-up{
+                font-size: 15px;
+              }
+            }
+            .day{
+              color: @c-gray-dark-font;              
+              line-height: 16px;
+              font-size: 20px;
+              @media @medium-up{
+                font-size: 26px;
+              }
+            }
+          }
+          .team-icon{
+            float:left;
+            margin-right: 10px;
+            @media @xlarge-up{
+              margin-right: 20px;
+            }
+            div{
+              background-color: @c-blue-back;
+              color: #fff;
+              text-align: center;
+              width:24px;
+              height:24px;
+              border-radius: 12px;
+              line-height: 24px;
+              font-size: 16px;
+              margin-top: 7px;
+              @media @medium-up{
+                margin-top: 0px;
+                width:40px;
+                height:40px;
+                border-radius: 20px;
+                line-height: 40px;
+                font-size: 26px;              
+              }
+            }
+          }
+          .team{
+            float:left;
+            .team-name{
+              color: @c-green-font;
+              font-size: 14px;
+              @media @medium-up{
+                font-size: 18px;
+              }
+            }
+            .team-contact{
+              color: @c-gray-font;
+              line-height: 10px;
+              font-size: 11px;
+              @media @medium-up{
+                font-size: 12px;
+              }
+            }
+          }
+          .total{
+            float:right;
+            .amount{
+              color:@c-gray-dark-font;
+              font-size: 14px;
+              @media @medium-up{
+                font-size: 18px;
+              }
+              .signs{
+                color:@c-green-font;
+              }
+            }
+            .method{
+              color: @c-gray-font;
+              line-height: 10px;
+              font-size: 11px;
+              @media @medium-up{
+                font-size: 12px;
+              }
+            }
 
-        
+          }
+        }
+        .transactions-table{
+          font-family: @family-medium;
+          .date{
+            width:10%;
+            padding-left: 5px;
+            vertical-align: center;
+            @media @medium-up{
+              padding-left: 15px;
+            }
+            .month{
+              color: @c-blue-font;
+              font-size: 12px;
+              @media @medium-up{
+                font-size: 15px;
+              }
+            }
+            .day{
+              color: @c-gray-dark-font;              
+              line-height: 16px;
+              font-size: 20px;
+              @media @medium-up{
+                font-size: 26px;
+              }
+            }
+          }
+          .team-icon{
+            width:10%;
+            text-align: right;
+            text-align: -webkit-right;
+            div{
+              background-color: @c-blue-back;
+              color: #fff;
+              text-align: center;
+              width:24px;
+              height:24px;
+              border-radius: 12px;
+              line-height: 24px;
+              font-size: 16px;
+              @media @medium-up{
+                width:40px;
+                height:40px;
+                border-radius: 20px;
+                line-height: 40px;
+                font-size: 26px;              
+              }
+            }
+          }
+          .team{
+            width:50%;
+            padding-left: 10px;
+            vertical-align: top;
+            .team-name{
+              color: @c-green-font;
+              font-size: 14px;
+              @media @medium-up{
+                font-size: 18px;
+              }
+            }
+            .team-contact{
+              color: @c-gray-font;
+              line-height: 10px;
+              font-size: 11px;
+              @media @medium-up{
+                font-size: 11px;
+              }
+            }
+          }
+          .total{
+            width:30%;
+            color:@c-gray-dark-font;
+            text-align: right;
+            text-align: -webkit-right;
+            padding-right: 5px;
+            font-size: 14px;
+            @media @medium-up{
+              padding-right: 15px;
+              font-size: 22px;
+            }
+            .signs{
+              color:@c-green-font;
+            }
+
+          }
+        }
       }
     }
   }

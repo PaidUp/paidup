@@ -1,4 +1,4 @@
-<header class="dashboard-header">
+<header class="dashboard-header" ng-controller="HeaderCtrl">
   <div class="header-container">
     <div class="img-logo left">
      <img src="../img/paidUpLogoWhite.png" alt="logo">
@@ -8,7 +8,7 @@
        <li>Summary</li>
        <li>Activities</li>
        <li>Orders</li>
-       <li>Accounts</li>
+       <li ng-click="clickAccount()">Accounts</li>
      </ul>
    </div>
    <div class="right">

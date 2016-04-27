@@ -50,7 +50,15 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
       views: {
         'accounts': {
           templateUrl: '../templates/dashboard/dashboard.accounts.box.html',
-          controller: 'AccountBoxCtrl'
+          controller: 'AccountsBoxCtrl'
+        },
+        'nextPayment': {
+          templateUrl: '../templates/dashboard/dashboard.next.box.html',
+          controller: 'NextPaymentBoxCtrl'
+        },
+        'activeOrders': {
+          templateUrl: '../templates/dashboard/dashboard.orders.box.html',
+          controller: 'ActiveOrdersBoxCtrl'
         },
         'recentTransactions': {
           templateUrl: '../templates/dashboard/dashboard.recent.box.html',
