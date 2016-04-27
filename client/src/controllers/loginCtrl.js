@@ -48,7 +48,7 @@ module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$transl
       TrackerService.create('login success', {
         roleType: AuthService.getCurrentUser().roles[0] === 'user' ? 'Payer' : 'Payee'
       })
-      $state.go('dashboard.summary')
+      $state.go('dashboard.summary.components')
     }
     var error = function (err) {
       TrackerService.trackFormErrors('login error', err.message)
@@ -67,7 +67,7 @@ module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$transl
     var success = function (user) {
       var roleType = AuthService.getIsParent() ? 'Payer' : 'Payee'
       TrackerService.create('Login Facebook', {roleType: roleType})
-      $state.go('dashboard.summary')
+      $state.go('dashboard.summary.components')
     }
     var error = function (err) {
       console.log(err)
