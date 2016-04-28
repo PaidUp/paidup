@@ -1,0 +1,99 @@
+<div class="white-container">
+  <div class="title">
+    Choose a payment plan
+  </div>
+  <p>Choose from the options below to setup your payment</p>
+  <div class="teams">
+    <div class="team">
+      <img src="/img/team2.jpg" class="circle team-img" alt="">
+      <div class="name">Cesar Rules</div>
+      <div class="loc">Orlando, FL</div>
+    </div>
+  </div>
+  <div class="inputs inputs-plan">
+    <form name="form" novalidate>
+      <div class="select-container">
+        <select ng-model="user.state" name="uState" ng-class="containsValue ? 'selected' : ''" ng-change="containsValue = true" required>
+          <option value="" disabled selected class="placeholder">Select Age Group</option>
+          <option>
+            16U
+          </option>
+        </select>
+      </div>
+      <div class="select-container">
+        <select ng-model="user.state" name="uState" ng-class="containsValue ? 'selected' : ''" ng-change="containsValue = true" required>
+          <option value="" disabled selected class="placeholder">Select Payment Plan</option>
+          <option>
+            16U
+          </option>
+        </select>
+      </div>
+      <input type="text" 
+      name="uFirst" 
+      placeholder="Athlete First Name" 
+      required 
+      ng-model="firstName" />
+      <small class="error" ng-show="form.uFirst.$error.required && form.uFirst.$touched">Athlete Name is required</small>
+      <input type="text" 
+      name="uLast" 
+      placeholder="Athlete Last Name" 
+      required 
+      ng-model="lastName" />
+      <small class="error" ng-show="form.uLast.$error.required && form.uLast.$touched">Athlete Name is required</small>  
+    </form>
+  </div>
+  <div class="buttons-container">
+    <button ng-click="next()" class="button-green" ng-disabled="loading" ng-bind-html="loading ? loader : 'Next'"></button>
+  </div>
+
+</div>
+
+<div class="white-container">
+  <div class="title">
+    Review Payment Plan
+  </div>
+  <p>Choose from the options below to setup your payment</p>
+  <div class="teams">
+    <div class="team">
+      <img src="/img/team2.jpg" class="circle team-img" alt="">
+      <div class="name">Cesar Rules</div>
+      <div class="loc">Orlando, FL</div>
+    </div>
+  </div>
+  <div class="inputs inputs-plan">
+    <form name="form" novalidate>
+      <div class="select-container">
+        <select ng-model="user.state" name="uState" ng-class="containsValue ? 'selected' : ''" ng-change="containsValue = true" required>
+          <option value="" disabled selected class="placeholder">Select Age Group</option>
+          <option>
+            16U
+          </option>
+        </select>
+      </div>
+      <div class="select-container">
+        <select ng-model="user.state" name="uState" ng-class="containsValue ? 'selected' : ''" ng-change="containsValue = true" required>
+          <option value="" disabled selected class="placeholder">Select Payment Plan</option>
+          <option>
+            16U
+          </option>
+        </select>
+      </div>
+      <input type="text" 
+      name="uFirst" 
+      placeholder="Athlete First Name" 
+      required 
+      ng-model="firstName" />
+      <small class="error" ng-show="form.uFirst.$error.required && form.uFirst.$touched">Athlete Name is required</small>
+      <input type="text" 
+      name="uLast" 
+      placeholder="Athlete Last Name" 
+      required 
+      ng-model="lastName" />
+      <small class="error" ng-show="form.uLast.$error.required && form.uLast.$touched">Athlete Name is required</small>  
+    </form>
+  </div>
+  <div class="buttons-container">
+    <button ng-click="next()" class="button-green" ng-disabled="loading" ng-bind-html="loading ? loader : 'Next'"></button>
+  </div>
+
+</div>
