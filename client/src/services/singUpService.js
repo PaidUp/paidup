@@ -1,8 +1,9 @@
 'use strict'
 var angular = require('angular')
 
-module.exports = [ 'AuthService', 'UserService', '$q', function (AuthService, UserService, $q) {
+module.exports = [ 'AuthService', 'UserService', 'OrganizationService', '$q', function (AuthService, UserService, OrganizationService, $q) {
   var user = {}
+  var organization = {}
 
   function setType (type) {
     user.type = type
@@ -61,7 +62,7 @@ module.exports = [ 'AuthService', 'UserService', '$q', function (AuthService, Us
     user.info = {}
     user.info.firstName = u.firstName
     user.info.lastName = u.lastName
-    user.info.isParent = true
+    user.info.isParent = true // TODO -> set if user is personal or business.
     AuthService.setParent(true)
     user.address = {}
     user.address.type = 'shipping'
@@ -144,46 +145,58 @@ module.exports = [ 'AuthService', 'UserService', '$q', function (AuthService, Us
   }
 
   function saveBusinessInfo (u) {
-    user.info = {}
-    user.info.firstName = u.firstName
-    user.info.lastName = u.lastName
-    user.info.isParent = false
-    user.info.dateOfBirth = u.dateOfBirth
-    user.info.SSN = u.SSN
-    user.address = {}
-    user.address.type = 'shipping'
-    user.address.label = 'shipping'
-    user.address.country = 'USA'
-    user.address.address1 = u.streetAddress
-    user.address.address2 = ''
-    user.address.city = u.city
-    user.address.state = u.state
-    user.address.zipCode = u.zipCode
-    user.phoneInfo = {
-      label: 'shipping',
-      type: 'telephone',
-      value: u.phone
-    }
-    return user
+    organization = {}
+    organization.firstName = u.firstName
+    organization.lastName = u.lastName
+    organization.dateOfBirth = u.dateOfBirth
+    organization.SSN = u.SSN
+    organization.address = {}
+    // organization.address.type = 'shipping'
+    // organization.address.label = 'shipping'
+    organization.address.country = 'USA'
+    organization.address.address1 = u.streetAddress
+    organization.address.address2 = ''
+    organization.address.city = u.city
+    organization.address.state = u.state
+    organization.address.zipCode = u.zipCode
+    return organization
   }
 
   function saveBusinessOrganization (u) {
-    user.business = {}
-    user.business.type = u.businessType
-    user.business.name = u.businessName
-    user.business.EIN = u.EIN
-    return user
+    organization.business = {}
+    organization.business.type = u.businessType
+    organization.business.name = u.businessName
+    organization.business.EIN = u.EIN
+    return organization
   }
 
   function saveBusinessBank (u) {
-    user.bank = {}
-    user.bank.routingNumber = u.routingNumber
-    user.bank.accountNumber = u.accountNumber
-    return user
+    organization.bank = {}
+    organization.bank.routingNumber = u.routingNumber
+    organization.bank.accountNumber = u.DDA1
+    return organization
   }
 
   function createBusinessAccount () {
-    return ''
+    return $q(function (resolve, reject) {
+      var error = function (err) {
+        reject(err)
+      }
+      OrganizationService.organizationRequest(
+        organization,
+        function (newUser) {
+          var newUserId = newUser.userId
+          AuthService.addCredentials(newUserId, user.credentials, function () {
+            user.address.userId = newUserId
+            UserService.createAddress(user.address).then(function () {
+              user.phoneInfo.userId = newUserId
+              UserService.createContact(user.phoneInfo).then(function () {
+                resolve('success')
+              }).catch(error)
+            }).catch(error)
+          }, error)
+        }, error)
+    })
   }
 
   return {

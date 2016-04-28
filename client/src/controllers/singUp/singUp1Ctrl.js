@@ -20,6 +20,7 @@ module.exports = [ '$scope', 'SingUpService', '$state', 'AuthService', function 
         $state.go('^.step2p')
       }
       if ($scope.userType === 'business') {
+        console.log('$scope.user1', $scope.user)
         $state.go('^.step2b')
       }
     } else {

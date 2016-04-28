@@ -4,6 +4,7 @@ module.exports = [ '$scope', 'SingUpService', '$state', function ($scope, SingUp
   $scope.referralCode = ''
   $scope.next = function () {
     SingUpService.setReferralCode($scope.referralCode)
+    console.log('$scope.user6b', $scope.user)
     $state.go('^.welcome')
   }
 }]
