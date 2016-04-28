@@ -55,6 +55,127 @@ COMMONS
   *zoom: 1;
 }
 
+// Table
+.transactions-table{
+  font-family: @family-medium;
+  thead{
+    border-bottom: none;
+    th{
+      padding: 5px;
+      font-weight: normal;
+    }
+    th:last-child{
+      text-align: right;
+    }
+  }
+  th:first-child,
+  td:first-child{
+    padding-left: 5px;
+    @media @medium-up{
+      padding-left: 15px;
+    }    
+  }
+  th:last-child,
+  td:last-child{
+    padding-right: 5px;
+    @media @medium-up{
+      padding-right: 15px;
+    }    
+  }
+  .number{
+    width:10%;
+    color: @c-green-font;
+
+  }
+  .details{
+    width:50%;
+    color: @c-gray-font;
+    font-size: 12px;
+    @media @medium-up{
+      font-size: 14px;
+    }
+  }
+  .date{
+    width:10%;
+    padding-top: 8px;
+    .month{
+      color: @c-blue-font;
+      font-size: 12px;
+      @media @medium-up{
+        font-size: 15px;
+      }
+    }
+    .day{
+      color: @c-gray-dark-font;              
+      line-height: 16px;
+      font-size: 20px;
+      @media @medium-up{
+        font-size: 26px;
+      }
+    }
+  }
+  .team-icon{
+    width:10%;
+    text-align: right;
+    text-align: -webkit-right;
+    div{
+      background-color: @c-blue-back;
+      color: #fff;
+      text-align: center;
+      width:24px;
+      height:24px;
+      border-radius: 12px;
+      line-height: 24px;
+      font-size: 16px;
+      @media @medium-up{
+        width:40px;
+        height:40px;
+        border-radius: 20px;
+        line-height: 40px;
+        font-size: 26px;              
+      }
+    }
+  }
+  .team{
+    width:50%;
+    padding-left: 10px;
+    vertical-align: top;
+    .team-name{
+      color: @c-green-font;
+      font-size: 14px;
+      @media @medium-up{
+        font-size: 18px;
+      }
+    }
+    .team-contact{
+      color: @c-gray-font;
+      line-height: 10px;
+      font-size: 11px;
+      @media @medium-up{
+        font-size: 11px;
+      }
+    }
+  }
+  .total{
+    width:30%;
+    color:@c-gray-dark-font;
+    text-align: right;
+    text-align: -webkit-right;
+    font-size: 14px;
+    @media @medium-up{
+      font-size: 22px;
+    }
+    .signs{
+      color:@c-green-font;
+    }
+
+  }
+}
+
+.bold{
+  font-weight: bold;
+}
+
 .button-green {
   width: 100%;
   @media @medium-up{
@@ -868,91 +989,7 @@ DASHBOARD PAGES
             }
 
           }
-        }
-        .transactions-table{
-          font-family: @family-medium;
-          .date{
-            width:10%;
-            padding-left: 5px;
-            vertical-align: center;
-            @media @medium-up{
-              padding-left: 15px;
-            }
-            .month{
-              color: @c-blue-font;
-              font-size: 12px;
-              @media @medium-up{
-                font-size: 15px;
-              }
-            }
-            .day{
-              color: @c-gray-dark-font;              
-              line-height: 16px;
-              font-size: 20px;
-              @media @medium-up{
-                font-size: 26px;
-              }
-            }
-          }
-          .team-icon{
-            width:10%;
-            text-align: right;
-            text-align: -webkit-right;
-            div{
-              background-color: @c-blue-back;
-              color: #fff;
-              text-align: center;
-              width:24px;
-              height:24px;
-              border-radius: 12px;
-              line-height: 24px;
-              font-size: 16px;
-              @media @medium-up{
-                width:40px;
-                height:40px;
-                border-radius: 20px;
-                line-height: 40px;
-                font-size: 26px;              
-              }
-            }
-          }
-          .team{
-            width:50%;
-            padding-left: 10px;
-            vertical-align: top;
-            .team-name{
-              color: @c-green-font;
-              font-size: 14px;
-              @media @medium-up{
-                font-size: 18px;
-              }
-            }
-            .team-contact{
-              color: @c-gray-font;
-              line-height: 10px;
-              font-size: 11px;
-              @media @medium-up{
-                font-size: 11px;
-              }
-            }
-          }
-          .total{
-            width:30%;
-            color:@c-gray-dark-font;
-            text-align: right;
-            text-align: -webkit-right;
-            padding-right: 5px;
-            font-size: 14px;
-            @media @medium-up{
-              padding-right: 15px;
-              font-size: 22px;
-            }
-            .signs{
-              color:@c-green-font;
-            }
-
-          }
-        }
+        }     
       }
     }
   }
@@ -1027,12 +1064,19 @@ DASHBOARD PAGES
               margin-top: 3px;
             }
           }
+          .btn-discount,
           .btn-find{
             display: inline-block;
             margin: 10px 0px 0px 0px;
             font-size: 14px;
             @media @large-up{
               margin: 0px;
+            }
+          }
+          .btn-discount{
+            // width: 100%;
+              width: 170px;
+            @media @medium-up{
             }
           }
         }
