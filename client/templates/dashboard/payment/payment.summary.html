@@ -1,0 +1,35 @@
+<div class="white-container">
+  <div class="title">
+    Setup your payments
+  </div>
+  <p>Let's find the organization you are making payment to. If you cannot find them, check the spelling and if you still cannot find them give us a call 855.764.3232</p>
+  <div class="inputs">
+    <form name="form" novalidate>
+      <div class="input-container">
+        <input 
+        type="text" 
+        name="uOrganization" 
+        placeholder="Organization Name" 
+        required 
+        ng-model="organizationName" />
+        <small class="error" ng-show="form.uOrganization.$error.required && form.uOrganization.$touched">Please enter an Organization name</small>
+      </div>
+      <button class="button-green btn-find" ng-click="findOrg()">find</button>
+      <div class="clearfix"></div>
+    </form>
+  </div>
+  <p>Do these look familiar? Setup a payment with them again.</p>
+  <div class="teams">
+    <div class="team">
+    <img src="/img/team1.jpg" class="circle team-img" alt="">
+      <div class="name">Austin Boom</div>
+      <div class="loc">Austin, TX</div>
+    </div>
+    <div class="team">
+      <img src="/img/team2.jpg" class="circle team-img" alt="">
+      <div class="name">Cesar Rules</div>
+      <div class="loc">Orlando, FL</div>
+    </div>
+  </div>
+  
+</div>
