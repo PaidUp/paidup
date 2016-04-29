@@ -9,6 +9,7 @@ module.exports = [ '$scope', 'SingUpService', '$state', 'UserService', function 
     if (f.$valid) {
       console.log('VALID')
       console.log(SingUpService.saveBusinessOrganization($scope.user))
+      console.log('$scope.user3b', $scope.user)
       $state.go('^.step4b')
     } else {
       console.log('INVALID')

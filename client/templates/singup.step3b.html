@@ -40,9 +40,12 @@
     required
     ng-pattern="/^\d{2}-?\d{7}$/"
     ng-model="user.EIN" 
-    ng-model-options="{ updateOn: 'blur' }" />
+    ng-model-options="{ updateOn: 'blur' }" 
+    ui-mask="99-9999999"
+    ui-mask-placeholder/>
     <small class="error" ng-show="form.uEIN.$error.required && form.uEIN.$touched">EIN is required</small>
     <small class="error" ng-show="form.uEIN.$error.pattern && form.uEIN.$touched">Invalid EIN format</small>
+    <small class="error" ng-show="form.uDateOfBirth.$error.mask && form.uDateOfBirth.$touched">Invalid EIN</small>
   </form>
 </div>
 

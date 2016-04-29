@@ -28,6 +28,7 @@ module.exports = function (app) {
   app.use('/api/v1/payment', require('./api/payment'))
   app.use('/api/v1/commerce', require('./api/commerce'))
   app.use('/api/v1/application', require('./api/application'))
+  app.use('/api/v1/organization', require('./api/organization'))
   app.use('/api/v1/logger', require('./api/logger'))
   app.route('/google55233ee6abe86e62.html').get(function (req, res) {
     res.send('google-site-verification: google55233ee6abe86e62.html')

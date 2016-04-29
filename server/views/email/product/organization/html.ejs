@@ -1,0 +1,33 @@
+<% include ../../head %>
+                      <div id="headlineTextContact">
+                        <br>
+                        <br>
+                        <br>
+                        <p>
+                          <strong>Legal name: </strong><%= organization.businessName %><br>
+                          <strong>Business type: </strong><%= organization.businessType %><br>
+                          <strong>Date of Birth: </strong><%= organization.ownerDOB %><br>
+                          <strong>Social Security Number: </strong>*********<br>
+                          <strong>Email: </strong><%= organization.ownerEmail %><br>
+                          <strong>Phone number: </strong><%= organization.ownerPhone %><br>
+                          <strong>Country: </strong><%= organization.country %><br>
+                          <strong>State: </strong><%= organization.state %><br>
+                          <strong>City: </strong><%= organization.city %><br>
+                          <strong>EIN: </strong><%= organization.EIN %><br>
+                          <strong>Business address: </strong><%= organization.Address %><br>
+                          <strong>Business name: </strong><%= organization.businessName %><br>
+                          <strong>ABA: </strong>*********<br>
+                          <strong>DDA: </strong>************<br>
+                          <strong>Referral code: </strong><%= organization.referralCode %><br>
+
+                          <a href="<%= baseUrl %>/commerce/organization/response/<%= organization._id %>" class="btnActivate">Create organization account</a><br>
+                        </p>
+                      </div>
+                      </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                </td>
+              </tr>
+<% include ../../footer %>

@@ -7,6 +7,7 @@ module.exports = [ '$scope', 'SingUpService', '$state', 'UserService', function 
     SingUpService.runFormControlsValidation(f)
     if (f.$valid) {
       console.log('VALID - PROCESS PAYMENT')
+      console.log('$scope.user5b', $scope.user)
       $state.go('^.welcome')
     } else {
       console.log('INVALID')

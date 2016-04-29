@@ -1,8 +1,9 @@
 'use strict'
 var angular = require('angular')
 
-module.exports = [ 'AuthService', 'UserService', '$q', function (AuthService, UserService, $q) {
+module.exports = [ 'AuthService', 'UserService', 'OrganizationService', '$q', function (AuthService, UserService, OrganizationService, $q) {
   var user = {}
+  var organization = {}
 
   function setType (type) {
     user.type = type
@@ -61,8 +62,8 @@ module.exports = [ 'AuthService', 'UserService', '$q', function (AuthService, Us
     user.info = {}
     user.info.firstName = u.firstName
     user.info.lastName = u.lastName
-    user.info.isParent = true
-    AuthService.setParent(true)
+    user.info.isParent = getType() !== 'business'
+    AuthService.setParent(getType() !== 'business')
     user.address = {}
     user.address.type = 'shipping'
     user.address.label = 'shipping'
@@ -109,6 +110,7 @@ module.exports = [ 'AuthService', 'UserService', '$q', function (AuthService, Us
         reject(err)
       }
       var currentUser = AuthService.getCurrentUser()
+      user.id = currentUser._id
       user.address.userId = currentUser._id
       UserService.createAddress(user.address).then(function () {
         user.phoneInfo.userId = currentUser._id
@@ -129,6 +131,7 @@ module.exports = [ 'AuthService', 'UserService', '$q', function (AuthService, Us
         user.info,
         function (newUser) {
           var newUserId = newUser.userId
+          user.id = newUserId
           // Account created - Linking Credentials
           AuthService.addCredentials(newUserId, user.credentials, function () {
             user.address.userId = newUserId
@@ -144,46 +147,46 @@ module.exports = [ 'AuthService', 'UserService', '$q', function (AuthService, Us
   }
 
   function saveBusinessInfo (u) {
-    user.info = {}
-    user.info.firstName = u.firstName
-    user.info.lastName = u.lastName
-    user.info.isParent = false
-    user.info.dateOfBirth = u.dateOfBirth
-    user.info.SSN = u.SSN
-    user.address = {}
-    user.address.type = 'shipping'
-    user.address.label = 'shipping'
-    user.address.country = 'USA'
-    user.address.address1 = u.streetAddress
-    user.address.address2 = ''
-    user.address.city = u.city
-    user.address.state = u.state
-    user.address.zipCode = u.zipCode
-    user.phoneInfo = {
-      label: 'shipping',
-      type: 'telephone',
-      value: u.phone
-    }
-    return user
+    organization = {}
+    organization.ownerFirstName = u.firstName
+    organization.ownerLastName = u.lastName
+    organization.ownerDOB = u.dateOfBirth
+    organization.ownerSSN = u.SSN
+    organization.country = 'US'
+    organization.Address = u.streetAddress
+    organization.AddressLineTwo = ''
+    organization.city = u.city
+    organization.state = u.state
+    organization.zipCode = u.zipCode
+    return organization
   }
 
   function saveBusinessOrganization (u) {
-    user.business = {}
-    user.business.type = u.businessType
-    user.business.name = u.businessName
-    user.business.EIN = u.EIN
-    return user
+    organization.businessType = u.businessType
+    organization.businessName = u.businessName
+    organization.EIN = u.EIN
+    return organization
   }
 
   function saveBusinessBank (u) {
-    user.bank = {}
-    user.bank.routingNumber = u.routingNumber
-    user.bank.accountNumber = u.accountNumber
-    return user
+    organization.aba = u.routingNumber
+    organization.dda = u.DDA1
+    return organization
   }
 
   function createBusinessAccount () {
-    return ''
+    return $q(function (resolve, reject) {
+      var error = function (err) {
+        reject(err)
+      }
+      organization.ownerPhone = user.phoneInfo.value
+      organization.ownerEmail = user.credentials.email
+      OrganizationService.organizationRequest(
+        organization,
+        user.id).then(function (organization) {
+          resolve(organization.organizationId)
+        }).catch(error)
+    })
   }
 
   return {

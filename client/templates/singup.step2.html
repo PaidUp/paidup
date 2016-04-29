@@ -2,14 +2,17 @@
   <div class="steps-count selected"></div>
   <div class="steps-count selected"></div>
   <div class="steps-count"></div>
-  <div class="steps-count"></div>
-  <div class="steps-count"></div>
+  <div class="steps-count" ng-show="isBusiness()"></div>
+  <div class="steps-count" ng-show="isBusiness()"></div>
 </div>
-<p class="title">
+<p class="title" ng-show="isBusiness()">
   Let's get some information about you first.
 </p>
+<p class="title" ng-show="!isBusiness()">
+  Just a few more pieces of information and you're on your way.
+</p>
 
-<div class="input-help-text note-text">
+<div class="input-help-text note-text" ng-show="isBusiness()">
   This information is required for us to verify your identity. This helps to keep everyone's payments safe and meet government regulations.
 </div>
 <div class="inputs">
@@ -44,7 +47,8 @@
     <small class="error" ng-show="form.uLastName.$error.maxlength && form.uLastName.$touched">Last Name exceeds 128 characters</small>  
     <small class="error" ng-show="form.uLastName.$error.pattern && form.uLastName.$touched">Last Name should only contain letters</small> 
 
-    <input type="text" 
+    <input type="text"
+    ng-if="isBusiness()"
     name="uDateOfBirth" 
     placeholder="Date of Birth (mm/dd/yyyy)" 
     required
@@ -54,11 +58,12 @@
     ui-mask="99/99/99?9?9"
     model-view-value="true"
     ui-mask-placeholder />
-    <small class="error" ng-show="form.uDateOfBirth.$error.required && form.uDateOfBirth.$touched">Date of Birth is required</small>
-    <small class="error" ng-show="form.uDateOfBirth.$error.pattern && form.uDateOfBirth.$touched">Invalid date format</small>
-    <small class="error" ng-show="form.uDateOfBirth.$error.mask && form.uDateOfBirth.$touched">Invalid date</small>
+    <small ng-if="isBusiness()" class="error" ng-show="form.uDateOfBirth.$error.required && form.uDateOfBirth.$touched">Date of Birth is required</small>
+    <small ng-if="isBusiness()" class="error" ng-show="form.uDateOfBirth.$error.pattern && form.uDateOfBirth.$touched">Invalid date format</small>
+    <small ng-if="isBusiness()" class="error" ng-show="form.uDateOfBirth.$error.mask && form.uDateOfBirth.$touched">Invalid date</small>
 
-     <input type="text" 
+    <input type="text"
+    ng-if="isBusiness()"
     name="uSSN" 
     placeholder="Social Security Number (XXX-XX-XXXX)" 
     required
@@ -67,9 +72,9 @@
     ng-model-options="{ updateOn: 'blur' }" 
     ui-mask="999-99-9999"
     ui-mask-placeholder />
-    <small class="error" ng-show="form.uSSN.$error.required && form.uSSN.$touched">SSN is required</small>
-    <small class="error" ng-show="form.uSSN.$error.pattern && form.uSSN.$touched">Invalid SSN format</small>
-    <small class="error" ng-show="form.uSSN.$error.mask && form.uSSN.$touched">Invalid SSN</small>
+    <small ng-if="isBusiness()" class="error" ng-show="form.uSSN.$error.required && form.uSSN.$touched">SSN is required</small>
+    <small ng-if="isBusiness()" class="error" ng-show="form.uSSN.$error.pattern && form.uSSN.$touched">Invalid SSN format</small>
+    <small ng-if="isBusiness()" class="error" ng-show="form.uSSN.$error.mask && form.uSSN.$touched">Invalid SSN</small>
     
     <input type="text" 
     name="uStreetAddress" 
@@ -125,10 +130,20 @@
     <!-- 5417543010 VALID -->
     <small class="error" ng-show="form.uPhone.$error.required && form.uPhone.$touched">Phone is required</small>
     <small class="error" ng-show="form.uPhone.$error.pattern && form.uPhone.$touched">Invalid phone format</small>
+    
+    <div class="agree-checkbox" ng-show="!isBusiness()">
+      <small class="error" ng-show="form.agreeTerms.$error.terms">Please agree to terms</small> 
+      <input type="checkbox" id="agreeTerms" name="agreeTerms" ng-model="agreeTerms" />
+      <label for="agreeTerms" class="input-help-text">
+        By signing up, I agree with the PaidUp's <a href="">Terms of Service</a>, <a href="">Privacy Policy</a> &amp; <a href="">Stripe Connectec Account Agreement</a>.
+      </label>
+    </div>
+    
   </form>
 </div>
 
 
 <div class="buttons-container">
-  <a ng-click="next()" class="button-green button-agree">Next</a>
+  <a ng-click="next()" class="button-green button-agree" ng-show="isBusiness()">Next</a>
+  <button ng-click="next()" class="button-green button-agree" ng-disabled="loading" ng-bind-html="loading ? loader : 'Agree and Create Account'" ng-show="!isBusiness()"></button>
 </div>

@@ -11,8 +11,13 @@ module.exports = [ '$scope', 'SingUpService', '$state', 'UserService', function 
     if (f.$valid) {
       console.log('VALID')
       console.log(SingUpService.saveBusinessBank($scope.user))
-      console.log(SingUpService.createBusinessAccount())
-      $state.go('^.step5b')
+      SingUpService.createBusinessAccount($scope.user).then(function (organizationId) {
+        $state.go('^.step6b')
+      }, function (err) {
+        console.log('ERROR', err)
+        $scope.error = err
+        $scope.loading = false
+      })
     } else {
       console.log('INVALID')
     }
