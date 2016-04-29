@@ -1,27 +1,4 @@
-<div class="summary-header">
-  <div class="summary-header-container">
-    <div class="row">
-      <div class="col s12 m7 l8">
-        <div class="user">
-          <div class="valign-wrapper">
-            <img src="../img/user-icon.png" alt="">
-            <span class="user-name">Hi, <span ng-bind="user.firstName"></span></span>
-          </div>
-        </div>
-      </div>      
-      <div class="col s12 m5 l4">
-        <div class="action-buttons">
-          <div class="dashboard-button">
-            <img src="../img/dashboard-icon.png" alt="">
-          </div>
-          <div class="payment-button" ui-sref="dashboard.payment.findOrg">      
-            <img src="../img/payment-icon.png" alt="">
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<div ng-include="'/templates/dashboard/dashboard.greetings.header.html'"></div>
 <div class="summary-main">
   <div class="summary-main-container">
     <div class="row">
