@@ -110,6 +110,7 @@ module.exports = [ 'AuthService', 'UserService', 'OrganizationService', '$q', fu
         reject(err)
       }
       var currentUser = AuthService.getCurrentUser()
+      user.id = currentUser._id
       user.address.userId = currentUser._id
       UserService.createAddress(user.address).then(function () {
         user.phoneInfo.userId = currentUser._id
@@ -130,6 +131,7 @@ module.exports = [ 'AuthService', 'UserService', 'OrganizationService', '$q', fu
         user.info,
         function (newUser) {
           var newUserId = newUser.userId
+          user.id = newUserId
           // Account created - Linking Credentials
           AuthService.addCredentials(newUserId, user.credentials, function () {
             user.address.userId = newUserId
@@ -146,34 +148,29 @@ module.exports = [ 'AuthService', 'UserService', 'OrganizationService', '$q', fu
 
   function saveBusinessInfo (u) {
     organization = {}
-    organization.firstName = u.firstName
-    organization.lastName = u.lastName
-    organization.dateOfBirth = u.dateOfBirth
-    organization.SSN = u.SSN
-    organization.address = {}
-    // organization.address.type = 'shipping'
-    // organization.address.label = 'shipping'
-    organization.address.country = 'USA'
-    organization.address.address1 = u.streetAddress
-    organization.address.address2 = ''
-    organization.address.city = u.city
-    organization.address.state = u.state
-    organization.address.zipCode = u.zipCode
+    organization.ownerFirstName = u.firstName
+    organization.ownerLastName = u.lastName
+    organization.ownerDOB = u.dateOfBirth
+    organization.ownerSSN = u.SSN
+    organization.country = 'US'
+    organization.Address = u.streetAddress
+    organization.AddressLineTwo = ''
+    organization.city = u.city
+    organization.state = u.state
+    organization.zipCode = u.zipCode
     return organization
   }
 
   function saveBusinessOrganization (u) {
-    organization.business = {}
-    organization.business.type = u.businessType
-    organization.business.name = u.businessName
-    organization.business.EIN = u.EIN
+    organization.businessType = u.businessType
+    organization.businessName = u.businessName
+    organization.EIN = u.EIN
     return organization
   }
 
   function saveBusinessBank (u) {
-    organization.bank = {}
-    organization.bank.routingNumber = u.routingNumber
-    organization.bank.accountNumber = u.DDA1
+    organization.aba = u.routingNumber
+    organization.dda = u.DDA1
     return organization
   }
 
@@ -182,20 +179,13 @@ module.exports = [ 'AuthService', 'UserService', 'OrganizationService', '$q', fu
       var error = function (err) {
         reject(err)
       }
+      organization.ownerPhone = user.phoneInfo.value
+      organization.ownerEmail = user.credentials.email
       OrganizationService.organizationRequest(
         organization,
-        function (newUser) {
-          var newUserId = newUser.userId
-          AuthService.addCredentials(newUserId, user.credentials, function () {
-            user.address.userId = newUserId
-            UserService.createAddress(user.address).then(function () {
-              user.phoneInfo.userId = newUserId
-              UserService.createContact(user.phoneInfo).then(function () {
-                resolve('success')
-              }).catch(error)
-            }).catch(error)
-          }, error)
-        }, error)
+        user.id).then(function (organization) {
+          resolve(organization.organizationId)
+        }).catch(error)
     })
   }
 

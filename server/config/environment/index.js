@@ -286,6 +286,14 @@ var all = {
       port: 9006,
       token: 'tdschedule-secret',
       baseUrl: 'http://develop.getpaidup.com:9006/'
+    },
+    product: {
+      urlPrefix: '/api/v1',
+      isHttp: false,
+      host: 'localhost', // 'develop.getpaidup.com',
+      port: 9007,
+      token: 'puproduct-secret',
+      baseUrl: 'http://localhost:9007/'// 'http://develop.getpaidup.com:9007/'
     }
   },
   logger: {

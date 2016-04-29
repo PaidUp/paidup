@@ -4,8 +4,8 @@
 module.exports = ['$resource', '$q', function ($resource, $q) {
   var Organization = $resource('/api/v1/organization/:action/:id', {}, {})
 
-  this.organizationRequest = function (organizationInfo) {
-    return Organization.save({ action: 'request' }, { organizationInfo: organizationInfo }).$promise
+  this.organizationRequest = function (organizationInfo, userId) {
+    return Organization.save({ action: 'request' }, { organizationInfo: organizationInfo, userId: userId }).$promise
   }
 
   this.organizationResponse = function (organizationId) {
