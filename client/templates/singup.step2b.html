@@ -52,6 +52,7 @@
     ng-model="user.dateOfBirth" 
     ng-model-options="{ updateOn: 'blur' }" 
     ui-mask="99/99/99?9?9"
+    model-view-value="true"
     ui-mask-placeholder />
     <small class="error" ng-show="form.uDateOfBirth.$error.required && form.uDateOfBirth.$touched">Date of Birth is required</small>
     <small class="error" ng-show="form.uDateOfBirth.$error.pattern && form.uDateOfBirth.$touched">Invalid date format</small>

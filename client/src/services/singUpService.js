@@ -62,8 +62,8 @@ module.exports = [ 'AuthService', 'UserService', 'OrganizationService', '$q', fu
     user.info = {}
     user.info.firstName = u.firstName
     user.info.lastName = u.lastName
-    user.info.isParent = true // TODO -> set if user is personal or business.
-    AuthService.setParent(true)
+    user.info.isParent = getType() !== 'business'
+    AuthService.setParent(getType() !== 'business')
     user.address = {}
     user.address.type = 'shipping'
     user.address.label = 'shipping'

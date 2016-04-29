@@ -12,7 +12,7 @@ module.exports = [ '$scope', 'SingUpService', '$state', 'UserService', function 
       console.log('VALID')
       console.log(SingUpService.saveBusinessBank($scope.user))
       SingUpService.createBusinessAccount($scope.user).then(function (organizationId) {
-        $state.go('^.step5b')
+        $state.go('^.step6b')
       }, function (err) {
         console.log('ERROR', err)
         $scope.error = err
