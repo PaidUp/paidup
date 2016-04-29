@@ -64,6 +64,11 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
       templateUrl: '../templates/singup.step1.html',
       controller: 'SingUp1Ctrl'
     })
+    .state('singup.step2', {
+      url: '/step2',
+      templateUrl: '../templates/singup.step2.html',
+      controller: 'SingUp2Ctrl'
+    })
     .state('singup.step2p', {
       url: '/step2p',
       templateUrl: '../templates/singup.step2p.html',

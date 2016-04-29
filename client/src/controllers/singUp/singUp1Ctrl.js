@@ -16,13 +16,7 @@ module.exports = [ '$scope', 'SingUpService', '$state', 'AuthService', function 
       console.log('VALID')
       SingUpService.setFacebookSingUp(false)
       SingUpService.setCredentials($scope.user)
-      if ($scope.userType === 'personal') {
-        $state.go('^.step2p')
-      }
-      if ($scope.userType === 'business') {
-        console.log('$scope.user1', $scope.user)
-        $state.go('^.step2b')
-      }
+      $state.go('^.step2')
     } else {
       console.log('INVALID')
     }
@@ -40,12 +34,7 @@ module.exports = [ '$scope', 'SingUpService', '$state', 'AuthService', function 
     $scope.loading = true
     var success = function (user) {
       SingUpService.setFacebookSingUp(true)
-      if ($scope.userType === 'personal') {
-        $state.go('^.step2p')
-      }
-      if ($scope.userType === 'business') {
-        $state.go('^.step2b')
-      }
+      $state.go('^.step2')
     }
     var error = function (err) {
       console.log(err)
