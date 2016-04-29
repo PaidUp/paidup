@@ -1,3 +1,4 @@
+<!-- CHOOSE PLAN STEP -->
 <div class="white-container">
   <div class="title">
     Choose a payment plan
@@ -43,11 +44,12 @@
     </form>
   </div>
   <div class="buttons-container">
-    <button ng-click="next()" class="button-green" ng-disabled="loading" ng-bind-html="loading ? loader : 'Next'"></button>
+    <button ui-sref="dashboard.payment.done" class="button-green" ng-disabled="loading" ng-bind-html="loading ? loader : 'Next'"></button>
   </div>
 
 </div>
 
+<!-- REVIEW PAYMENT STEP -->
 <div class="white-container">
   <div class="title">
     Review Payment Plan
@@ -74,10 +76,10 @@
           <div class="day">25</div>
         </td>
         <td class="details">
-        Payment 1 of 4 (Deposit + Uniform)
+          Payment 1 of 4 (Deposit + Uniform)
         </td>
         <td class="total">
-          <span class="signs">$</span> 
+          <span class="green-font">$</span> 
           998.75
         </td>
       </tr>  
@@ -90,10 +92,10 @@
           <div class="day">22</div>
         </td>
         <td class="details">
-        Payment 2 of 4
+          Payment 2 of 4
         </td>
         <td class="total">
-          <span class="signs">$</span> 
+          <span class="green-font">$</span> 
           264.75
         </td>
       </tr>  
@@ -106,10 +108,10 @@
           <div class="day">15</div>
         </td>
         <td class="details">
-        Payment 3 of 4
+          Payment 3 of 4
         </td>
         <td class="total">
-          <span class="signs">$</span> 
+          <span class="green-font">$</span> 
           264.75
         </td>
       </tr>  
@@ -122,16 +124,17 @@
           <div class="day">18</div>
         </td>
         <td class="details">
-        Payment 4 of 4
+          Payment 4 of 4
         </td>
         <td class="total">
-          <span class="signs">$</span> 
+          <span class="green-font">$</span> 
           264.75
         </td>
       </tr>  
       
     </tbody>
   </table>
+
   <div class="inputs">
     <form name="form" novalidate>
       <div class="input-container">
@@ -146,8 +149,40 @@
     </form>
   </div>
 
-  <div class="buttons-container">
-    <button ng-click="next()" class="button-green" ng-disabled="loading" ng-bind-html="loading ? loader : 'Next'"></button>
+  <div class="payment-total">
+    Total:&nbsp;&nbsp;
+    <span class="green-font">$</span> 
+    <span>1098.75</span>
   </div>
+
+  <div class="buttons-container">
+    <button ui-sref="dashboard.payment.done" class="button-green" ng-disabled="loading" ng-bind-html="loading ? loader : 'Next'"></button>
+  </div>
+
+</div>
+
+<!-- SELECT ACCOUNT FINAL STEP -->
+<div class="white-container">
+  <div class="title">
+    Select your payment account
+  </div>
+  <p>Choose or add your payment account</p>
+
+  <div class="account-selected">
+    <div>You will be paying with:</div>
+    <div class="account-name">American Express x-1234</div>
+  </div>
+
+  <div class="green-link" ng-click="clickAccount()">Add/Change payment account</div>
+
+  <p>You can change your payment account at any time by visiting Orders.</p>
+  
+  <div class="green-link">View Terms of Service</div>
+  
+  <div class="buttons-container">
+    <button ui-sref="dashboard.payment.done" class="button-green btn-setup-payment" ng-disabled="loading" ng-bind-html="loading ? loader : 'Setup Payment Now'"></button>
+  </div>
+
+  <div class="bottom-link">Cancel</div>
 
 </div>

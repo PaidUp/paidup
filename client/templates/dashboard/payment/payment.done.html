@@ -1,0 +1,135 @@
+<div class="white-container">
+  <div class="title">
+    Thank you for your order
+  </div>
+  <p>You will also receive an email with the details below</p>
+
+  <div class="two-columns-wrapper">
+    <div class="left-side">   
+      <div class="teams">
+        <div class="team">
+          <img src="/img/team2.jpg" class="circle team-img" alt="">
+          <div class="name">Cesar Rules</div>
+          <div class="loc">Orlando, FL</div>
+        </div>
+      </div> 
+    </div>
+    <div class="right-side">
+      <table class="order-details-table">
+        <tbody>
+          <tr>
+            <td class="field">Order Id:</td>
+            <td class="value">SFY0432BE45H</td>
+          </tr>
+          <tr>
+            <td class="field">Age Group:</td>
+            <td class="value">16U</td>
+          </tr>
+          <tr>
+            <td class="field">Payment Plan:</td>
+            <td class="value">4 Payments <br> <span class="green-font">$</span> 375 per mo.</td>
+          </tr>
+          <tr>
+            <td class="field">Athlete First Name:</td>
+            <td class="value">Jerry</td>
+          </tr>
+          <tr>
+            <td class="field">Athlete Last Name:</td>
+            <td class="value">Simpson</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+  <p class="bold">Your account will be charged automatically on this schedule.</p>
+
+  <table class="transactions-table striped">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Date</th>
+        <th>Details</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="number">
+          1
+        </td>
+        <td class="date">
+          <div class="month">DEC</div>
+          <div class="day">25</div>
+        </td>
+        <td class="details">
+          Payment 1 of 4 (Deposit + Uniform)
+        </td>
+        <td class="total">
+          <span class="green-font">$</span> 
+          998.75
+        </td>
+      </tr>  
+      <tr>
+        <td class="number">
+          2
+        </td>
+        <td class="date">
+          <div class="month">JAN</div>
+          <div class="day">22</div>
+        </td>
+        <td class="details">
+          Payment 2 of 4
+        </td>
+        <td class="total">
+          <span class="green-font">$</span> 
+          264.75
+        </td>
+      </tr>  
+      <tr>
+        <td class="number">
+          3
+        </td>
+        <td class="date">
+          <div class="month">FEB</div>
+          <div class="day">15</div>
+        </td>
+        <td class="details">
+          Payment 3 of 4
+        </td>
+        <td class="total">
+          <span class="green-font">$</span> 
+          264.75
+        </td>
+      </tr>  
+      <tr>
+        <td class="number">
+          4
+        </td>
+        <td class="date">
+          <div class="month">MAR</div>
+          <div class="day">18</div>
+        </td>
+        <td class="details">
+          Payment 4 of 4
+        </td>
+        <td class="total">
+          <span class="green-font">$</span> 
+          264.75
+        </td>
+      </tr>  
+
+    </tbody>
+  </table>
+
+  <div class="payment-total">
+    Total:&nbsp;&nbsp;
+    <span class="green-font">$</span> 
+    <span>1098.75</span>
+  </div>
+
+  <div class="buttons-container">
+    <button ng-click="next()" class="button-green" ng-disabled="loading" ng-bind-html="loading ? loader : 'View Summary'"></button>
+  </div>
+
+</div>
