@@ -1,14 +1,17 @@
 <header class="dashboard-header" ng-controller="HeaderCtrl">
   <div class="header-container">
+    <div class="hamburguer-menu hide-on-large-only" ng-click="clickMobileMenu()">
+      <i class="fa fa-bars"></i>
+    </div>
     <div class="img-logo left">
-     <img src="../img/paidUpLogoWhite.png" alt="logo">
-   </div>
-   <div class="navigation-items left hide-on-med-and-down">
+      <img src="../img/paidUpLogoWhite.png" alt="logo">
+    </div>
+    <div class="navigation-items left hide-on-med-and-down">
      <ul>
        <li>Summary</li>
        <li>Activities</li>
        <li>Orders</li>
-       <li ng-click="clickAccount()">Accounts</li>
+       <li ng-click="clickAccounts()">Accounts</li>
      </ul>
    </div>
    <div class="right">

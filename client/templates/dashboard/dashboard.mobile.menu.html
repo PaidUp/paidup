@@ -1,0 +1,36 @@
+<div ng-class="activeMobileMenu ? 'mobile-menu active hide-on-large-only' : 'mobile-menu hide-on-large-only'" ng-controller="MobileMenuCtrl">
+  <div class="header">
+    <div class="title">Menu</div>
+    <div class="close" ng-click="activeMobileMenu = false"><i class="fa fa-times"></i></div>
+    <div class="clearfix"></div>
+  </div>  
+  <ul class="mobile-list">
+    <li class="clearfix">
+      <div class="icon-container"><i class="fa fa-columns"></i></div>
+      <div>Summary</div> 
+    </li> 
+    <li class="clearfix">
+      <div class="icon-container"><i class="fa fa-calendar-o"></i></div>
+      <div>Activities</div> 
+    </li> 
+    <li class="clearfix">
+      <div class="icon-container"><i class="fa fa-list-alt"></i></div>
+      <div>Orders</div> 
+    </li>
+    <li class="clearfix" ng-click="clickAccounts()">
+      <div class="icon-container"><i class="fa fa-credit-card"></i></div>
+      <div>Accounts</div> 
+    </li>      
+  </ul>
+  <div class="new-line"></div>
+   <ul class="mobile-list">
+    <li class="clearfix">
+      <div class="icon-container"><i class="fa fa-gear"></i></div>
+      <div>Profile</div> 
+    </li>
+    <li class="clearfix">
+      <div class="icon-container"><i class="fa fa-sign-out"></i></div>
+      <div>Logout</div> 
+    </li>
+  </ul>
+</div>

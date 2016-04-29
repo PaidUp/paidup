@@ -642,20 +642,31 @@ DASHBOARD PAGES
     }
     .header-container{
       width: 100%;
-      padding: 0px 0px 0px 40px;
+      padding: 0px 0px 0px 20px;
       @media @large-up{
         padding: 0px 40px;
       }
-    }       
+    }
+    .hamburguer-menu{
+      float:left;
+      margin-top: 25px;
+      margin-right: 20px;
+      padding-right: 20px;
+      // cursor: pointer;
+      // border-right: 1px solid #d7d7d7;
+      .fa-bars{
+        font-size: 36px;
+        color:@c-green-font;
+      }
+    }     
     .img-logo{
-      margin: 20px 30px 20px 0px;
+      margin: 10px 30px 10px 0px;
       img{
         width: 80px;
         height: 59px;
       }
     }
     .navigation-items{
-      margin: 10px 0px;
       li{
         font-size: 18px;
         color: @c-gray-font;
@@ -678,7 +689,7 @@ DASHBOARD PAGES
       color: @c-gray-font;
       font-family: @family-medium;
       font-size: 18px;
-      margin-top: 40px;
+      margin-top: 30px;
       margin-right: 25px;
       float:left;
       .phone{
@@ -689,7 +700,7 @@ DASHBOARD PAGES
     }
     .setting{
       float:left;
-      margin-top: 33px;
+      margin-top: 23px;
       margin-right: 25px;
       cursor:pointer;
       i{
@@ -699,7 +710,7 @@ DASHBOARD PAGES
     } 
     .logout-button{
       float:left;
-      margin-top: 33px;
+      margin-top: 23px;
       .button-green{
         width:125px;
         display:inline-block;
@@ -942,9 +953,9 @@ DASHBOARD PAGES
     padding: 20px 0px;
     width:100%;
     height:100%;
+    overflow-y: auto;
     right: -600px;
     transition: all .5s ease;
-
     &.active{
       right: 0px;
     }
@@ -997,6 +1008,66 @@ DASHBOARD PAGES
             margin-top: -5px;
             font-size: 12px;
           } 
+        }
+      }         
+    }
+  } 
+
+  // MOBILE MENU
+  .mobile-menu{
+    background-color: @c-black-back;
+    color:#fff;
+    font-family: @family-medium;
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    width:100%;
+    height:100%;
+    overflow-y: auto;
+    left: -992px;
+    transition: all .5s ease;
+    &.active{
+      left: 0px;
+    }
+    @media @medium-only{
+      width:60%;
+    }
+    .header{
+      margin:0px 25px;
+      padding: 20px 0px;
+      border-bottom: 2px solid #fff;
+      .title{
+        font-size: 22px;
+        float:left;      
+      }
+      .close{
+        float:right;
+        font-size: 22px;
+        cursor: pointer;
+      }
+    }
+    .new-line{
+      margin:0px 25px;
+      border-top: 2px solid #fff;
+    }
+    .mobile-list{  
+      margin: 10px 0px;
+      li{       
+        font-size: 16px;
+        padding: 15px 0px;
+        border-bottom: 1px solid @c-gray-font;
+        margin: 0 25px;
+        &:last-child{
+          border-bottom: none;
+        }
+        .icon-container{
+          float:left;
+          margin-right: 10px;
+          width:40px;
+          text-align: center;
+          .fa{
+            font-size: 22px;
+          }
         }
       }         
     }

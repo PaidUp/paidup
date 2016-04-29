@@ -7,6 +7,7 @@ app.controller('NextPaymentBoxCtrl', require('./nextPaymentBoxCtrl'))
 app.controller('RecentBoxCtrl', require('./recentBoxCtrl'))
 app.controller('ActiveOrdersBoxCtrl', require('./activeOrdersBoxCtrl'))
 app.controller('AccountsMenuCtrl', require('./accountsMenuCtrl'))
+app.controller('MobileMenuCtrl', require('./mobileMenuCtrl'))
 app.controller('HeaderCtrl', require('./headerCtrl'))
 
 require('./payment')
