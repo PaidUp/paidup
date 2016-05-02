@@ -60,18 +60,20 @@ COMMONS
 }
 
 .green-font{
-  color:@c-green-font;
+  color: @c-green-font;
 }
 
 .red-font{
-  color:@c-error;
+  color: @c-error;
 }
 
 .gray-font{
-  color:@c-gray-dark-font;
+  color: @c-gray-dark-font;
 }
 
-
+.blue-font{
+  color: @c-blue-font;
+}
 
 .button-green {
   width: 100%;
@@ -666,10 +668,12 @@ DASHBOARD PAGES
         &.active{
           max-height: 500px; /* approximate max height */
         }
-        .row{
+        .expanded-section{
           border: 2px solid @c-green-light-back;
           padding: 20px;
-          margin-bottom: 0px;
+          .row{
+            margin-bottom: 0px;
+          }
           .info-box{
             margin-bottom: 15px;
             font-size: 13px;
@@ -680,7 +684,7 @@ DASHBOARD PAGES
                 margin-bottom: 0px;
               } 
             }
-          }
+          }        
         }
       }
     }
