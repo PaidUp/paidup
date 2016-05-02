@@ -55,119 +55,6 @@ COMMONS
   *zoom: 1;
 }
 
-// Table
-.transactions-table{
-  font-family: @family-medium;
-  thead{
-    border-bottom: none;
-    th{
-      padding: 5px;
-      font-weight: normal;
-    }
-    th:last-child{
-      text-align: right;
-    }
-  }
-  th:first-child,
-  td:first-child{
-    padding-left: 5px;
-    @media @medium-up{
-      padding-left: 15px;
-    }    
-  }
-  th:last-child,
-  td:last-child{
-    padding-right: 5px;
-    @media @medium-up{
-      padding-right: 15px;
-    }    
-  }
-  .number{
-    width:10%;
-    color: @c-green-font;
-
-  }
-  .details{
-    width:50%;
-    color: @c-gray-font;
-    font-size: 12px;
-    @media @medium-up{
-      font-size: 14px;
-    }
-  }
-  .date{
-    width:10%;
-    padding-top: 8px;
-    .month{
-      color: @c-blue-font;
-      font-size: 12px;
-      @media @medium-up{
-        font-size: 15px;
-      }
-    }
-    .day{
-      color: @c-gray-dark-font;              
-      line-height: 16px;
-      font-size: 20px;
-      @media @medium-up{
-        font-size: 26px;
-      }
-    }
-  }
-  .team-icon{
-    width:10%;
-    text-align: right;
-    text-align: -webkit-right;
-    div{
-      background-color: @c-blue-back;
-      color: #fff;
-      text-align: center;
-      width:24px;
-      height:24px;
-      border-radius: 12px;
-      line-height: 24px;
-      font-size: 16px;
-      @media @medium-up{
-        width:40px;
-        height:40px;
-        border-radius: 20px;
-        line-height: 40px;
-        font-size: 26px;              
-      }
-    }
-  }
-  .team{
-    width:50%;
-    padding-left: 10px;
-    vertical-align: top;
-    .team-name{
-      color: @c-green-font;
-      font-size: 14px;
-      @media @medium-up{
-        font-size: 18px;
-      }
-    }
-    .team-contact{
-      color: @c-gray-font;
-      line-height: 10px;
-      font-size: 11px;
-      @media @medium-up{
-        font-size: 11px;
-      }
-    }
-  }
-  .total{
-    width:30%;
-    color:@c-gray-dark-font;
-    text-align: right;
-    text-align: -webkit-right;
-    font-size: 14px;
-    @media @medium-up{
-      font-size: 22px;
-    }
-  }
-}
-
 .bold{
   font-weight: bold;
 }
@@ -631,15 +518,166 @@ DASHBOARD PAGES
     color:@c-green-font;
     cursor:pointer;
   }
-
-  // DASHBOARD HEADER
-  .dashboard-header{
-    background-color: #fff;
+  .title-blue{
+    color:@c-blue-font;
+    font-family: @family-medium;
+    font-size: 18px;
+    border-bottom: 2px solid @c-blue-font;
+    margin-bottom: 15px;
+    text-align: left;
+  }
+  .main-content{
+    text-align: center;
+    .white-container{
+      background: #FFF;
+      border-radius: 15px;
+      padding: 20px;
+      margin-top: 15px;
+      width: 100%;
+      .title{
+        font-size: 26px;
+        margin-bottom: 15px;
+      }
+      p{
+        // font-family: @family-medium;
+        font-size: 14px;
+        color: @c-black-font;
+      }
+      a.green-link{
+        color:@c-green-font;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+    }
+  }
+  .summary-header,
+  .summary-main,
+  .dashboard-header,
+  .payment-container,
+  .activities-container{
     margin: 0 auto;
     width: 100%;
     @media @large-up{
       width: 90%;
     }
+  }
+
+  // COMMON TABLE
+  .transactions-table{
+    font-family: @family-medium;
+    thead{
+      border-bottom: none;
+      th{
+        padding: 5px;
+        font-weight: normal;
+      }
+      th:last-child{
+        text-align: right;
+      }
+    }
+    th:first-child,
+    td:first-child{
+      padding-left: 5px;
+      @media @medium-up{
+        padding-left: 15px;
+      }    
+    }
+    th:last-child,
+    td:last-child{
+      padding-right: 5px;
+      @media @medium-up{
+        padding-right: 15px;
+      }    
+    }
+    .number{
+      width:10%;
+      color: @c-green-font;
+
+    }
+    .details{
+      width:50%;
+      color: @c-gray-font;
+      font-size: 12px;
+      @media @medium-up{
+        font-size: 14px;
+      }
+    }
+    .date{
+      width:10%;
+      padding-top: 8px;
+      .month{
+        color: @c-blue-font;
+        font-size: 12px;
+        @media @medium-up{
+          font-size: 15px;
+        }
+      }
+      .day{
+        color: @c-gray-dark-font;              
+        line-height: 16px;
+        font-size: 20px;
+        @media @medium-up{
+          font-size: 26px;
+        }
+      }
+    }
+    .team-icon{
+      width:10%;
+      text-align: right;
+      text-align: -webkit-right;
+      div{
+        background-color: @c-blue-back;
+        color: #fff;
+        text-align: center;
+        width:24px;
+        height:24px;
+        border-radius: 12px;
+        line-height: 24px;
+        font-size: 16px;
+        @media @medium-up{
+          width:40px;
+          height:40px;
+          border-radius: 20px;
+          line-height: 40px;
+          font-size: 26px;              
+        }
+      }
+    }
+    .team{
+      width:50%;
+      padding-left: 10px;
+      vertical-align: top;
+      .team-name{
+        color: @c-green-font;
+        font-size: 14px;
+        @media @medium-up{
+          font-size: 18px;
+        }
+      }
+      .team-contact{
+        color: @c-gray-font;
+        line-height: 10px;
+        font-size: 11px;
+        @media @medium-up{
+          font-size: 11px;
+        }
+      }
+    }
+    .total{
+      width:30%;
+      color:@c-gray-dark-font;
+      text-align: right;
+      text-align: -webkit-right;
+      font-size: 14px;
+      @media @medium-up{
+        font-size: 22px;
+      }
+    }
+  }
+
+  // DASHBOARD HEADER
+  .dashboard-header{
+    background-color: #fff;
     .header-container{
       width: 100%;
       padding: 0px 0px 0px 20px;
@@ -722,11 +760,6 @@ DASHBOARD PAGES
 
   // SUMMARY HEADER
   .summary-header{
-    margin: 0 auto;
-    width: 100%;
-    @media @large-up{
-      width: 90%;
-    }
     .summary-header-container{
       width: 100%;
       padding: 0px;
@@ -782,11 +815,6 @@ DASHBOARD PAGES
   // SUMMARY MAIN
   .summary-main{
     min-height: 500px;
-    margin: 0 auto;
-    width: 100%;
-    @media @large-up{
-      width: 90%;
-    }
     .summary-main-container{
       width: 100%;
       padding: 0px;
@@ -804,14 +832,7 @@ DASHBOARD PAGES
         padding: 15px;
         margin-top: 15px;
         width: 100%;
-        text-align: left;
-        .title{
-          color:@c-blue-font;
-          font-family: @family-medium;
-          font-size: 18px;
-          border-bottom: 2px solid @c-blue-font;
-          margin-bottom: 15px;
-        }
+        text-align: left;       
         p{
           font-size: 14px;
         }
@@ -1075,11 +1096,6 @@ DASHBOARD PAGES
   
   // PAYMENT FLOW
   .payment-container{
-    margin: 0 auto;
-    width: 100%;
-    @media @large-up{
-      width: 90%;
-    }
     .breadcrumb{
       text-align: center;
       color: @c-black-font;
@@ -1105,27 +1121,7 @@ DASHBOARD PAGES
       }
     }
     .main-content{
-      text-align: center;
-      .white-container{
-        background: #FFF;
-        border-radius: 15px;
-        padding: 20px;
-        margin-top: 15px;
-        width: 100%;
-        .title{
-          font-size: 26px;
-          margin-bottom: 15px;
-        }
-        p{
-          // font-family: @family-medium;
-          font-size: 14px;
-          color: @c-black-font;
-        }
-        a.green-link{
-          color:@c-green-font;
-          text-decoration: underline;
-          cursor: pointer;
-        }
+      .white-container{        
         .two-columns-wrapper{
           margin: 30px 0px;
           .left-side{
@@ -1266,5 +1262,9 @@ DASHBOARD PAGES
         }
       }
     }
+  }
+
+  // ACTIVITIES FLOW
+  .activities-container{
   }
 }
