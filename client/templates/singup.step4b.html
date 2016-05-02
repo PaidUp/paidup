@@ -19,10 +19,13 @@
     name="uRoutingNumber" 
     placeholder="Routing Number (ABA)" 
     required 
-    ng-model="user.routingNumber" 
-    ng-model-options="{ updateOn: 'blur' }" />
+    ng-model="user.routingNumber"
+    ng-change="ABAValidator()"
+    ng-blur="maskABA()"
+    ng-focus="unmaskABA()" />
     <small class="error" ng-show="form.uRoutingNumber.$error.required && form.uRoutingNumber.$touched">Routing Number is required</small>   
-
+    <small class="error" ng-show="form.uRoutingNumber.$error.aba && form.uRoutingNumber.$touched"">Routing number is not correct</small>
+    
     <input type="text"
     name="uDDA1" 
     placeholder="Account Number (DDA)" 
