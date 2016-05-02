@@ -87,6 +87,16 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
     templateUrl: '../templates/dashboard/payment/payment.done.html',
     controller: 'PaymentDoneCtrl'
   })
+  .state('dashboard.activities', {
+    url: '/activities',
+    templateUrl: '../templates/dashboard/dashboard.activities.html',
+    controller: 'ActivitiesCtrl'
+  })
+  .state('dashboard.orders', {
+    url: '/orders',
+    templateUrl: '../templates/dashboard/dashboard.orders.html',
+    controller: 'OrdersCtrl'
+  })
   .state('singup', {
     abstract: true,
     url: '/singup',

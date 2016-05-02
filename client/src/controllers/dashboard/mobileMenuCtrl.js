@@ -9,4 +9,8 @@ module.exports = [ '$scope', '$rootScope', '$state', function ($scope, $rootScop
     $scope.activeMobileMenu = false
     $rootScope.$emit('openAccountsMenu')
   }
+
+  $scope.hideMenu = function () {
+    $scope.activeMobileMenu = false
+  }
 }]

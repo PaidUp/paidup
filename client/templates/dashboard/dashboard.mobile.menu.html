@@ -1,19 +1,19 @@
 <div ng-class="activeMobileMenu ? 'mobile-menu active hide-on-large-only' : 'mobile-menu hide-on-large-only'" ng-controller="MobileMenuCtrl">
   <div class="header">
     <div class="title">Menu</div>
-    <div class="close" ng-click="activeMobileMenu = false"><i class="fa fa-times"></i></div>
+    <div class="close" ng-click="hideMenu()"><i class="fa fa-times"></i></div>
     <div class="clearfix"></div>
   </div>  
   <ul class="mobile-list">
-    <li class="clearfix">
+    <li class="clearfix" ui-sref="dashboard.summary.components" ng-click="hideMenu()">
       <div class="icon-container"><i class="fa fa-columns"></i></div>
       <div>Summary</div> 
     </li> 
-    <li class="clearfix">
+    <li class="clearfix" ui-sref="dashboard.activities" ng-click="hideMenu()">
       <div class="icon-container"><i class="fa fa-calendar-o"></i></div>
       <div>Activities</div> 
     </li> 
-    <li class="clearfix">
+    <li class="clearfix" ui-sref="dashboard.orders" ng-click="hideMenu()">
       <div class="icon-container"><i class="fa fa-list-alt"></i></div>
       <div>Orders</div> 
     </li>
