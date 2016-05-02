@@ -6,6 +6,7 @@
 @c-green-light-back: #eef9e9;
 @c-green-font: #86ba50;
 @c-gray-back: #d7d7d7;
+@c-gray-light-back: #f5f5f5;
 @c-gray-font: #939393;
 @c-gray-dark-font: #6e6e6e;
 @c-black-font: #393939;
@@ -573,7 +574,8 @@ DASHBOARD PAGES
   .summary-main,
   .dashboard-header,
   .payment-container,
-  .activities-container{
+  .activities-container,
+  .orders-container{
     margin: 0 auto;
     width: 100%;
     @media @large-up{
@@ -623,6 +625,7 @@ DASHBOARD PAGES
     tr{
       cursor:pointer;
     }
+
     thead{
       border-bottom: none;
       th{
@@ -640,6 +643,7 @@ DASHBOARD PAGES
         }
       }
     }
+
     th:first-child,
     td:first-child{
       padding-left: 5px;
@@ -647,6 +651,7 @@ DASHBOARD PAGES
         padding-left: 15px;
       }    
     }
+
     th:last-child,
     td:last-child{
       padding-right: 5px;
@@ -654,9 +659,11 @@ DASHBOARD PAGES
         padding-right: 15px;
       }    
     }
+
     .empty-section{
       display: none;
     }
+
     td.expand{
       padding: 0px !important;
       .expandable-section{
@@ -671,6 +678,11 @@ DASHBOARD PAGES
         .expanded-section{
           border: 2px solid @c-green-light-back;
           padding: 20px;
+          &.contains-table{
+            @media @small-only{
+              padding: 10px 0px;
+            } 
+          }
           .row{
             margin-bottom: 0px;
           }
@@ -684,26 +696,35 @@ DASHBOARD PAGES
                 margin-bottom: 0px;
               } 
             }
-          }        
+          }  
+          .charges-container{
+            text-align: center;
+            padding:0px;
+            @media @medium-up{
+              padding:10px;
+            } 
+            .charges-title{
+              font-size: 16px;
+            }
+
+          }      
         }
       }
     }
     
     .number{
-      width:10%;
       color: @c-green-font;
-
     }
+
     .details{
-      width:50%;
       color: @c-gray-font;
       font-size: 12px;
       @media @medium-up{
         font-size: 14px;
       }
     }
+
     .date{
-      width:10%;
       padding-top: 8px;
       .month{
         color: @c-blue-font;
@@ -721,11 +742,8 @@ DASHBOARD PAGES
         }
       }
     }
+
     .organization{
-      width:50%;
-      &.width60{
-        width: 60%;
-      }
       .team-icon{        
         text-align: center;
         float:none;
@@ -776,10 +794,9 @@ DASHBOARD PAGES
           font-size: 11px;         
         }
       }
-
     }
+
     .status{
-      width:10%;
       text-align: center;
       @media @xlarge-up{
         text-align: left;
@@ -790,16 +807,96 @@ DASHBOARD PAGES
           display: inline-block;
         }
       }
-
     }
+
     .total{
-      width:30%;
       color:@c-gray-dark-font;
       text-align: right;
       text-align: -webkit-right;
       font-size: 14px;
       @media @medium-up{
         font-size: 22px;
+      }
+    }
+
+  }
+
+  // CHARGES SUB TABLE
+  .charges-table{
+    font-family: @family-medium;
+    margin-top: 15px;
+    thead{
+      border-bottom: none;
+      th{
+        padding: 5px;
+        font-weight: normal;
+        color: @c-blue-font;
+      }
+      th:last-child{
+        text-align: right;
+      }
+    }
+    th:first-child,
+    td:first-child{
+      padding-left: 2px;
+    }
+    th:last-child,
+    td:last-child{
+      padding-right: 2px;
+    }
+    tbody>tr:nth-child(odd){
+      background-color: @c-gray-light-back;
+    }
+    td{
+      padding: 10px 5px;
+    }
+    .date{
+      padding-top: 0px;
+      .month{
+        color: @c-gray-font;
+        font-size: 12px;
+        @media @medium-up{
+          font-size: 14px;
+        }
+      }
+      .day{
+        color: @c-gray-font;
+        line-height: 14px;
+        font-size: 18px;
+        @media @medium-up{
+          font-size: 22px;
+        }
+      }
+    }
+    .details{
+      color: @c-gray-font;
+      font-size: 12px;
+      @media @medium-up{
+        font-size: 14px;
+      }
+    }
+    .account{
+      color: @c-gray-font;
+      font-size: 12px;
+      @media @medium-up{
+        font-size: 14px;
+      }
+    }
+    .status{
+      color: @c-gray-font;
+      text-align: left;
+      font-size: 12px;
+      @media @medium-up{
+        font-size: 14px;
+      }
+    }
+    .total{
+      color: @c-gray-font;
+      text-align: right;
+      text-align: -webkit-right;
+      font-size: 14px;
+      @media @medium-up{
+        font-size: 18px;
       }
     }
   }
