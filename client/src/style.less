@@ -546,6 +546,9 @@ DASHBOARD PAGES
       border-radius: 15px;
       @media @small-only{
         border-radius: 0px;
+        &:first-child{
+          margin-top: 0px;          
+        }
       } 
       .title{
         font-size: 26px;
@@ -563,6 +566,7 @@ DASHBOARD PAGES
       }
     }
   }
+
   .summary-header,
   .summary-main,
   .dashboard-header,
@@ -578,6 +582,35 @@ DASHBOARD PAGES
         @media @small-only{
           padding: 0px;
         } 
+      }
+    }
+  }
+
+  // DATE FILTER
+  .date-filter{
+    float:right;
+    margin-bottom: 15px;
+    .date-input{
+      margin-right: 15px;
+      float:left;
+      &:last-child{
+        margin-right: 0px;
+      }
+      .fa-calendar{
+        color: @c-green-font;
+        float:left;
+        font-size: 22px;
+        margin-top: 5px;
+        margin-right: 8px;
+      }
+      input{
+        float:left;
+        margin: 0px;
+        padding: 7px 8px;
+        width: 100px;
+        @media @medium-up{
+          width: 120px;
+        }
       }
     }
   }
@@ -622,25 +655,36 @@ DASHBOARD PAGES
     .empty-section{
       display: none;
     }
-    .expanded-section{
+    td.expand{
       padding: 0px !important;
-      .row{
-        border: 2px solid @c-green-light-back;
-        padding: 20px;
-        margin-bottom: 0px;
-        .info-box{
-          margin-bottom: 15px;
-          font-size: 13px;
-          line-height: 14px;
-          color:@c-gray-font;
-          &:last-child{
-            @media @medium-up{
-              margin-bottom: 0px;
-            } 
+      .expandable-section{
+        max-height: 0px;
+        overflow-y: hidden;
+        transition-property: all;
+        transition-duration: .6s;
+        transition-timing-function: ease;
+        &.active{
+          max-height: 300px; /* approximate max height */
+        }
+        .row{
+          border: 2px solid @c-green-light-back;
+          padding: 20px;
+          margin-bottom: 0px;
+          .info-box{
+            margin-bottom: 15px;
+            font-size: 13px;
+            line-height: 14px;
+            color:@c-gray-font;
+            &:last-child{
+              @media @medium-up{
+                margin-bottom: 0px;
+              } 
+            }
           }
         }
       }
     }
+    
     .number{
       width:10%;
       color: @c-green-font;
@@ -844,52 +888,56 @@ DASHBOARD PAGES
     .summary-header-container{
       width: 100%;
       padding: 0px;
-      .row .col{
-        padding:0px;
-        .user{
-          padding: 25px 0px 0px 40px;
-          background-color: @c-blue-back;
-          height: 120px;
-          width:100%;
-          position:relative;
-          .user-name{
-            margin-left: 20px;
-            color:#fff;
-            font-size: 30px;
-          }
-          &:after{
-            content:'';
-            width: 0;
-            height: 0;
-            position:absolute;
-            top:0px;
-            right:0px;
-            border-bottom: 120px solid @c-green-back;
-            border-left: 120px solid transparent;
-            display:none;
-            @media @medium-up{
-              display:block;
-            }
-
-          }
+      .row{
+        @media @small-only{
+          margin-bottom: 0px;
         }
-        .action-buttons{
-          background-color: @c-green-back;
-          height: 120px;
-          padding-top: 15px;
-          text-align: center;
-          .dashboard-button{
-            margin-right: 20px;
-            display:inline-block;
-            cursor:pointer;
+        .col{
+          padding:0px;
+          .user{
+            padding: 25px 0px 0px 40px;
+            background-color: @c-blue-back;
+            height: 120px;
+            width:100%;
+            position:relative;
+            .user-name{
+              margin-left: 20px;
+              color:#fff;
+              font-size: 30px;
+            }
+            &:after{
+              content:'';
+              width: 0;
+              height: 0;
+              position:absolute;
+              top:0px;
+              right:0px;
+              border-bottom: 120px solid @c-green-back;
+              border-left: 120px solid transparent;
+              display:none;
+              @media @medium-up{
+                display:block;
+              }
+
+            }
           }
-          .payment-button{
-            cursor:pointer;
-            display:inline-block;
+          .action-buttons{
+            background-color: @c-green-back;
+            height: 120px;
+            padding-top: 15px;
+            text-align: center;
+            .dashboard-button{
+              margin-right: 20px;
+              display:inline-block;
+              cursor:pointer;
+            }
+            .payment-button{
+              cursor:pointer;
+              display:inline-block;
+            }
           }
         }
       }
-      
     }
   }
 
@@ -1350,32 +1398,6 @@ DASHBOARD PAGES
 
   // ACTIVITIES FLOW
   .activities-container{
-    .date-filter{
-      float:right;
-      margin-bottom: 15px;
-      .date-input{
-        margin-right: 15px;
-        float:left;
-        &:last-child{
-          margin-right: 0px;
-        }
-        .fa-calendar{
-          color: @c-green-font;
-          float:left;
-          font-size: 22px;
-          margin-top: 5px;
-          margin-right: 8px;
-        }
-        input{
-          float:left;
-          margin: 0px;
-          padding: 7px 8px;
-          width: 100px;
-          @media @medium-up{
-            width: 120px;
-          }
-        }
-      }
-    }
+
   }
 }

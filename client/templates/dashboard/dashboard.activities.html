@@ -29,7 +29,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <tr ng-click="expandSection1 = !expandSection1">
                 <td class="date">
                   <div class="month">DEC</div>
                   <div class="day">25</div>
@@ -55,61 +55,63 @@
                 </td>
               </tr>
               <tr>
-                <td class="expanded-section" colspan="4">
-                  <div class="row">
-                    <div class="col s12 m6">
-                      <div class="info-box">
-                        <span class="green-font">
-                          Paid With:
-                        </span>
-                        <br>
-                        <span>Amex x-1234</span>
-                        <br>
-                        <span>You'll see "PaidUp Austin Boom" in your statement</span>
+                <td class="expand" colspan="4">
+                <div ng-class="expandSection1 ? 'expandable-section active' : 'expandable-section'">
+                    <div class="row">
+                      <div class="col s12 m6">
+                        <div class="info-box">
+                          <span class="green-font">
+                            Paid With:
+                          </span>
+                          <br>
+                          <span>Amex x-1234</span>
+                          <br>
+                          <span>You'll see "PaidUp Austin Boom" in your statement</span>
+                        </div>
+                        <div class="info-box">
+                          <span class="green-font">
+                            Transaction Id:
+                          </span>
+                          <br>
+                          <span>ASDK232323DDDKK2</span>
+                        </div>
+                        <div class="info-box">
+                          <span class="green-font">
+                            Order Id:
+                          </span>
+                          <br>
+                          <a href="" class="green-link">SFY2323SDSDSAD32</a>
+                        </div>
                       </div>
-                      <div class="info-box">
-                        <span class="green-font">
-                          Transaction Id:
-                        </span>
-                        <br>
-                        <span>ASDK232323DDDKK2</span>
-                      </div>
-                      <div class="info-box">
-                        <span class="green-font">
-                          Order Id:
-                        </span>
-                        <br>
-                        <a href="" class="green-link">SFY2323SDSDSAD32</a>
-                      </div>
-                    </div>
-                    <div class="col s12 m6"> 
-                      <div class="info-box">
-                        <span class="green-font">
-                          Sent To:
-                        </span>
-                        <br>
-                        <span>Austin Boom</span>
-                        <br>
-                        <span>Austin, TX</span>
-                      </div>
-                      <div class="info-box">
-                        <span class="green-font">
-                          Athelte First Name:
-                        </span>
-                        <span>Jonny</span>
-                        <br>
-                        <span class="green-font">
-                          Athelte Last Name:
-                        </span>
-                        <span>Garcia</span>
-
-                      </div>
-                      <div class="info-box">
-                        <span class="green-font">
-                          Details:
-                        </span>
-                        <br>
-                        <span>Payment 3 of 4</span>
+                      <div class="col s12 m6"> 
+                        <div class="info-box">
+                          <span class="green-font">
+                            Sent To:
+                          </span>
+                          <br>
+                          <span>Austin Boom</span>
+                          <br>
+                          <span>Austin, TX</span>
+                        </div>
+                        <div class="info-box">
+                          <span class="green-font">
+                            Athelte First Name:
+                          </span>
+                          <span>Jonny</span>
+                          <br>
+                          <span class="green-font">
+                            Athelte Last Name:
+                          </span>
+                          <span>Garcia</span>
+                    
+                        </div>
+                        <div class="info-box">
+                          <span class="green-font">
+                            Details:
+                          </span>
+                          <br>
+                          <span>Payment 3 of 4</span>
+                        </div>
                       </div>
                     </div>
                   </div>
