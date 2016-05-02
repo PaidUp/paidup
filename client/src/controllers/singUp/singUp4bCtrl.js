@@ -10,7 +10,7 @@ module.exports = ['$scope', 'SingUpService', '$state', 'UserService', function (
     SingUpService.runFormControlsValidation(f)
     if (f.$valid) {
       console.log('VALID')
-      console.log(SingUpService.saveBusinessBank($scope.user))
+      console.log(SingUpService.saveBusinessBank($scope.bankAccount))
       SingUpService.createBusinessAccount($scope.user).then(function (organizationId) {
         $state.go('^.step6b')
       }, function (err) {
@@ -35,7 +35,7 @@ module.exports = ['$scope', 'SingUpService', '$state', 'UserService', function (
   $scope.bankAccount = {}
   $scope.validateDDA = function (f) {
     console.log('validateDDA $scope.bankAccount', $scope.bankAccount)
-    if (!angular.equals($scope.bankAccount.dda1, $scope.bankAccount.dda2) || ($scope.bankAccount.dda1 === undefined && $scope.bankAccount.dda2 === undefined)) {
+    if (!angular.equals($scope.bankAccount.DDA1, $scope.bankAccount.dda2) || ($scope.bankAccount.DDA1 === undefined && $scope.bankAccount.dda2 === undefined)) {
       f.uDDA2.$setValidity('match', false)
     } else {
       f.uDDA2.$setValidity('match', true)
@@ -92,7 +92,7 @@ module.exports = ['$scope', 'SingUpService', '$state', 'UserService', function (
 
   $scope.maskDDA = function () {
     if ($scope.user.DDA1) {
-      $scope.bankAccount.dda1 = angular.copy($scope.user.DDA1)
+      $scope.bankAccount.DDA1 = angular.copy($scope.user.DDA1)
       var temp = ''
       for (var i = 0; i < $scope.user.DDA1.length; i++) {
         temp += '*'
@@ -102,8 +102,8 @@ module.exports = ['$scope', 'SingUpService', '$state', 'UserService', function (
   }
 
   $scope.unmaskDDA = function () {
-    if ($scope.bankAccount.dda1) {
-      $scope.user.DDA1 = angular.copy($scope.bankAccount.dda1)
+    if ($scope.bankAccount.DDA1) {
+      $scope.user.DDA1 = angular.copy($scope.bankAccount.DDA1)
     }
   }
 
@@ -125,10 +125,10 @@ module.exports = ['$scope', 'SingUpService', '$state', 'UserService', function (
   }
 
   $scope.validateDDA1 = function () {
-    $scope.bankAccount.dda1 = angular.copy($scope.user.DDA1)
-    if ($scope.bankAccount.dda1) {
+    $scope.bankAccount.DDA1 = angular.copy($scope.user.DDA1)
+    if ($scope.bankAccount.DDA1) {
       var pattern = /^\d{4,}$/
-      $scope.form.uDDA1.$setValidity('pattern', pattern.test($scope.bankAccount.dda1.replace(/ /g, '')))
+      $scope.form.uDDA1.$setValidity('pattern', pattern.test($scope.bankAccount.DDA1.replace(/ /g, '')))
     } else {
       $scope.form.uDDA1.$setValidity('pattern', false)
     }
@@ -139,7 +139,7 @@ module.exports = ['$scope', 'SingUpService', '$state', 'UserService', function (
     $scope.bankAccount.dda2 = angular.copy($scope.user.DDA2)
     console.log('validateDDA2 $scope.bankAccount1', $scope.bankAccount)
     if ($scope.bankAccount.dda2) {
-      if ($scope.bankAccount.dda1.replace(/ /g, '') !== $scope.bankAccount.dda2.replace(/ /g, '')) {
+      if ($scope.bankAccount.DDA1.replace(/ /g, '') !== $scope.bankAccount.dda2.replace(/ /g, '')) {
         $scope.form.uDDA2.$setValidity('match', false)
       } else {
         $scope.form.uDDA2.$setValidity('match', true)
