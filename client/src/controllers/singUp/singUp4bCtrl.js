@@ -1,7 +1,7 @@
 'use strict'
 var angular = require('angular')
 
-module.exports = [ '$scope', 'SingUpService', '$state', 'UserService', function ($scope, SingUpService, $state, UserService) {
+module.exports = ['$scope', 'SingUpService', '$state', 'UserService', function ($scope, SingUpService, $state, UserService) {
   $scope.next = function () {
     // Validation start
     var f = $scope.form
@@ -10,7 +10,7 @@ module.exports = [ '$scope', 'SingUpService', '$state', 'UserService', function 
     SingUpService.runFormControlsValidation(f)
     if (f.$valid) {
       console.log('VALID')
-      console.log(SingUpService.saveBusinessBank($scope.user))
+      console.log(SingUpService.saveBusinessBank($scope.bankAccount))
       SingUpService.createBusinessAccount($scope.user).then(function (organizationId) {
         $state.go('^.step6b')
       }, function (err) {
@@ -31,11 +31,119 @@ module.exports = [ '$scope', 'SingUpService', '$state', 'UserService', function 
     }
   }
 
+  $scope.user = {}
+  $scope.bankAccount = {}
   $scope.validateDDA = function (f) {
-    if (!angular.equals(f.uDDA1.$viewValue, f.uDDA2.$viewValue) || (f.uDDA1.$viewValue === undefined && f.uDDA2.$viewValue === undefined)) {
+    console.log('validateDDA $scope.bankAccount', $scope.bankAccount)
+    if (!angular.equals($scope.bankAccount.DDA1, $scope.bankAccount.dda2) || ($scope.bankAccount.DDA1 === undefined && $scope.bankAccount.dda2 === undefined)) {
       f.uDDA2.$setValidity('match', false)
     } else {
       f.uDDA2.$setValidity('match', true)
+    }
+  }
+
+  $scope.maskABA = function () {
+    if ($scope.user.routingNumber) {
+      $scope.bankAccount.routingNumber = angular.copy($scope.user.routingNumber)
+      var temp = ''
+      for (var i = 0; i < $scope.user.routingNumber.length; i++) {
+        temp += '*'
+      }
+      $scope.user.routingNumber = temp
+    }
+  }
+
+  $scope.unmaskABA = function () {
+    if ($scope.bankAccount.routingNumber) {
+      $scope.user.routingNumber = angular.copy($scope.bankAccount.routingNumber)
+    }
+  }
+
+  $scope.ABAValidator = function () {
+    // Taken from: http://www.brainjar.com/js/validation/
+    $scope.bankAccount.routingNumber = angular.copy($scope.user.routingNumber)
+    if (!$scope.bankAccount.routingNumber) {
+      $scope.form.uRoutingNumber.$setValidity('aba', false)
+      return
+    } else {
+      $scope.bankAccount.routingNumber = $scope.bankAccount.routingNumber.replace(/ /g, '')
+      if ($scope.bankAccount.routingNumber.length !== 9) {
+        $scope.form.uRoutingNumber.$setValidity('aba', false)
+        return
+      }
+    }
+    var t = $scope.bankAccount.routingNumber.replace(/ /g, '')
+    var n = 0
+    for (var i = 0; i < t.length; i += 3) {
+      n += parseInt(t.charAt(i), 10) * 3 +
+        parseInt(t.charAt(i + 1), 10) * 7 +
+        parseInt(t.charAt(i + 2), 10)
+    }
+
+    // If the resulting sum is an even multiple of ten (but not zero),
+    // the aba routing number is good.
+
+    if (n !== 0 && n % 10 === 0) {
+      $scope.form.uRoutingNumber.$setValidity('aba', true)
+    } else {
+      $scope.form.uRoutingNumber.$setValidity('aba', false)
+    }
+  }
+
+  $scope.maskDDA = function () {
+    if ($scope.user.DDA1) {
+      $scope.bankAccount.DDA1 = angular.copy($scope.user.DDA1)
+      var temp = ''
+      for (var i = 0; i < $scope.user.DDA1.length; i++) {
+        temp += '*'
+      }
+      $scope.user.DDA1 = temp
+    }
+  }
+
+  $scope.unmaskDDA = function () {
+    if ($scope.bankAccount.DDA1) {
+      $scope.user.DDA1 = angular.copy($scope.bankAccount.DDA1)
+    }
+  }
+
+  $scope.maskDDA2 = function () {
+    if ($scope.user.DDA2) {
+      $scope.bankAccount.dda2 = angular.copy($scope.user.DDA2)
+      var temp = ''
+      for (var i = 0; i < $scope.user.DDA2.length; i++) {
+        temp += '*'
+      }
+      $scope.user.DDA2 = temp
+    }
+  }
+
+  $scope.unmaskDDA2 = function () {
+    if ($scope.bankAccount.dda2) {
+      $scope.user.DDA2 = angular.copy($scope.bankAccount.dda2)
+    }
+  }
+
+  $scope.validateDDA1 = function () {
+    $scope.bankAccount.DDA1 = angular.copy($scope.user.DDA1)
+    if ($scope.bankAccount.DDA1) {
+      var pattern = /^\d{4,}$/
+      $scope.form.uDDA1.$setValidity('pattern', pattern.test($scope.bankAccount.DDA1.replace(/ /g, '')))
+    } else {
+      $scope.form.uDDA1.$setValidity('pattern', false)
+    }
+  }
+
+  $scope.validateDDA2 = function () {
+    console.log('validateDDA2 $scope.bankAccount0', $scope.bankAccount)
+    $scope.bankAccount.dda2 = angular.copy($scope.user.DDA2)
+    console.log('validateDDA2 $scope.bankAccount1', $scope.bankAccount)
+    if ($scope.bankAccount.dda2) {
+      if ($scope.bankAccount.DDA1.replace(/ /g, '') !== $scope.bankAccount.dda2.replace(/ /g, '')) {
+        $scope.form.uDDA2.$setValidity('match', false)
+      } else {
+        $scope.form.uDDA2.$setValidity('match', true)
+      }
     }
   }
 }]

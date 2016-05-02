@@ -290,10 +290,10 @@ var all = {
     product: {
       urlPrefix: '/api/v1',
       isHttp: false,
-      host: 'localhost', // 'develop.getpaidup.com',
+      host: 'develop.getpaidup.com',
       port: 9007,
       token: 'puproduct-secret',
-      baseUrl: 'http://localhost:9007/'// 'http://develop.getpaidup.com:9007/'
+      baseUrl: 'http://develop.getpaidup.com:9007/'
     }
   },
   logger: {

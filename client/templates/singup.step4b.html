@@ -15,28 +15,35 @@
 <div class="inputs">
   <form name="form" novalidate>
 
-    <input type="text" 
+    <input type="text"
     name="uRoutingNumber" 
     placeholder="Routing Number (ABA)" 
     required 
-    ng-model="user.routingNumber" 
-    ng-model-options="{ updateOn: 'blur' }" />
+    ng-model="user.routingNumber"
+    ng-change="ABAValidator()"
+    ng-blur="maskABA()"
+    ng-focus="unmaskABA()" />
     <small class="error" ng-show="form.uRoutingNumber.$error.required && form.uRoutingNumber.$touched">Routing Number is required</small>   
-
-    <input type="text" 
+    <small class="error" ng-show="form.uRoutingNumber.$error.aba && form.uRoutingNumber.$touched"">Routing number is not correct</small>
+    
+    <input type="text"
     name="uDDA1" 
     placeholder="Account Number (DDA)" 
     required 
     ng-model="user.DDA1" 
-    ng-model-options="{ updateOn: 'blur' }" />
-    <small class="error" ng-show="form.uDDA1.$error.required && form.uDDA1.$touched">Account Number is required</small>   
+    ng-change="validateDDA1()"
+    ng-blur="maskDDA()"
+    ng-focus="unmaskDDA()" />
+    <small class="error" ng-show="form.uDDA1.$error.required && form.uDDA1.$touched">Account Number is required</small>  
+    <small class="error" ng-show="form.uDDA1.$error.pattern && form.uDDA1.$touched">Account number format error</small> 
     <input type="text" 
     name="uDDA2" 
     placeholder="Re-Enter Account Number (DDA)" 
     required 
     ng-model="user.DDA2" 
-    ng-model-options="{ updateOn: 'blur' }"
-    ng-blur="validateDDA(form)" />
+    ng-change="validateDDA2()"
+    ng-focus="unmaskDDA2()"
+    ng-blur="maskDDA2()" />
     <small class="error" ng-show="form.uDDA2.$error.match">Account Numbers do not match</small>
     <div class="agree-checkbox">
       <small class="error" ng-show="form.agreeTerms.$error.terms">Please agree to terms</small> 
