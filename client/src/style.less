@@ -63,6 +63,16 @@ COMMONS
   color:@c-green-font;
 }
 
+.red-font{
+  color:@c-error;
+}
+
+.gray-font{
+  color:@c-gray-dark-font;
+}
+
+
+
 .button-green {
   width: 100%;
   @media @medium-up{
@@ -530,10 +540,13 @@ DASHBOARD PAGES
     text-align: center;
     .white-container{
       background: #FFF;
-      border-radius: 15px;
-      padding: 20px;
+      padding: 15px;
       margin-top: 15px;
       width: 100%;
+      border-radius: 15px;
+      @media @small-only{
+        border-radius: 0px;
+      } 
       .title{
         font-size: 26px;
         margin-bottom: 15px;
@@ -560,19 +573,36 @@ DASHBOARD PAGES
     @media @large-up{
       width: 90%;
     }
+    .row{
+      .col.s12{
+        @media @small-only{
+          padding: 0px;
+        } 
+      }
+    }
   }
 
   // COMMON TABLE
   .transactions-table{
     font-family: @family-medium;
+    tr{
+      cursor:pointer;
+    }
     thead{
       border-bottom: none;
       th{
         padding: 5px;
         font-weight: normal;
+        color: @c-blue-font;
       }
       th:last-child{
         text-align: right;
+      }
+      th.centered{
+        text-align: center;
+        @media @xlarge-up{
+          text-align: left;
+        }
       }
     }
     th:first-child,
@@ -588,6 +618,28 @@ DASHBOARD PAGES
       @media @medium-up{
         padding-right: 15px;
       }    
+    }
+    .empty-section{
+      display: none;
+    }
+    .expanded-section{
+      padding: 0px !important;
+      .row{
+        border: 2px solid @c-green-light-back;
+        padding: 20px;
+        margin-bottom: 0px;
+        .info-box{
+          margin-bottom: 15px;
+          font-size: 13px;
+          line-height: 14px;
+          color:@c-gray-font;
+          &:last-child{
+            @media @medium-up{
+              margin-bottom: 0px;
+            } 
+          }
+        }
+      }
     }
     .number{
       width:10%;
@@ -621,47 +673,76 @@ DASHBOARD PAGES
         }
       }
     }
-    .team-icon{
-      width:10%;
-      text-align: right;
-      text-align: -webkit-right;
-      div{
-        background-color: @c-blue-back;
-        color: #fff;
-        text-align: center;
-        width:24px;
-        height:24px;
-        border-radius: 12px;
-        line-height: 24px;
-        font-size: 16px;
-        @media @medium-up{
-          width:40px;
-          height:40px;
-          border-radius: 20px;
-          line-height: 40px;
-          font-size: 26px;              
-        }
-      }
-    }
-    .team{
+    .organization{
       width:50%;
-      padding-left: 10px;
-      vertical-align: top;
-      .team-name{
-        color: @c-green-font;
-        font-size: 14px;
+      &.width60{
+        width: 60%;
+      }
+      .team-icon{        
+        text-align: center;
+        float:none;
+        margin-bottom: 3px;
         @media @medium-up{
-          font-size: 18px;
+          float:left;
+          margin-bottom: 0px;
+        }
+        div{
+          background-color: @c-blue-back;
+          color: #fff;
+          text-align: center;
+          width:24px;
+          height:24px;
+          border-radius: 12px;
+          line-height: 24px;
+          font-size: 16px;
+          margin: 0 auto;
+          @media @medium-up{
+            width:40px;
+            height:40px;
+            border-radius: 20px;
+            line-height: 40px;
+            font-size: 26px;              
+          }
         }
       }
-      .team-contact{
-        color: @c-gray-font;
-        line-height: 10px;
-        font-size: 11px;
+      .team{
+        float:none;
+        text-align: center;
         @media @medium-up{
-          font-size: 11px;
+          text-align: left;
+          float:left;
+          padding-left: 20px;
+        }
+        .team-name{
+          color: @c-green-font;
+          font-size: 14px;
+          line-height: 14px;
+          @media @medium-up{
+            font-size: 18px;
+            line-height: 18px;
+          }
+        }
+        .team-contact{
+          color: @c-gray-font;
+          line-height: 11px;
+          font-size: 11px;         
         }
       }
+
+    }
+    .status{
+      width:10%;
+      text-align: center;
+      @media @xlarge-up{
+        text-align: left;
+      }
+      .fa{
+        display: block;
+        @media @xlarge-up{
+          display: inline-block;
+        }
+      }
+
     }
     .total{
       width:30%;
@@ -828,11 +909,14 @@ DASHBOARD PAGES
       }
       .white-container{
         background: #FFF;
-        border-radius: 15px;
         padding: 15px;
         margin-top: 15px;
         width: 100%;
-        text-align: left;       
+        text-align: left;
+        border-radius: 15px;
+        @media @small-only{
+          border-radius: 0px;
+        }        
         p{
           font-size: 14px;
         }
@@ -1266,5 +1350,32 @@ DASHBOARD PAGES
 
   // ACTIVITIES FLOW
   .activities-container{
+    .date-filter{
+      float:right;
+      margin-bottom: 15px;
+      .date-input{
+        margin-right: 15px;
+        float:left;
+        &:last-child{
+          margin-right: 0px;
+        }
+        .fa-calendar{
+          color: @c-green-font;
+          float:left;
+          font-size: 22px;
+          margin-top: 5px;
+          margin-right: 8px;
+        }
+        input{
+          float:left;
+          margin: 0px;
+          padding: 7px 8px;
+          width: 100px;
+          @media @medium-up{
+            width: 120px;
+          }
+        }
+      }
+    }
   }
 }

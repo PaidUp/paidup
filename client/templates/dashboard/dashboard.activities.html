@@ -4,36 +4,199 @@
     <div class="col s12 l8 offset-l2">
       <div class="main-content">
         <div class="white-container">
-         <div class="title-blue">Recent Transactions</div>
-          <p>Let's find the organization you are making payment to. If you cannot find them, check the spelling and if you still cannot find them give us a call 855.764.3232</p>
-          <div class="inputs">
-            <form name="form" novalidate>
-              <div class="input-container">
-                <input 
-                type="text" 
-                name="uOrganization" 
-                placeholder="Organization Name" 
-                required 
-                ng-model="organizationName" />
-                <small class="error" ng-show="form.uOrganization.$error.required && form.uOrganization.$touched">Please enter an Organization name</small>
-              </div>
-              <button class="button-green btn-find" ng-click="findOrg()">find</button>
-              <div class="clearfix"></div>
-            </form>
-          </div>
-          <p>Do these look familiar? Setup a payment with them again.</p>
-          <div class="teams">
-            <div class="team" ui-sref="dashboard.payment.plan">
-              <img src="/img/team1.jpg" class="circle team-img" alt="">
-              <div class="name">Austin Boom</div>
-              <div class="loc">Austin, TX</div>
+
+          <div class="title-blue">Recent Transactions</div>
+          
+          <div class="date-filter">
+            <div class="date-input">
+              <i class="fa fa-calendar"></i>
+              <input type="text" placeholder="From" />
             </div>
-            <div class="team" ui-sref="dashboard.payment.plan">
-              <img src="/img/team2.jpg" class="circle team-img" alt="">
-              <div class="name">Cesar Rules</div>
-              <div class="loc">Orlando, FL</div>
+            <div class="date-input">
+              <i class="fa fa-calendar"></i>
+              <input type="text" placeholder="To" />
             </div>
           </div>
+          <div class="clearfix"></div>
+
+          <table class="transactions-table striped">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Organization</th>
+                <th class="centered">Status</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="date">
+                  <div class="month">DEC</div>
+                  <div class="day">25</div>
+                </td>
+                <td class="organization">
+                  <div class="team-icon">
+                    <div>AB</div>
+                  </div>
+                  <div class="team">
+                    <div class="team-name">Austin Boom</div>
+                    <div class="team-contact">Jerry Garcia</div>
+                  </div>
+                  <div class="clearfix"></div>
+                </td>
+                <td class="status">
+                <div class="green-font">
+                    <i class="fa fa-check"></i> <span>Success</span>
+                  </div>
+                </td>
+                <td class="total">
+                  <span class="green-font">$</span> 
+                  998.75
+                </td>
+              </tr>
+              <tr>
+                <td class="expanded-section" colspan="4">
+                  <div class="row">
+                    <div class="col s12 m6">
+                      <div class="info-box">
+                        <span class="green-font">
+                          Paid With:
+                        </span>
+                        <br>
+                        <span>Amex x-1234</span>
+                        <br>
+                        <span>You'll see "PaidUp Austin Boom" in your statement</span>
+                      </div>
+                      <div class="info-box">
+                        <span class="green-font">
+                          Transaction Id:
+                        </span>
+                        <br>
+                        <span>ASDK232323DDDKK2</span>
+                      </div>
+                      <div class="info-box">
+                        <span class="green-font">
+                          Order Id:
+                        </span>
+                        <br>
+                        <a href="" class="green-link">SFY2323SDSDSAD32</a>
+                      </div>
+                    </div>
+                    <div class="col s12 m6"> 
+                      <div class="info-box">
+                        <span class="green-font">
+                          Sent To:
+                        </span>
+                        <br>
+                        <span>Austin Boom</span>
+                        <br>
+                        <span>Austin, TX</span>
+                      </div>
+                      <div class="info-box">
+                        <span class="green-font">
+                          Athelte First Name:
+                        </span>
+                        <span>Jonny</span>
+                        <br>
+                        <span class="green-font">
+                          Athelte Last Name:
+                        </span>
+                        <span>Garcia</span>
+
+                      </div>
+                      <div class="info-box">
+                        <span class="green-font">
+                          Details:
+                        </span>
+                        <br>
+                        <span>Payment 3 of 4</span>
+                      </div>
+                    </div>
+                  </div>
+                </td>                
+              </tr>
+              <tr>
+                <td class="empty-section" colspan="4"></td>                
+              </tr>
+              <tr>
+                <td class="date">
+                  <div class="month">DEC</div>
+                  <div class="day">25</div>
+                </td>
+                <td class="organization">
+                  <div class="team-icon">
+                    <div>AB</div>
+                  </div>
+                  <div class="team">
+                    <div class="team-name">Cobras Volleyball Club</div>
+                    <div class="team-contact">Andy Thompson</div>
+                  </div>
+                  <div class="clearfix"></div>
+                </td>
+                <td class="status">
+                  <div class="red-font">
+                    <i class="fa fa-times"></i> <span>Failed</span>
+                  </div>
+                </td>
+                <td class="total">
+                  <span class="green-font">$</span> 
+                  998.75
+                </td>
+              </tr>
+              <tr>
+                <td class="date">
+                  <div class="month">DEC</div>
+                  <div class="day">25</div>
+                </td>
+                <td class="organization">
+                  <div class="team-icon">
+                    <div>AB</div>
+                  </div>
+                  <div class="team">
+                    <div class="team-name">Austin Boom</div>
+                    <div class="team-contact">Jerry Garcia</div>
+                  </div>
+                  <div class="clearfix"></div>
+                </td>
+                <td class="status">
+                  <div class="green-font">
+                    <i class="fa fa-sign-in fa-rotate-90"></i> <span>Reserved</span>
+                  </div>
+                </td>
+                <td class="total">
+                  <span class="green-font">$</span> 
+                  998.75
+                </td>
+              </tr>
+              <tr>
+                <td class="date">
+                  <div class="month">DEC</div>
+                  <div class="day">25</div>
+                </td>
+                <td class="organization">
+                  <div class="team-icon">
+                    <div>AB</div>
+                  </div>
+                  <div class="team">
+                    <div class="team-name">Austin Boom</div>
+                    <div class="team-contact">Jerry Garcia</div>
+                  </div>
+                  <div class="clearfix"></div>
+                </td>
+                <td class="status">
+                  <div class="gray-font">
+                    <i class="fa fa-check"></i> <span>Paid</span>
+                  </div>
+                </td>
+                <td class="total">
+                  <span class="green-font">$</span> 
+                  998.75
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+
         </div>
       </div>
     </div>
