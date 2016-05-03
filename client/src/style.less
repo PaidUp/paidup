@@ -56,6 +56,8 @@ COMMONS
   *zoom: 1;
 }
 
+table.striped.even-rows-gray>tbody>tr:nth-child(even){background-color:#fafafa}
+
 .bold{
   font-weight: bold;
 }
@@ -635,12 +637,14 @@ DASHBOARD PAGES
       }
       th:last-child{
         text-align: right;
-      }
-      th.centered{
-        text-align: center;
-        @media @xlarge-up{
-          text-align: left;
-        }
+      }      
+    }
+
+    th.centered,
+    td.centered{
+      text-align: center;
+      @media @xlarge-up{
+        text-align: left;
       }
     }
 
@@ -664,6 +668,10 @@ DASHBOARD PAGES
       display: none;
     }
 
+    tr.expandable{
+      background-color: #fff !important;
+    }
+
     td.expand{
       padding: 0px !important;
       .expandable-section{
@@ -673,10 +681,11 @@ DASHBOARD PAGES
         transition-duration: .6s;
         transition-timing-function: ease;
         &.active{
-          max-height: 500px; /* approximate max height */
+          max-height: 1000px; /* approximate max height */
         }
         .expanded-section{
           border: 2px solid @c-green-light-back;
+          margin-bottom: 5px;
           padding: 20px;
           &.contains-table{
             @media @small-only{
@@ -696,6 +705,10 @@ DASHBOARD PAGES
                 margin-bottom: 0px;
               } 
             }
+            &.order-id{
+              font-size: 16px;
+              text-align: center;
+            }
           }  
           .charges-container{
             text-align: center;
@@ -706,7 +719,10 @@ DASHBOARD PAGES
             .charges-title{
               font-size: 16px;
             }
-
+          }
+          .tables-separator{
+            border-top: 2px solid @c-green-light-back;
+            margin: 10px 0px;
           }      
         }
       }
@@ -814,8 +830,12 @@ DASHBOARD PAGES
       text-align: right;
       text-align: -webkit-right;
       font-size: 14px;
+      line-height: 14px;
       @media @medium-up{
         font-size: 22px;
+      }
+      @media @small-only{
+        text-align: center;
       }
     }
 
@@ -881,6 +901,12 @@ DASHBOARD PAGES
       @media @medium-up{
         font-size: 14px;
       }
+      .fa{
+        display:block;
+        @media @xlarge-up{
+          display:inline-block;
+        }
+      }
     }
     .status{
       color: @c-gray-font;
@@ -892,12 +918,9 @@ DASHBOARD PAGES
     }
     .total{
       color: @c-gray-font;
-      text-align: right;
-      text-align: -webkit-right;
-      font-size: 14px;
       @media @medium-up{
         font-size: 18px;
-      }
+      }      
     }
   }
 
