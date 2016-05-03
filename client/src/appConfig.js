@@ -161,6 +161,14 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
     templateUrl: '../templates/singup.welcome.html',
     controller: 'SingUpWelcomeCtrl'
   })
+  .state('product', {
+    url: '/product/organization/response/:id',
+    templateUrl: '../templates/product/organization.response.html',
+    controller: 'OrgResponseCtrl',
+    data: {
+      requireLogin: false
+    }
+  })
   .state('login', {
     url: '/login',
     templateUrl: '../templates/login.html',
