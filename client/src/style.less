@@ -577,7 +577,8 @@ DASHBOARD PAGES
   .dashboard-header,
   .payment-container,
   .activities-container,
-  .orders-container{
+  .orders-container,
+  .profile-container{
     margin: 0 auto;
     width: 100%;
     @media @large-up{
@@ -589,6 +590,12 @@ DASHBOARD PAGES
           padding: 0px;
         } 
       }
+    }
+  }
+
+  .right-column{
+    @media @small-only{
+      margin-top: 20px;
     }
   }
 
@@ -1089,12 +1096,7 @@ DASHBOARD PAGES
       padding: 0px;
       @media @medium-up{
         padding: 0px 20px;
-      }
-      .right-column{
-        @media @small-only{
-          margin-top: 20px;
-        }
-      }
+      }      
       .white-container{
         background: #FFF;
         padding: 15px;
@@ -1536,8 +1538,56 @@ DASHBOARD PAGES
     }
   }
 
-  // ACTIVITIES FLOW
-  .activities-container{
+  // PROFILE
+  .profile-container{
+    color: @c-gray-dark-font;
+    @media @medium-up{
+      padding: 0px 20px;
+    }
+    .green-link{
+      font-size: 15px;
+      font-family: @family-medium;
+      margin-top: 5px;
+      text-decoration: underline;
+    }
+    .profile-photo{
+      text-align: center;
+      float:left;
+      margin-right: 20px;
+      .icon{
+        height:60px;
+        width:60px;
+        margin: 0 auto;
+        img{
+          width: 60px;
+          height: 60px;
+          border: 3px solid @c-blue-back;
+          border-radius: 50%;
+        }
+        .fa{
+          font-size: 50px;
+        }
+      }
+    }
+    .profile-name{
+      float:left;
+      text-align: left;
+      span{
+        font-size: 30px;
+        line-height: 60px;
+        display:block;
+      }
+    }
+    .account-options{
+      text-align: left;
+      .green-link{
+        display:inline-block;
+      }
+      .fa-chevron-circle-right{
+        margin-right: 5px;
+        color: @c-blue-font;
+      }
 
+    }
   }
 }
