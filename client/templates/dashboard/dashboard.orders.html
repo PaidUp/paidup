@@ -19,7 +19,7 @@
           </div>
           <div class="clearfix"></div>
 
-          <table class="transactions-table striped">
+          <table class="transactions-table striped even-rows-gray">
             <thead>
               <tr>
                 <th>Date</th>
@@ -29,6 +29,7 @@
               </tr>
             </thead>
             <tbody>
+              
               <tr ng-click="expandSection1 = !expandSection1">
                 <td class="date">
                   <div class="month">DEC</div>
@@ -45,8 +46,8 @@
                   <div class="clearfix"></div>
                 </td>
                 <td class="status">
-                  <div class="green-font">
-                    <i class="fa fa-check"></i> <span>Success</span>
+                  <div class="gray-font">
+                    <i class="fa fa-hourglass"></i> <span>Pending</span>
                   </div>
                 </td>
                 <td class="total">
@@ -54,66 +55,268 @@
                   998.75
                 </td>
               </tr>
-              <tr>
+
+              <tr class="expandable">
                 <td class="expand" colspan="4">
                   <div ng-class="expandSection1 ? 'expandable-section active' : 'expandable-section'">
-                    <div class="row">
-                      <div class="col s12 m6">
-                        <div class="info-box">
-                          <span class="green-font">
-                            Paid With:
-                          </span>
-                          <br>
-                          <span>Amex x-1234</span>
-                          <br>
-                          <span>You'll see "PaidUp Austin Boom" in your statement</span>
-                        </div>
-                        <div class="info-box">
-                          <span class="green-font">
-                            Transaction Id:
-                          </span>
-                          <br>
-                          <span>ASDK232323DDDKK2</span>
-                        </div>
-                        <div class="info-box">
-                          <span class="green-font">
-                            Order Id:
-                          </span>
-                          <br>
-                          <a href="" class="green-link">SFY2323SDSDSAD32</a>
-                        </div>
-                      </div>
-                      <div class="col s12 m6"> 
-                        <div class="info-box">
-                          <span class="green-font">
-                            Sent To:
-                          </span>
-                          <br>
-                          <span>Austin Boom</span>
-                          <br>
-                          <span>Austin, TX</span>
-                        </div>
-                        <div class="info-box">
-                          <span class="green-font">
-                            Athelte First Name:
-                          </span>
-                          <span>Jonny</span>
-                          <br>
-                          <span class="green-font">
-                            Athelte Last Name:
-                          </span>
-                          <span>Garcia</span>
+                    <div class="expanded-section contains-table">
 
-                        </div>
-                        <div class="info-box">
-                          <span class="green-font">
-                            Details:
-                          </span>
-                          <br>
-                          <span>Payment 3 of 4</span>
-                        </div>
+                      <div class="info-box order-id">
+                        <span class="green-font">
+                          Order Id:
+                        </span>
+                        <br>
+                        <a href="" class="green-link">SFY2323SDSDSAD32</a>
                       </div>
-                    </div>
+                      
+                      <div class="tables-separator"></div>
+
+                      <div class="charges-container">
+                        <div class="green-font charges-title">Pending Charges</div>
+                        <div class="gray-font">Your account will be charged automatically on the dates below.</div>
+                        
+                        <table class="charges-table">
+                          <thead>
+                            <tr>
+                              <th>Date</th>
+                              <th>Details</th>
+                              <th class="centered">Account</th>
+                              <th>Status</th>
+                              <th>Owed</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>                             
+                              <td class="date">
+                                <div class="month">DEC</div>
+                                <div class="day">25</div>
+                              </td>
+                              <td class="details">
+                                Payment 1 of 4 (Deposit + Uniform)
+                              </td>
+                              <td class="account centered">
+                                <i class="fa fa-cc-visa"></i> 
+                                <a href="" class="green-link">x-1234</a>
+                              </td>
+                              <td class="status">
+                                <span>Pending</span>
+                              </td>
+                              <td class="total">
+                                <span class="green-font">$</span> 
+                                998.75
+                              </td>
+                            </tr>
+                            <tr>                             
+                              <td class="date">
+                                <div class="month">DEC</div>
+                                <div class="day">25</div>
+                              </td>
+                              <td class="details">
+                                Payment 2 of 4
+                              </td>
+                              <td class="account centered">
+                                <i class="fa fa-cc-mastercard"></i> 
+                                <a href="" class="green-link">x-1234</a>
+                              </td>
+                              <td class="status">
+                                <span>Pending</span>
+                              </td>
+                              <td class="total">
+                                <span class="green-font">$</span> 
+                                998.75
+                              </td>
+                            </tr>
+                            <tr>                             
+                              <td class="date">
+                                <div class="month">DEC</div>
+                                <div class="day">25</div>
+                              </td>
+                              <td class="details">
+                                Payment 3 of 4
+                              </td>
+                              <td class="account centered">
+                                <i class="fa fa-cc-amex"></i> 
+                                <a href="" class="green-link">x-1234</a>
+                              </td>
+                              <td class="status">
+                                <span>Pending</span>
+                              </td>
+                              <td class="total">
+                                <span class="green-font">$</span> 
+                                998.75
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+
+                      </div>
+                    </div>                     
+                  </div>
+                </td>                
+              </tr>
+
+              <tr>
+                <td class="empty-section" colspan="4"></td>                
+              </tr>
+
+              <tr ng-click="expandSection2 = !expandSection2">
+                <td class="date">
+                  <div class="month">DEC</div>
+                  <div class="day">25</div>
+                </td>
+                <td class="organization">
+                  <div class="team-icon">
+                    <div>AB</div>
+                  </div>
+                  <div class="team">
+                    <div class="team-name">Cobras Volleyball Club</div>
+                    <div class="team-contact">Andy Thompson</div>
+                  </div>
+                  <div class="clearfix"></div>
+                </td>
+                <td class="status">
+                  <div class="blue-font">
+                    <i class="fa fa-sign-in fa-rotate-90"></i> <span>Active</span>
+                  </div>
+                </td>
+                <td class="total">
+                  <span class="green-font">$</span> 
+                  998.75
+                </td>
+              </tr>
+
+              <tr class="expandable">
+                <td class="expand" colspan="4">
+                  <div ng-class="expandSection2 ? 'expandable-section active' : 'expandable-section'">
+                    <div class="expanded-section contains-table">
+
+                      <div class="info-box order-id">
+                        <span class="green-font">
+                          Order Id:
+                        </span>
+                        <br>
+                        <a href="" class="green-link">SFY2323SDSDSAD32</a>
+                      </div>
+
+                      <div class="tables-separator"></div>
+
+                      <div class="charges-container">
+                        <div class="green-font charges-title">Pending Charges</div>
+                        <div class="gray-font">Your account will be charged automatically on the dates below.</div>
+                        
+                        <table class="charges-table">
+                          <thead>
+                            <tr>
+                              <th>Date</th>
+                              <th>Details</th>
+                              <th class="centered">Account</th>
+                              <th>Status</th>
+                              <th>Owed</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>                             
+                              <td class="date">
+                                <div class="month">DEC</div>
+                                <div class="day">25</div>
+                              </td>
+                              <td class="details">
+                                Payment 4 of 4
+                              </td>
+                              <td class="account centered">
+                                <i class="fa fa-cc-visa"></i> 
+                                <a href="" class="green-link">x-1234</a>
+                              </td>
+                              <td class="status">
+                                <span>Pending</span>
+                              </td>
+                              <td class="total">
+                                <span class="green-font">$</span> 
+                                998.75
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      
+                      <div class="tables-separator"></div>
+
+                      <div class="charges-container">
+                        <div class="green-font charges-title">Payment History</div>
+                        
+                        <table class="charges-table">
+                          <thead>
+                            <tr>
+                              <th>Date</th>
+                              <th>Details</th>
+                              <th class="centered">Account</th>
+                              <th>Status</th>
+                              <th>Paid</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>                             
+                              <td class="date">
+                                <div class="month">DEC</div>
+                                <div class="day">25</div>
+                              </td>
+                              <td class="details">
+                                Payment 1 of 4
+                              </td>
+                              <td class="account centered">
+                                <i class="fa fa-cc-visa"></i> x-1234
+                              </td>
+                              <td class="status">
+                                <span>Pending</span>
+                              </td>
+                              <td class="total">
+                                <span class="green-font">$</span> 
+                                998.75
+                              </td>
+                            </tr>
+                            <tr>                             
+                              <td class="date">
+                                <div class="month">DEC</div>
+                                <div class="day">25</div>
+                              </td>
+                              <td class="details">
+                                Payment 2 of 4
+                              </td>
+                              <td class="account centered">
+                                <i class="fa fa-cc-visa"></i> x-1234
+                              </td>
+                              <td class="status">
+                                <span>Pending</span>
+                              </td>
+                              <td class="total">
+                                <span class="green-font">$</span> 
+                                998.75
+                              </td>
+                            </tr>
+                            <tr>                             
+                              <td class="date">
+                                <div class="month">DEC</div>
+                                <div class="day">25</div>
+                              </td>
+                              <td class="details">
+                                Payment 3 of 4
+                              </td>
+                              <td class="account centered">
+                                <i class="fa fa-cc-visa"></i> x-1234
+                              </td>
+                              <td class="status">
+                                <span>Pending</span>
+                              </td>
+                              <td class="total">
+                                <span class="green-font">$</span> 
+                                998.75
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+
+                    </div>                     
                   </div>
                 </td>                
               </tr>
@@ -130,31 +333,6 @@
                     <div>AB</div>
                   </div>
                   <div class="team">
-                    <div class="team-name">Cobras Volleyball Club</div>
-                    <div class="team-contact">Andy Thompson</div>
-                  </div>
-                  <div class="clearfix"></div>
-                </td>
-                <td class="status">
-                  <div class="red-font">
-                    <i class="fa fa-times"></i> <span>Failed</span>
-                  </div>
-                </td>
-                <td class="total">
-                  <span class="green-font">$</span> 
-                  998.75
-                </td>
-              </tr>
-              <tr>
-                <td class="date">
-                  <div class="month">DEC</div>
-                  <div class="day">25</div>
-                </td>
-                <td class="organization">
-                  <div class="team-icon">
-                    <div>AB</div>
-                  </div>
-                  <div class="team">
                     <div class="team-name">Austin Boom</div>
                     <div class="team-contact">Jerry Garcia</div>
                   </div>
@@ -162,32 +340,7 @@
                 </td>
                 <td class="status">
                   <div class="green-font">
-                    <i class="fa fa-sign-in fa-rotate-90"></i> <span>Reserved</span>
-                  </div>
-                </td>
-                <td class="total">
-                  <span class="green-font">$</span> 
-                  998.75
-                </td>
-              </tr>
-              <tr>
-                <td class="date">
-                  <div class="month">DEC</div>
-                  <div class="day">25</div>
-                </td>
-                <td class="organization">
-                  <div class="team-icon">
-                    <div>AB</div>
-                  </div>
-                  <div class="team">
-                    <div class="team-name">Austin Boom</div>
-                    <div class="team-contact">Jerry Garcia</div>
-                  </div>
-                  <div class="clearfix"></div>
-                </td>
-                <td class="status">
-                  <div class="gray-font">
-                    <i class="fa fa-check"></i> <span>Paid</span>
+                    <i class="fa fa-check"></i> <span>Completed</span>
                   </div>
                 </td>
                 <td class="total">
@@ -197,7 +350,7 @@
               </tr>
             </tbody>
           </table>
-          
+
           <div class="bottom-link">Next 30</div>
 
         </div>
