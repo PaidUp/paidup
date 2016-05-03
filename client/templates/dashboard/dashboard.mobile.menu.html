@@ -20,10 +20,18 @@
     <li class="clearfix" ng-click="clickAccounts()">
       <div class="icon-container"><i class="fa fa-credit-card"></i></div>
       <div>Accounts</div> 
-    </li>      
+    </li>
+    <li class="clearfix" ng-if="isCoach">
+      <div class="icon-container"><i class="fa fa-bank"></i></div>
+      <div>Deposits</div> 
+    </li> 
+    <li class="clearfix" ng-if="isCoach">
+      <div class="icon-container"><i class="fa fa-bar-chart"></i></div>
+      <div>Aging</div> 
+    </li>       
   </ul>
   <div class="new-line"></div>
-   <ul class="mobile-list">
+  <ul class="mobile-list">
     <li class="clearfix">
       <div class="icon-container"><i class="fa fa-gear"></i></div>
       <div>Profile</div> 
