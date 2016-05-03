@@ -2,7 +2,10 @@
 var angular = require('angular')
 
 module.exports = ['$scope', 'SingUpService', '$state', 'UserService', function ($scope, SingUpService, $state, UserService) {
+  $scope.loading = false
+  $scope.loader = '<i class="fa fa-circle-o-notch fa-spin"></i>'
   $scope.next = function () {
+    $scope.loading = true
     // Validation start
     var f = $scope.form
     $scope.validateTerms(f)
@@ -10,15 +13,17 @@ module.exports = ['$scope', 'SingUpService', '$state', 'UserService', function (
     SingUpService.runFormControlsValidation(f)
     if (f.$valid) {
       console.log('VALID')
-      console.log(SingUpService.saveBusinessBank($scope.bankAccount))
+      SingUpService.saveBusinessBank($scope.bankAccount)
       SingUpService.createBusinessAccount($scope.user).then(function (organizationId) {
-        $state.go('^.step6b')
+        $state.go('^.welcome')
+        // $state.go('^.step6b')
       }, function (err) {
         console.log('ERROR', err)
         $scope.error = err
         $scope.loading = false
       })
     } else {
+      $scope.loading = false
       console.log('INVALID')
     }
   }
@@ -34,7 +39,6 @@ module.exports = ['$scope', 'SingUpService', '$state', 'UserService', function (
   $scope.user = {}
   $scope.bankAccount = {}
   $scope.validateDDA = function (f) {
-    console.log('validateDDA $scope.bankAccount', $scope.bankAccount)
     if (!angular.equals($scope.bankAccount.DDA1, $scope.bankAccount.dda2) || ($scope.bankAccount.DDA1 === undefined && $scope.bankAccount.dda2 === undefined)) {
       f.uDDA2.$setValidity('match', false)
     } else {
@@ -135,9 +139,7 @@ module.exports = ['$scope', 'SingUpService', '$state', 'UserService', function (
   }
 
   $scope.validateDDA2 = function () {
-    console.log('validateDDA2 $scope.bankAccount0', $scope.bankAccount)
     $scope.bankAccount.dda2 = angular.copy($scope.user.DDA2)
-    console.log('validateDDA2 $scope.bankAccount1', $scope.bankAccount)
     if ($scope.bankAccount.dda2) {
       if ($scope.bankAccount.DDA1.replace(/ /g, '') !== $scope.bankAccount.dda2.replace(/ /g, '')) {
         $scope.form.uDDA2.$setValidity('match', false)

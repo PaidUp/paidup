@@ -10,7 +10,6 @@ module.exports = [ '$scope', 'SingUpService', '$state', 'UserService', 'AuthServ
     $scope.user.lastName = currentUser.lastName
     // Setting just for the tracker service below
     SingUpService.setCredentials({email: currentUser.email, password1: ''})
-    console.log(currentUser)
   }
   $scope.states = UserService.getStates()
   $scope.loading = false
@@ -32,7 +31,6 @@ module.exports = [ '$scope', 'SingUpService', '$state', 'UserService', 'AuthServ
         promise = SingUpService.createPersonalAccount($scope.user)
       }
       promise.then(function (message) {
-        console.log(message)
         TrackerService.create('signup success', {
           firstName: $scope.user.firstName,
           lastName: $scope.user.lastName,
@@ -41,7 +39,8 @@ module.exports = [ '$scope', 'SingUpService', '$state', 'UserService', 'AuthServ
         })
         if (SingUpService.getType() === 'business') {
           SingUpService.saveBusinessInfo($scope.user)
-          $state.go('^.step3b')
+          $state.go('^.step6b')
+          // $state.go('^.step3b')
         } else {
           $state.go('^.step3p')
         }

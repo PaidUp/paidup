@@ -44,6 +44,7 @@
 
 
 <div class="buttons-container">
-<a ng-click="payFee()" class="button-green button-agree">Pay $250 Setup Fee</a>
+  <button ng-click="payFee()" class="button-green button-agree" ng-disabled="loading" ng-bind-html="loading ? loader : 'Pay $250 Setup Fee'"></button>
+<!--<a ng-click="payFee()" class="button-green button-agree">Pay $250 Setup Fee</a>-->
   <a ui-sref="singup.step6b" class="skip-card-info">I have a referral code</a>
 </div>
