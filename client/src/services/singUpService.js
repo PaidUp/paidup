@@ -181,6 +181,7 @@ module.exports = [ 'AuthService', 'UserService', 'OrganizationService', '$q', fu
       }
       organization.ownerPhone = user.phoneInfo.value
       organization.ownerEmail = user.credentials.email
+      organization.referralCode = user.referralCode
       OrganizationService.organizationRequest(
         organization,
         user.id).then(function (organization) {

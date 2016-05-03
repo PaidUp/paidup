@@ -1,7 +1,7 @@
 'use strict'
 var angular = require('angular')
 
-module.exports = [ '$rootScope', '$http', 'UserService', 'SessionService', 'Facebook', function ($rootScope, $http, UserService, SessionService, Facebook) {
+module.exports = [ '$rootScope', '$http', 'UserService', 'SessionService', 'Facebook', '$q', function ($rootScope, $http, UserService, SessionService, Facebook, $q) {
   var ROLES_ROUTES = {
     USER: 'athletes',
     COACH: 'provider-request',
@@ -257,20 +257,24 @@ module.exports = [ '$rootScope', '$http', 'UserService', 'SessionService', 'Face
      */
     getCurrentUser: function () {
       return $rootScope.currentUser
+    },
 
-    // if (!angular.isDefined($rootScope.currentUser)) {
-    //   return false
-    // } else {
-    //   if ($rootScope.currentUser.hasOwnProperty('$promise')) {
-    //     $rootScope.currentUser.$promise.then(function () {
-    //       return $rootScope.currentUser
-    //     }).catch(function () {
-    //       return false
-    //     })
-    //   } else {
-    //     return $rootScope.currentUser
-    //   }
-    // }
+    getCurrentUserPromise: function () {
+      return $q(function (resolve, reject) {
+        if (angular.isDefined($rootScope.currentUser)) {
+          if ($rootScope.currentUser.hasOwnProperty('$promise')) {
+            $rootScope.currentUser.$promise.then(function () {
+              resolve($rootScope.currentUser)
+            }).catch(function () {
+              reject('error retrieving user')
+            })
+          } else {
+            resolve($rootScope.currentUser)
+          }
+        } else {
+          reject('user not logged in')
+        }
+      })
     },
 
     /**

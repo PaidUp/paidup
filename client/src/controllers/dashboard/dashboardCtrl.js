@@ -2,8 +2,15 @@
 
 module.exports = [ '$scope', 'AuthService', '$state', function ($scope, AuthService, $state) {
   $scope.PageOptions.pageClass = 'dashboard-page'
-  $scope.user = AuthService.getCurrentUser()
-  console.log($scope.user)
+
+  AuthService.getCurrentUserPromise().then(function (u) {
+    $scope.user = u
+    $scope.isCoach = AuthService.isCoach()
+    console.log(u)
+  }, function (e) {
+    console.log(e)
+  })
+
   $scope.logout = function () {
     AuthService.logout()
     $state.go('login')

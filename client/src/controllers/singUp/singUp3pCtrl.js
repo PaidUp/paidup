@@ -43,7 +43,6 @@ module.exports = [ '$scope', 'ApplicationConfigService', 'UserService', 'SingUpS
               TrackerService.create('Create card success', {})
               var promise = SingUpService.createBillingAddress($scope.billingAddress)
               promise.then(function (message) {
-                console.log(message)
                 $state.go('^.welcome')
               }, function (err) {
                 console.log('ERROR', err)

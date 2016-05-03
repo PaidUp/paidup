@@ -947,7 +947,7 @@ DASHBOARD PAGES
       }
     }     
     .img-logo{
-      margin: 10px 30px 10px 0px;
+      margin: 10px 20px 10px 0px;
       img{
         width: 80px;
         height: 59px;
@@ -959,7 +959,7 @@ DASHBOARD PAGES
         color: @c-gray-font;
         font-family: @family-medium;
         display:inline-block;
-        padding: 15px;        
+        padding: 15px 10px;        
         border-right: 1px solid @c-gray-back;
         cursor: pointer;
         &:last-child{
@@ -1019,15 +1019,16 @@ DASHBOARD PAGES
         .col{
           padding:0px;
           .user{
-            padding: 25px 0px 0px 40px;
+            padding: 20px 0px 0px 40px;
             background-color: @c-blue-back;
-            height: 120px;
+            height: 90px;
             width:100%;
             position:relative;
+            font-size: 30px;
+            color:@c-gray-light-back;
+            
             .user-name{
               margin-left: 20px;
-              color:#fff;
-              font-size: 30px;
             }
             &:after{
               content:'';
@@ -1036,8 +1037,8 @@ DASHBOARD PAGES
               position:absolute;
               top:0px;
               right:0px;
-              border-bottom: 120px solid @c-green-back;
-              border-left: 120px solid transparent;
+              border-bottom: 90px solid @c-green-back;
+              border-left: 90px solid transparent;
               display:none;
               @media @medium-up{
                 display:block;
@@ -1047,18 +1048,33 @@ DASHBOARD PAGES
           }
           .action-buttons{
             background-color: @c-green-back;
-            height: 120px;
-            padding-top: 15px;
+            height: 90px;
+            padding-top: 20px;
             text-align: center;
-            .dashboard-button{
-              margin-right: 20px;
-              display:inline-block;
-              cursor:pointer;
-            }
-            .payment-button{
-              cursor:pointer;
-              display:inline-block;
-            }
+            ul{
+              margin: 0px;
+              li{
+                display:inline-block;
+                color:@c-gray-light-back;
+                text-align: center;
+                cursor: pointer;
+                margin-right: 10px;
+                @media @xlarge-up{
+                  margin-right: 30px;
+                }
+                &:last-child{
+                  margin-right: 0px;
+                }
+                span{
+                  font-size: 16px;
+                  font-family: @family-medium;
+                }
+                .fa{
+                  font-size: 30px;
+                  display:block;
+                }
+              }
+            }            
           }
         }
       }
@@ -1221,7 +1237,7 @@ DASHBOARD PAGES
 
   // ACCOUNTS MENU
   .accounts-menu{
-    background-color: @c-black-back;
+    background-color: @c-blue-back;
     color:#fff;
     font-family: @family-medium;
     position: fixed;
@@ -1292,7 +1308,7 @@ DASHBOARD PAGES
 
   // MOBILE MENU
   .mobile-menu{
-    background-color: @c-black-back;
+    background-color: @c-blue-back;
     color:#fff;
     font-family: @family-medium;
     position: fixed;
@@ -1332,7 +1348,7 @@ DASHBOARD PAGES
       li{       
         font-size: 16px;
         padding: 15px 0px;
-        border-bottom: 1px solid @c-gray-font;
+        border-bottom: 1px dotted @c-gray-light-back;
         margin: 0 25px;
         &:last-child{
           border-bottom: none;

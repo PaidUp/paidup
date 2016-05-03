@@ -9,7 +9,6 @@ module.exports = [ '$scope', 'SingUpService', '$state', 'UserService', 'AuthServ
     $scope.user.lastName = currentUser.lastName
     // Setting just for the tracker service below
     SingUpService.setCredentials({email: currentUser.email, password1: ''})
-    console.log('currentUser', currentUser)
   }
   $scope.states = UserService.getStates()
   $scope.loading = false
@@ -21,9 +20,8 @@ module.exports = [ '$scope', 'SingUpService', '$state', 'UserService', 'AuthServ
     SingUpService.runFormControlsValidation(f)
     if (f.$valid) {
       console.log('VALID')
-      console.log(SingUpService.saveBusinessInfo($scope.user))
+      SingUpService.saveBusinessInfo($scope.user)
       SingUpService.createPersonalAccount($scope.user).then(function (message) {
-        console.log('$scope.user2b', $scope.user)
         $state.go('^.step3b')
       }, function (err) {
         console.log('ERROR', err)

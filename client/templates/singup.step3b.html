@@ -51,5 +51,6 @@
 
 
 <div class="buttons-container">
-  <a ng-click="next()" class="button-green button-agree">Next</a>
+ <button ng-click="next()" class="button-green button-agree" ng-disabled="loading" ng-bind-html="loading ? loader : 'Next'"></button>
+ <!--<a ng-click="next()" class="button-green button-agree">Next</a>-->
 </div>

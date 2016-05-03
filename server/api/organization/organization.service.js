@@ -6,7 +6,6 @@ const emailTemplates = require('email-templates')
 const transporter = nodemailer.createTransport(config.emailService)
 
 exports.sendContactEmail = function (dataOrganization, cb) {
-  dataOrganization.referralCode = ''
   if (!isValidEmail(dataOrganization.ownerEmail)) {
     return cb('Email is not valid')
   }

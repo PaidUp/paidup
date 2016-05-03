@@ -12,10 +12,12 @@
        <li ui-sref="dashboard.activities">Activities</li>
        <li ui-sref="dashboard.orders">Orders</li>
        <li ng-click="clickAccounts()">Accounts</li>
+       <li ng-if="isCoach">Deposits</li>
+       <li ng-if="isCoach">Aging</li>
      </ul>
    </div>
    <div class="right">
-     <div class="help">Need Help? Call <span class="phone">(855) 764 3232</span></div>
+     <div class="help" ng-hide="isCoach">Need Help? Call <span class="phone">(855) 764 3232</span></div>
      <div class="setting"><i class="fa fa-cog fa-2x" aria-hidden="true"></i></div>
      <div class="logout-button hide-on-med-and-down"><a class="button-green" href="" ng-click="logout()">logout</a></div>     
    </div>

@@ -144,6 +144,7 @@
 
 
 <div class="buttons-container">
-  <a ng-click="next()" class="button-green button-agree" ng-show="isBusiness()">Next</a>
+  <!--<a ng-click="next()" class="button-green button-agree" ng-show="isBusiness()">Next</a>-->
+  <button ng-click="next()" class="button-green button-agree" ng-disabled="loading" ng-bind-html="loading ? loader : 'Next'" ng-show="isBusiness()"></button>
   <button ng-click="next()" class="button-green button-agree" ng-disabled="loading" ng-bind-html="loading ? loader : 'Agree and Create Account'" ng-show="!isBusiness()"></button>
 </div>

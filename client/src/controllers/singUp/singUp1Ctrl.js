@@ -8,6 +8,7 @@ module.exports = [ '$scope', 'SingUpService', '$state', 'AuthService', function 
   $scope.loading = false
   $scope.next = function () {
     // Validation start
+    $scope.loading = true
     var f = $scope.form
     // console.log(f)
     $scope.validatePassword(f)
@@ -16,8 +17,10 @@ module.exports = [ '$scope', 'SingUpService', '$state', 'AuthService', function 
       console.log('VALID')
       SingUpService.setFacebookSingUp(false)
       SingUpService.setCredentials($scope.user)
+      $scope.loading = false
       $state.go('^.step2')
     } else {
+      $scope.loading = false
       console.log('INVALID')
     }
   }

@@ -21,8 +21,8 @@
 </div>
 
 <div class="buttons-container">
-  <!-- <a ui-sref="singup.step1" class="button-green" ng-click="next()">NEXT</a> -->
-  <a class="button-green btn-next" ng-click="next()">NEXT</a>
+  <button ng-click="next()" class="button-green button-next" ng-disabled="loading" ng-bind-html="loading ? loader : 'NEXT'"></button>
+  <!--<a class="button-green btn-next" ng-click="next()">NEXT</a>->
 </div>
 
 <p class="end-note">
