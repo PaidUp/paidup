@@ -161,7 +161,7 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
     templateUrl: '../templates/singup.welcome.html',
     controller: 'SingUpWelcomeCtrl'
   })
-  .state('product', {
+  .state('productOrganizationResponse', {
     url: '/product/organization/response/:id',
     templateUrl: '../templates/product/organization.response.html',
     controller: 'OrgResponseCtrl',
