@@ -170,7 +170,7 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
     }
   })
   .state('login', {
-    url: '/login',
+    url: '/',
     templateUrl: '../templates/login.html',
     controller: 'LoginCtrl',
     data: {
