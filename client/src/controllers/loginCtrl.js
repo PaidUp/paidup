@@ -29,7 +29,7 @@ module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$transl
   //While finish ve implementation
   var hosts = {
     'stg.getpaidup.com' : 'https://stage.getpaidup.com/sso/',
-    'app3.getpaidup.com' : 'https://app.getpaidup.com/sso/'
+    'login.getpaidup.com' : 'https://app.getpaidup.com/sso/'
   }
 
   function redirect(){
