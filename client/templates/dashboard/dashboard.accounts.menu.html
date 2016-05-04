@@ -1,31 +1,123 @@
-<div ng-class="activeAccountMenu ? 'accounts-menu active' : 'accounts-menu'" ng-controller="AccountsMenuCtrl">
-  <div class="header">
-    <div class="title">Payment Accounts</div>
-    <div class="close" ng-click="activeAccountMenu = false"><i class="fa fa-times"></i></div>
-    <div class="clearfix"></div>
-  </div>  
-  <ul class="accounts-list">
-    <li class="clearfix">
-      <div class="icon-container"><i class="fa fa-cc-visa"></i></div>
-      <div class="account-name">
-        <div>Bank of America Visa</div> 
-        <div class="card-number">x-1234</div>
+<div ng-controller="AccountsMenuCtrl">
+  <div ng-class="activeAccountMenu ? 'accounts-menu active' : 'accounts-menu'">
+    <div class="header">
+      <div class="title">Payment Accounts</div>
+      <div class="close" ng-click="activeAccountMenu = false"><i class="fa fa-times"></i></div>
+      <div class="clearfix"></div>
+    </div>  
+    <ul class="accounts-list">
+      <li ng-repeat="account in accounts" ng-class="account.selected ? 'clearfix selected' : 'clearfix'" ng-click="showAccount(account)">
+        <div class="icon-container"><i class="fa fa-cc-{{account.type}}"></i></div>
+        <div class="account-name">
+          <div ng-bind="account.name"></div> 
+          <div class="card-number" ng-bind="account.last4">x-1234</div>
+        </div>
+      </li>   
+    </ul>
+    <div class="add-new">Add a new account</div>
+  </div>
+  
+  <modal-window show="showAccountModal" modal-title="Account Details">
+  <div class="account-modal">
+    
+    <!-- ACCOUNT VIEW -->
+    <div ng-show="!editAccount">
+      <i class="fa fa-cc-{{modalAccount.type}}"></i>
+      <div ng-bind="modalAccount.name"></div> 
+      <div class="card-info">ending in: <span  ng-bind="modalAccount.last4"></span></div>
+      <div class="card-info">expiry date: <span  ng-bind="modalAccount.expiryDate"></span></div>
+      <div class="card-info">name on card: <span  ng-bind="modalAccount.nameOnCard"></span></div>
+      <div class="clearfix"></div>
+      <div class="billing-title">Billing Address</div>
+      <div class="account-address">
+        <span ng-bind="modalAccount.billingAddress.street"></span>
+        <br>
+        <span ng-bind="modalAccount.billingAddress.city"></span>,&nbsp;
+        <span ng-bind="modalAccount.billingAddress.state"></span>&nbsp;
+        <span ng-bind="modalAccount.billingAddress.zipCode"></span>
       </div>
-    </li> 
-    <li class="clearfix">
-      <div class="icon-container"><i class="fa fa-cc-amex"></i></div>
-      <div class="account-name">
-        <div>American Express</div> 
-        <div class="card-number">x-1234</div>
+      <div class="center">
+        <button ng-click="selectAccount(modalAccount.id)" ng-if="!modalAccount.selected" class="button-green save-cancel blue-btn" ng-disabled="loading" ng-bind-html="loading ? loader : 'Select'"></button>
+        <button ng-click="editAccount=true" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Edit'"></button>
+        <button ng-click="deleteAccount()" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Delete'"></button>
       </div>
-    </li> 
-    <li class="clearfix selected">
-      <div class="icon-container"><i class="fa fa-bank"></i></div>
-      <div class="account-name">
-        <div>USSA Bank Savings</div> 
-        <div class="card-number">x-1234</div>
+    </div>
+
+
+    <!-- ACCOUNT NEW OR EDIT -->
+    <div ng-show="editAccount">
+      <div class="inputs">
+        <form name="form" novalidate>
+          <input type="text" 
+          name="nameOnCard" 
+          placeholder="Name on Card" 
+          required 
+          ng-model="modalAccount.nameOnCard" 
+          ng-model-options="{ updateOn: 'blur' }" />
+          <small class="error" ng-show="form.nameOnCard.$error.required && form.nameOnCard.$touched">Name on Card is required</small> 
+
+          <input placeholder="Card Number" type="text" ng-model="modalAccount.cardNumber" name="cNum" ui-mask="999999999999?9?9?9?9?9?9?9" ui-mask-placeholder ui-mask-placeholder-char="space" ng-blur="validateCardInfo(form)"/>
+          <small class="error" ng-show="form.cNum.$error.cNum && form.cNum.$touched">Card Number not valid</small>  
+          <div class="row two-colums">
+            <div class="col s12 m6">
+              <input placeholder="Exp. Date (MM/YY)" type="text" ng-model="expDate" name="cExpDate" ui-mask="99/99" model-view-value="true"  ui-mask-placeholder ui-mask-placeholder-char="_" required ng-blur="validateCardInfo(form)" />
+              <small class="error" ng-show="form.cExpDate.$error.cExpDate && form.cExpDate.$touched">Expire Date not valid</small> 
+            </div>
+            <div class="col s12 m6">
+              <input placeholder="Security Code" type="text" ng-model="secCode" name="cSecCode" ui-mask="999?9" ui-mask-placeholder ui-mask-placeholder-char="space" required ng-model-options="{ updateOn: 'blur' }" />
+              <small class="error" ng-show="form.cSecCode.$error.required && form.cSecCode.$touched">Security Code is required</small> 
+              <small class="error" ng-show="form.cSecCode.$error.mask && form.cSecCode.$touched">Security Code not valid</small> 
+            </div>
+          </div>
+
+          <div class="section-title">Billing Address</div>
+
+          <input type="text" 
+          name="bStreetAddress" 
+          placeholder="Street Address" 
+          required 
+          ng-model="modalAccount.billingAddress.street" 
+          ng-model-options="{ updateOn: 'blur' }" />
+          <small class="error" ng-show="form.bStreetAddress.$error.required && form.bStreetAddress.$touched">Street Address is required</small> 
+
+          <input type="text" 
+          name="bCity" 
+          placeholder="City" 
+          required 
+          ng-model="modalAccount.billingAddress.city" 
+          ng-model-options="{ updateOn: 'blur' }" />
+          <small class="error" ng-show="form.bCity.$error.required && form.bCity.$touched">City is required</small>  
+
+          <div class="row two-colums">
+            <div class="col s12 m6">
+              <div class="select-container">
+                <select ng-model="modalAccount.billingAddress.state" name="bState" ng-class="containsValue ? 'selected' : ''" ng-change="containsValue = true" required>
+                  <option value="" disabled selected class="placeholder">State</option>
+                  <option ng-repeat="state in states" value="{{state.abbreviation}}">
+                    {{state.abbreviation}}
+                  </option>
+                </select>
+                <small class="error" ng-show="form.bState.$error.required && form.bState.$touched">State is required</small>  
+              </div>
+            </div>
+            <div class="col s12 m6">
+              <input type="text" 
+              name="bZipCode" 
+              placeholder="Zip Code" 
+              required 
+              ng-model="modalAccount.billingAddress.zipCode" 
+              ng-model-options="{ updateOn: 'blur' }" />
+              <small class="error" ng-show="form.bZipCode.$error.required && form.bZipCode.$touched">Zip Code is required</small>  
+            </div>
+          </div>
+        </form>
       </div>
-    </li>    
-  </ul>
-  <div class="add-new">Add a new account</div>
+      <div class="center">
+      <button ng-click="saveAccount()" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Save'"></button>
+        <button ng-click="closeModal()" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Cancel'"></button>
+      </div>
+    </div>
+  </div>
+</modal-window>
+
 </div>
