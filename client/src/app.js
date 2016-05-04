@@ -28,3 +28,4 @@ paidUpApp.run(require('./appRun'))
 // one require statement per sub directory instead of One per file
 require('./services')
 require('./controllers')
+require('./directives')

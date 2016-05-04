@@ -111,16 +111,23 @@
 
         <div class="white-container account-phone">
           <div class="title-blue">Phone</div>  
+          <modal-window show="e1">
+            DIEGO
+          </modal-window>
+
+          <modal-window show="e2">
+            XXXX
+          </modal-window>
           <div ng-hide="editPhone">
             <div>
               <p class="field-value">123-444-5555</p>
             </div>
             <div>
-              <div class="green-link" ng-click="editPhone=true">Edit Phone</div>
+              <div class="green-link" ng-click="e1=true">Edit Phone</div>
             </div>
           </div>
           <div ng-show="editPhone">
-          <input type="text" placeholder="Phone">
+            <input type="text" placeholder="Phone">
             <button ng-click="loading=true" class="button-green" ng-disabled="loading" ng-bind-html="loading ? loader : 'Save'"></button>
             <button ng-click="editPhone=false" class="button-green" ng-disabled="loading" ng-bind-html="loading ? loader : 'Cancel'"></button>
           </div>       
