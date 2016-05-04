@@ -12,8 +12,8 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
   })
 
   // Facebook API key
-  FacebookProvider.init('717631811625048')
-  // FacebookProvider.init('499580560213861')
+  //FacebookProvider.init('717631811625048')
+  FacebookProvider.init('499580560213861')
 
   // HTTP INTERCEPTORS
   $httpProvider.interceptors.push('AuthInterceptor')
@@ -170,7 +170,7 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
     }
   })
   .state('login', {
-    url: '/',
+    url: '/login',
     templateUrl: '../templates/login.html',
     controller: 'LoginCtrl',
     data: {
