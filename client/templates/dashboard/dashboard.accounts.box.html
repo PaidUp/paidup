@@ -11,9 +11,9 @@
     <hr> 
     <p>Orders with remaining payments (Click to see payment schedule):</p>
     <ul class="accounts-list">
-      <li class="clearfix" ng-repeat="pyment in payments">
-        <div class="icon-container"><i class="fa fa-cc-{{pyment.brand | lowercase}}"></i></div>
-        <div class="account-name">{{pyment.name}} <span class="card-number">x-{{pyment.last4}}</span></div>
+      <li class="clearfix" ng-repeat="payment in payments">
+        <div class="icon-container"><i class="fa fa-{{payment.brand ? ('cc-'+payment.brand | lowercase) : 'credit-card-alt'}}"></i></div>
+        <div class="account-name">{{payment.name}} <span class="card-number">x-{{payment.last4}}</span></div>
       </li>
     </ul>
     <div class="bottom-link" ng-click="updateAccounts()">Update</div>
