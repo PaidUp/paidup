@@ -14,14 +14,14 @@
         </div>
       </li>   
     </ul>
-    <div class="add-new">Add a new account</div>
+    <div class="add-new" ng-click="linkNewCard()">Add a new account</div>
   </div>
   
-  <modal-window show="showAccountModal" modal-title="Account Details">
+  <modal-window show="showAccountModal" modal-title="accountModalTitle">
   <div class="account-modal">
-    
+
     <!-- ACCOUNT VIEW -->
-    <div ng-show="!editAccount">
+    <div ng-if="!editingAccount">
       <i class="fa fa-cc-{{modalAccount.type}}"></i>
       <div ng-bind="modalAccount.name"></div> 
       <div class="card-info">ending in: <span  ng-bind="modalAccount.last4"></span></div>
@@ -36,16 +36,32 @@
         <span ng-bind="modalAccount.billingAddress.state"></span>&nbsp;
         <span ng-bind="modalAccount.billingAddress.zipCode"></span>
       </div>
-      <div class="center">
-        <button ng-click="selectAccount(modalAccount.id)" ng-if="!modalAccount.selected" class="button-green save-cancel blue-btn" ng-disabled="loading" ng-bind-html="loading ? loader : 'Select'"></button>
-        <button ng-click="editAccount=true" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Edit'"></button>
-        <button ng-click="deleteAccount()" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Delete'"></button>
+      <div ng-if="!deletingAccount">
+        <div class="center">
+          <button ng-click="editAccount()" class="button-green save-cancel">Edit</button>
+          <button ng-click="deleteAccount()" class="button-green save-cancel">Delete</button>
+        </div> 
+        <div class="center">
+          <button ng-click="selectAccount(modalAccount.id)" ng-if="!modalAccount.selected" class="button-green save-cancel blue-btn">Select</button>
+          <button ng-click="closeModal()" class="button-green save-cancel blue-btn">Close</button>
+        </div>
+      </div>
+      <div ng-if="deletingAccount">
+        <div class="center">
+          <button ng-click="deleteAccountProceed()" class="button-green save-cancel red-btn">Delete</button>
+        </div> 
+       
       </div>
     </div>
 
 
     <!-- ACCOUNT NEW OR EDIT -->
-    <div ng-show="editAccount">
+    <div ng-if="editingAccount">
+      <div ng-if="!isNewCard">
+        <i class="fa fa-cc-{{modalAccount.type}}"></i>
+        <div ng-bind="modalAccount.name"></div> 
+        <div class="card-info">ending in: <span  ng-bind="modalAccount.last4"></span></div>
+      </div>
       <div class="inputs">
         <form name="form" novalidate>
           <input type="text" 
@@ -56,11 +72,13 @@
           ng-model-options="{ updateOn: 'blur' }" />
           <small class="error" ng-show="form.nameOnCard.$error.required && form.nameOnCard.$touched">Name on Card is required</small> 
 
-          <input placeholder="Card Number" type="text" ng-model="modalAccount.cardNumber" name="cNum" ui-mask="999999999999?9?9?9?9?9?9?9" ui-mask-placeholder ui-mask-placeholder-char="space" ng-blur="validateCardInfo(form)"/>
-          <small class="error" ng-show="form.cNum.$error.cNum && form.cNum.$touched">Card Number not valid</small>  
+          <div ng-if="isNewCard">
+            <input placeholder="Card Number" type="text" ng-model="modalAccount.cardNumber" name="cNum" ui-mask="999999999999?9?9?9?9?9?9?9" ui-mask-placeholder ui-mask-placeholder-char="space" ng-blur="validateCardInfo(form)"/>
+            <small class="error" ng-show="form.cNum.$error.cNum && form.cNum.$touched">Card Number not valid</small>  
+          </div>
           <div class="row two-colums">
             <div class="col s12 m6">
-              <input placeholder="Exp. Date (MM/YY)" type="text" ng-model="expDate" name="cExpDate" ui-mask="99/99" model-view-value="true"  ui-mask-placeholder ui-mask-placeholder-char="_" required ng-blur="validateCardInfo(form)" />
+              <input placeholder="Exp. Date (MM/YY)" type="text" ng-model="modalAccount.expiryDate" name="cExpDate" ui-mask="99/99" model-view-value="true"  ui-mask-placeholder ui-mask-placeholder-char="_" required ng-blur="validateCardInfo(form)" />
               <small class="error" ng-show="form.cExpDate.$error.cExpDate && form.cExpDate.$touched">Expire Date not valid</small> 
             </div>
             <div class="col s12 m6">
@@ -113,8 +131,8 @@
         </form>
       </div>
       <div class="center">
-      <button ng-click="saveAccount()" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Save'"></button>
-        <button ng-click="closeModal()" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Cancel'"></button>
+        <button ng-click="saveAccount()" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Save'"></button>
+        <button ng-click="cancelEditing()" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Cancel'"></button>
       </div>
     </div>
   </div>
