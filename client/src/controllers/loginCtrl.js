@@ -1,6 +1,6 @@
 'use strict'
 
-module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$translate', function ($scope, $state, AuthService, TrackerService, $translate) {
+module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$translate', '$location', '$window', 'SessionService', function ($scope, $state, AuthService, TrackerService, $translate, $location, $window, SessionService) {
   // Initialization
   $scope.PageOptions.pageClass = 'login-page'
   $scope.user = {
@@ -26,6 +26,28 @@ module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$transl
   }
   // TRANSLATE DEMO - END
 
+  //While finish ve implementation
+  var hosts = {
+    'stg.getpaidup.com' : 'https://stage.getpaidup.com/sso/',
+    'app3.getpaidup.com' : 'https://app.getpaidup.com/sso/'
+  }
+
+  function redirect(){
+    var newHost = hosts[$location.host()];
+
+    if(newHost){
+      var token = SessionService.getCurrentSession();
+      newHost = newHost+token;
+      $window.location.href = newHost;
+    } else {
+      $state.go('dashboard.summary.components')
+    }
+  }
+  //end
+
+
+
+
   // Functions
   $scope.localLogin = function () {
     var u = $scope.user
@@ -48,7 +70,10 @@ module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$transl
       TrackerService.create('login success', {
         roleType: AuthService.getCurrentUser().roles[0] === 'user' ? 'Payer' : 'Payee'
       })
-      $state.go('dashboard.summary.components')
+
+      redirect()
+
+
     }
     var error = function (err) {
       TrackerService.trackFormErrors('login error', err.message)
@@ -67,7 +92,8 @@ module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$transl
     var success = function (user) {
       var roleType = AuthService.getIsParent() ? 'Payer' : 'Payee'
       TrackerService.create('Login Facebook', {roleType: roleType})
-      $state.go('dashboard.summary.components')
+      redirect();
+      //$state.go('dashboard.summary.components')
     }
     var error = function (err) {
       console.log(err)
