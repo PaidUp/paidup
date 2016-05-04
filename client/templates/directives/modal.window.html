@@ -1,6 +1,7 @@
 <div ng-class="show ? 'modal-container active' : 'modal-container'">
   <div class="modal-overlay"></div>
   <div class="modal-content">
+    <div class="title-blue" ng-bind="modalTitle" ng-if="modalTitle"></div>
     <i class="fa fa-times" ng-click="show = false"></i>
     <div class="clearfix"></div>
     <!-- All inside ng-transclude will be evaluated in the original scope Not in the directive -->

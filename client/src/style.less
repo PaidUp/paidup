@@ -101,6 +101,13 @@ table.striped.even-rows-gray>tbody>tr:nth-child(even){background-color:#fafafa}
   &:focus{
     background: @c-green-back;
   }
+  &.save-cancel{
+    margin: 10px 0px;
+    padding: 5px 15px;
+    width: 100px;
+    font-size: 14px;
+    display:inline-block;
+  }
 }
 
 .inputs{
@@ -1624,13 +1631,6 @@ DASHBOARD PAGES
         width: 300px;
       }
     }
-    .button-green{
-      margin: 10px 0px;
-      padding: 5px 15px;
-      width: 100px;
-      font-size: 14px;
-      display:inline-block;
-    }
   }
 }
 
@@ -1680,11 +1680,40 @@ DASHBOARD PAGES
       margin-left: -300px;
       height: initial;
     }
+    .title-blue{
+      float: left;
+      width: 90%;
+    }
     .fa-times{
       float: right;
       color: @c-gray-dark-font;
       font-size: 24px;
       cursor: pointer;
+    }
+    .inputs{
+      input[type="text"],
+      input[type="password"],
+      input[type="email"],
+      select{
+        width: 100%;      
+      }
+      .two-colums{
+        margin-bottom: 0px;
+        div.col:first-child{
+          padding: 0px;
+          @media @medium-up{
+            padding-left: 0px;
+            padding-right: 5px; 
+          } 
+        }
+        div.col:last-child{
+          padding: 0px;
+          @media @medium-up{
+            padding-right: 0px;
+            padding-left: 5px; 
+          }
+        }
+      }    
     }
   }
 }

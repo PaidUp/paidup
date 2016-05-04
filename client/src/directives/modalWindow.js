@@ -6,7 +6,8 @@ module.exports = [ function () {
     restrict: 'E',
     transclude: true,
     scope: {
-      'show': '='
+      'show': '=',
+      'modalTitle': '@?'
     },
     templateUrl: '/templates/directives/modal.window.html'
   }
