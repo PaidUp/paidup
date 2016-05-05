@@ -97,6 +97,11 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
     templateUrl: '../templates/dashboard/dashboard.orders.html',
     controller: 'OrdersCtrl'
   })
+  .state('dashboard.board', {
+    url: '/board',
+    templateUrl: '../templates/dashboard/dashboard.board.html',
+    controller: 'BoardCtrl'
+  })
   .state('dashboard.profile', {
     url: '^/profile',
     templateUrl: '../templates/dashboard/dashboard.profile.html',
