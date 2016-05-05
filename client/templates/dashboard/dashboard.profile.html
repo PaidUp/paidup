@@ -58,7 +58,6 @@
         <div class="white-container account-addresses">
           <div class="title-blue">Addresses</div>
           <ul>
-<<<<<<< HEAD
             <li ng-repeat="address in addresses">
               <div class="address">
                 <span ng-bind="address.street"></span>
@@ -68,37 +67,12 @@
                 <span ng-bind="address.zipCode"></span>
                 <div>
                   <div class="green-link" ng-click="editAddress(address)">Edit</div>
-=======
-            <li>
-              <div class="address">
-                <span>123 Main St.</span>
-                <br>
-                <span>Austin, TX 78932</span>
-                <div>
-                  <div class="green-link">Edit</div>
->>>>>>> feature/PU22
                   <div class="green-link">Remove</div>
                 </div>
               </div>
             </li> 
-<<<<<<< HEAD
           </ul>           
           <div class="green-link" ng-click="editAddress({})">Add a New Address</div>
-=======
-            <li>
-              <div class="address">
-                <span>5423 Morchaster Av.</span>
-                <br>
-                <span>Springfield, NM 75555</span>
-                <div>
-                  <div class="green-link">Edit</div>
-                  <div class="green-link">Remove</div>
-                </div>
-              </div>
-            </li>
-          </ul>           
-          <div class="green-link">Add a New Address</div>
->>>>>>> feature/PU22
         </div>
 
         <div class="white-container account-email">
@@ -115,33 +89,19 @@
           </div>         
           <div ng-show="editEmail">
             <input type="text" placeholder="Email">
-<<<<<<< HEAD
             <button ng-click="loading=true" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Save'"></button>
             <button ng-click="editEmail=false" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Cancel'"></button>
-=======
-            <button ng-click="loading=true" class="button-green" ng-disabled="loading" ng-bind-html="loading ? loader : 'Save'"></button>
-            <button ng-click="editEmail=false" class="button-green" ng-disabled="loading" ng-bind-html="loading ? loader : 'Cancel'"></button>
->>>>>>> feature/PU22
           </div>
           <div ng-show="editPass">
             <input type="text" placeholder="Password">
             <input type="text" placeholder="Repeat Password">
-<<<<<<< HEAD
             <button ng-click="loading=true" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Save'"></button>
             <button ng-click="editPass=false" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Cancel'"></button>
-=======
-            <button ng-click="loading=true" class="button-green" ng-disabled="loading" ng-bind-html="loading ? loader : 'Save'"></button>
-            <button ng-click="editPass=false" class="button-green" ng-disabled="loading" ng-bind-html="loading ? loader : 'Cancel'"></button>
->>>>>>> feature/PU22
           </div>
         </div>
 
         <div class="white-container account-phone">
-<<<<<<< HEAD
           <div class="title-blue">Phone</div>       
-=======
-          <div class="title-blue">Phone</div>  
->>>>>>> feature/PU22
           <div ng-hide="editPhone">
             <div>
               <p class="field-value">123-444-5555</p>
@@ -151,21 +111,14 @@
             </div>
           </div>
           <div ng-show="editPhone">
-<<<<<<< HEAD
             <input type="text" placeholder="Phone">
             <button ng-click="loading=true" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Save'"></button>
             <button ng-click="editPhone=false" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Cancel'"></button>
-=======
-          <input type="text" placeholder="Phone">
-            <button ng-click="loading=true" class="button-green" ng-disabled="loading" ng-bind-html="loading ? loader : 'Save'"></button>
-            <button ng-click="editPhone=false" class="button-green" ng-disabled="loading" ng-bind-html="loading ? loader : 'Cancel'"></button>
->>>>>>> feature/PU22
           </div>       
         </div>
       </div>
     </div>
   </div>
-<<<<<<< HEAD
 </div>
 
 <modal-window show="showAddressModal" modal-title="'Edit Address'">
@@ -216,6 +169,4 @@
   <button ng-click="closeModal()" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Cancel'"></button>
 </div>
 </modal-window>
-=======
-</div>
->>>>>>> feature/PU22
+
