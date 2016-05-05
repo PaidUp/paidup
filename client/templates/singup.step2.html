@@ -20,7 +20,7 @@
     <input 
     type="text" 
     name="uFirstName" 
-    placeholder="Legal First Name" 
+    placeholder="{{firstNamePlaceholder}}" 
     required 
     ng-model="user.firstName" 
     maxlength="128" 
@@ -30,14 +30,14 @@
     <small class="error" ng-show="form.uFirstName.$error.maxlength && form.uFirstName.$touched">First Name exceeds 128 characters</small>  
     <small class="error" ng-show="form.uFirstName.$error.pattern && form.uFirstName.$touched">First Name should only contain letters</small>
 
-    <div class="input-help-text">
+    <div class="input-help-text" ng-show="isBusiness()">
       Provide your name as it appears in legal documents to avoid delays in getting paid (e.g. Michael not Mike).
     </div>
 
     <input
     type="text" 
     name="uLastName" 
-    placeholder="Legal Last Name" 
+    placeholder="{{lastNamePlaceholder}}" 
     required 
     ng-model="user.lastName" 
     maxlength="128" 
@@ -145,6 +145,6 @@
 
 <div class="buttons-container">
   <!--<a ng-click="next()" class="button-green button-agree" ng-show="isBusiness()">Next</a>-->
-  <button ng-click="next()" class="button-green button-agree" ng-disabled="loading" ng-bind-html="loading ? loader : 'Next'" ng-show="isBusiness()"></button>
-  <button ng-click="next()" class="button-green button-agree" ng-disabled="loading" ng-bind-html="loading ? loader : 'Agree and Create Account'" ng-show="!isBusiness()"></button>
+  <button ng-click="next()" class="button-green" ng-disabled="loading" ng-bind-html="loading ? loader : 'Next'" ng-show="isBusiness()"></button>
+  <button ng-click="next()" class="button-green" ng-disabled="loading" ng-bind-html="loading ? loader : 'Agree and Create Account'" ng-show="!isBusiness()"></button>
 </div>
