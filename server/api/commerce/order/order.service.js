@@ -218,7 +218,45 @@ function orderPaymentRecent (userId, limit, cb) {
   })
 }
 
+function orderPaymentNext (userId, limit, cb) {
+  CommerceConnector.orderPaymentNext({
+    baseUrl: config.connections.commerce.baseUrl,
+    token: config.connections.commerce.token,
+    userId: userId,
+    limit: limit
+  }).exec({
+    // An unexpected error occurred.
+    error: function (err) {
+      return cb(err)
+    },
+    // OK.
+    success: function (result) {
+      return cb(null, result)
+    }
+  })
+}
+
+function orderPaymentActive (userId, limit, cb) {
+  CommerceConnector.orderActive({
+    baseUrl: config.connections.commerce.baseUrl,
+    token: config.connections.commerce.token,
+    userId: userId,
+    limit: limit
+  }).exec({
+    // An unexpected error occurred.
+    error: function (err) {
+      return cb(err)
+    },
+    // OK.
+    success: function (result) {
+      return cb(null, result)
+    }
+  })
+}
+
 module.exports = {
   createOrder: createOrder,
-  orderPaymentRecent: orderPaymentRecent
+  orderPaymentRecent: orderPaymentRecent,
+  orderPaymentNext: orderPaymentNext,
+  orderPaymentActive: orderPaymentActive
 }

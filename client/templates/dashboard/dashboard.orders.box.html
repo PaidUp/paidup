@@ -1,26 +1,16 @@
-<div class="white-container">
+<div class="white-container" ng-if="activePayments.length">
   <div class="title-blue">Active Orders</div>
 
   <p>Orders with remaining payments (click to see payment schedule):</p>
-  <div class="single-row-table">
+  <div class="single-row-table" ng-repeat="activePayment in activePayments">
     <div class="team-icon">
-      <div>AB</div>
+      <div>{{activePayment.allProductName[0] | limitTo:2 }}</div>
     </div>
     <div class="team">
-      <div class="team-name">Austin Boom</div>
-      <div class="team-contact">Jerry Garcia</div>
+      <div class="team-name">{{activePayment.allProductName[0] }}</div>
+      <div class="team-contact">{{activePayment.allBeneficiaryName[0]}}</div>
     </div>
   </div> 
-  <div class="clearfix"></div>
-  <div class="single-row-table">
-    <div class="team-icon">
-      <div>CV</div>
-    </div>
-    <div class="team">
-      <div class="team-name">Cobras Volleyball Club</div>
-      <div class="team-contact">Andy Thomson</div>
-    </div>
-  </div>
   <div class="clearfix"></div>
   <div class="bottom-link">View All</div>
 </div>  
