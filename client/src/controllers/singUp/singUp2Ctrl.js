@@ -17,6 +17,8 @@ module.exports = [ '$scope', 'SingUpService', '$state', 'UserService', 'AuthServ
   $scope.next = function () {
     // Validation start
     var f = $scope.form
+    // To fix autocomplete issues
+    f.$commitViewValue()
     if (SingUpService.getType() !== 'business') {
       $scope.validateTerms(f)
     }

@@ -13,6 +13,8 @@ module.exports = [ '$scope', 'ApplicationConfigService', 'UserService', 'SingUpS
   $scope.loader = '<i class="fa fa-circle-o-notch fa-spin"></i>'
   $scope.linkCard = function () {
     var f = $scope.form
+    // To fix autocomplete issues
+    f.$commitViewValue()
     $scope.validateCardInfo(f)
     SingUpService.runFormControlsValidation(f)
     if (f.$valid) {

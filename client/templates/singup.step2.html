@@ -38,7 +38,7 @@
     type="text" 
     name="uLastName" 
     placeholder="{{lastNamePlaceholder}}" 
-    required 
+    ng-required="true" 
     ng-model="user.lastName" 
     maxlength="128" 
     ng-pattern="/^[a-zA-Z\s]*$/" 
@@ -144,7 +144,6 @@
 
 
 <div class="buttons-container">
-  <!--<a ng-click="next()" class="button-green button-agree" ng-show="isBusiness()">Next</a>-->
   <button ng-click="next()" class="button-green" ng-disabled="loading" ng-bind-html="loading ? loader : 'Next'" ng-show="isBusiness()"></button>
   <button ng-click="next()" class="button-green" ng-disabled="loading" ng-bind-html="loading ? loader : 'Agree and Create Account'" ng-show="!isBusiness()"></button>
 </div>

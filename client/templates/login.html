@@ -7,12 +7,13 @@
       <input placeholder="Password" id="password" type="password" class="validate" ng-model="user.password" />
     </div>
     <div class="buttons-container">
-    <button ng-click="localLogin()" class="button-green button-green-login" ng-disabled="loading" ng-bind-html="loading ? loader : 'LOGIN'"></button>
+    <button ng-click="localLogin()" class="button-green" ng-disabled="loading" ng-bind-html="loading ? loader : 'LOGIN'"></button>
       <a ng-click="forgotLink()" class="forgot-link waves-effect">Forgot your email or password?</a>      
       <button ng-click="facebookLogin()" class="button-facebook" ng-disabled="loading" ng-bind-html="loading ? loader : facebookLoginTemplate"></button>
       <div class="horizontal-bar"></div>
-      <a ui-sref="singup.step0" class="button-green button-green-login button-sign-up waves-effect waves-light">SIGN UP</a>
+      <button ui-sref="singup.step0" class="button-green btn-sign-up" ng-disabled="loading" ng-bind-html="loading ? loader : 'Sing Up'"></button>
       
+
       <!-- TRANSLATE DEMO PART -->
       <!-- 
         BEST to use translate as a directive as below or for dynamic codes (error code from server) use translate Service from Controller

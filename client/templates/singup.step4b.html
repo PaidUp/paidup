@@ -24,7 +24,7 @@
     ng-blur="maskABA()"
     ng-focus="unmaskABA()" />
     <small class="error" ng-show="form.uRoutingNumber.$error.required && form.uRoutingNumber.$touched">Routing Number is required</small>   
-    <small class="error" ng-show="form.uRoutingNumber.$error.aba && form.uRoutingNumber.$touched"">Routing number is not correct</small>
+    <small class="error" ng-show="form.uRoutingNumber.$error.aba && form.uRoutingNumber.$touched">Routing number is not correct</small>
     
     <input type="text"
     name="uDDA1" 
@@ -57,6 +57,5 @@
 
 
 <div class="buttons-container">
-  <!--<a ng-click="next()" class="button-green button-agree">Agree and Create Account</a>-->
-  <button ng-click="next()" class="button-green button-agree" ng-disabled="loading" ng-bind-html="loading ? loader : 'Agree and Create Account'"></button>
+  <button ng-click="next()" class="button-green" ng-disabled="loading" ng-bind-html="loading ? loader : 'Agree and Create Account'"></button>
 </div>
