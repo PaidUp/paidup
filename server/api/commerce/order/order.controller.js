@@ -25,6 +25,13 @@ exports.orderPaymentRecent = function (req, res) {
   })
 }
 
+exports.orderPaymentNext = function (req, res) {
+  OrderService.orderPaymentNext(req.params.userId, req.params.limit, function (err, result) {
+    if (err) return res.status(400).json(err)
+    return res.status(200).json(result)
+  })
+}
+
 function handleError (res, err) {
   let httpErrorCode = 500
   if (err.name === 'ValidationError') {

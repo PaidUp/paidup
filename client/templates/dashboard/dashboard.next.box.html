@@ -1,26 +1,26 @@
-<div class="white-container">
+<div class="white-container" ng-if="nextPaymets.length">
   <div class="title-blue">Next Scheduled Payment</div>
 
   <p>The following amount will be charged automatically:</p>
-  <div class="single-row-table">
+  <div class="single-row-table" ng-repeat= "nextPaymet in nextPaymets">
     <div class="date">
-      <div class="month">DEC</div>
-      <div class="day">25</div>
+      <div class="month">{{(nextPaymet.paymentsPlan.dateCharge | date : 'MMM') | uppercase}}</div>
+      <div class="day">{{ nextPaymet.paymentsPlan.dateCharge | date: 'd'}}</div>
     </div>
     <div class="team-icon">
-      <div>AB</div>
+      <div>{{nextPaymet.paymentsPlan.productInfo.productName | limitTo:2}}</div>
     </div>
     <div class="team">
-      <div class="team-name">Austin Boom</div>
-      <div class="team-contact">Jerry Garcia</div>
+      <div class="team-name">{{nextPaymet.paymentsPlan.productInfo.productName}}</div>
+      <div class="team-contact">{{nextPaymet.paymentsPlan.beneficiaryInfo.beneficiaryName}}</div>
     </div>
     <div class="total">
       <div class="amount">
         <span class="green-font">$</span> 
-        264.75
+        {{nextPaymet.paymentsPlan.price}}
       </div>
       <div class="method">
-        Amex x-1234
+        {{nextPaymet.paymentsPlan.accountBrand}} x-{{nextPaymet.paymentsPlan.last4}}
       </div>
     </div>
   </div>

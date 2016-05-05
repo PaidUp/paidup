@@ -7,5 +7,6 @@ const router = express.Router()
 
 router.post('/create', authService.isAuthenticated(), controller.createOrder)
 router.get('/recent/:userId/:limit', authService.isAuthenticated(), controller.orderPaymentRecent)
+router.get('/next/:userId/:limit', authService.isAuthenticated(), controller.orderPaymentNext)
 
 module.exports = router
