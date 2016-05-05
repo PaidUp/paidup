@@ -174,8 +174,7 @@ select{
   display: block;
   border: 1px solid @c-facebook;
   color: @c-facebook;
-  padding: 8px 30px;
-  font-size: 1.1em;
+  padding: 8px 20px;
   font-weight: bold;
   border-radius: 20px;
   margin: 20px auto;
@@ -186,7 +185,7 @@ select{
     background: #fff;
   }
   @media @medium-up{
-    width: 250px;
+    width: auto;
   }
   .fa-facebook{
     margin-right: 5px;
@@ -292,12 +291,7 @@ LOGIN PAGE
   .buttons-container{
     text-align: center;
   }
-  .button-green-login{
-    @media @medium-up{
-      width: 250px;
-    }
-  }
-  .button-sign-up{
+  .btn-sign-up{
     background-color: @c-gray-back;
     color: @c-black-font;
   }
@@ -486,20 +480,7 @@ SINGUP PAGES
       }     
     }
     .buttons-container{
-      text-align: center;
-      .button-facebook{
-        width: 100%;
-        @media @medium-up{
-          width: 280px;
-        }
-      }
-      .button-agree{
-        width: 290px;
-        text-transform: none;
-        outline: none;
-        border: none;
-
-      }
+      text-align: center;      
       .skip-card-info{
         color: @c-green-font;
         font-weight: bold;
@@ -1013,7 +994,7 @@ DASHBOARD PAGES
       float:left;
       margin-top: 23px;
       .button-green{
-        width:125px;
+        width: auto;
         display:inline-block;
         margin:0px;
         padding: 6px 30px;

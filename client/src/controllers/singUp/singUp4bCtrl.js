@@ -8,6 +8,8 @@ module.exports = ['$scope', 'SingUpService', '$state', 'UserService', function (
     $scope.loading = true
     // Validation start
     var f = $scope.form
+    // To fix autocomplete issues
+    f.$commitViewValue()
     $scope.validateTerms(f)
     $scope.validateDDA(f)
     SingUpService.runFormControlsValidation(f)

@@ -17,6 +17,8 @@ module.exports = [ '$scope', 'SingUpService', '$state', 'UserService', 'AuthServ
   $scope.next = function () {
     // Validation start
     var f = $scope.form
+    // To fix autocomplete issues
+    f.$commitViewValue()
     if (SingUpService.getType() !== 'business') {
       $scope.validateTerms(f)
     }
@@ -40,7 +42,7 @@ module.exports = [ '$scope', 'SingUpService', '$state', 'UserService', 'AuthServ
         if (SingUpService.getType() === 'business') {
           SingUpService.saveBusinessInfo($scope.user)
           $state.go('^.step6b')
-          // $state.go('^.step3b')
+        // $state.go('^.step3b')
         } else {
           $state.go('^.step3p')
         }
@@ -68,5 +70,13 @@ module.exports = [ '$scope', 'SingUpService', '$state', 'UserService', 'AuthServ
   }
   $scope.isBusiness = function () {
     return SingUpService.getType() === 'business'
+  }
+
+  if ($scope.isBusiness()) {
+    $scope.firstNamePlaceholder = 'Legal First Name'
+    $scope.lastNamePlaceholder = 'Legal Last Name'
+  } else {
+    $scope.firstNamePlaceholder = 'First Name'
+    $scope.lastNamePlaceholder = 'Last Name'
   }
 }]
