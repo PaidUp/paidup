@@ -200,6 +200,25 @@ function createOrder (body, cb) {
   })
 }
 
+function orderPaymentRecent (userId, limit, cb) {
+  CommerceConnector.orderPaymentRecent({
+    baseUrl: config.connections.commerce.baseUrl,
+    token: config.connections.commerce.token,
+    userId: userId,
+    limit: limit
+  }).exec({
+    // An unexpected error occurred.
+    error: function (err) {
+      return cb(err)
+    },
+    // OK.
+    success: function (result) {
+      return cb(null, result)
+    }
+  })
+}
+
 module.exports = {
-  createOrder: createOrder
+  createOrder: createOrder,
+  orderPaymentRecent: orderPaymentRecent
 }
