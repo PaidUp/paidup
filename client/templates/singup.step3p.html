@@ -58,9 +58,12 @@
         name="bZipCode" 
         placeholder="Zip Code" 
         required 
+         ui-mask="99999"
+        ui-mask-placeholder
         ng-model="billingAddress.zipCode" 
         ng-model-options="{ updateOn: 'blur' }" />
-        <small class="error" ng-show="form.bZipCode.$error.required && form.bZipCode.$touched">Zip Code is required</small>  
+        <small class="error" ng-show="form.bZipCode.$error.required && form.bZipCode.$touched">Zip Code is required</small> 
+        <small class="error" ng-show="form.bZipCode.$error.mask && form.bZipCode.$touched">Invalid ZipCode</small> 
       </div>
     </div>
   </form>

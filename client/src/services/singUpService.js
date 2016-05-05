@@ -1,7 +1,7 @@
 'use strict'
 var angular = require('angular')
 
-module.exports = [ 'AuthService', 'UserService', 'OrganizationService', '$q', function (AuthService, UserService, OrganizationService, $q) {
+module.exports = [ 'AuthService', 'UserService', 'OrganizationService', '$q', 'properCaseFilter', function (AuthService, UserService, OrganizationService, $q, properCaseFilter) {
   var user = {}
   var organization = {}
 
@@ -60,17 +60,17 @@ module.exports = [ 'AuthService', 'UserService', 'OrganizationService', '$q', fu
   // Internal helper
   function completePersonalUserInfo (u) {
     user.info = {}
-    user.info.firstName = u.firstName
-    user.info.lastName = u.lastName
+    user.info.firstName = properCaseFilter(u.firstName)
+    user.info.lastName = properCaseFilter(u.lastName)
     user.info.isParent = getType() !== 'business'
     AuthService.setParent(getType() !== 'business')
     user.address = {}
     user.address.type = 'shipping'
     user.address.label = 'shipping'
     user.address.country = 'USA'
-    user.address.address1 = u.streetAddress
+    user.address.address1 = properCaseFilter(u.streetAddress)
     user.address.address2 = ''
-    user.address.city = u.city
+    user.address.city = properCaseFilter(u.city)
     user.address.state = u.state
     user.address.zipCode = u.zipCode
     user.phoneInfo = {
@@ -86,9 +86,9 @@ module.exports = [ 'AuthService', 'UserService', 'OrganizationService', '$q', fu
       bAddress.type = 'billing'
       bAddress.label = 'billing'
       bAddress.country = 'USA'
-      bAddress.address1 = billingAddress.streetAddress
+      bAddress.address1 = properCaseFilter(billingAddress.streetAddress)
       bAddress.address2 = ''
-      bAddress.city = billingAddress.city
+      bAddress.city = properCaseFilter(billingAddress.city)
       bAddress.state = billingAddress.state
       bAddress.zipCode = billingAddress.zipCode
       var error = function (err) {
@@ -148,14 +148,14 @@ module.exports = [ 'AuthService', 'UserService', 'OrganizationService', '$q', fu
 
   function saveBusinessInfo (u) {
     organization = {}
-    organization.ownerFirstName = u.firstName
-    organization.ownerLastName = u.lastName
+    organization.ownerFirstName = properCaseFilter(u.firstName)
+    organization.ownerLastName = properCaseFilter(u.lastName)
     organization.ownerDOB = u.dateOfBirth
     organization.ownerSSN = u.SSN
     organization.country = 'US'
-    organization.Address = u.streetAddress
+    organization.Address = properCaseFilter(u.streetAddress)
     organization.AddressLineTwo = ''
-    organization.city = u.city
+    organization.city = properCaseFilter(u.city)
     organization.state = u.state
     organization.zipCode = u.zipCode
     return organization
