@@ -17,7 +17,7 @@ module.exports = [ '$rootScope', '$http', 'UserService', 'SessionService', 'Face
     delete $rootScope.currentUser
   })
 
-  var dest = 'singup'
+  var dest = 'signup'
   var isParent = true
 
   return {
@@ -35,7 +35,7 @@ module.exports = [ '$rootScope', '$http', 'UserService', 'SessionService', 'Face
     },
 
     setDest: function () {
-      dest = 'singup'
+      dest = 'signup'
     },
 
     setIsParent: function () {

@@ -107,59 +107,59 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
     templateUrl: '../templates/dashboard/dashboard.profile.html',
     controller: 'ProfileCtrl'
   })
-  .state('singup', {
+  .state('signup', {
     abstract: true,
-    url: '/singup',
-    templateUrl: '../templates/singup.html',
-    controller: 'SingUpCtrl',
+    url: '/signup',
+    templateUrl: '../templates/signup.html',
+    controller: 'SignUpCtrl',
     data: {
       requireLogin: false
     }
   })
-  .state('singup.step0', {
+  .state('signup.step0', {
     url: '/step0',
-    templateUrl: '../templates/singup.step0.html',
-    controller: 'SingUp0Ctrl'
+    templateUrl: '../templates/signup.step0.html',
+    controller: 'SignUp0Ctrl'
   })
-  .state('singup.step1', {
+  .state('signup.step1', {
     url: '/step1',
-    templateUrl: '../templates/singup.step1.html',
-    controller: 'SingUp1Ctrl'
+    templateUrl: '../templates/signup.step1.html',
+    controller: 'SignUp1Ctrl'
   })
-  .state('singup.step2', {
+  .state('signup.step2', {
     url: '/step2',
-    templateUrl: '../templates/singup.step2.html',
-    controller: 'SingUp2Ctrl'
+    templateUrl: '../templates/signup.step2.html',
+    controller: 'SignUp2Ctrl'
   })
-  .state('singup.step3p', {
+  .state('signup.step3p', {
     url: '/step3p',
-    templateUrl: '../templates/singup.step3p.html',
-    controller: 'SingUp3pCtrl'
+    templateUrl: '../templates/signup.step3p.html',
+    controller: 'SignUp3pCtrl'
   })
-  .state('singup.step3b', {
+  .state('signup.step3b', {
     url: '/step3b',
-    templateUrl: '../templates/singup.step3b.html',
-    controller: 'SingUp3bCtrl'
+    templateUrl: '../templates/signup.step3b.html',
+    controller: 'SignUp3bCtrl'
   })
-  .state('singup.step4b', {
+  .state('signup.step4b', {
     url: '/step4b',
-    templateUrl: '../templates/singup.step4b.html',
-    controller: 'SingUp4bCtrl'
+    templateUrl: '../templates/signup.step4b.html',
+    controller: 'SignUp4bCtrl'
   })
-  .state('singup.step5b', {
+  .state('signup.step5b', {
     url: '/step5b',
-    templateUrl: '../templates/singup.step5b.html',
-    controller: 'SingUp5bCtrl'
+    templateUrl: '../templates/signup.step5b.html',
+    controller: 'SignUp5bCtrl'
   })
-  .state('singup.step6b', {
+  .state('signup.step6b', {
     url: '/step6b',
-    templateUrl: '../templates/singup.step6b.html',
-    controller: 'SingUp6bCtrl'
+    templateUrl: '../templates/signup.step6b.html',
+    controller: 'SignUp6bCtrl'
   })
-  .state('singup.welcome', {
+  .state('signup.welcome', {
     url: '/welcome',
-    templateUrl: '../templates/singup.welcome.html',
-    controller: 'SingUpWelcomeCtrl'
+    templateUrl: '../templates/signup.welcome.html',
+    controller: 'SignUpWelcomeCtrl'
   })
   .state('productOrganizationResponse', {
     url: '/product/organization/response/:id',

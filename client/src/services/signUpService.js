@@ -13,12 +13,12 @@ module.exports = [ 'AuthService', 'UserService', 'OrganizationService', '$q', 'p
     return user.type
   }
 
-  function setFacebookSingUp (facebookSingUp) {
-    user.facebookSingUp = facebookSingUp
+  function setFacebookSignUp (facebookSignUp) {
+    user.facebookSignUp = facebookSignUp
   }
 
-  function getFacebookSingUp () {
-    return user.facebookSingUp
+  function getFacebookSignUp () {
+    return user.facebookSignUp
   }
 
   function getUser () {
@@ -163,7 +163,7 @@ module.exports = [ 'AuthService', 'UserService', 'OrganizationService', '$q', 'p
 
   function saveBusinessOrganization (u) {
     organization.businessType = u.businessType
-    organization.businessName = u.businessName
+    organization.businessName = properCaseFilter(u.businessName)
     organization.EIN = u.EIN
     return organization
   }
@@ -205,8 +205,8 @@ module.exports = [ 'AuthService', 'UserService', 'OrganizationService', '$q', 'p
     saveBusinessInfo: saveBusinessInfo,
     saveBusinessOrganization: saveBusinessOrganization,
     saveBusinessBank: saveBusinessBank,
-    setFacebookSingUp: setFacebookSingUp,
-    getFacebookSingUp: getFacebookSingUp,
+    setFacebookSignUp: setFacebookSignUp,
+    getFacebookSignUp: getFacebookSignUp,
     createBillingAddress: createBillingAddress
   }
 }]
