@@ -126,20 +126,10 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
     templateUrl: '../templates/singup.step2.html',
     controller: 'SingUp2Ctrl'
   })
-  .state('singup.step2p', {
-    url: '/step2p',
-    templateUrl: '../templates/singup.step2p.html',
-    controller: 'SingUp2pCtrl'
-  })
   .state('singup.step3p', {
     url: '/step3p',
     templateUrl: '../templates/singup.step3p.html',
     controller: 'SingUp3pCtrl'
-  })
-  .state('singup.step2b', {
-    url: '/step2b',
-    templateUrl: '../templates/singup.step2b.html',
-    controller: 'SingUp2bCtrl'
   })
   .state('singup.step3b', {
     url: '/step3b',

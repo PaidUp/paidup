@@ -42,8 +42,8 @@ module.exports = [ 'AuthService', 'UserService', 'OrganizationService', '$q', fu
   function runFormControlsValidation (form) {
     angular.forEach(form, function (obj) {
       if (angular.isDefined(obj) && angular.isDefined(obj.$validate)) {
-        obj.$validate()
         obj.$setTouched()
+        obj.$validate()
       }
     })
     return
