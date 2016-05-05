@@ -1,7 +1,8 @@
 'use strict'
 var angular = require('angular')
 
-module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', function ($scope, UserService, $timeout, $rootScope) {
+module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthService', 'PaymentService', function ($scope, UserService, $timeout, $rootScope, AuthService, PaymentService) {
+  $scope.accounts = []
   $scope.loading = false
   $scope.loader = '<i class="fa fa-circle-o-notch fa-spin"></i>'
   $scope.states = UserService.getStates()
@@ -10,36 +11,15 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', function (
   $scope.editingAccount = false
   $scope.deletingAccount = false
   $scope.isNewCard = false
-
-  var billingAddress = {
-    street: '123 Main St.',
-    city: 'Washington',
-    state: 'WA',
-    zipCode: '44444'
-  }
-
-  $scope.accounts = [
-    {
-      id: '0',
-      type: 'visa',
-      nameOnCard: 'Robert Redford',
-      name: 'Visa - Bank of America',
-      last4: 'x-2356',
-      expiryDate: '10/17',
-      selected: true,
-      billingAddress: billingAddress
-    },
-    {
-      id: '1',
-      type: 'amex',
-      nameOnCard: 'Matias Schiva',
-      name: 'American Express',
-      last4: 'x-1211',
-      expiryDate: '09/23',
-      selected: false,
-      billingAddress: billingAddress
-    }
-  ]
+  AuthService.getCurrentUserPromise().then(function (user) {
+    PaymentService.listCards(user._id).then(function (accounts) {
+      $scope.accounts = accounts.data
+    }).catch(function (err) {
+      console.log('ERR', err)
+    })
+  }).catch(function (err) {
+    console.log('err', err)
+  })
 
   $rootScope.$on('openAccountsMenu', function (event, data) {
     $scope.activeAccountMenu = true

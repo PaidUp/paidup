@@ -1,8 +1,7 @@
 'use strict'
 
 module.exports = [ '$scope', '$rootScope', '$state', 'PaymentService', 'AuthService', function ($scope, $rootScope, $state, PaymentService, AuthService) {
-  $scope.payments = [] // [{name: 'test', last4: 'xxx1', brand: 'visa'}, {name: 'test2', last4: 'xxx2', brand: 'amex'}]
-  // var userId = 'userId'
+  $scope.payments = []
   AuthService.getCurrentUserPromise().then(function (user) {
     PaymentService.listCards(user._id).then(function (cards) {
       $scope.payments = cards.data
