@@ -10,4 +10,8 @@ module.exports = ['$resource', function ($resource) {
   this.getNextOrder = function (userId, limit) {
     return Orders.get({ action: 'next', userId: userId, limit: limit }).$promise
   }
+
+  this.getActiveOrders = function (userId, limit) {
+    return Orders.get({ action: 'active', userId: userId, limit: limit }).$promise
+  }
 }]
