@@ -29,32 +29,35 @@
               </tr>
             </thead>
             <tbody>
-              <tr ng-click="expandSection1 = !expandSection1">
+              <tr ng-click="expandSection1 = !expandSection1" ng-repeat-start="recentOrder in recentOrders">
                 <td class="date">
-                  <div class="month">DEC</div>
-                  <div class="day">25</div>
+                  <div class="month">{{(recentOrder.paymentsPlan.dateCharge | date : 'MMM') | uppercase}}</div>
+                  <div class="day">{{recentOrder.paymentsPlan.dateCharge | date: 'd'}}</div>
                 </td>
                 <td class="organization">
                   <div class="team-icon">
-                    <div>AB</div>
+                    <div>{{recentOrder.paymentsPlan.productInfo.productName | limitTo:2}}</div>
                   </div>
                   <div class="team">
-                    <div class="team-name">Austin Boom</div>
-                    <div class="team-contact">Jerry Garcia</div>
+                    <div class="team-name">{{recentOrder.paymentsPlan.productInfo.productName}}</div>
+                    <div class="team-contact">{{recentOrder.paymentsPlan.beneficiaryInfo.beneficiaryName}}</div>
                   </div>
                   <div class="clearfix"></div>
                 </td>
                 <td class="status">
-                  <div class="green-font">
-                    <i class="fa fa-check"></i> <span>Success</span>
+                  <div class="{{recentOrder.paymentsPlan.status === 'succeeded' ? 'green-font' : 'red-font' }}">
+                    <i class="{{recentOrder.paymentsPlan.status === 'succeeded' ? 'fa fa-check' : 'fa fa-times' }}"></i> <span>{{recentOrder.paymentsPlan.status}}</span>
                   </div>
                 </td>
                 <td class="total">
                   <span class="green-font">$</span> 
-                  998.75
+                  {{recentOrder.paymentsPlan.price}}
                 </td>
               </tr>
               <tr>
+                <td class="empty-section" colspan="4"></td>                
+              </tr>
+              <tr ng-repeat-end>
                 <td class="expand" colspan="4">
                   <div ng-class="expandSection1 ? 'expandable-section active' : 'expandable-section'">
                     <div class="expanded-section">
@@ -65,23 +68,23 @@
                               Paid With:
                             </span>
                             <br>
-                            <span>Amex x-1234</span>
+                            <span>{{recentOrder.paymentsPlan.accountBrand}} x-{{recentOrder.paymentsPlan.last4}}</span>
                             <br>
-                            <span>You'll see "PaidUp Austin Boom" in your statement</span>
+                            <span>You'll see "PaidUp {{recentOrder.paymentsPlan.productInfo.productName}}" in your statement</span>
                           </div>
                           <div class="info-box">
                             <span class="green-font">
                               Transaction Id:
                             </span>
                             <br>
-                            <span>ASDK232323DDDKK2</span>
+                            <span>{{recentOrder.paymentsPlan._id}}</span>
                           </div>
                           <div class="info-box">
                             <span class="green-font">
                               Order Id:
                             </span>
                             <br>
-                            <a href="" class="green-link">SFY2323SDSDSAD32</a>
+                            <a href="" class="green-link">{{recentOrder.orderId}}</a>
                           </div>
                         </div>
                         <div class="col s12 m6"> 
@@ -90,20 +93,20 @@
                               Sent To:
                             </span>
                             <br>
-                            <span>Austin Boom</span>
+                            <span>{{recentOrder.paymentsPlan.productInfo.productName}}</span>
                             <br>
-                            <span>Austin, TX</span>
+                            <span>{{recentOrder.paymentsPlan.productInfo.organizationLocation}}</span>
                           </div>
                           <div class="info-box">
                             <span class="green-font">
-                              Athelte First Name:
+                              Athelte Name:
                             </span>
-                            <span>Jonny</span>
+                            <!--<span>{{recentOrder.paymentsPlan.beneficiaryInfo.beneficiaryName}}</span>-->
                             <br>
-                            <span class="green-font">
+                            <!--<span class="green-font">
                               Athelte Last Name:
                             </span>
-                            <span>Garcia</span>
+                            <span>{{recentOrder.paymentsPlan.beneficiaryInfo.beneficiaryName}}</span>-->
 
                           </div>
                           <div class="info-box">
@@ -111,91 +114,13 @@
                               Details:
                             </span>
                             <br>
-                            <span>Payment 3 of 4</span>
+                            <span>{{recentOrder.paymentsPlan.description}}</span>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </td>                
-              </tr>
-              <tr>
-                <td class="empty-section" colspan="4"></td>                
-              </tr>
-              <tr>
-                <td class="date">
-                  <div class="month">DEC</div>
-                  <div class="day">25</div>
-                </td>
-                <td class="organization">
-                  <div class="team-icon">
-                    <div>AB</div>
-                  </div>
-                  <div class="team">
-                    <div class="team-name">Cobras Volleyball Club</div>
-                    <div class="team-contact">Andy Thompson</div>
-                  </div>
-                  <div class="clearfix"></div>
-                </td>
-                <td class="status">
-                  <div class="red-font">
-                    <i class="fa fa-times"></i> <span>Failed</span>
-                  </div>
-                </td>
-                <td class="total">
-                  <span class="green-font">$</span> 
-                  998.75
-                </td>
-              </tr>
-              <tr>
-                <td class="date">
-                  <div class="month">DEC</div>
-                  <div class="day">25</div>
-                </td>
-                <td class="organization">
-                  <div class="team-icon">
-                    <div>AB</div>
-                  </div>
-                  <div class="team">
-                    <div class="team-name">Austin Boom</div>
-                    <div class="team-contact">Jerry Garcia</div>
-                  </div>
-                  <div class="clearfix"></div>
-                </td>
-                <td class="status">
-                  <div class="green-font">
-                    <i class="fa fa-sign-in fa-rotate-90"></i> <span>Reserved</span>
-                  </div>
-                </td>
-                <td class="total">
-                  <span class="green-font">$</span> 
-                  998.75
-                </td>
-              </tr>
-              <tr>
-                <td class="date">
-                  <div class="month">DEC</div>
-                  <div class="day">25</div>
-                </td>
-                <td class="organization">
-                  <div class="team-icon">
-                    <div>AB</div>
-                  </div>
-                  <div class="team">
-                    <div class="team-name">Austin Boom</div>
-                    <div class="team-contact">Jerry Garcia</div>
-                  </div>
-                  <div class="clearfix"></div>
-                </td>
-                <td class="status">
-                  <div class="gray-font">
-                    <i class="fa fa-check"></i> <span>Paid</span>
-                  </div>
-                </td>
-                <td class="total">
-                  <span class="green-font">$</span> 
-                  998.75
-                </td>
               </tr>
             </tbody>
           </table>
