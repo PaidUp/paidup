@@ -2,6 +2,18 @@
 var angular = require('angular')
 
 module.exports = [ '$scope', 'SignUpService', '$state', 'UserService', 'AuthService', 'TrackerService', '$timeout', function ($scope, SignUpService, $state, UserService, AuthService, TrackerService, $timeout) {
+  $scope.isBusiness = function () {
+    return SignUpService.getType() === 'business'
+  }
+
+  if ($scope.isBusiness()) {
+    $scope.firstNamePlaceholder = 'Legal First Name'
+    $scope.lastNamePlaceholder = 'Legal Last Name'
+  } else {
+    $scope.firstNamePlaceholder = 'First Name'
+    $scope.lastNamePlaceholder = 'Last Name'
+  }
+
   $scope.user = {}
   var isFacebookSignUp = SignUpService.getFacebookSignUp()
   if (isFacebookSignUp) {
@@ -41,8 +53,9 @@ module.exports = [ '$scope', 'SignUpService', '$state', 'UserService', 'AuthServ
         })
         if (SignUpService.getType() === 'business') {
           SignUpService.saveBusinessInfo($scope.user)
-          $state.go('^.step6b')
-        // $state.go('^.step3b')
+          // We will add referral code later
+          SignUpService.setReferralCode('')
+          $state.go('^.step3b')
         } else {
           $state.go('^.step3p')
         }
@@ -70,16 +83,5 @@ module.exports = [ '$scope', 'SignUpService', '$state', 'UserService', 'AuthServ
     } else {
       f.agreeTerms.$setValidity('terms', true)
     }
-  }
-  $scope.isBusiness = function () {
-    return SignUpService.getType() === 'business'
-  }
-
-  if ($scope.isBusiness()) {
-    $scope.firstNamePlaceholder = 'Legal First Name'
-    $scope.lastNamePlaceholder = 'Legal Last Name'
-  } else {
-    $scope.firstNamePlaceholder = 'First Name'
-    $scope.lastNamePlaceholder = 'Last Name'
   }
 }]
