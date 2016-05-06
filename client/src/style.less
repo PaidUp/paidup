@@ -57,6 +57,15 @@ COMMONS
   *zoom: 1;
 }
 
+// Number Spineer arrows
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+
 table.striped.even-rows-gray>tbody>tr:nth-child(even){background-color:#fafafa}
 
 .bold{
@@ -165,6 +174,7 @@ div.error{
 }
 
 input[type="text"], 
+input[type="number"], 
 input[type="password"], 
 input[type="email"], 
 select{
@@ -297,8 +307,8 @@ LOGIN PAGE
     text-align: center;
   }
   .btn-sign-up{
-    background-color: @c-gray-back;
-    color: @c-black-font;
+    background-color: @c-gray-back !important;
+    color: @c-black-font !important;
   }
 }
 
@@ -434,6 +444,7 @@ SIGNUP PAGES
     }
     .inputs{
       input[type="text"],
+      input[type="number"],
       input[type="password"],
       input[type="email"],
       select{
@@ -1743,6 +1754,7 @@ DASHBOARD PAGES
     }
     .inputs{
       input[type="text"],
+      input[type="number"],
       input[type="password"],
       input[type="email"],
       select{

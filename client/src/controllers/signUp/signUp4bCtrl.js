@@ -18,7 +18,7 @@ module.exports = ['$scope', 'SignUpService', '$state', 'UserService', function (
       SignUpService.saveBusinessBank($scope.bankAccount)
       SignUpService.createBusinessAccount($scope.user).then(function (organizationId) {
         $state.go('^.welcome')
-        // $state.go('^.step6b')
+      // $state.go('^.step6b')
       }, function (err) {
         console.log('ERROR', err)
         $scope.error = err
@@ -82,8 +82,8 @@ module.exports = ['$scope', 'SignUpService', '$state', 'UserService', function (
     var n = 0
     for (var i = 0; i < t.length; i += 3) {
       n += parseInt(t.charAt(i), 10) * 3 +
-        parseInt(t.charAt(i + 1), 10) * 7 +
-        parseInt(t.charAt(i + 2), 10)
+      parseInt(t.charAt(i + 1), 10) * 7 +
+      parseInt(t.charAt(i + 2), 10)
     }
 
     // If the resulting sum is an even multiple of ten (but not zero),
@@ -148,6 +148,17 @@ module.exports = ['$scope', 'SignUpService', '$state', 'UserService', function (
       } else {
         $scope.form.uDDA2.$setValidity('match', true)
       }
+    }
+  }
+
+  $scope.validateNumberInput = function ($event) {
+    if ($event.which === 0 || $event.which === 8) {
+      return true
+    }
+    var pattern = /\d/
+    if (!pattern.test(String.fromCharCode($event.which))) {
+      $event.preventDefault()
+      $event.stopPropagation()
     }
   }
 }]
