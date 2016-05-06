@@ -7,7 +7,7 @@ module.exports = [ function () {
     transclude: true,
     scope: {
       'show': '=',
-      'modalTitle': '@?'
+      'modalTitle': '=?'
     },
     templateUrl: '/templates/directives/modal.window.html'
   }

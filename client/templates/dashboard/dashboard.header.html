@@ -4,23 +4,27 @@
       <i class="fa fa-bars"></i>
     </div>
     <div class="img-logo left">
-      <img src="../img/paidUpLogoWhite.png" alt="logo">
+      <img src="../img/PaidUpLogoPrimary.svg" alt="logo">
     </div>
     <div class="navigation-items left hide-on-med-and-down">
-     <ul>
-       <li ui-sref="dashboard.summary.components">Summary</li>
-       <li ui-sref="dashboard.activities">Activities</li>
-       <li ui-sref="dashboard.orders">Orders</li>
-       <li ng-click="clickAccounts()">Accounts</li>
-       <li ng-if="isCoach">Deposits</li>
-       <li ng-if="isCoach">Aging</li>
-     </ul>
-   </div>
-   <div class="right">
-     <div class="help" ng-hide="isCoach">Need Help? Call <span class="phone">(855) 764 3232</span></div>
-     <div class="setting" ui-sref="dashboard.profile"><i class="fa fa-cog fa-2x" aria-hidden="true"></i></div>
-     <div class="logout-button hide-on-med-and-down"><a class="button-green" href="" ng-click="logout()">logout</a></div>     
-   </div>
-   <div class="clearfix"></div>
+     <ul ng-if="!isCoach">
+      <li ui-sref="dashboard.summary.components">Summary</li>
+      <li ui-sref="dashboard.activities">Activities</li>
+      <li ui-sref="dashboard.orders">Orders</li>
+      <li ng-click="clickAccounts()">Accounts</li>
+    </ul>  
+    <ul ng-if="isCoach">
+      <li ui-sref="dashboard.summary.components">Summary</li>
+      <li ui-sref="dashboard.board">Dashboard</li>
+      <li ui-sref="dashboard.deposits">Deposits</li>
+      <li ui-sref="dashboard.aging">Aging</li>
+    </ul>
+  </div>
+  <div class="right">
+   <div class="help">Need Help? Call <a class="phone" href="tel:8557643232">(855) 764 3232</a></div>
+   <div class="setting" ui-sref="dashboard.profile"><i class="fa fa-cog fa-2x" aria-hidden="true"></i></div>
+   <div class="logout-button hide-on-med-and-down"><a class="button-green" href="" ng-click="logout()">logout</a></div>     
  </div>
+ <div class="clearfix"></div>
+</div>
 </header>

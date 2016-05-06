@@ -3,7 +3,6 @@
   <div class="steps-count selected"></div>
   <div class="steps-count selected"></div>
   <div class="steps-count selected"></div>
-  <div class="steps-count"></div>
 </div>
 <p class="title">
   Where do you want us to deposit your money?
@@ -22,9 +21,11 @@
     ng-model="user.routingNumber"
     ng-change="ABAValidator()"
     ng-blur="maskABA()"
-    ng-focus="unmaskABA()" />
+    ng-focus="unmaskABA()"
+    ng-keypress="validateNumberInput($event)"
+    maxlength="9" />
     <small class="error" ng-show="form.uRoutingNumber.$error.required && form.uRoutingNumber.$touched">Routing Number is required</small>   
-    <small class="error" ng-show="form.uRoutingNumber.$error.aba && form.uRoutingNumber.$touched"">Routing number is not correct</small>
+    <small class="error" ng-show="form.uRoutingNumber.$error.aba && form.uRoutingNumber.$touched">Routing number is not correct</small>
     
     <input type="text"
     name="uDDA1" 
@@ -33,7 +34,8 @@
     ng-model="user.DDA1" 
     ng-change="validateDDA1()"
     ng-blur="maskDDA()"
-    ng-focus="unmaskDDA()" />
+    ng-focus="unmaskDDA()"
+    ng-keypress="validateNumberInput($event)" />
     <small class="error" ng-show="form.uDDA1.$error.required && form.uDDA1.$touched">Account Number is required</small>  
     <small class="error" ng-show="form.uDDA1.$error.pattern && form.uDDA1.$touched">Account number format error</small> 
     <input type="text" 
@@ -43,7 +45,8 @@
     ng-model="user.DDA2" 
     ng-change="validateDDA2()"
     ng-focus="unmaskDDA2()"
-    ng-blur="maskDDA2()" />
+    ng-blur="maskDDA2()"
+    ng-keypress="validateNumberInput($event)" />
     <small class="error" ng-show="form.uDDA2.$error.match">Account Numbers do not match</small>
     <div class="agree-checkbox">
       <small class="error" ng-show="form.agreeTerms.$error.terms">Please agree to terms</small> 
@@ -57,6 +60,5 @@
 
 
 <div class="buttons-container">
-  <!--<a ng-click="next()" class="button-green button-agree">Agree and Create Account</a>-->
-  <button ng-click="next()" class="button-green button-agree" ng-disabled="loading" ng-bind-html="loading ? loader : 'Agree and Create Account'"></button>
+  <button ng-click="next()" class="button-green" ng-disabled="loading" ng-bind-html="loading ? loader : 'Agree and Create Account'"></button>
 </div>

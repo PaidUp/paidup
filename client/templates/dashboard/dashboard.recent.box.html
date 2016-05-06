@@ -8,86 +8,26 @@
   <!-- Transactions START -->
   <table class="transactions-table striped">
     <tbody>
-      <tr>
+      <tr ng-repeat="order in orders">
         <td class="date">
-          <div class="month">DEC</div>
-          <div class="day">25</div>
+          <div class="month">{{(order.paymentsPlan.dateCharge | date : 'MMM') | uppercase}}</div>
+          <div class="day">{{ order.paymentsPlan.dateCharge | date: 'd'}}</div>
         </td>
         <td class="organization">
           <div class="team-icon">
-            <div>AB</div>
+            <div>{{order.paymentsPlan.productInfo.productName | limitTo:2}}</div>
           </div>
           <div class="team">
-            <div class="team-name">Austin Boom</div>
-            <div class="team-contact">Jerry Garcia</div>
+            <div class="team-name">{{order.paymentsPlan.productInfo.productName}}</div>
+            <div class="team-contact">{{order.paymentsPlan.beneficiaryInfo.beneficiaryName}}</div>
           </div>
           <div class="clearfix"></div>
         </td>
         <td class="total">
-          <span class="green-font">$ -</span> 
-          264.75
+          <span class="green-font">- $</span> 
+          {{order.paymentsPlan.price}}
         </td>
-      </tr>  
-      <tr>
-        <td class="date">
-          <div class="month">DEC</div>
-          <div class="day">30</div>
-        </td>
-        <td class="organization">
-          <div class="team-icon">
-            <div>AB</div>
-          </div>
-          <div class="team">
-            <div class="team-name">Austin Boom</div>
-            <div class="team-contact">Jerry Garcia</div>
-          </div>
-          <div class="clearfix"></div>
-        </td>
-        <td class="total">
-          <span class="green-font">$</span> 
-          1002.33
-        </td>
-      </tr>  
-      <tr>
-        <td class="date">
-          <div class="month">DEC</div>
-          <div class="day">25</div>
-        </td>
-        <td class="organization">
-          <div class="team-icon">
-            <div>AB</div>
-          </div>
-          <div class="team">
-            <div class="team-name">Austin Boom</div>
-            <div class="team-contact">Jerry Garcia</div>
-          </div>
-          <div class="clearfix"></div>
-        </td>
-        <td class="total">
-          <span class="green-font">$</span> 
-          264.75
-        </td>
-      </tr>  
-      <tr>
-        <td class="date">
-          <div class="month">DEC</div>
-          <div class="day">25</div>
-        </td>
-        <td class="organization">
-          <div class="team-icon">
-            <div>AB</div>
-          </div>
-          <div class="team">
-            <div class="team-name">Austin Boom</div>
-            <div class="team-contact">Jerry Garcia</div>
-          </div>
-          <div class="clearfix"></div>
-        </td>
-        <td class="total">
-          <span class="green-font">$ -</span> 
-          264.75
-        </td>
-      </tr>
+      </tr> 
     </tbody>
   </table>
   <!-- Transactions END -->

@@ -1,6 +1,6 @@
 'use strict'
 
-module.exports = [ '$scope', 'SingUpService', '$state', function ($scope, SingUpService, $state) {
+module.exports = [ '$scope', 'SignUpService', '$state', function ($scope, SignUpService, $state) {
   $scope.userType = ''
   $scope.loader = '<i class="fa fa-circle-o-notch fa-spin"></i>'
   $scope.loading = false
@@ -12,7 +12,7 @@ module.exports = [ '$scope', 'SingUpService', '$state', function ($scope, SingUp
       return
     }
     $scope.error = ''
-    SingUpService.setType($scope.userType)
+    SignUpService.setType($scope.userType)
     $state.go('^.step1')
   }
 }]

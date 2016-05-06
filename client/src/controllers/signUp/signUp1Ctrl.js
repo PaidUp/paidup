@@ -1,22 +1,23 @@
 'use strict'
 var angular = require('angular')
 
-module.exports = [ '$scope', 'SingUpService', '$state', 'AuthService', function ($scope, SingUpService, $state, AuthService) {
-  $scope.userType = SingUpService.getType()
-  $scope.facebookSingUpTemplate = '<i class="fa fa-lg fa-facebook" aria-hidden="true"></i> Sing up with Facebook'
+module.exports = [ '$scope', 'SignUpService', '$state', 'AuthService', function ($scope, SignUpService, $state, AuthService) {
+  $scope.userType = SignUpService.getType()
+  $scope.facebookSignUpTemplate = '<i class="fa fa-lg fa-facebook" aria-hidden="true"></i> Sign up with Facebook'
   $scope.loader = '<i class="fa fa-circle-o-notch fa-spin"></i>'
   $scope.loading = false
   $scope.next = function () {
     // Validation start
     $scope.loading = true
     var f = $scope.form
-    // console.log(f)
+    // To fix autocomplete issues
+    f.$commitViewValue()
     $scope.validatePassword(f)
-    SingUpService.runFormControlsValidation(f)
+    SignUpService.runFormControlsValidation(f)
     if (f.$valid) {
       console.log('VALID')
-      SingUpService.setFacebookSingUp(false)
-      SingUpService.setCredentials($scope.user)
+      SignUpService.setFacebookSignUp(false)
+      SignUpService.setCredentials($scope.user)
       $scope.loading = false
       $state.go('^.step2')
     } else {
@@ -36,7 +37,7 @@ module.exports = [ '$scope', 'SingUpService', '$state', 'AuthService', function 
   $scope.facebookSignUp = function () {
     $scope.loading = true
     var success = function (user) {
-      SingUpService.setFacebookSingUp(true)
+      SignUpService.setFacebookSignUp(true)
       $state.go('^.step2')
     }
     var error = function (err) {
