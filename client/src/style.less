@@ -222,46 +222,13 @@ footer.page-footer{
   color: @c-gray-font;
   .container{
     text-align: center;
-    @media @large-up{
-      text-align: left;
-      width: 80%;
+    margin: 30px auto 50px auto;    
+    a{
+      color: @c-gray-font;
     }
-    .right-footer{
-      a{
-        color: @c-gray-font;
-      }
-      float: none;
-      clear: both;
-      @media @large-up{
-        clear: inherit;
-        float: right;
-      }
-      .phone{
-        color:@c-green-font;
-        text-decoration: underline;
-      }
-      .feedback{
-        display: block;
-        margin: 10px 0px;
-        @media @medium-up{
-          margin-left: 25px;
-          display: inline-block;
-        }
-        @media @large-up{
-          margin-top: 0px;
-        }
-      }
-    } 
-    .left-footer{
-      float: none;
-      clear: both;
-      @media @large-up{
-        clear: inherit;
-        float: left;
-      }
-    }
-    div{
-      margin: 15px 0px;
+    .phone{
+      color:@c-green-font;
+      text-decoration: underline;
     }
     .fa-phone, .fa-comment{
       color: @c-green-back;
@@ -375,14 +342,10 @@ SIGNUP PAGES
     footer.page-footer{
       color: #fff;
       .container{
-        .right-footer{
-          a{
-            color: #fff;
-          }
-          .fa-phone, .fa-comment{
-            color: #fff;
-          }
-        }
+        color: #fff;        
+        a{
+          color: #fff;
+        }        
       }
     }
   }
@@ -897,7 +860,10 @@ DASHBOARD PAGES
     font-family: @family-medium;
     color: @c-black-font;
     margin-top: 20px;
-    font-size: 16px;
+    font-size: 12px;
+    @media @medium-up{
+      font-size: 16px;
+    }
     thead{
       border-bottom: none;
       th{
@@ -951,7 +917,9 @@ DASHBOARD PAGES
     }
 
   }
-  
+  div.main-tables-container{
+    min-width: 400px;
+  }
   div.category-table{
     display: none;
     overflow-y: hidden;
