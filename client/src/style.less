@@ -60,9 +60,9 @@ COMMONS
 // Number Spineer arrows
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-    /* display: none; <- Crashes Chrome on hover */
-    -webkit-appearance: none;
-    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
 
 
@@ -663,27 +663,8 @@ DASHBOARD PAGES
     }
   }
   // COMMON TABLES
-  .header-table{    
-    font-family: @family-medium;
-    margin-top: 20px;
-    tbody{
-      tr{
-        background-color: @c-blue-light-back;
-        color: @c-gray-dark-font;
-        border: 1px solid @c-blue-font;
-        cursor: pointer;
-      }
-    }
-    thead{
-      border-bottom: none;
-      th{
-        padding: 5px;
-        font-weight: normal;
-        color: @c-blue-font;
-      }
 
-    }
-  }
+
   .transactions-table{
     font-family: @family-medium;
 
@@ -792,7 +773,11 @@ DASHBOARD PAGES
     }
 
     td.empty-section{
-      display: none;
+      height:0px;
+      max-height: 0px;
+      padding:0px;
+      margin:0px;
+
     }
     
     td.number{
@@ -906,10 +891,163 @@ DASHBOARD PAGES
       }
     }
 
-    td.total-label{
+  }
 
+  .header-table{    
+    font-family: @family-medium;
+    color: @c-black-font;
+    margin-top: 20px;
+    font-size: 16px;
+    thead{
+      border-bottom: none;
+      th{
+        padding: 5px;
+        font-weight: normal;
+        color: @c-blue-font;
+      }
+      th.date{
+        width:10%;
+      }
+      th.user{
+        width:30%;
+      }
+      th.tot{
+        width:15%;
+      }
+      th.discount{
+        width:15%;
+      }
+      th.paid{
+        width:15%;
+      }
+      th.remaining{
+        width:15%;
+      }
+    }
+    tbody{
+      tr{
+        border-top: 1px solid @c-blue-font;
+        border-left: 1px solid @c-blue-font;
+        border-right: 1px solid @c-blue-font;
+        border-bottom: 1px solid @c-blue-font;
+        background-color: @c-blue-light-back;
+        cursor: pointer;
+        td.name{
+          width:40%;
+        }
+        td.tot{
+          width:15%;
+        }
+        td.discount{
+          width:15%;
+        }
+        td.paid{
+          width:15%;
+        }
+        td.remaining{
+          width:15%;
+        }
+      }
     }
 
+  }
+  
+  div.category-table{
+    display: none;
+    overflow-y: hidden;
+    transition-property: all;
+    transition-duration: .6s;
+    transition-timing-function: ease;
+    &.active{
+      display:block;
+    }
+  }
+
+  .board-table{
+    color: @c-gray-dark-font;
+    border-top: none;
+    border-left: 1px solid @c-blue-font;
+    border-bottom: 1px solid @c-blue-font;
+    border-right: 1px solid @c-blue-font;
+
+    tbody{
+      tr{
+        &.user-row{
+          background-color: @c-green-light-back;
+          border-bottom: 1px solid @c-gray-back;
+          &.active{
+            border-bottom: none;
+          }
+        }
+        td:first-child{
+          @media @medium-up{
+            padding-left: 5px;
+          }    
+        }
+
+        td:last-child{
+          @media @medium-up{
+            padding-right: 5px;
+          }    
+        }
+        td.date{
+          width:10%;
+        }
+        td.organization{
+          width:30%;
+        }
+        td.name{
+          width:40%;
+        }
+        td.tot{
+          width:15%;
+        }
+        td.discount{
+          width:15%;
+        }
+        td.paid{
+          width:15%;
+        }
+        td.remaining{
+          width:15%;
+        }
+        td.expand{
+          .expandable-section{
+            .expanded-section{
+              border:none;
+              .inline-block{
+                display:inline-block;
+                margin-right: 30px;
+                .value{
+                  font-size: 16px;
+                  line-height: 16px;
+                }
+              }
+              .charges-table{
+                th:last-child{
+                  text-align: left;
+                }
+                td{                  
+                  padding: 8px 5px;
+                }
+                td.date{
+                  width: auto;
+                  .month{
+                    font-size: 12px;
+                  }
+                  .day{
+                    font-size: 20px;
+                  }
+                }
+                td.status{
+                  text-align: left;                  
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
 
   // CHARGES SUB TABLE
