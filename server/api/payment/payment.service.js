@@ -145,7 +145,8 @@ function capture (order, cb) {
       token: config.connections.commerce.token,
       orderId: order._id,
       paymentPlanId: order.paymentsPlan[0]._id,
-      paymentPlan: order.paymentsPlan[0]
+      paymentPlan: order.paymentsPlan[0],
+      userSysId: 'CronJob'
     }
     CommerceConnect.orderUpdatePayments(params).exec({
       success: function (data) {
