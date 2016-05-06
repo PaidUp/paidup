@@ -6,24 +6,17 @@
   </div>
   <p><a href="" class="green-link">Add your debit / credit card</a> to your account so you're ready to make a payment.</p>
   <!-- No accounts END -->
-  <hr>
   <!-- Accounts START -->
-  <p>Orders with remaining payments (Click to see payment schedule):</p>
-  <ul class="accounts-list">
-    <li class="clearfix">
-      <div class="icon-container"><i class="fa fa-cc-visa"></i></div>
-      <div class="account-name">Bank of America Visa <span class="card-number">x-1234</span></div>
-    </li> 
-    <li class="clearfix">
-      <div class="icon-container"><i class="fa fa-cc-amex"></i></div>
-      <div class="account-name">American Express <span class="card-number">x-1234</span></div>
-    </li> 
-    <li class="clearfix">
-      <div class="icon-container"><i class="fa fa-bank"></i></div>
-      <div class="account-name">USSA Saving Bank <span class="card-number">x-1234</span></div>
-    </li>    
-  </ul>
-  <div class="bottom-link" ng-click="updateAccounts()">Update</div>
+  <div ng-if="payments.length" name="divAccountsList" ng-model="user.routingNumber">
+    <hr> 
+    <p>Orders with remaining payments (Click to see payment schedule):</p>
+    <ul class="accounts-list">
+      <li class="clearfix" ng-repeat="payment in payments">
+        <div class="icon-container"><i class="fa fa-{{payment.brand ? ('cc-'+payment.brand | lowercase) : 'credit-card-alt'}}"></i></div>
+        <div class="account-name">{{payment.name}} <span class="card-number">x-{{payment.last4}}</span></div>
+      </li>
+    </ul>
+    <div class="bottom-link" ng-click="updateAccounts()">Update</div>
+  </div>
   <!-- Accounts END -->
-
 </div>  

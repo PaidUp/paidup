@@ -26,27 +26,58 @@ module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$transl
   }
   // TRANSLATE DEMO - END
 
-  //While finish ve implementation
-  var hosts = {
-    'stg.getpaidup.com' : 'https://stage.getpaidup.com/sso/',
-    'login.getpaidup.com' : 'https://app.getpaidup.com/sso/'
+  $scope.forgotLink = function () {
+    $scope.showForgotModal = true
   }
 
-  function redirect(){
-    var newHost = hosts[$location.host()];
+  $scope.closeModal = function () {
+    $scope.showForgotModal = false
+  }
 
-    if(newHost){
-      var token = SessionService.getCurrentSession();
-      newHost = newHost+token;
-      $window.location.href = newHost;
+  $scope.submitForgotPassword = function (emailController) {
+    emailController.$setTouched()
+    emailController.$validate()
+    var emailValue = emailController.$viewValue
+    if (emailController.$valid) {
+      $scope.loading = true
+
+      var successFn = function () {
+        TrackerService.create('forgot', {
+          email: emailValue
+        })
+        $scope.error = ''
+        $scope.loading = false
+        $scope.showForgotModal = false
+      }
+      var errorFn = function (err) {
+        TrackerService.trackFormErrors('forgot form', emailValue)
+        $scope.loading = false
+        $scope.showForgotModal = false
+        $scope.error = err.message
+      }
+
+      AuthService.forgotPassword(emailValue, successFn, errorFn)
+    }
+  }
+
+  // While finish ve implementation
+  var hosts = {
+    'stg.getpaidup.com': 'https://stage.getpaidup.com/sso/',
+    'login.getpaidup.com': 'https://app.getpaidup.com/sso/'
+  }
+
+  function redirect () {
+    var newHost = hosts[$location.host()]
+
+    if (newHost) {
+      var token = SessionService.getCurrentSession()
+      newHost = newHost + token
+      $window.location.href = newHost
     } else {
       $state.go('dashboard.summary.components')
     }
   }
-  //end
-
-
-
+  // end
 
   // Functions
   $scope.localLogin = function () {
@@ -72,8 +103,6 @@ module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$transl
       })
 
       redirect()
-
-
     }
     var error = function (err) {
       TrackerService.trackFormErrors('login error', err.message)
@@ -92,8 +121,8 @@ module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$transl
     var success = function (user) {
       var roleType = AuthService.getIsParent() ? 'Payer' : 'Payee'
       TrackerService.create('Login Facebook', {roleType: roleType})
-      redirect();
-      //$state.go('dashboard.summary.components')
+      redirect()
+    // $state.go('dashboard.summary.components')
     }
     var error = function (err) {
       console.log(err)

@@ -1,18 +1,19 @@
 <div class="row">
   <div class="col s12 center login-container">
-    <img src="../img/paidUpLogoWhite.png" alt="logo" class="logo-img">
+    <img src="../img/PaidUpLogoPrimary.svg" alt="logo" class="logo-img">
     <div class="error red-text text-darken-2" ng-bind="error"></div>
     <div class="inputs">
       <input placeholder="Email" id="email" type="text" class="validate" ng-model="user.email" />
       <input placeholder="Password" id="password" type="password" class="validate" ng-model="user.password" />
     </div>
     <div class="buttons-container">
-    <button ng-click="localLogin()" class="button-green button-green-login" ng-disabled="loading" ng-bind-html="loading ? loader : 'LOGIN'"></button>
-      <a ng-click="forgotLink()" class="forgot-link waves-effect">Forgot your email or password?</a>      
+    <button ng-click="localLogin()" class="button-green" ng-disabled="loading" ng-bind-html="loading ? loader : 'LOGIN'"></button>
+      <a ng-click="forgotLink()" class="forgot-link waves-effect">Forgot your password?</a>      
       <button ng-click="facebookLogin()" class="button-facebook" ng-disabled="loading" ng-bind-html="loading ? loader : facebookLoginTemplate"></button>
       <div class="horizontal-bar"></div>
-      <a ui-sref="singup.step0" class="button-green button-green-login button-sign-up waves-effect waves-light">SIGN UP</a>
+      <button ui-sref="signup.step0" class="button-green btn-sign-up" ng-disabled="loading" ng-bind-html="loading ? loader : 'Sign Up'"></button>
       
+
       <!-- TRANSLATE DEMO PART -->
       <!-- 
         BEST to use translate as a directive as below or for dynamic codes (error code from server) use translate Service from Controller
@@ -29,3 +30,21 @@
     </div>
   </div>
 </div>
+
+<modal-window show="showForgotModal" modal-title="'Enter your email'">
+<div class="inputs">
+  <form name="form" novalidate>
+    <input type="text" 
+    name="uforgotEmail" 
+    placeholder="Email" 
+    required 
+    ng-model="forgotEmail" 
+    ng-model-options="{ updateOn: 'blur' }" />
+    <small class="error" ng-show="form.uforgotEmail.$error.required && form.uforgotEmail.$touched">Email is required</small>
+  </form>
+</div>
+<div class="center">
+  <button ng-click="submitForgotPassword(form.uforgotEmail)" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Submit'"></button>
+  <button ng-click="closeModal()" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Cancel'"></button>
+</div>
+</modal-window>

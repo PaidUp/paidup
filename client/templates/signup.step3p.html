@@ -58,9 +58,12 @@
         name="bZipCode" 
         placeholder="Zip Code" 
         required 
+         ui-mask="99999"
+        ui-mask-placeholder
         ng-model="billingAddress.zipCode" 
         ng-model-options="{ updateOn: 'blur' }" />
-        <small class="error" ng-show="form.bZipCode.$error.required && form.bZipCode.$touched">Zip Code is required</small>  
+        <small class="error" ng-show="form.bZipCode.$error.required && form.bZipCode.$touched">Zip Code is required</small> 
+        <small class="error" ng-show="form.bZipCode.$error.mask && form.bZipCode.$touched">Invalid ZipCode</small> 
       </div>
     </div>
   </form>
@@ -68,6 +71,6 @@
 
 
 <div class="buttons-container">
-  <button ng-click="linkCard()" class="button-green button-agree" ng-disabled="loading" ng-bind-html="loading ? loader : 'Link Card'"></button>
-  <a ui-sref="singup.welcome" class="skip-card-info">I'll do this later</a>
+  <button ng-click="linkCard()" class="button-green" ng-disabled="loading" ng-bind-html="loading ? loader : 'Link Card'"></button>
+  <a ui-sref="signup.welcome" class="skip-card-info">I'll do this later</a>
 </div>

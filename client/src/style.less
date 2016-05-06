@@ -13,6 +13,7 @@
 @c-black-back: #323335;
 @c-blue-font: #3d6d7f;
 @c-blue-back: #006d81;
+@c-blue-light-back: #e3f2fd;
 @c-facebook: #3b5998;
 @c-error:#e53935;
 @small-up: ~"only screen";
@@ -56,6 +57,15 @@ COMMONS
   *zoom: 1;
 }
 
+// Number Spineer arrows
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+
 table.striped.even-rows-gray>tbody>tr:nth-child(even){background-color:#fafafa}
 
 .bold{
@@ -77,7 +87,15 @@ table.striped.even-rows-gray>tbody>tr:nth-child(even){background-color:#fafafa}
 .blue-font{
   color: @c-blue-font;
 }
-
+a.phone{  
+  color: @c-green-font;
+  text-decoration: underline;
+  cursor:pointer;
+}
+div.error{
+  text-align: center;
+  margin: 30px auto 0px auto;
+}
 .button-green {
   width: 100%;
   @media @medium-up{
@@ -156,6 +174,7 @@ table.striped.even-rows-gray>tbody>tr:nth-child(even){background-color:#fafafa}
 }
 
 input[type="text"], 
+input[type="number"], 
 input[type="password"], 
 input[type="email"], 
 select{
@@ -174,8 +193,7 @@ select{
   display: block;
   border: 1px solid @c-facebook;
   color: @c-facebook;
-  padding: 8px 30px;
-  font-size: 1.1em;
+  padding: 8px 20px;
   font-weight: bold;
   border-radius: 20px;
   margin: 20px auto;
@@ -186,7 +204,7 @@ select{
     background: #fff;
   }
   @media @medium-up{
-    width: 250px;
+    width: auto;
   }
   .fa-facebook{
     margin-right: 5px;
@@ -204,46 +222,13 @@ footer.page-footer{
   color: @c-gray-font;
   .container{
     text-align: center;
-    @media @large-up{
-      text-align: left;
-      width: 80%;
+    margin: 30px auto 50px auto;    
+    a{
+      color: @c-gray-font;
     }
-    .right-footer{
-      a{
-        color: @c-gray-font;
-      }
-      float: none;
-      clear: both;
-      @media @large-up{
-        clear: inherit;
-        float: right;
-      }
-      .phone{
-        color:@c-green-font;
-        text-decoration: underline;
-      }
-      .feedback{
-        display: block;
-        margin: 10px 0px;
-        @media @medium-up{
-          margin-left: 25px;
-          display: inline-block;
-        }
-        @media @large-up{
-          margin-top: 0px;
-        }
-      }
-    } 
-    .left-footer{
-      float: none;
-      clear: both;
-      @media @large-up{
-        clear: inherit;
-        float: left;
-      }
-    }
-    div{
-      margin: 15px 0px;
+    .phone{
+      color:@c-green-font;
+      text-decoration: underline;
     }
     .fa-phone, .fa-comment{
       color: @c-green-back;
@@ -266,11 +251,9 @@ LOGIN PAGE
     text-align: center;
     display: block;
     text-align: center;
-  }
-  .error{
-    text-align: center;
-    margin: 30px auto 0px auto;
-  }
+    width: 150px;
+    height: 150px;
+  }  
   .inputs{
     margin-top: 10px;  
   }
@@ -292,21 +275,16 @@ LOGIN PAGE
   .buttons-container{
     text-align: center;
   }
-  .button-green-login{
-    @media @medium-up{
-      width: 250px;
-    }
-  }
-  .button-sign-up{
-    background-color: @c-gray-back;
-    color: @c-black-font;
+  .btn-sign-up{
+    background-color: @c-gray-back !important;
+    color: @c-black-font !important;
   }
 }
 
 /*
-SINGUP HEADER 
+SIGNUP HEADER 
 */
-header.singup-header{
+header.signup-header{
   padding: 30px 20px;
   .main-logo {
     display: inline-block;
@@ -339,7 +317,7 @@ header.singup-header{
 }
 
 /*
-SINGUP PAGES
+SIGNUP PAGES
 */
 .signup-page {
   @media @medium-up{
@@ -364,14 +342,10 @@ SINGUP PAGES
     footer.page-footer{
       color: #fff;
       .container{
-        .right-footer{
-          a{
-            color: #fff;
-          }
-          .fa-phone, .fa-comment{
-            color: #fff;
-          }
-        }
+        color: #fff;        
+        a{
+          color: #fff;
+        }        
       }
     }
   }
@@ -435,6 +409,7 @@ SINGUP PAGES
     }
     .inputs{
       input[type="text"],
+      input[type="number"],
       input[type="password"],
       input[type="email"],
       select{
@@ -486,20 +461,7 @@ SINGUP PAGES
       }     
     }
     .buttons-container{
-      text-align: center;
-      .button-facebook{
-        width: 100%;
-        @media @medium-up{
-          width: 280px;
-        }
-      }
-      .button-agree{
-        width: 290px;
-        text-transform: none;
-        outline: none;
-        border: none;
-
-      }
+      text-align: center;      
       .skip-card-info{
         color: @c-green-font;
         font-weight: bold;
@@ -606,41 +568,73 @@ DASHBOARD PAGES
     }
   }
 
-  // DATE FILTER
-  .date-filter{
-    float:right;
-    margin-bottom: 15px;
-    .date-input{
-      margin-right: 15px;
+  // TABLE FILTERS
+  .table-filters{
+    margin-bottom: 20px;
+    .date-filter{
       float:left;
-      &:last-child{
-        margin-right: 0px;
-      }
-      .fa-calendar{
-        color: @c-green-font;
+      .date-input{
+        margin-right: 15px;
         float:left;
-        font-size: 22px;
-        margin-top: 5px;
-        margin-right: 8px;
-      }
-      input{
-        float:left;
-        margin: 0px;
-        padding: 7px 8px;
-        width: 100px;
-        @media @medium-up{
-          width: 120px;
+        &:last-child{
+          margin-right: 0px;
+        }
+        .fa-calendar{
+          color: @c-green-font;
+          float:left;
+          font-size: 22px;
+          margin-top: 5px;
+          margin-right: 8px;
+        }
+        input{
+          float:left;
+          margin: 0px;
+          padding: 7px 8px;
+          width: 100px;
+          @media @medium-up{
+            width: 120px;
+          }
         }
       }
     }
+    .right-filters{
+      font-size: 16px;
+      color: @c-green-font;
+      font-family: @family-medium;
+      float: none;
+      clear: both;
+      text-align: left;
+      padding-top: 15px;
+      @media @xlarge-up{
+        padding-top: 5px;
+        clear:none;
+        float:right;
+      }
+      .price-toggle{
+        display: inline-block;
+        margin-right: 20px;
+        label{
+          font-size: 1rem;
+          color: @c-green-font;
+        }
+      }
+      .download-cvs{
+        display: inline-block;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+    }
   }
+  // COMMON TABLES
 
-  // COMMON TABLE
+
   .transactions-table{
     font-family: @family-medium;
+
     tr{
       cursor:pointer;
     }
+
 
     thead{
       border-bottom: none;
@@ -651,6 +645,9 @@ DASHBOARD PAGES
       }
       th:last-child{
         text-align: right;
+      } 
+      th.align-left{
+        text-align: left;
       }      
     }
 
@@ -677,15 +674,11 @@ DASHBOARD PAGES
         padding-right: 15px;
       }    
     }
-
-    .empty-section{
-      display: none;
-    }
-
+    
     tr.expandable{
       background-color: #fff !important;
     }
-
+    
     td.expand{
       padding: 0px !important;
       .expandable-section{
@@ -741,12 +734,20 @@ DASHBOARD PAGES
         }
       }
     }
+
+    td.empty-section{
+      height:0px;
+      max-height: 0px;
+      padding:0px;
+      margin:0px;
+
+    }
     
-    .number{
+    td.number{
       color: @c-green-font;
     }
 
-    .details{
+    td.details{
       color: @c-gray-font;
       font-size: 12px;
       @media @medium-up{
@@ -754,7 +755,7 @@ DASHBOARD PAGES
       }
     }
 
-    .date{
+    td.date{
       padding-top: 8px;
       .month{
         color: @c-blue-font;
@@ -773,7 +774,7 @@ DASHBOARD PAGES
       }
     }
 
-    .organization{
+    td.organization{
       .team-icon{        
         text-align: center;
         float:none;
@@ -826,7 +827,7 @@ DASHBOARD PAGES
       }
     }
 
-    .status{
+    td.status{
       text-align: center;
       @media @xlarge-up{
         text-align: left;
@@ -839,7 +840,7 @@ DASHBOARD PAGES
       }
     }
 
-    .total{
+    td.total{
       color:@c-gray-dark-font;
       text-align: right;
       text-align: -webkit-right;
@@ -853,6 +854,168 @@ DASHBOARD PAGES
       }
     }
 
+  }
+
+  .header-table{    
+    font-family: @family-medium;
+    color: @c-black-font;
+    margin-top: 20px;
+    font-size: 12px;
+    @media @medium-up{
+      font-size: 16px;
+    }
+    thead{
+      border-bottom: none;
+      th{
+        padding: 5px;
+        font-weight: normal;
+        color: @c-blue-font;
+      }
+      th.date{
+        width:10%;
+      }
+      th.user{
+        width:30%;
+      }
+      th.tot{
+        width:15%;
+      }
+      th.discount{
+        width:15%;
+      }
+      th.paid{
+        width:15%;
+      }
+      th.remaining{
+        width:15%;
+      }
+    }
+    tbody{
+      tr{
+        border-top: 1px solid @c-blue-font;
+        border-left: 1px solid @c-blue-font;
+        border-right: 1px solid @c-blue-font;
+        border-bottom: 1px solid @c-blue-font;
+        background-color: @c-blue-light-back;
+        cursor: pointer;
+        td.name{
+          width:40%;
+        }
+        td.tot{
+          width:15%;
+        }
+        td.discount{
+          width:15%;
+        }
+        td.paid{
+          width:15%;
+        }
+        td.remaining{
+          width:15%;
+        }
+      }
+    }
+
+  }
+  div.main-tables-container{
+    min-width: 400px;
+  }
+  div.category-table{
+    display: none;
+    overflow-y: hidden;
+    transition-property: all;
+    transition-duration: .6s;
+    transition-timing-function: ease;
+    &.active{
+      display:block;
+    }
+  }
+
+  .board-table{
+    color: @c-gray-dark-font;
+    border-top: none;
+    border-left: 1px solid @c-blue-font;
+    border-bottom: 1px solid @c-blue-font;
+    border-right: 1px solid @c-blue-font;
+
+    tbody{
+      tr{
+        &.user-row{
+          background-color: @c-green-light-back;
+          border-bottom: 1px solid @c-gray-back;
+          &.active{
+            border-bottom: none;
+          }
+        }
+        td:first-child{
+          @media @medium-up{
+            padding-left: 5px;
+          }    
+        }
+
+        td:last-child{
+          @media @medium-up{
+            padding-right: 5px;
+          }    
+        }
+        td.date{
+          width:10%;
+        }
+        td.organization{
+          width:30%;
+        }
+        td.name{
+          width:40%;
+        }
+        td.tot{
+          width:15%;
+        }
+        td.discount{
+          width:15%;
+        }
+        td.paid{
+          width:15%;
+        }
+        td.remaining{
+          width:15%;
+        }
+        td.expand{
+          .expandable-section{
+            .expanded-section{
+              border:none;
+              .inline-block{
+                display:inline-block;
+                margin-right: 30px;
+                .value{
+                  font-size: 16px;
+                  line-height: 16px;
+                }
+              }
+              .charges-table{
+                th:last-child{
+                  text-align: left;
+                }
+                td{                  
+                  padding: 8px 5px;
+                }
+                td.date{
+                  width: auto;
+                  .month{
+                    font-size: 12px;
+                  }
+                  .day{
+                    font-size: 20px;
+                  }
+                }
+                td.status{
+                  text-align: left;                  
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
 
   // CHARGES SUB TABLE
@@ -961,10 +1124,10 @@ DASHBOARD PAGES
       }
     }     
     .img-logo{
-      margin: 10px 20px 10px 0px;
+      margin: 0px 20px 0px 0px;
       img{
         width: 80px;
-        height: 59px;
+        height: 80px;
       }
     }
     .navigation-items{
@@ -1013,7 +1176,7 @@ DASHBOARD PAGES
       float:left;
       margin-top: 23px;
       .button-green{
-        width:125px;
+        width: auto;
         display:inline-block;
         margin:0px;
         padding: 6px 30px;
@@ -1062,8 +1225,7 @@ DASHBOARD PAGES
           }
           .action-buttons{
             background-color: @c-green-back;
-            height: 90px;
-            padding-top: 20px;
+            height: 90px;            
             text-align: center;
             ul{
               margin: 0px;
@@ -1072,20 +1234,28 @@ DASHBOARD PAGES
                 color:@c-gray-light-back;
                 text-align: center;
                 cursor: pointer;
-                margin-right: 10px;
-                @media @xlarge-up{
-                  margin-right: 30px;
-                }
+                margin-right: 10px; 
+                padding-top: 23px;               
                 &:last-child{
                   margin-right: 0px;
                 }
                 span{
-                  font-size: 16px;
+                  font-size: 14px;
                   font-family: @family-medium;
                 }
                 .fa{
-                  font-size: 30px;
+                  font-size: 26px;
                   display:block;
+                }
+                @media @xlarge-up{
+                  padding-top: 20px;
+                  margin-right: 30px;
+                  span{
+                    font-size: 16px;
+                  }
+                  .fa{
+                    font-size: 30px;
+                  }
                 }
               }
             }            
@@ -1683,6 +1853,12 @@ DASHBOARD PAGES
     .title-blue{
       float: left;
       width: 90%;
+      color:@c-blue-font;
+      font-family: @family-medium;
+      font-size: 18px;
+      border-bottom: 2px solid @c-blue-font;
+      margin-bottom: 15px;
+      text-align: left;
     }
     .fa-times{
       float: right;
@@ -1692,6 +1868,7 @@ DASHBOARD PAGES
     }
     .inputs{
       input[type="text"],
+      input[type="number"],
       input[type="password"],
       input[type="email"],
       select{
@@ -1718,3 +1895,42 @@ DASHBOARD PAGES
   }
 }
 
+.account-modal{
+  text-align: center;
+  color: @c-gray-dark-font;
+  font-size: 18px;
+  font-family: @family-medium;
+  margin-top: 20px;
+  .fa{
+    font-size: 30px;
+    color: @c-blue-font;
+  }
+  .card-info{
+    font-size: 14px;
+    line-height: 18px;
+  }
+  .blue-btn{
+    background-color: @c-blue-font;
+  }
+  .red-btn{
+    background-color: @c-error;
+  }
+  .billing-title{
+    color: @c-blue-font;
+    font-size: 18px;
+    margin: 20px auto 5px auto;
+  }
+  .account-address{
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  .inputs{
+    font-size: 14px;
+
+  }
+  .section-title{
+    margin: 10px auto;
+    font-size: 16px;
+
+  }
+}
