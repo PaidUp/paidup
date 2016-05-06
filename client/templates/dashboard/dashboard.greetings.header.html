@@ -12,7 +12,7 @@
       </div>      
       <div class="col s12 m5 l4">
         <div class="action-buttons">
-        <ul>
+        <ul ng-if="!isCoach">
           <li ui-sref="dashboard.summary.components">
             <i class="fa fa-dashboard"></i>
             <span>Dashboard</span>
@@ -24,6 +24,20 @@
            <li ui-sref="dashboard.activities">
             <i class="fa fa-line-chart"></i>
             <span>View Activity</span>
+          </li>
+        </ul>
+        <ul ng-if="isCoach">
+          <li ui-sref="dashboard.board">
+            <i class="fa fa-dashboard"></i>
+            <span>Dashboard</span>
+          </li>
+          <li ui-sref="dashboard.deposits">
+            <i class="fa fa-bank"></i>
+            <span>Deposits</span>
+          </li>
+           <li ui-sref="dashboard.aging">
+            <i class="fa fa-line-chart"></i>
+            <span>Aging</span>
           </li>
         </ul>
         <!--   <div class="dashboard-button" ui-sref="dashboard.summary.components">

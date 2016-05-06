@@ -3,6 +3,6 @@ var app = require('angular').module('paidUpApp')
 
 app.controller('AppCtrl', require('./appCtrl'))
 app.controller('LoginCtrl', require('./loginCtrl'))
-require('./singUp')
+require('./signUp')
 require('./dashboard')
 require('./product')

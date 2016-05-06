@@ -11,7 +11,7 @@
   We just need a few details from you.
 </p>
 <div class="center">
-  <img ng-src="../img/singup-{{userType}}.png" alt="Personal Account" class="center">
+  <img ng-src="../img/signup-{{userType}}.png" alt="Personal Account" class="center">
 </div>
 <h4>{{userType}} Account</h4>
 <div class="inputs">
@@ -30,5 +30,5 @@
 <div class="buttons-container">
   <!--<a ng-click="next()" class="button-green btn-next">Next</a>-->
   <button ng-click="next()" class="button-green button-next" ng-disabled="loading" ng-bind-html="loading ? loader : 'Next'"></button>
-  <button ng-click="facebookSignUp()" class="button-facebook" ng-disabled="loading" ng-bind-html="loading ? loader : facebookSingUpTemplate"></button>
+  <button ng-click="facebookSignUp()" class="button-facebook" ng-disabled="loading" ng-bind-html="loading ? loader : facebookSignUpTemplate"></button>
 </div>

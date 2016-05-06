@@ -1,7 +1,7 @@
 'use strict'
 var angular = require('angular')
 
-module.exports = ['$scope', 'SingUpService', '$state', 'UserService', function ($scope, SingUpService, $state, UserService) {
+module.exports = ['$scope', 'SignUpService', '$state', 'UserService', function ($scope, SignUpService, $state, UserService) {
   $scope.loading = false
   $scope.loader = '<i class="fa fa-circle-o-notch fa-spin"></i>'
   $scope.next = function () {
@@ -12,11 +12,11 @@ module.exports = ['$scope', 'SingUpService', '$state', 'UserService', function (
     f.$commitViewValue()
     $scope.validateTerms(f)
     $scope.validateDDA(f)
-    SingUpService.runFormControlsValidation(f)
+    SignUpService.runFormControlsValidation(f)
     if (f.$valid) {
       console.log('VALID')
-      SingUpService.saveBusinessBank($scope.bankAccount)
-      SingUpService.createBusinessAccount($scope.user).then(function (organizationId) {
+      SignUpService.saveBusinessBank($scope.bankAccount)
+      SignUpService.createBusinessAccount($scope.user).then(function (organizationId) {
         $state.go('^.welcome')
         // $state.go('^.step6b')
       }, function (err) {

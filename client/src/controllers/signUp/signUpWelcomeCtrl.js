@@ -1,8 +1,8 @@
 'use strict'
 var angular = require('angular')
 
-module.exports = [ '$scope', 'SingUpService', '$state', '$timeout', function ($scope, SingUpService, $state, $timeout) {
-  $scope.userType = SingUpService.getType()
+module.exports = [ '$scope', 'SignUpService', '$state', '$timeout', function ($scope, SignUpService, $state, $timeout) {
+  $scope.userType = SignUpService.getType()
 
   if ($scope.userType === 'personal') {
     $scope.welcomeTitle = 'Welcome to PaidUp.'
@@ -10,7 +10,7 @@ module.exports = [ '$scope', 'SingUpService', '$state', '$timeout', function ($s
   }
   if ($scope.userType === 'business') {
     $scope.welcomeTitle = 'Welcome to PaidUp. We are excited to join your team.'
-    if (angular.isDefined(SingUpService.getReferralCode())) {
+    if (angular.isDefined(SignUpService.getReferralCode())) {
       $scope.welcomeMsg = 'Thanks for submitting your referral code. You must know some important people. You will be redirected to the login in a few seconds or click the link below.'
     } else {
       $scope.welcomeMsg = 'Your payment was processed successfully. You will be redirected to login in a few seconds or click the link below.'

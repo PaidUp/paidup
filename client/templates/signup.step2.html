@@ -5,6 +5,7 @@
   <div class="steps-count" ng-show="isBusiness()"></div>
   <div class="steps-count" ng-show="isBusiness()"></div>
 </div>
+<div class="error red-text text-darken-2" ng-bind="error"></div>
 <p class="title" ng-show="isBusiness()">
   Let's get some information about you first.
 </p>
@@ -24,7 +25,7 @@
     required 
     ng-model="user.firstName" 
     maxlength="128" 
-    ng-pattern="/^[a-zA-Z\s]*$/" 
+    ng-pattern="/^[a-zA-Z\s\.'-]*$/" 
     ng-model-options="{ updateOn: 'blur' }" />
     <small class="error" ng-show="form.uFirstName.$error.required && form.uFirstName.$touched">First Name is required</small>  
     <small class="error" ng-show="form.uFirstName.$error.maxlength && form.uFirstName.$touched">First Name exceeds 128 characters</small>  
@@ -41,7 +42,7 @@
     ng-required="true" 
     ng-model="user.lastName" 
     maxlength="128" 
-    ng-pattern="/^[a-zA-Z\s]*$/" 
+    ng-pattern="/^[a-zA-Z\s\.'-]*$/" 
     ng-model-options="{ updateOn: 'blur' }" />
     <small class="error" ng-show="form.uLastName.$error.required && form.uLastName.$touched">Last Name is required</small>  
     <small class="error" ng-show="form.uLastName.$error.maxlength && form.uLastName.$touched">Last Name exceeds 128 characters</small>  
@@ -108,10 +109,13 @@
         <input type="text" 
         name="uZipCode" 
         placeholder="Zip Code" 
-        required 
+        required
+        ui-mask="99999"
+        ui-mask-placeholder
         ng-model="user.zipCode" 
         ng-model-options="{ updateOn: 'blur' }" />
-        <small class="error" ng-show="form.uZipCode.$error.required && form.uZipCode.$touched">Zip Code is required</small> 
+        <small class="error" ng-show="form.uZipCode.$error.required && form.uZipCode.$touched">Zip Code is required</small>
+        <small class="error" ng-show="form.uZipCode.$error.mask && form.uZipCode.$touched">Invalid ZipCode</small>
       </div>
     </div>
     <input 
@@ -119,17 +123,13 @@
     placeholder="Phone Number"
     name="uPhone" 
     ng-model="user.phone"
+    ui-mask="(999) 999-9999"
+    ui-mask-placeholder
     required
-    ng-pattern="/^(?:\(\d{3}\)|\d{3})[- ]?\d{3}[- ]?\d{4}$/"
     ng-model-options="{ updateOn: 'blur' }" 
     />
-    <!-- (541) 754-3010 VALID -->
-    <!-- (541) 7543010 VALID -->
-    <!-- (541) 754 3010 VALID -->
-    <!-- (541)754 3010 VALID -->
-    <!-- 5417543010 VALID -->
     <small class="error" ng-show="form.uPhone.$error.required && form.uPhone.$touched">Phone is required</small>
-    <small class="error" ng-show="form.uPhone.$error.pattern && form.uPhone.$touched">Invalid phone format</small>
+    <small class="error" ng-show="form.uPhone.$error.mask && form.uPhone.$touched">Invalid phone format</small>
     
     <div class="agree-checkbox" ng-show="!isBusiness()">
       <small class="error" ng-show="form.agreeTerms.$error.terms">Please agree to terms</small> 
