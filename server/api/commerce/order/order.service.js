@@ -254,9 +254,29 @@ function orderPaymentActive (userId, limit, cb) {
   })
 }
 
+function orderGet (userId, limit, sort, cb) {
+  CommerceConnector.orderGet({
+    baseUrl: config.connections.commerce.baseUrl,
+    token: config.connections.commerce.token,
+    userId: userId,
+    limit: limit,
+    sort: sort
+  }).exec({
+    // An unexpected error occurred.
+    error: function (err) {
+      return cb(err)
+    },
+    // OK.
+    success: function (result) {
+      return cb(null, result)
+    }
+  })
+}
+
 module.exports = {
   createOrder: createOrder,
   orderPaymentRecent: orderPaymentRecent,
   orderPaymentNext: orderPaymentNext,
-  orderPaymentActive: orderPaymentActive
+  orderPaymentActive: orderPaymentActive,
+  orderGet: orderGet
 }
