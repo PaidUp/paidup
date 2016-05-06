@@ -8,6 +8,7 @@ module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$transl
     password: ''
   }
   $scope.error = ''
+  $scope.infoMessage = ''
   $scope.facebookLoginTemplate = '<i class="fa fa-lg fa-facebook" aria-hidden="true"></i> Login with Facebook'
   $scope.loader = '<i class="fa fa-circle-o-notch fa-spin"></i>'
   $scope.loading = false
@@ -46,6 +47,7 @@ module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$transl
           email: emailValue
         })
         $scope.error = ''
+        $scope.infoMessage = 'Please check your email for password reset instructions.'
         $scope.loading = false
         $scope.showForgotModal = false
       }
@@ -53,6 +55,7 @@ module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$transl
         TrackerService.trackFormErrors('forgot form', emailValue)
         $scope.loading = false
         $scope.showForgotModal = false
+        $scope.infoMessage = ''
         $scope.error = err.message
       }
 
