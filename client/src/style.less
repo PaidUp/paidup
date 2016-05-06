@@ -13,6 +13,7 @@
 @c-black-back: #323335;
 @c-blue-font: #3d6d7f;
 @c-blue-back: #006d81;
+@c-blue-light-back: #e3f2fd;
 @c-facebook: #3b5998;
 @c-error:#e53935;
 @small-up: ~"only screen";
@@ -78,6 +79,10 @@ table.striped.even-rows-gray>tbody>tr:nth-child(even){background-color:#fafafa}
   color: @c-blue-font;
 }
 
+div.error{
+  text-align: center;
+  margin: 30px auto 0px auto;
+}
 .button-green {
   width: 100%;
   @media @medium-up{
@@ -265,11 +270,7 @@ LOGIN PAGE
     text-align: center;
     display: block;
     text-align: center;
-  }
-  .error{
-    text-align: center;
-    margin: 30px auto 0px auto;
-  }
+  }  
   .inputs{
     margin-top: 10px;  
   }
@@ -298,9 +299,9 @@ LOGIN PAGE
 }
 
 /*
-SINGUP HEADER 
+SIGNUP HEADER 
 */
-header.singup-header{
+header.signup-header{
   padding: 30px 20px;
   .main-logo {
     display: inline-block;
@@ -333,7 +334,7 @@ header.singup-header{
 }
 
 /*
-SINGUP PAGES
+SIGNUP PAGES
 */
 .signup-page {
   @media @medium-up{
@@ -587,41 +588,92 @@ DASHBOARD PAGES
     }
   }
 
-  // DATE FILTER
-  .date-filter{
-    float:right;
-    margin-bottom: 15px;
-    .date-input{
-      margin-right: 15px;
+  // TABLE FILTERS
+  .table-filters{
+    margin-bottom: 20px;
+    .date-filter{
       float:left;
-      &:last-child{
-        margin-right: 0px;
-      }
-      .fa-calendar{
-        color: @c-green-font;
+      .date-input{
+        margin-right: 15px;
         float:left;
-        font-size: 22px;
-        margin-top: 5px;
-        margin-right: 8px;
-      }
-      input{
-        float:left;
-        margin: 0px;
-        padding: 7px 8px;
-        width: 100px;
-        @media @medium-up{
-          width: 120px;
+        &:last-child{
+          margin-right: 0px;
+        }
+        .fa-calendar{
+          color: @c-green-font;
+          float:left;
+          font-size: 22px;
+          margin-top: 5px;
+          margin-right: 8px;
+        }
+        input{
+          float:left;
+          margin: 0px;
+          padding: 7px 8px;
+          width: 100px;
+          @media @medium-up{
+            width: 120px;
+          }
         }
       }
     }
+    .right-filters{
+      font-size: 16px;
+      color: @c-green-font;
+      font-family: @family-medium;
+      float: none;
+      clear: both;
+      text-align: left;
+      padding-top: 15px;
+      @media @xlarge-up{
+        padding-top: 5px;
+        clear:none;
+        float:right;
+      }
+      .price-toggle{
+        display: inline-block;
+        margin-right: 20px;
+        label{
+          font-size: 1rem;
+          color: @c-green-font;
+        }
+      }
+      .download-cvs{
+        display: inline-block;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+    }
   }
+  // COMMON TABLES
+  .header-table{    
+    font-family: @family-medium;
+    margin-top: 20px;
+    tbody{
+      tr{
+        background-color: @c-blue-light-back;
+        color: @c-gray-dark-font;
+        border: 1px solid @c-blue-font;
+        cursor: pointer;
+      }
+    }
+    thead{
+      border-bottom: none;
+      th{
+        padding: 5px;
+        font-weight: normal;
+        color: @c-blue-font;
+      }
 
-  // COMMON TABLE
+    }
+  }
   .transactions-table{
     font-family: @family-medium;
+
     tr{
       cursor:pointer;
     }
+
 
     thead{
       border-bottom: none;
@@ -632,6 +684,9 @@ DASHBOARD PAGES
       }
       th:last-child{
         text-align: right;
+      } 
+      th.align-left{
+        text-align: left;
       }      
     }
 
@@ -658,15 +713,11 @@ DASHBOARD PAGES
         padding-right: 15px;
       }    
     }
-
-    .empty-section{
-      display: none;
-    }
-
+    
     tr.expandable{
       background-color: #fff !important;
     }
-
+    
     td.expand{
       padding: 0px !important;
       .expandable-section{
@@ -722,12 +773,16 @@ DASHBOARD PAGES
         }
       }
     }
+
+    td.empty-section{
+      display: none;
+    }
     
-    .number{
+    td.number{
       color: @c-green-font;
     }
 
-    .details{
+    td.details{
       color: @c-gray-font;
       font-size: 12px;
       @media @medium-up{
@@ -735,7 +790,7 @@ DASHBOARD PAGES
       }
     }
 
-    .date{
+    td.date{
       padding-top: 8px;
       .month{
         color: @c-blue-font;
@@ -754,7 +809,7 @@ DASHBOARD PAGES
       }
     }
 
-    .organization{
+    td.organization{
       .team-icon{        
         text-align: center;
         float:none;
@@ -807,7 +862,7 @@ DASHBOARD PAGES
       }
     }
 
-    .status{
+    td.status{
       text-align: center;
       @media @xlarge-up{
         text-align: left;
@@ -820,7 +875,7 @@ DASHBOARD PAGES
       }
     }
 
-    .total{
+    td.total{
       color:@c-gray-dark-font;
       text-align: right;
       text-align: -webkit-right;
@@ -832,6 +887,10 @@ DASHBOARD PAGES
       @media @small-only{
         text-align: center;
       }
+    }
+
+    td.total-label{
+
     }
 
   }

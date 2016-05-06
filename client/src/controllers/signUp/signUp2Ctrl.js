@@ -1,15 +1,15 @@
 'use strict'
 var angular = require('angular')
 
-module.exports = [ '$scope', 'SingUpService', '$state', 'UserService', 'AuthService', 'TrackerService', function ($scope, SingUpService, $state, UserService, AuthService, TrackerService) {
+module.exports = [ '$scope', 'SignUpService', '$state', 'UserService', 'AuthService', 'TrackerService', '$timeout', function ($scope, SignUpService, $state, UserService, AuthService, TrackerService, $timeout) {
   $scope.user = {}
-  var isFacebookSingUp = SingUpService.getFacebookSingUp()
-  if (isFacebookSingUp) {
+  var isFacebookSignUp = SignUpService.getFacebookSignUp()
+  if (isFacebookSignUp) {
     var currentUser = AuthService.getCurrentUser()
     $scope.user.firstName = currentUser.firstName
     $scope.user.lastName = currentUser.lastName
     // Setting just for the tracker service below
-    SingUpService.setCredentials({email: currentUser.email, password1: ''})
+    SignUpService.setCredentials({email: currentUser.email, password1: ''})
   }
   $scope.states = UserService.getStates()
   $scope.loading = false
@@ -19,28 +19,28 @@ module.exports = [ '$scope', 'SingUpService', '$state', 'UserService', 'AuthServ
     var f = $scope.form
     // To fix autocomplete issues
     f.$commitViewValue()
-    if (SingUpService.getType() !== 'business') {
+    if (SignUpService.getType() !== 'business') {
       $scope.validateTerms(f)
     }
-    SingUpService.runFormControlsValidation(f)
+    SignUpService.runFormControlsValidation(f)
     if (f.$valid) {
       console.log('VALID')
       $scope.loading = true
       var promise
-      if (isFacebookSingUp) {
-        promise = SingUpService.createPersonalAccountFacebook($scope.user)
+      if (isFacebookSignUp) {
+        promise = SignUpService.createPersonalAccountFacebook($scope.user)
       } else {
-        promise = SingUpService.createPersonalAccount($scope.user)
+        promise = SignUpService.createPersonalAccount($scope.user)
       }
       promise.then(function (message) {
         TrackerService.create('signup success', {
           firstName: $scope.user.firstName,
           lastName: $scope.user.lastName,
-          email: SingUpService.getUser().credentials.email,
+          email: SignUpService.getUser().credentials.email,
           roleType: AuthService.getIsParent() ? 'Payer' : 'Payee'
         })
-        if (SingUpService.getType() === 'business') {
-          SingUpService.saveBusinessInfo($scope.user)
+        if (SignUpService.getType() === 'business') {
+          SignUpService.saveBusinessInfo($scope.user)
           $state.go('^.step6b')
         // $state.go('^.step3b')
         } else {
@@ -50,11 +50,14 @@ module.exports = [ '$scope', 'SingUpService', '$state', 'UserService', 'AuthServ
         TrackerService.create('signup error', {
           firstName: $scope.user.firstName,
           lastName: $scope.user.lastName,
-          email: SingUpService.getUser().credentials.email,
+          email: SignUpService.getUser().credentials.email,
           errorMessage: err.message
         })
         console.log('ERROR', err)
-        $scope.error = err
+        $scope.error = err.message + '. Redirecting to Step 1.'
+        $timeout(function () {
+          $state.go('^.step1')
+        }, 5000)
         $scope.loading = false
       })
     } else {
@@ -69,7 +72,7 @@ module.exports = [ '$scope', 'SingUpService', '$state', 'UserService', 'AuthServ
     }
   }
   $scope.isBusiness = function () {
-    return SingUpService.getType() === 'business'
+    return SignUpService.getType() === 'business'
   }
 
   if ($scope.isBusiness()) {

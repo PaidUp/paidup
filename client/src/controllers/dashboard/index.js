@@ -11,6 +11,7 @@ app.controller('MobileMenuCtrl', require('./mobileMenuCtrl'))
 app.controller('HeaderCtrl', require('./headerCtrl'))
 app.controller('ActivitiesCtrl', require('./activitiesCtrl'))
 app.controller('OrdersCtrl', require('./ordersCtrl'))
+app.controller('BoardCtrl', require('./boardCtrl'))
 app.controller('ProfileCtrl', require('./profileCtrl'))
 
 require('./payment')

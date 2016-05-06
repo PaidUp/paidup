@@ -1,7 +1,7 @@
 'use strict'
 /* global Stripe */
 
-module.exports = [ '$scope', 'ApplicationConfigService', 'UserService', 'SingUpService', '$state', 'TrackerService', 'PaymentService', function ($scope, ApplicationConfigService, UserService, SingUpService, $state, TrackerService, PaymentService) {
+module.exports = [ '$scope', 'ApplicationConfigService', 'UserService', 'SignUpService', '$state', 'TrackerService', 'PaymentService', function ($scope, ApplicationConfigService, UserService, SignUpService, $state, TrackerService, PaymentService) {
   ApplicationConfigService.getConfig().then(function (config) {
     Stripe.setPublishableKey(config.stripeApiPublic)
   })
@@ -16,7 +16,7 @@ module.exports = [ '$scope', 'ApplicationConfigService', 'UserService', 'SingUpS
     // To fix autocomplete issues
     f.$commitViewValue()
     $scope.validateCardInfo(f)
-    SingUpService.runFormControlsValidation(f)
+    SignUpService.runFormControlsValidation(f)
     if (f.$valid) {
       console.log('VALID')
       $scope.loading = true
@@ -43,7 +43,7 @@ module.exports = [ '$scope', 'ApplicationConfigService', 'UserService', 'SingUpS
             function (source) {
               console.log('success')
               TrackerService.create('Create card success', {})
-              var promise = SingUpService.createBillingAddress($scope.billingAddress)
+              var promise = SignUpService.createBillingAddress($scope.billingAddress)
               promise.then(function (message) {
                 $state.go('^.welcome')
               }, function (err) {
