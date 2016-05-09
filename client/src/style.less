@@ -891,6 +891,11 @@ DASHBOARD PAGES
       th.remaining{
         width:15%;
       }
+      // Aging
+      th.aging-value{
+        text-align: center;
+        width:12%;
+      }
       // Deposits Table
       th.account{
         width:65%;
@@ -923,6 +928,11 @@ DASHBOARD PAGES
         td.remaining{
           width:15%;
         }
+        // Aging
+        td.aging-value{
+          text-align: center;
+          width:12%;
+        }
         // Deposits Table
         td.deposits-total{
           width:75%;
@@ -938,7 +948,7 @@ DASHBOARD PAGES
   }
 
   div.main-tables-container{
-    min-width: 400px;
+    min-width: 550px;
   }
 
   div.category-table{
@@ -959,6 +969,10 @@ DASHBOARD PAGES
     border-left: 1px solid @c-blue-font;
     border-bottom: 1px solid @c-blue-font;
     border-right: 1px solid @c-blue-font;
+    font-size: 12px;
+    @media @medium-up{
+      font-size: 14px;
+    }
 
     tbody{
       tr{
@@ -1040,11 +1054,64 @@ DASHBOARD PAGES
     }
   }
 
+  // AGING TABLE
+  .aging-table{
+    color: @c-gray-dark-font;
+    border-top: none;
+    border-left: 1px solid @c-blue-font;
+    border-bottom: 1px solid @c-blue-font;
+    border-right: 1px solid @c-blue-font;
+    font-size: 12px;
+    @media @medium-up{
+      font-size: 14px;
+    }
+
+    tbody{
+      tr{
+        background-color: @c-green-light-back;
+        border-top: 1px solid @c-gray-back;
+        &:first-child{
+          border-top: none;
+        }
+
+        td:first-child{
+          @media @medium-up{
+            padding-left: 5px;
+          }    
+        }
+        &:nth-child(even){
+          background-color: #fff;
+
+        }
+
+        td:last-child{
+          @media @medium-up{
+            padding-right: 5px;
+          }    
+        }
+        td.date{
+          width:10%;
+        }
+        td.organization{
+          width:30%;
+        }       
+        td.aging-value{
+          width:12%;
+          text-align: center;
+        }
+      }
+    }
+  }
+
   // DEPOSITS TABLE
   .deposits-table{
     color: @c-gray-dark-font;
     margin-top: 20px;
     border: 1px solid @c-blue-font;
+    font-size: 12px;
+    @media @medium-up{
+      font-size: 14px;
+    }
 
     tbody{
       tr{
@@ -1054,6 +1121,7 @@ DASHBOARD PAGES
           &:first-child{
             border-top: none;
           }
+
         }
         td:first-child{
           @media @medium-up{
@@ -1522,7 +1590,7 @@ DASHBOARD PAGES
     width:100%;
     height:100%;
     overflow-y: auto;
-    right: -600px;
+    right: -700px;
     transition: all .5s ease;
     &.active{
       right: 0px;
