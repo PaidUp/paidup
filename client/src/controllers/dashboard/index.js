@@ -12,6 +12,7 @@ app.controller('HeaderCtrl', require('./headerCtrl'))
 app.controller('ActivitiesCtrl', require('./activitiesCtrl'))
 app.controller('OrdersCtrl', require('./ordersCtrl'))
 app.controller('BoardCtrl', require('./boardCtrl'))
+app.controller('DepositsCtrl', require('./depositsCtrl'))
 app.controller('ProfileCtrl', require('./profileCtrl'))
 
 require('./payment')
