@@ -259,7 +259,7 @@ var all = {
     user: {
       urlPrefix: '/api/v1',
       isHttp: false,
-      host: 'develop.getpaidup.com',
+      host: 'localhost',
       port: 9001,
       token: 'TDUserToken-CHANGE-ME!'
     },

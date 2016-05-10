@@ -1,6 +1,7 @@
 'use strict'
 
-module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$translate', '$location', '$window', 'SessionService', function ($scope, $state, AuthService, TrackerService, $translate, $location, $window, SessionService) {
+module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$translate', '$location', '$window', 'SessionService', '$stateParams', '$cookies',
+  function ($scope, $state, AuthService, TrackerService, $translate, $location, $window, SessionService, $stateParams, $cookies) {
   // Initialization
   $scope.PageOptions.pageClass = 'login-page'
   $scope.user = {
@@ -64,7 +65,16 @@ module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$transl
   }
 
   // While finish ve implementation
+
+    if($stateParams.team){
+      $cookies.put('team', $stateParams.team);
+    }
+    if($stateParams.paymentPlan){
+      $cookies.put('paymentPlan', $stateParams.paymentPlan);
+    }
+
   var hosts = {
+    //'localhost': 'http://localhost:9000/sso/',
     'stg.getpaidup.com': 'https://stage.getpaidup.com/sso/',
     'login.getpaidup.com': 'https://app.getpaidup.com/sso/'
   }
@@ -75,6 +85,14 @@ module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$transl
     if (newHost) {
       var token = SessionService.getCurrentSession()
       newHost = newHost + token
+      if($cookies.get('team')){
+        newHost = newHost + '/' + $cookies.get('team');
+        if($cookies.get('paymentPlan')){
+          newHost = newHost + '/' + $cookies.get('paymentPlan');
+        }
+      }
+      $cookies.remove('team');
+      $cookies.remove('paymentPlan');
       $window.location.href = newHost
     } else {
       $state.go('dashboard.summary.components')
