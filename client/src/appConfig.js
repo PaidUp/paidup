@@ -188,5 +188,21 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
         requireLogin: false
       }
     })
+    .state('login-team', {
+      url: '/login/pn/:team',
+      templateUrl: '../templates/login.html',
+      controller: 'LoginCtrl',
+      data: {
+        requireLogin: false
+      }
+    })
+    .state('login-team-pp', {
+      url: '/login/pn/:team/:paymentPlan',
+      templateUrl: '../templates/login.html',
+      controller: 'LoginCtrl',
+      data: {
+        requireLogin: false
+      }
+    })
 }
 ]
