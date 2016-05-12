@@ -1,6 +1,6 @@
 'use strict'
 
-module.exports = [ '$resource','localStorageService', function ($resource, localStorageService) {
+module.exports = [ '$resource', function ($resource) {
   var Payment = $resource('/api/v1/commerce/checkout/place', {}, {})
   var BankPayment = $resource('/api/v1/payment/bank/:action', {}, {})
   var ListBanks = $resource('/api/v1/payment/bank/list/user/:userId', {}, {})
@@ -72,25 +72,5 @@ module.exports = [ '$resource','localStorageService', function ($resource, local
   this.updateCustomer = function (dataCustomer) {
     return CustomerPayment.save({action: 'update'}, dataCustomer).$promise
   }
-
-  this.setCategorySelected = function(categorySelected){
-    return localStorageService.set('categorySelected', categorySelected);
-  }
-
-  this.getCategorySelected = function(){
-    return localStorageService.get('categorySelected');
-  }
-
-  this.setProductSelected = function(productSelected){
-    return localStorageService.set('productSelected', productSelected);
-  }
-
-  this.getProductSelected = function(){
-    return localStorageService.get('productSelected');
-  }
-
-
-
-
 
 }]

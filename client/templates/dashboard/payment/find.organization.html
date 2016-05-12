@@ -1,4 +1,4 @@
-<div class="white-container">
+<div class="white-container" ng-init="init()">
   <div class="title">
     Setup your payments
   </div>
@@ -14,7 +14,12 @@
         ng-model="search.name" />
         <small class="error" ng-show="form.uOrganization.$error.required && form.uOrganization.$touched">Please enter an Organization name</small>
       </div>
-      <button class="button-green btn-find" ng-click="findOrg()">find</button>
+      <button class="button-green btn-find" ng-if="false" ng-click="findOrg()">find</button>
+
+      <div class="buttons-container">
+        <button class="button-green" ng-if="loading" ng-disabled="loading" ng-bind-html="loading ? loader : 'Find'"></button>
+      </div>
+
       <div class="clearfix"></div>
     </form>
   </div>

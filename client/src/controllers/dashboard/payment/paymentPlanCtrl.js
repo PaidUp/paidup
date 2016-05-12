@@ -1,18 +1,34 @@
 'use strict'
 
-module.exports = [ '$scope', '$rootScope', '$state', 'PaymentService', function ($scope, $rootScope, $state, PaymentService) {
+module.exports = [ '$scope', '$rootScope', '$state', 'SetupPaymentService', function ($scope, $rootScope, $state, SetupPaymentService) {
   $scope.clickAccount = function () {
     $rootScope.$emit('openAccountsMenu')
   }
 
-  $scope.categorySelected = PaymentService.getCategorySelected();
-  $scope.productSelected = null;
-  $scope.paymentPlanSelected = null;
-  console.log($scope.categorySelected);
+  $scope.init = function(){
+    $rootScope.$emit('changePaymentStep', 2)
+    $scope.step = 2;
+    $scope.categorySelected = SetupPaymentService.getCategorySelected();
+    $scope.productSelected = null;
+
+    $scope.loader = '<i class="fa fa-circle-o-notch fa-spin"></i>'
+    $scope.loading = false;
+
+    $scope.athleteFirstName = "";
+    $scope.athleteLastName  = "";
+
+  }
+
   $scope.selectProduct = function(productSelected){
-    PaymentService.setProductSelected(productSelected);
-    $scope.teamSelected = PaymentService.getProductSelected();
-    console.log($scope.teamSelected);
+    $scope.loading = true;
+    delete $scope.paymentPlanSelected;
+    SetupPaymentService.setProductSelected(productSelected);
+    $scope.productSelected = SetupPaymentService.getProductSelected();
+    $scope.loading = false;
   };
+
+  $scope.goStep3 = function(){
+
+  }
 
 }]

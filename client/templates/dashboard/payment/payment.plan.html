@@ -1,5 +1,7 @@
 <!-- CHOOSE PLAN STEP -->
-<div class="white-container">
+<div ng-init="init()">
+
+<div class="white-container" ng-if="step===2" >
   <div class="title">
     Choose a payment plan
   </div>
@@ -51,13 +53,13 @@
     </form>
   </div>
   <div class="buttons-container">
-    <button ui-sref="dashboard.payment.done" class="button-green" ng-disabled="loading" ng-bind-html="loading ? loader : 'Next'"></button>
+    <button class="button-green" ng-disabled="loading" ng-bind-html="loading ? loader : 'Next'"></button>
   </div>
 
 </div>
 
 <!-- REVIEW PAYMENT STEP -->
-<div class="white-container">
+<div class="white-container" ng-if="step===3">
   <div class="title">
     Review Payment Plan
   </div>
@@ -169,7 +171,7 @@
 </div>
 
 <!-- SELECT ACCOUNT FINAL STEP -->
-<div class="white-container">
+<div class="white-container" ng-if="step===4">
   <div class="title">
     Select your payment account
   </div>
@@ -191,5 +193,7 @@
   </div>
 
   <div class="bottom-link">Cancel</div>
+
+</div>
 
 </div>
