@@ -12,3 +12,4 @@ app.service('OrganizationService', require('./organizationService'))
 app.service('ApplicationConfigService', require('./appConfigService'))
 app.factory('AuthInterceptor', require('./authInterceptor'))
 app.factory('SetupPaymentService', require('./setupPaymentService'))
+app.service('ProductService', require('./productService'));

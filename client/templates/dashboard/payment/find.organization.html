@@ -11,7 +11,7 @@
         name="uOrganization" 
         placeholder="Organization Name" 
         required 
-        ng-model="organizationName" />
+        ng-model="search.name" />
         <small class="error" ng-show="form.uOrganization.$error.required && form.uOrganization.$touched">Please enter an Organization name</small>
       </div>
       <button class="button-green btn-find" ng-click="findOrg()">find</button>
@@ -20,15 +20,10 @@
   </div>
   <p>Do these look familiar? Setup a payment with them again.</p>
   <div class="teams">
-    <div class="team" ui-sref="dashboard.payment.plan">
-    <img src="/img/team1.jpg" class="circle team-img" alt="">
-      <div class="name">Austin Boom</div>
-      <div class="loc">Austin, TX</div>
-    </div>
-    <div class="team" ui-sref="dashboard.payment.plan">
-      <img src="/img/team2.jpg" class="circle team-img" alt="">
-      <div class="name">Cesar Rules</div>
-      <div class="loc">Orlando, FL</div>
+    <div class="team" ui-sref="dashboard.payment.plan" ng-repeat="category in categories | filter:search">
+    <img src="{{category.image}}" ng-click="selectCategory(category)" class="circle team-img" alt="">
+      <div class="name">{{category.name}}</div>
+      <div class="loc">{{category.location}}</div>
     </div>
   </div>
   

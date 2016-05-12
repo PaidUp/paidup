@@ -10,6 +10,7 @@ require('./vendor/angular-facebook')
 require('angulartics')
 require('angulartics-google-analytics')
 require('angular-ui-mask')
+require('angular-local-storage')
 
 var paidUpApp = angular.module('paidUpApp', [
   'ui.router',
@@ -20,7 +21,8 @@ var paidUpApp = angular.module('paidUpApp', [
   'facebook',
   'angulartics',
   'angulartics.google.analytics',
-  'ui.mask' ])
+  'ui.mask',
+  'LocalStorageModule'])
 
 paidUpApp.config(require('./appConfig'))
 paidUpApp.run(require('./appRun'))

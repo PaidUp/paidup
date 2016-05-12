@@ -6,41 +6,48 @@
   <p>Choose from the options below to setup your payment</p>
   <div class="teams">
     <div class="team">
-      <img src="/img/team2.jpg" class="circle team-img" alt="">
-      <div class="name">Cesar Rules</div>
-      <div class="loc">Orlando, FL</div>
+      <img src="{{categorySelected.image}}" class="circle team-img" alt="">
+      <div class="name">{{categorySelected.name}}</div>
+      <div class="loc">{{categorySelected.location}}</div>
     </div>
   </div>
   <div class="inputs inputs-plan">
     <form name="form" novalidate>
       <div class="select-container">
-        <select ng-model="user.state" name="uState" ng-class="containsValue ? 'selected' : ''" ng-change="containsValue = true" required>
-          <option value="" disabled selected class="placeholder">Select Age Group</option>
-          <option>
-            16U
-          </option>
+        <select ng-model="productSelected" name="productSelected"
+                ng-class="containsValue ? 'selected' : ''"
+                ng-change="containsValue = true"
+                ng-options="option.details.name for option in categorySelected.products track by option.details.name"
+                required>
+          <option value="" disabled selected class="placeholder">Select One</option>
         </select>
       </div>
-      <div class="select-container">
-        <select ng-model="user.state" name="uState" ng-class="containsValue ? 'selected' : ''" ng-change="containsValue = true" required>
+
+      <div class="select-container" ng-show="productSelected" >
+        <select ng-model="paymentPlanSelected" name="paymentPlanSelected"
+                ng-class="containsValuePP ? 'selected' : ''"
+                ng-change="containsValuePP = true"
+                ng-options="option1.description for option1 in productSelected.paymentPlans track by option1.description"
+                required>
           <option value="" disabled selected class="placeholder">Select Payment Plan</option>
-          <option>
-            16U
-          </option>
         </select>
       </div>
-      <input type="text" 
-      name="uFirst" 
-      placeholder="Athlete First Name" 
-      required 
-      ng-model="firstName" />
-      <small class="error" ng-show="form.uFirst.$error.required && form.uFirst.$touched">Athlete Name is required</small>
-      <input type="text" 
-      name="uLast" 
-      placeholder="Athlete Last Name" 
-      required 
-      ng-model="lastName" />
-      <small class="error" ng-show="form.uLast.$error.required && form.uLast.$touched">Athlete Name is required</small>  
+
+      <div ng-show="productSelected && paymentPlanSelected">
+        <input type="text"
+               name="uFirst"
+               placeholder="Athlete First Name"
+               required
+               ng-model="athleteFirstName" />
+        <small class="error" ng-show="form.uFirst.$error.required && form.uFirst.$touched">Athlete First Name is required</small>
+        <input type="text"
+               name="uLast"
+               placeholder="Athlete Last Name"
+               required
+               ng-model="athleteLastName" />
+        <small class="error" ng-show="form.uLast.$error.required && form.uLast.$touched">Athlete Last Name is required</small>
+      </div>
+
     </form>
   </div>
   <div class="buttons-container">
