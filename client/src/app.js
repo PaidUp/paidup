@@ -7,6 +7,7 @@ require('angular-sanitize')
 require('angular-cookies')
 require('angular-translate')
 require('./vendor/angular-facebook')
+require('./vendor/alert.min')
 require('angulartics')
 require('angulartics-google-analytics')
 require('angular-ui-mask')
@@ -22,7 +23,8 @@ var paidUpApp = angular.module('paidUpApp', [
   'angulartics',
   'angulartics.google.analytics',
   'ui.mask',
-  'LocalStorageModule'])
+  'LocalStorageModule',
+  'ui.bootstrap' ])
 
 paidUpApp.config(require('./appConfig'))
 paidUpApp.run(require('./appRun'))
