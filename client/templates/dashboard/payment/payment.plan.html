@@ -14,7 +14,7 @@
     </div>
   </div>
   <div class="inputs inputs-plan">
-    <form name="form" novalidate>
+    <form name="formStep2" >
       <div class="select-container">
         <select ng-model="productSelected" name="productSelected"
                 ng-class="containsValue ? 'selected' : ''"
@@ -41,20 +41,21 @@
                placeholder="Athlete First Name"
                required
                ng-model="athleteFirstName" />
-        <small class="error" ng-show="form.uFirst.$error.required && form.uFirst.$touched">Athlete First Name is required</small>
+        <small class="error" ng-show="form.uFirst.$error.required && submit">Athlete First Name is required</small>
         <input type="text"
                name="uLast"
                placeholder="Athlete Last Name"
                required
                ng-model="athleteLastName" />
-        <small class="error" ng-show="form.uLast.$error.required && form.uLast.$touched">Athlete Last Name is required</small>
+        <small class="error" ng-show="form.uLast.$error.required && submit">Athlete Last Name is required</small>
       </div>
 
+      <div class="buttons-container">
+        <button class="button-green" ng-click="goStep3()" ng-disabled="loading" ng-bind-html="loading ? loader : 'Next'"></button>
+      </div>
     </form>
   </div>
-  <div class="buttons-container">
-    <button class="button-green" ng-disabled="loading" ng-bind-html="loading ? loader : 'Next'"></button>
-  </div>
+
 
 </div>
 

@@ -5,7 +5,10 @@ module.exports = [ '$scope', '$rootScope', '$state', 'SetupPaymentService', func
     $rootScope.$emit('openAccountsMenu')
   }
 
+
+
   $scope.init = function(){
+
     $rootScope.$emit('changePaymentStep', 2)
     $scope.step = 2;
     $scope.categorySelected = SetupPaymentService.getCategorySelected();
@@ -16,6 +19,7 @@ module.exports = [ '$scope', '$rootScope', '$state', 'SetupPaymentService', func
 
     $scope.athleteFirstName = "";
     $scope.athleteLastName  = "";
+
 
   }
 
@@ -28,7 +32,17 @@ module.exports = [ '$scope', '$rootScope', '$state', 'SetupPaymentService', func
   };
 
   $scope.goStep3 = function(){
+    var f = $scope.$forms.formStep2
 
+    $scope.submit = true;
+    console.log(f)
+    if(f.$valid){
+      $rootScope.GlobalAlertSystemAlerts.push({msg: 'All fields are required', type: 'warning', dismissOnTimeout: 5000})
+      return;
+    }
+
+    $rootScope.$emit('changePaymentStep', 3)
+    $scope.step = 3;
   }
 
 }]
