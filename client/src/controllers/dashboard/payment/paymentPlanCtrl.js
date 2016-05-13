@@ -31,12 +31,10 @@ module.exports = [ '$scope', '$rootScope', '$state', 'SetupPaymentService', func
     $scope.loading = false;
   };
 
-  $scope.goStep3 = function(){
-    var f = $scope.$forms.formStep2
+  $scope.goStep3 = function(isValid){
 
     $scope.submit = true;
-    console.log(f)
-    if(f.$valid){
+    if(!isValid){
       $rootScope.GlobalAlertSystemAlerts.push({msg: 'All fields are required', type: 'warning', dismissOnTimeout: 5000})
       return;
     }
