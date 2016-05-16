@@ -12,35 +12,42 @@ module.exports = [ '$scope', '$rootScope', '$state', 'SetupPaymentService', func
     $rootScope.$emit('changePaymentStep', 2)
     $scope.step = 2;
     $scope.categorySelected = SetupPaymentService.getCategorySelected();
-    $scope.productSelected = null;
+   // $scope.productSelected = null;
 
     $scope.loader = '<i class="fa fa-circle-o-notch fa-spin"></i>'
     $scope.loading = false;
 
-    $scope.athleteFirstName = "";
-    $scope.athleteLastName  = "";
+    $scope.orderDetails = {
+      athleteFirstName: '',
+      athleteLastName: ''
+    }
 
 
   }
 
-  $scope.selectProduct = function(productSelected){
-    $scope.loading = true;
-    delete $scope.paymentPlanSelected;
-    SetupPaymentService.setProductSelected(productSelected);
-    $scope.productSelected = SetupPaymentService.getProductSelected();
-    $scope.loading = false;
-  };
-
   $scope.goStep3 = function(isValid){
-
     $scope.submit = true;
-    if(!isValid){
+    if(!true){
       $rootScope.GlobalAlertSystemAlerts.push({msg: 'All fields are required', type: 'warning', dismissOnTimeout: 5000})
       return;
     }
 
-    $rootScope.$emit('changePaymentStep', 3)
-    $scope.step = 3;
+    SetupPaymentService.setProductSelected($scope.productSelected);
+    SetupPaymentService.setPaymentPlanSelected($scope.paymentPlanSelected);
+    SetupPaymentService.setOrderDetails($scope.orderDetails);
+
+    //var dues = $scope.paymentPlanSelected.dues;
+
+
+    console.log('#########');
+    console.log('$scope.productSelected',$scope.productSelected);
+    console.log('$scope.paymentPlanSelected',$scope.paymentPlanSelected);
+    //$rootScope.$emit('changePaymentStep', 3)
+    //$scope.step = 3;
+  }
+
+  this.generateDues = function(){
+
   }
 
 }]

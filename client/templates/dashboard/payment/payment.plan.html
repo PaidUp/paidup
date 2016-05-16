@@ -16,19 +16,16 @@
   <div class="inputs inputs-plan">
     <form name="formStep2" ng-submit="goStep3(formStep2.$valid)" novalidate>
       <div class="select-container">
-        <select ng-model="productSelected" name="productSelected"
-                ng-class="containsValue ? 'selected' : ''"
-                ng-change="containsValue = true"
-                ng-options="option.details.name for option in categorySelected.products track by option.details.name"
+        <select ng-model="productSelected" name="productSelected1"
+
                 required>
           <option value="" disabled selected class="placeholder">Select One</option>
+          <option value="rrr"  selected class="placeholder">Select One</option>
         </select>
       </div>
 
       <div class="select-container" ng-show="productSelected" >
         <select ng-model="paymentPlanSelected" name="paymentPlanSelected"
-                ng-class="containsValuePP ? 'selected' : ''"
-                ng-change="containsValuePP = true"
                 ng-options="option1.description for option1 in productSelected.paymentPlans track by option1.description"
                 required>
           <option value="" disabled selected class="placeholder">Select Payment Plan</option>
@@ -37,13 +34,13 @@
 
       <div ng-show="productSelected && paymentPlanSelected">
         <input type="text"
-               name="athleteFirstName"
+               name="orderDetails.athleteFirstName"
                placeholder="Athlete First Name"
                required
                ng-model="athleteFirstName" />
         <small class="error" ng-show="formStep2.athleteFirstName.$error.required && submit">Athlete First Name is required</small>
         <input type="text"
-               name="athleteLastName"
+               name="orderDetails.athleteLastName"
                placeholder="Athlete Last Name"
                required
                ng-model="athleteLastName" />

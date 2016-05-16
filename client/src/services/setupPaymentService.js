@@ -23,6 +23,21 @@ module.exports = [ '$q', 'localStorageService', function ( $q, localStorageServi
     return localStorageService.get('productSelected');
   }
 
+  service.setPaymentPlanSelected = function(paymentPlanSelected){
+    return localStorageService.set('paymentPlanSelected', paymentPlanSelected);
+  }
+
+  service.getPaymentPlanSelected = function(){
+    return localStorageService.get('paymentPlanSelected');
+  }
+
+  service.setOrderDetails = function(orderDetails){
+    return localStorageService.set('orderDetails', orderDetails);
+  }
+
+  service.getOrderDetails = function(){
+    return localStorageService.get('orderDetails');
+  }
 
 
 }]
