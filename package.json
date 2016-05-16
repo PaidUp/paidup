@@ -34,7 +34,7 @@
     "morgan": "^1.7.0",
     "nodemailer": "^2.3.2",
     "paidup-commerce-connect": "^0.8.6",
-    "paidup-product-connect": "^0.4.3",
+    "paidup-product-connect": "^0.4.5",
     "paidup-schedule-connect": "^2.2.11",
     "pmx": "^0.6.1",
     "prerender-node": "^2.2.1",

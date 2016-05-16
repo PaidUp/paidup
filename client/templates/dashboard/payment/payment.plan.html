@@ -14,40 +14,39 @@
     </div>
   </div>
   <div class="inputs inputs-plan">
-    <form name="formStep2" ng-submit="goStep3(formStep2.$valid)" novalidate>
+    <form name="formStep2" novalidate>
       <div class="select-container">
-        <select ng-model="productSelected" name="productSelected1"
-
+        <select ng-model="models.productSelected" name="productSelected"
+                ng-options="option.details.name for option in categorySelected.products track by option.details.name"
                 required>
           <option value="" disabled selected class="placeholder">Select One</option>
-          <option value="rrr"  selected class="placeholder">Select One</option>
         </select>
       </div>
 
-      <div class="select-container" ng-show="productSelected" >
-        <select ng-model="paymentPlanSelected" name="paymentPlanSelected"
-                ng-options="option1.description for option1 in productSelected.paymentPlans track by option1.description"
+      <div class="select-container" ng-show="models.productSelected" >
+        <select ng-model="models.paymentPlanSelected" name="paymentPlanSelected"
+                ng-options="option1.description for option1 in models.productSelected.paymentPlans track by option1.description"
                 required>
           <option value="" disabled selected class="placeholder">Select Payment Plan</option>
         </select>
       </div>
 
-      <div ng-show="productSelected && paymentPlanSelected">
+      <div ng-show="models.productSelected && models.paymentPlanSelected">
         <input type="text"
-               name="orderDetails.athleteFirstName"
+               name="athleteFirstName"
                placeholder="Athlete First Name"
                required
-               ng-model="athleteFirstName" />
+               ng-model="orderDetails.athleteFirstName" />
         <small class="error" ng-show="formStep2.athleteFirstName.$error.required && submit">Athlete First Name is required</small>
         <input type="text"
-               name="orderDetails.athleteLastName"
+               name="athleteLastName"
                placeholder="Athlete Last Name"
                required
-               ng-model="athleteLastName" />
+               ng-model="orderDetails.athleteLastName" />
         <small class="error" ng-show="formStep2.athleteLastName.$error.required && submit">Athlete Last Name is required</small>
       </div>
       <div class="buttons-container">
-        <button type="submit" class="button-green" ng-disabled="loading" ng-bind-html="loading ? loader : 'Next'"></button>
+        <button type="submit" class="button-green" ng-click="goStep3(formStep2.$valid)" ng-disabled="loading" ng-bind-html="loading ? loader : 'Next'"></button>
       </div>
 
     </form>
@@ -77,71 +76,24 @@
       </tr>
       </thead>
       <tbody>
-      <tr>
+      <tr ng-repeat="schedule in schedules">
         <td class="number">
           1
         </td>
         <td class="date">
-          <div class="month">DEC</div>
-          <div class="day">25</div>
+          <div class="month">{{schedule.dateCharge | date : 'MMM' }}</div>
+          <div class="day">
+            {{schedule.dateCharge | date : 'd' }}
+          </div>
         </td>
         <td class="details">
-          Payment 1 of 4 (Deposit + Uniform)
+          {{schedule.description}}
         </td>
         <td class="total">
           <span class="green-font">$</span>
-          998.75
+          {{schedule.owedPrice}}
         </td>
       </tr>
-      <tr>
-        <td class="number">
-          2
-        </td>
-        <td class="date">
-          <div class="month">JAN</div>
-          <div class="day">22</div>
-        </td>
-        <td class="details">
-          Payment 2 of 4
-        </td>
-        <td class="total">
-          <span class="green-font">$</span>
-          264.75
-        </td>
-      </tr>
-      <tr>
-        <td class="number">
-          3
-        </td>
-        <td class="date">
-          <div class="month">FEB</div>
-          <div class="day">15</div>
-        </td>
-        <td class="details">
-          Payment 3 of 4
-        </td>
-        <td class="total">
-          <span class="green-font">$</span>
-          264.75
-        </td>
-      </tr>
-      <tr>
-        <td class="number">
-          4
-        </td>
-        <td class="date">
-          <div class="month">MAR</div>
-          <div class="day">18</div>
-        </td>
-        <td class="details">
-          Payment 4 of 4
-        </td>
-        <td class="total">
-          <span class="green-font">$</span>
-          264.75
-        </td>
-      </tr>
-
       </tbody>
     </table>
 
@@ -162,7 +114,7 @@
     <div class="payment-total">
       Total:&nbsp;&nbsp;
       <span class="green-font">$</span>
-      <span>1098.75</span>
+      <span>{{total | number : 2}}</span>
     </div>
 
     <div class="buttons-container">

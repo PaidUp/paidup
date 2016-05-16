@@ -8,6 +8,7 @@ module.exports = [ '$resource', function ($resource) {
   var CardPayment = $resource('/api/v1/payment/card/:action', {}, {})
   var ListCards = $resource('/api/v1/payment/card/list/user/:userId', {}, {})
   var CustomerPayment = $resource('/api/v1/payment/customer/:action', {}, {})
+  var calculateDuesPost = $resource("/api/v1/commerce/dues/calculate", {}, {});
 
   this.sendPayment = function (payment) {
     return Payment.save(payment).$promise
@@ -72,5 +73,13 @@ module.exports = [ '$resource', function ($resource) {
   this.updateCustomer = function (dataCustomer) {
     return CustomerPayment.save({action: 'update'}, dataCustomer).$promise
   }
+
+  this.calculateDues = function(params, cb){
+    calculateDuesPost.save(null, {prices: params}).$promise.then(function(data){
+      cb(null, data.body);
+    }).catch(function(err){
+      cb(err);
+    });
+  };
 
 }]
