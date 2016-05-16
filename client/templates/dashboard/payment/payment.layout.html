@@ -3,10 +3,11 @@
     <div class="col s12 l8 offset-l2">
       <div class="breadcrumb">
         <ul>
-          <li class="selected">1. Find organization</li>
-          <li>2. Select a plan</li>
-          <li>3. Choose account</li>
-          <li>4. Done</li>
+          <li ng-class="step === 1 ? 'selected' : ''" >1. Find organization</li>
+          <li ng-class="step === 2 ? 'selected' : ''" >2. Select a plan</li>
+          <li ng-class="step === 3 ? 'selected' : ''" >3. Review Payment Plan</li>
+          <li ng-class="step === 4 ? 'selected' : ''" >4. Choose account</li>
+          <li ng-class="step === 5 ? 'selected' : ''" >5. Done</li>
         </ul>
       </div>
     </div>

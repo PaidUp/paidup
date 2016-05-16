@@ -11,6 +11,7 @@ require('./vendor/alert.min')
 require('angulartics')
 require('angulartics-google-analytics')
 require('angular-ui-mask')
+require('angular-local-storage')
 
 var paidUpApp = angular.module('paidUpApp', [
   'ui.router',
@@ -22,6 +23,7 @@ var paidUpApp = angular.module('paidUpApp', [
   'angulartics',
   'angulartics.google.analytics',
   'ui.mask',
+  'LocalStorageModule',
   'ui.bootstrap' ])
 
 paidUpApp.config(require('./appConfig'))

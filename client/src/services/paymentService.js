@@ -72,4 +72,5 @@ module.exports = [ '$resource', function ($resource) {
   this.updateCustomer = function (dataCustomer) {
     return CustomerPayment.save({action: 'update'}, dataCustomer).$promise
   }
+
 }]

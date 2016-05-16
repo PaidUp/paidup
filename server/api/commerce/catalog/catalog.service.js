@@ -1,7 +1,8 @@
 'use strict'
 
 const config = require('../../../config/environment')
-const tdCommerceService = require('TDCore').commerceService
+const tdCommerceService = require('TDCore').commerceService;
+const PaidUpProductConnect = require('paidup-product-connect');
 
 function catalogList (categoryId, cb) {
   tdCommerceService.init(config.connections.commerce)
@@ -35,7 +36,26 @@ function catalogCreate (productData, cb) {
   })
 }
 
+function getCategires (cb) {
+  //TODO when implement PUProduct this method must be update (get categories from puproduct)
+  PaidUpProductConnect.categoryRetrieve({
+    baseUrl: config.connections.commerce.baseUrl,
+    token: config.connections.commerce.token,
+  }).exec({
+// An unexpected error occurred.
+    error: function (err){
+      cb(err)
+    },
+// OK.
+    success: function (categories){
+      cb(null, categories);
+    },
+  });
+}
+
 exports.catalogList = catalogList
 exports.catalogProduct = catalogProduct
 exports.catalogCreate = catalogCreate
 exports.groupedList = groupedList
+exports.getCategires = getCategires
+
