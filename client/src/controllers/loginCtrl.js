@@ -75,7 +75,7 @@ module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$transl
 
   var hosts = {
     //'localhost': 'http://localhost:9000/sso/',
-    'stg.getpaidup.com': 'https://stage.getpaidup.com/sso/',
+    //'stg.getpaidup.com': 'https://stage.getpaidup.com/sso/',
     'login.getpaidup.com': 'https://app.getpaidup.com/sso/'
   }
 
