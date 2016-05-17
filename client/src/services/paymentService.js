@@ -10,6 +10,13 @@ module.exports = [ '$resource', function ($resource) {
   var CustomerPayment = $resource('/api/v1/payment/customer/:action', {}, {})
   var calculateDuesPost = $resource("/api/v1/commerce/dues/calculate", {}, {});
 
+  var discount = $resource('/api/v1/commerce/cart/coupon/add',{},{
+    apply:{
+      method:'POST',
+      isArray:false
+    }
+  });
+
   this.sendPayment = function (payment) {
     return Payment.save(payment).$promise
   }
@@ -80,6 +87,17 @@ module.exports = [ '$resource', function ($resource) {
     }).catch(function(err){
       cb(err);
     });
+  };
+
+  this.applyDiscount = function(productId, coupon, cb){
+    discount.apply({coupon:coupon,
+      productId:productId}).$promise.then(function(result){
+      cb(null, result);
+    }).catch(function(err){
+      console.log(err);
+      cb(err);
+    });
+
   };
 
 }]

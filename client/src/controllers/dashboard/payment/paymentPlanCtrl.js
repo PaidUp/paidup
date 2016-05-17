@@ -1,6 +1,7 @@
 'use strict'
 
-module.exports = [ '$scope', '$rootScope', '$state', 'SetupPaymentService','PaymentService', function ($scope, $rootScope, $state, SetupPaymentService, PaymentService) {
+module.exports = [ '$scope', '$rootScope', '$state', '$anchorScroll', '$location', 'SetupPaymentService','PaymentService',
+  function ($scope, $rootScope, $state, $anchorScroll, $location, SetupPaymentService, PaymentService) {
   $scope.clickAccount = function () {
     $rootScope.$emit('openAccountsMenu')
   }
@@ -58,11 +59,9 @@ module.exports = [ '$scope', '$rootScope', '$state', 'SetupPaymentService','Paym
       }
     });
 
-    console.log('#########params: ', params);
-
     PaymentService.calculateDues(params, function(err, data){
       if(err){
-
+        console.log(err);
       }
       $scope.schedules = data.prices.map(function(price){
         price.dateCharge = new Date(price.dateCharge)
@@ -72,17 +71,44 @@ module.exports = [ '$scope', '$rootScope', '$state', 'SetupPaymentService','Paym
 
     })
 
-
-    console.log('#########');
-    console.log('$scope.productSelected',$scope.models.productSelected);
-    console.log('$scope.paymentPlanSelected',$scope.models.paymentPlanSelected);
-    console.log('$scope.orderDetails',$scope.orderDetails);
     $rootScope.$emit('changePaymentStep', 3)
     $scope.step = 3;
+    gotoAnchor(3);
   }
 
-  this.generateDues = function(){
+    $scope.applyDiscount = function(){
+      if(!$scope.codeDiscounts.trim().length){
+        //TrackerService.create('Apply discount error',{errorMessage : 'Discount code is required'});
+        $rootScope.GlobalAlertSystemAlerts.push({msg: 'Discount code is required', type: 'warning', dismissOnTimeout: 5000})
+      }else{
+        PaymentService.applyDiscount($scope.productId, $scope.codeDiscounts, function(err, data){
+          if(err){
+            TrackerService.create('Apply discount error' , {errorMessage : 'Coupon in not valid'});
+            FlashService.addAlert({
+              type: 'danger',
+              msg: 'Coupon is not valid',
+              timeout: 10000
+            });
+          } else{
+            TrackerService.create('Apply discount success',{coupon : $scope.codeDiscounts});
+            CartController.generateDues(true, data._id, data.percent);
+            FlashService.addAlert({
+              type: 'success',
+              msg: 'Your discount was applied',
+              timeout: 5000
+            });
 
-  }
+          }
+        });
+      }
+    }
 
+    function gotoAnchor(step){
+      var newHash = 'step' + step;
+      if ($location.hash() !== newHash) {
+        $location.hash(newHash);
+      } else {
+        $anchorScroll();
+      }
+    }
 }]

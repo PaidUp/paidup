@@ -1,7 +1,7 @@
 <!-- CHOOSE PLAN STEP -->
 <div ng-init="init()">
 
-<div class="white-container" ng-if="step===2" >
+<div id="step2" class="white-container" ng-show="step>=2" >
   <div class="title">
     Choose a payment plan
   </div>
@@ -46,20 +46,15 @@
         <small class="error" ng-show="formStep2.athleteLastName.$error.required && submit">Athlete Last Name is required</small>
       </div>
       <div class="buttons-container">
-        <button type="submit" class="button-green" ng-click="goStep3(formStep2.$valid)" ng-disabled="loading" ng-bind-html="loading ? loader : 'Next'"></button>
+        <button type="submit" ng-show="step===2" class="button-green" ng-click="goStep3(formStep2.$valid)" ng-disabled="loading" ng-bind-html="loading ? loader : 'Next'"></button>
       </div>
-
     </form>
-
-
   </div>
-
-
 </div>
 
   <!-- REVIEW PAYMENT STEP -->
 
-  <div class="white-container" ng-if="step===3">
+  <div id="step3" class="white-container" ng-show="step>=3">
     <div class="title">
       Review Payment Plan
     </div>
@@ -118,14 +113,14 @@
     </div>
 
     <div class="buttons-container">
-      <button ui-sref="dashboard.payment.done" class="button-green" ng-disabled="loading" ng-bind-html="loading ? loader : 'Next'"></button>
+      <button ui-sref="dashboard.payment.done" ng-show="step===3" class="button-green" ng-disabled="loading" ng-bind-html="loading ? loader : 'Next'"></button>
     </div>
 
   </div>
 
 
   <!-- SELECT ACCOUNT FINAL STEP -->
-  <div class="white-container" ng-if="step===4">
+  <div id="step4" class="white-container" ng-show="step>=4">
     <div class="title">
       Select your payment account
     </div>
@@ -143,7 +138,7 @@
     <div class="green-link">View Terms of Service</div>
 
     <div class="buttons-container">
-      <button ui-sref="dashboard.payment.done" class="button-green btn-setup-payment" ng-disabled="loading" ng-bind-html="loading ? loader : 'Setup Payment Now'"></button>
+      <button ui-sref="dashboard.payment.done" ng-show="step===4" class="button-green btn-setup-payment" ng-disabled="loading" ng-bind-html="loading ? loader : 'Setup Payment Now'"></button>
     </div>
 
     <div class="bottom-link">Cancel</div>
