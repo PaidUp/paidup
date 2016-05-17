@@ -1,17 +1,29 @@
 'use strict'
 
-module.exports = [ '$scope', '$rootScope', '$state', '$anchorScroll', '$location', 'SetupPaymentService','PaymentService',
-  function ($scope, $rootScope, $state, $anchorScroll, $location, SetupPaymentService, PaymentService) {
+module.exports = [ '$scope', '$rootScope', '$state', '$anchorScroll', '$location', '$q', 'SetupPaymentService','PaymentService',
+  function ($scope, $rootScope, $state, $anchorScroll, $location, $q, SetupPaymentService, PaymentService) {
+
+    $rootScope.$on('loadCardSelected', function (event, data) {
+      $scope.card = data;
+      SetupPaymentService.setCard(data)
+    })
+
   $scope.clickAccount = function () {
     $rootScope.$emit('openAccountsMenu')
   }
 
-
+  var steps = {
+    find : 1,
+    select : 2,
+    review : 3,
+    pay : 4,
+    done : 5
+  }
 
   $scope.init = function(){
 
-    $rootScope.$emit('changePaymentStep', 2)
-    $scope.step = 2;
+    $rootScope.$emit('changePaymentStep', steps.select)
+    $scope.step = steps.select;
     $scope.categorySelected = SetupPaymentService.getCategorySelected();
    // $scope.productSelected = null;
 
@@ -22,8 +34,11 @@ module.exports = [ '$scope', '$rootScope', '$state', '$anchorScroll', '$location
     }
 
     $scope.models = {}
+    $scope.coupon = {}
 
     $scope.total = 0;
+
+    gotoAnchor(steps.select)
 
   }
 
@@ -39,11 +54,10 @@ module.exports = [ '$scope', '$rootScope', '$state', '$anchorScroll', '$location
     SetupPaymentService.setOrderDetails($scope.orderDetails);
 
     var params = $scope.models.paymentPlanSelected.dues.map(function(ele){
-      //if(applyDiscount) {
-      if(false) {
+      if($scope.coupon.precent) {
         ele.applyDiscount = true;
-        ele.discount = discount;
-        ele.couponId = couponId
+        ele.discount = $scope.coupon.precent;
+        ele.couponId = $scope.coupon.code
       }
 
       return {
@@ -71,37 +85,48 @@ module.exports = [ '$scope', '$rootScope', '$state', '$anchorScroll', '$location
 
     })
 
-    $rootScope.$emit('changePaymentStep', 3)
-    $scope.step = 3;
-    gotoAnchor(3);
+    $rootScope.$emit('changePaymentStep', steps.review)
+    $scope.step = steps.review;
+    gotoAnchor(steps.review);
   }
 
     $scope.applyDiscount = function(){
-      if(!$scope.codeDiscounts.trim().length){
+      if($scope.coupon.code && !$scope.coupon.code.trim().length){
         //TrackerService.create('Apply discount error',{errorMessage : 'Discount code is required'});
         $rootScope.GlobalAlertSystemAlerts.push({msg: 'Discount code is required', type: 'warning', dismissOnTimeout: 5000})
       }else{
-        PaymentService.applyDiscount($scope.productId, $scope.codeDiscounts, function(err, data){
+        $scope.loading = true;
+        PaymentService.applyDiscount($scope.models.productSelected._id, $scope.coupon.code, function(err, data){
           if(err){
-            TrackerService.create('Apply discount error' , {errorMessage : 'Coupon in not valid'});
-            FlashService.addAlert({
-              type: 'danger',
-              msg: 'Coupon is not valid',
-              timeout: 10000
-            });
-          } else{
-            TrackerService.create('Apply discount success',{coupon : $scope.codeDiscounts});
-            CartController.generateDues(true, data._id, data.percent);
-            FlashService.addAlert({
-              type: 'success',
-              msg: 'Your discount was applied',
-              timeout: 5000
-            });
-
+            //TrackerService.create('Apply discount error' , {errorMessage : 'Coupon in not valid'});
+            $rootScope.GlobalAlertSystemAlerts.push({msg: 'Coupon is not valid', type: 'warning', dismissOnTimeout: 5000});
+            $scope.loading = false;
           }
-        });
-      }
+          else{
+            //TrackerService.create('Apply discount success',{coupon : $scope.codeDiscounts});
+            $rootScope.GlobalAlertSystemAlerts.push({msg: 'Coupon was applied successfully', type: 'success', dismissOnTimeout: 5000})
+            $scope.coupon.precent = data.percent;
+            $scope.total = 0;
+            $scope.goStep3(true);
+            $scope.loading = false;
+          }
+        })
+      }}
+
+    $scope.goStep4 = function(){
+      $rootScope.$emit('changePaymentStep', steps.pay)
+      $scope.step = steps.pay;
+      $scope.cards = [];
+
+      gotoAnchor(steps.pay);
     }
+
+    $scope.cancel = function(){
+      SetupPaymentService.reset();
+    }
+
+
+
 
     function gotoAnchor(step){
       var newHash = 'step' + step;

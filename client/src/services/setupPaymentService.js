@@ -39,5 +39,17 @@ module.exports = [ '$q', 'localStorageService', function ( $q, localStorageServi
     return localStorageService.get('orderDetails');
   }
 
+  service.setCard = function(card){
+    return localStorageService.set('card', card);
+  }
+
+  service.getCard = function(){
+    return localStorageService.get('card');
+  }
+
+  service.reset = function(){
+    return localStorageService.clearAll();
+  }
+
 
 }]

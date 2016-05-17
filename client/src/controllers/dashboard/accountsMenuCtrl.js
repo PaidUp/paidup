@@ -11,18 +11,35 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
   $scope.editingAccount = false
   $scope.deletingAccount = false
   $scope.isNewCard = false
-  AuthService.getCurrentUserPromise().then(function (user) {
-    PaymentService.listCards(user._id).then(function (accounts) {
-      $scope.accounts = accounts.data
+
+  $scope.init = function(){
+
+    init();
+
+  }
+
+  function init(){
+    console.log('start init')
+
+    AuthService.getCurrentUserPromise().then(function (user) {
+      PaymentService.listCards(user._id).then(function (accounts) {
+        $scope.accounts = accounts.data
+      }).catch(function (err) {
+        console.log('ERR', err)
+      })
     }).catch(function (err) {
-      console.log('ERR', err)
+      console.log('err', err)
     })
-  }).catch(function (err) {
-    console.log('err', err)
-  })
+  }
+
 
   $rootScope.$on('openAccountsMenu', function (event, data) {
     $scope.activeAccountMenu = true
+  })
+
+  $rootScope.$on('accountMenuReset', function (event, data) {
+    $scope.accounts = [];
+    init();
   })
 
   $scope.showAccount = function (account) {
@@ -70,8 +87,13 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
       val.selected = false
       if (val.id === accountId) {
         val.selected = true
+        $rootScope.$emit('loadCardSelected', val);
       }
     })
     $scope.showAccountModal = false
+    $scope.activeAccountMenu = false
+
   }
+
+
 }]
