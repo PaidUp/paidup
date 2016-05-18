@@ -25,7 +25,7 @@
 
       <div class="select-container" ng-show="models.productSelected" >
         <select ng-model="models.paymentPlanSelected" name="paymentPlanSelected"
-                ng-options="option1.description for option1 in models.productSelected.paymentPlans track by option1.description"
+                ng-options="k as v.description for (k, v) in models.productSelected.paymentPlans"
                 required>
           <option value="" disabled selected class="placeholder">Select Payment Plan</option>
         </select>
@@ -73,7 +73,7 @@
       <tbody>
       <tr ng-repeat="schedule in schedules">
         <td class="number">
-          1
+          {{$index+1}}
         </td>
         <td class="date">
           <div class="month">{{schedule.dateCharge | date : 'MMM' }}</div>
@@ -139,10 +139,10 @@
     <div class="green-link">View Terms of Service</div>
 
     <div class="buttons-container">
-      <button ui-sref="dashboard.payment.done" ng-show="step===4 && card" class="button-green btn-setup-payment" ng-disabled="loading" ng-bind-html="loading ? loader : 'Setup Payment Now'"></button>
+      <button ng-click="createOrder()" ng-show="step===4 && card" class="button-green btn-setup-payment" ng-disabled="loading" ng-bind-html="loading ? loader : 'Setup Payment Now'"></button>
     </div>
 
-    <div ui-sref="dashboard.payment.findOrg" ng-click="cancel" class="bottom-link">Cancel</div>
+    <div ui-sref="dashboard.payment.findOrg" ng-click="cancel()" class="bottom-link">Cancel</div>
 
   </div>
 

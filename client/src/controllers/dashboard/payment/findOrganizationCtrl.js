@@ -32,7 +32,6 @@ module.exports = [ '$scope', '$rootScope', '$state', 'ProductService', 'SetupPay
   }
 
   $scope.init = function(){
-    $rootScope.$emit('accountMenuReset')
     $scope.loader = '<i class="fa fa-circle-o-notch fa-spin"></i>'
     $scope.loading = true;
     findOrg (function(){

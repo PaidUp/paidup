@@ -1,7 +1,7 @@
 'use strict'
 
-module.exports = [ '$scope', '$rootScope', '$state', '$anchorScroll', '$location', '$q', 'SetupPaymentService','PaymentService',
-  function ($scope, $rootScope, $state, $anchorScroll, $location, $q, SetupPaymentService, PaymentService) {
+module.exports = [ '$scope', '$rootScope', '$state', '$anchorScroll', '$location', '$q', 'SetupPaymentService','PaymentService', 'CommerceService',
+  function ($scope, $rootScope, $state, $anchorScroll, $location, $q, SetupPaymentService, PaymentService, CommerceService) {
 
     $rootScope.$on('loadCardSelected', function (event, data) {
       $scope.card = data;
@@ -50,10 +50,10 @@ module.exports = [ '$scope', '$rootScope', '$state', '$anchorScroll', '$location
     }
 
     SetupPaymentService.setProductSelected($scope.models.productSelected);
-    SetupPaymentService.setPaymentPlanSelected($scope.models.paymentPlanSelected);
+    SetupPaymentService.setPaymentPlanSelected($scope.models.productSelected.paymentPlans[$scope.models.paymentPlanSelected]);
     SetupPaymentService.setOrderDetails($scope.orderDetails);
 
-    var params = $scope.models.paymentPlanSelected.dues.map(function(ele){
+    var params = $scope.models.productSelected.paymentPlans[$scope.models.paymentPlanSelected].dues.map(function(ele){
       if($scope.coupon.precent) {
         ele.applyDiscount = true;
         ele.discount = $scope.coupon.precent;
@@ -82,6 +82,7 @@ module.exports = [ '$scope', '$rootScope', '$state', '$anchorScroll', '$location
         $scope.total = $scope.total + price.owedPrice;
         return price;
       });
+      SetupPaymentService.setSchedules($scope.schedules);
 
     })
 
@@ -123,6 +124,37 @@ module.exports = [ '$scope', '$rootScope', '$state', '$anchorScroll', '$location
 
     $scope.cancel = function(){
       SetupPaymentService.reset();
+      $rootScope.$emit('accountMenuReset')
+    }
+
+    $scope.createOrder = function (){
+      $scope.loading = true;
+
+      var params = { organizationImage: $scope.categorySelected.image,
+        organizationId: $scope.categorySelected._id,
+        organizationName: $scope.categorySelected.name,
+        organizationLocation: $scope.categorySelected.location,
+        productId: $scope.models.productSelected._id,
+        productName: $scope.models.productSelected.details.name,
+        productImage: $scope.models.productSelected.details.images.main,
+        paymentPlanSelected: $scope.models.paymentPlanSelected,
+        discount: $scope.coupon.precent ? $scope.coupon.precent : 0,
+        couponId: $scope.coupon.precent ? $scope.coupon.code : '',
+        beneficiaryId: 'N/A',
+        beneficiaryName: $scope.orderDetails.athleteFirstName + ' ' + $scope.orderDetails.athleteLastName,
+        typeAccount: $scope.card.object,
+        account: $scope.card.id }
+
+      CommerceService.createOrder(params).then(function(res){
+        $rootScope.$emit('accountMenuReset')
+        $state.go('dashboard.payment.done');
+        SetupPaymentService.setResumeOrder(res.body)
+      }).catch(function(err){
+        $rootScope.GlobalAlertSystemAlerts.push({msg: 'Oh no, there’s a problem with your order.  Please call us at 855.764.3232 or email us at support@getpaidup.com so we can resolve it.', type: 'warning', dismissOnTimeout: 5000})
+        $scope.loading = false;
+      });
+
+
     }
 
 

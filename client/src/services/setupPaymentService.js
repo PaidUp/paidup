@@ -5,7 +5,27 @@ module.exports = [ '$q', 'localStorageService', function ( $q, localStorageServi
 
   var service = this;
 
-  service.step = 0;
+  service.resumeOrder = {}
+  service.schedules = []
+
+  service.setResumeOrder = function(resumeOrder){
+    service.resumeOrder = resumeOrder;
+  }
+
+  service.getResumeOrder = function(){
+    return service.resumeOrder;
+  }
+
+  service.setSchedules = function(schedules){
+    service.schedules = schedules;
+  }
+
+  service.getSchedules = function(){
+    return service.schedules;
+  }
+
+
+
 
   service.setCategorySelected = function(categorySelected){
     return localStorageService.set('categorySelected', categorySelected);

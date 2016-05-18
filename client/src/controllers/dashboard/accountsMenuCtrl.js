@@ -13,14 +13,10 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
   $scope.isNewCard = false
 
   $scope.init = function(){
-
     init();
-
   }
 
   function init(){
-    console.log('start init')
-
     AuthService.getCurrentUserPromise().then(function (user) {
       PaymentService.listCards(user._id).then(function (accounts) {
         $scope.accounts = accounts.data
