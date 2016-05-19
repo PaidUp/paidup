@@ -56,19 +56,19 @@
                   <td colspan="2" class="name">TOTAL</td>
                   <td class="tot">
                     <span class="green-font">$</span> 
-                    998.75
+                    0<!--{{totalPrice | currency:""}}-->
                   </td>
                   <td class="discount">
                     <span class="green-font">$</span> 
-                    998.75
+                    1<!--{{totalDiscount | currency:""}}-->
                   </td>
                   <td class="paid">
                     <span class="green-font">$</span> 
-                    998.75
+                    2<!--{{totalPaid | currency:""}}-->
                   </td>
                   <td class="remaining">
                     <span class="green-font">$</span> 
-                    998.75
+                    3<!--{{totalRemaining | currency:""}}-->
                   </td>
                 </tr>
               </tbody>
@@ -78,22 +78,22 @@
             <table class="header-table">        
               <tbody>
                 <tr ng-click="expandCategory1 = !expandCategory1">
-                  <td colspan="2" class="name">16U Red</td>
+                  <td colspan="2" class="name">a<!--{{productId[0].paymentsPlan.productInfo.productName}} - {{orderGroupByProductId}} - ({{orderGroupByProductId.paymentsPlan.productInfo.productId}})--></td>
                   <td class="tot">
                     <span class="green-font">$</span> 
-                    998.75
+                    b<!--{{priceGroupeByProduct[0] | currency:""}}-->
                   </td>
                   <td class="discount">
-                    <span class="green-font">$</span> 
-                    998.75
+                    <span class="green-font">$</span>
+                    c<!--{{discountGroupeByProduct[0] | currency:""}}-->
                   </td>
                   <td class="paid">
                     <span class="green-font">$</span> 
-                    998.75
+                    d<!--{{paidGroupeByProduct[0] | currency:""}}-->
                   </td>
                   <td class="remaining">
                     <span class="green-font">$</span> 
-                    998.75
+                    e<!--{{remainingGroupeByProduct[0] | currency:""}}-->
                   </td>
                 </tr>
               </tbody>
@@ -104,42 +104,42 @@
 
                <tbody>
 
-                 <tr ng-click="expandSection11 = !expandSection11" ng-class="expandSection11 ? 'user-row active' : 'user-row'">
+                 <tr ng-click="expandSection11 = !expandSection11" ng-class="expandSection11 ? 'user-row active' : 'user-row'" ng-repeat-start="order in allOrders">
                    <td class="date">
-                     <div class="month">DEC</div>
-                     <div class="day">25</div>
+                     <div class="month">{{(order.createAt | date : 'MMM') | uppercase}}</div>
+                     <div class="day">{{order.createAt | date: 'dd'}}</div>
                    </td>
                    <td class="organization">
                      <div class="team-icon">
-                       <div>AB</div>
+                       <div>{{order.allProductName[0] | limitTo:2}}</div>
                      </div>
                      <div class="team">
-                       <div class="team-name">Austin Boom</div>
-                       <div class="team-contact">Jerry Garcia</div>
+                       <div class="team-name">{{order.allProductName[0]}}</div>
+                       <div class="team-contact">{{order.allBeneficiaryName[0]}}</div>
                      </div>
                      <div class="clearfix"></div>
                    </td>
 
                    <td class="tot">
                      <span class="green-font">$</span> 
-                     998.75
+                     {{order.sumoriginalPrice | currency:""}}
                    </td>
                    <td class="discount">
                      <span class="green-font">$</span> 
-                     998.75
+                     {{order.sumDiscount | currency:""}}
                    </td>
                    <td class="paid">
                      <span class="green-font">$</span> 
-                     998.75
+                     f
                    </td>
                    <td class="remaining">
                      <span class="green-font">$</span> 
-                     998.75
+                     g
                    </td>
                  </tr>
 
 
-                 <tr class="expandable">
+                 <tr class="expandable" ng-repeat-end>
                    <td class="expand" colspan="6">
                      <div ng-class="expandSection11 ? 'expandable-section active' : 'expandable-section'">
                        <div class="expanded-section contains-table">
@@ -149,21 +149,21 @@
                              Order Id:
                            </span>
                            <br>
-                           <span class="value">SFY2323SDSDSAD32</span>
+                           <span class="value">{{order.orderId}}</span>
                          </div>
                          <div class="inline-block">
                            <span class="green-font">
                              Status:
                            </span>
                            <br>
-                           <span class="value red-font">Past Due</span>
+                           <span class="value green-font">{{order.status}}</span>
                          </div>
 
 
                          <div class="tables-separator"></div>
 
                          <div class="charges-container">
-                           <div class="green-font charges-title">Pending Charges</div>
+                           <div class="green-font charges-title">Order Pending Charges</div>
 
                            <table class="charges-table">
                              <thead>
@@ -178,60 +178,32 @@
                                </tr>
                              </thead>
                              <tbody>
-                               <tr>                             
+                               <tr ng-repeat="pp in order.paymentsPlan | filter:{ status: 'pending' }">                             
                                  <td class="date">
-                                   <div class="month">DEC</div>
-                                   <div class="day">25</div>
+                                   <div class="month">{{(pp.dateCharge | date : 'MMM') | uppercase}}</div>
+                                   <div class="day">{{pp.dateCharge | date: 'dd'}}</div>
                                  </td>
                                  <td class="details">
-                                   Payment 3 of 4
+                                   {{pp.description}}
                                  </td>
                                  <td class="account">
-                                   <i class="fa fa-cc-visa"></i> 
-                                   <a href="" class="green-link">x-1234</a>
+                                   <i class="fa fa-{{pp.brand ? ('cc-'+pp.brand | lowercase) : 'credit-card-alt'}}"></i> 
+                                   <a href="" class="green-link">x-{{pp.last4}}</a>
                                  </td>
                                  <td class="status">
-                                   <span>Pending</span>
+                                   <span>{{pp.status}}</span>
                                  </td>
                                  <td>
                                    <span class="green-font">$</span> 
-                                   998.75
+                                   {{pp.originalPrice | currency:""}}
                                  </td>
                                  <td>
                                    <span class="green-font">$</span> 
-                                   998.75
+                                   {{pp.price | currency:""}}
                                  </td>
                                  <td>
                                    <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                               </tr>
-                               <tr>                             
-                                 <td class="date">
-                                   <div class="month">DEC</div>
-                                   <div class="day">25</div>
-                                 </td>
-                                 <td class="details">
-                                   Payment 4 of 4
-                                 </td>
-                                 <td class="account">
-                                   <i class="fa fa-cc-visa"></i> 
-                                   <a href="" class="green-link">x-1234</a>
-                                 </td>
-                                 <td class="status">
-                                   <span>Pending</span>
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
+                                   {{pp.originalPrice | currency:""}}
                                  </td>
                                </tr>
                              </tbody>
@@ -256,60 +228,32 @@
                                </tr>
                              </thead>
                              <tbody>
-                               <tr>                             
+                               <tr ng-repeat="pp in order.paymentsPlan | filter:{ status: '!pending' }">                             
                                  <td class="date">
-                                   <div class="month">DEC</div>
-                                   <div class="day">25</div>
+                                   <div class="month">{{(pp.dateCharge | date : 'MMM') | uppercase}}</div>
+                                   <div class="day">{{pp.dateCharge | date: 'dd'}}</div>
                                  </td>
                                  <td class="details">
-                                   Payment 3 of 4
+                                   {{pp.description}}
                                  </td>
                                  <td class="account">
-                                   <i class="fa fa-cc-visa"></i> 
-                                   <a href="" class="green-link">x-1234</a>
+                                   <i class="fa fa-{{pp.brand ? ('cc-'+pp.brand | lowercase) : 'credit-card-alt'}}"></i> 
+                                   <a href="" class="green-link">x-{{pp.last4}}</a>
                                  </td>
                                  <td class="status">
-                                   <span>Pending</span>
+                                   <span>{{pp.status}}</span>
                                  </td>
                                  <td>
                                    <span class="green-font">$</span> 
-                                   998.75
+                                   {{pp.originalPrice | currency:""}}
                                  </td>
                                  <td>
                                    <span class="green-font">$</span> 
-                                   998.75
+                                   {{pp.price | currency:""}}
                                  </td>
                                  <td>
                                    <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                               </tr>
-                               <tr>                             
-                                 <td class="date">
-                                   <div class="month">DEC</div>
-                                   <div class="day">25</div>
-                                 </td>
-                                 <td class="details">
-                                   Payment 4 of 4
-                                 </td>
-                                 <td class="account">
-                                   <i class="fa fa-cc-visa"></i> 
-                                   <a href="" class="green-link">x-1234</a>
-                                 </td>
-                                 <td class="status">
-                                   <span>Pending</span>
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
+                                   {{pp.originalPrice | currency:""}}
                                  </td>
                                </tr>
                              </tbody>
@@ -322,7 +266,7 @@
                  </tr>
 
 
-                 <tr ng-click="expandSection12 = !expandSection12" ng-class="expandSection12 ? 'user-row active' : 'user-row'">
+                 <!--<tr ng-click="expandSection12 = !expandSection12" ng-class="expandSection12 ? 'user-row active' : 'user-row'">
                    <td class="date">
                      <div class="month">DEC</div>
                      <div class="day">25</div>
@@ -537,7 +481,7 @@
                        </div>                     
                      </div>
                    </td>                
-                 </tr>
+                 </tr>-->
 
 
 
@@ -547,6 +491,7 @@
 
 
            <!-- CATEGORY 2 -->
+<!--
            <table class="header-table">        
              <tbody>
                <tr ng-click="expandCategory2 = !expandCategory2">
@@ -1016,11 +961,8 @@
                </tbody>
              </table>
            </div>
-
+-->
          </div>
-
-
-
          <div class="bottom-link">Next 20</div>
 
        </div>

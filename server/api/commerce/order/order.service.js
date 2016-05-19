@@ -272,11 +272,33 @@ function orderGet (userId, limit, sort, cb) {
     }
   })
 }
+// machinepack exec order-get-organization --organizationId='acct_18AQWDGKajSrnujf' --token='TDCommerceToken-CHANGE-ME!' --baseUrl='http://localhost:9002' --limit='1000' --sort='1'
+function orderGetOrganization (organizationId, limit, sort, cb) {
+  CommerceConnector.orderGetOrganization({
+    baseUrl: config.connections.commerce.baseUrl,
+    token: config.connections.commerce.token,
+    organizationId: organizationId,
+    limit: limit,
+    sort: sort
+  }).exec({
+    // An unexpected error occurred.
+    error: function (err) {
+      console.log('err', err)
+      return cb(err)
+    },
+    // OK.
+    success: function (result) {
+      console.log('err', result)
+      return cb(null, result)
+    }
+  })
+}
 
 module.exports = {
   createOrder: createOrder,
   orderPaymentRecent: orderPaymentRecent,
   orderPaymentNext: orderPaymentNext,
   orderPaymentActive: orderPaymentActive,
-  orderGet: orderGet
+  orderGet: orderGet,
+  orderGetOrganization: orderGetOrganization
 }

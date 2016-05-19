@@ -36,7 +36,7 @@
               <tr ng-click="expandSection1 = !expandSection1" ng-repeat-start="recentOrder in recentOrders">
                 <td class="date">
                   <div class="month">{{(recentOrder.paymentsPlan.dateCharge | date : 'MMM') | uppercase}}</div>
-                  <div class="day">{{recentOrder.paymentsPlan.dateCharge | date: 'd'}}</div>
+                  <div class="day">{{recentOrder.paymentsPlan.dateCharge | date: 'dd'}}</div>
                 </td>
                 <td class="organization">
                   <div class="team-icon">
@@ -55,7 +55,7 @@
                 </td>
                 <td class="total">
                   <span class="green-font">$</span> 
-                  {{recentOrder.paymentsPlan.price}}
+                  {{recentOrder.paymentsPlan.price | currency:""}}
                 </td>
               </tr>
               <tr>
