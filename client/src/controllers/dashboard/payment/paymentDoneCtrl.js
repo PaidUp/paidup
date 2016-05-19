@@ -8,22 +8,21 @@ module.exports = [ '$scope', '$rootScope', '$state', 'SetupPaymentService', func
   $scope.init = function(){
     $rootScope.$emit('changePaymentStep', 5)
     $scope.total = 0;
-    $scope.resumeOrder = SetupPaymentService.getResumeOrder();
+    $scope.resumeOrder = SetupPaymentService.resumeOrder;
 
     if(!$scope.resumeOrder.orderId){
       $state.go('dashboard.summary.components');
     }
 
-    $scope.schedules = SetupPaymentService.getSchedules();
-    $scope.paymenPlanDescription = SetupPaymentService.getPaymentPlanSelected().description;
-    $scope.orderDetails = SetupPaymentService.getOrderDetails();
-    $scope.categorySelected = SetupPaymentService.getCategorySelected();
+    $scope.schedules = SetupPaymentService.schedules;
+    $scope.paymenPlanDescription = SetupPaymentService.paymentPlanSelected.description;
+    $scope.orderDetails = SetupPaymentService.orderDetails;
+    $scope.categorySelected = SetupPaymentService.categorySelected;
     $scope.schedules.map(function(price){
       $scope.total = $scope.total + price.owedPrice;
     });
 
 
-    console.log('resumeOrder: ' , $scope.resumeOrder)
   }
 
 

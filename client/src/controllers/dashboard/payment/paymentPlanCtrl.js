@@ -5,7 +5,7 @@ module.exports = [ '$scope', '$rootScope', '$state', '$anchorScroll', '$location
 
     $rootScope.$on('loadCardSelected', function (event, data) {
       $scope.card = data;
-      SetupPaymentService.setCard(data)
+      SetupPaymentService.card = data
     })
 
   $scope.clickAccount = function () {
@@ -21,21 +21,19 @@ module.exports = [ '$scope', '$rootScope', '$state', '$anchorScroll', '$location
   }
 
   $scope.init = function(){
+    $scope.categorySelected = SetupPaymentService.categorySelected;
+    if(!$scope.categorySelected._id){
+      $state.go('dashboard.payment.findOrg');
+    }
 
     $rootScope.$emit('changePaymentStep', steps.select)
     $scope.step = steps.select;
-    $scope.categorySelected = SetupPaymentService.getCategorySelected();
-   // $scope.productSelected = null;
-
     $scope.loader = '<i class="fa fa-circle-o-notch fa-spin"></i>'
     $scope.loading = false;
 
-    $scope.orderDetails = {
-    }
-
+    $scope.orderDetails = {}
     $scope.models = {}
     $scope.coupon = {}
-
     $scope.total = 0;
 
     gotoAnchor(steps.select)
@@ -49,9 +47,9 @@ module.exports = [ '$scope', '$rootScope', '$state', '$anchorScroll', '$location
       return;
     }
 
-    SetupPaymentService.setProductSelected($scope.models.productSelected);
-    SetupPaymentService.setPaymentPlanSelected($scope.models.productSelected.paymentPlans[$scope.models.paymentPlanSelected]);
-    SetupPaymentService.setOrderDetails($scope.orderDetails);
+    SetupPaymentService.productSelected = $scope.models.productSelected;
+    SetupPaymentService.paymentPlanSelected = $scope.models.productSelected.paymentPlans[$scope.models.paymentPlanSelected];
+    SetupPaymentService.orderDetails = $scope.orderDetails;
 
     var params = $scope.models.productSelected.paymentPlans[$scope.models.paymentPlanSelected].dues.map(function(ele){
       if($scope.coupon.precent) {
@@ -82,7 +80,7 @@ module.exports = [ '$scope', '$rootScope', '$state', '$anchorScroll', '$location
         $scope.total = $scope.total + price.owedPrice;
         return price;
       });
-      SetupPaymentService.setSchedules($scope.schedules);
+      SetupPaymentService.schedules = $scope.schedules;
 
     })
 
@@ -148,7 +146,7 @@ module.exports = [ '$scope', '$rootScope', '$state', '$anchorScroll', '$location
       CommerceService.createOrder(params).then(function(res){
         $rootScope.$emit('accountMenuReset')
         $state.go('dashboard.payment.done');
-        SetupPaymentService.setResumeOrder(res.body)
+        SetupPaymentService.resumeOrder = res.body
       }).catch(function(err){
         $rootScope.GlobalAlertSystemAlerts.push({msg: 'Oh no, there’s a problem with your order.  Please call us at 855.764.3232 or email us at support@getpaidup.com so we can resolve it.', type: 'warning', dismissOnTimeout: 5000})
         $scope.loading = false;
@@ -156,8 +154,6 @@ module.exports = [ '$scope', '$rootScope', '$state', '$anchorScroll', '$location
 
 
     }
-
-
 
 
     function gotoAnchor(step){

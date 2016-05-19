@@ -28,7 +28,7 @@ module.exports = [ '$scope', '$rootScope', '$state', 'ProductService', 'SetupPay
   }
 
   $scope.selectCategory = function(category){
-    SetupPaymentService.setCategorySelected(category);
+    SetupPaymentService.categorySelected  = category;
   }
 
   $scope.init = function(){
