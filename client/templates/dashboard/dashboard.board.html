@@ -119,10 +119,10 @@
                         <span class="green-font">$</span> {{orders.sumDiscount | currency:""}}
                       </td>
                       <td class="paid">
-                        <span class="green-font">$</span> {{getSubTotalPaidOrder(orders) | currency:""}}
+                        <span class="green-font">$</span> {{getSubTotalPaid([orders]) | currency:""}}
                       </td>
                       <td class="remaining">
-                        <span class="green-font">$</span> {{getSubTotalRemainingOrder(orders) | currency:""}}
+                        <span class="green-font">$</span> {{getSubTotalRemaining([orders]) | currency:""}}
                       </td>
                     </tr>
 
