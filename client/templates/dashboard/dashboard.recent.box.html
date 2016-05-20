@@ -11,7 +11,7 @@
       <tr ng-repeat="order in orders">
         <td class="date">
           <div class="month">{{(order.paymentsPlan.dateCharge | date : 'MMM') | uppercase}}</div>
-          <div class="day">{{ order.paymentsPlan.dateCharge | date: 'd'}}</div>
+          <div class="day">{{ order.paymentsPlan.dateCharge | date: 'dd'}}</div>
         </td>
         <td class="organization">
           <div class="team-icon">

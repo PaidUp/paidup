@@ -55,16 +55,16 @@
                 <tr>
                   <td colspan="2" class="name">TOTAL</td>
                   <td class="tot">
-                    <span class="green-font">$</span> {{10000 | currency:""}}
+                    <span class="green-font">$</span> {{totalPrice | currency:""}}
                   </td>
                   <td class="discount">
-                    <span class="green-font">$</span> {{0 | currency:""}}
+                    <span class="green-font">$</span> {{totalDiscount | currency:""}}
                   </td>
                   <td class="paid">
-                    <span class="green-font">$</span> {{9000 | currency:""}}
+                    <span class="green-font">$</span> {{totalPaid | currency:""}}
                   </td>
                   <td class="remaining">
-                    <span class="green-font">$</span> {{1000 | currency:""}}
+                    <span class="green-font">$</span> {{totalRemaining | currency:""}}
                   </td>
                 </tr>
               </tbody>
@@ -75,18 +75,18 @@
               <table class="header-table">
                 <tbody>
                   <tr ng-click="expandCategory1 = !expandCategory1">
-                    <td colspan="2" class="name">{{productInfo.productName}}</td>
+                    <td colspan="2" class="name"> {{productInfo[0].allProductName[0]}} {{productInfo.productName}}</td>
                     <td class="tot">
-                      <span class="green-font">$</span> {{productInfo.total | currency:""}}
+                      <span class="green-font">$</span> {{getSubTotal(productInfo) | currency:""}}
                     </td>
                     <td class="discount">
-                      <span class="green-font">$</span> {{productInfo.discount | currency:""}}
+                      <span class="green-font">$</span> {{getSubTotalDiscount(productInfo) | currency:""}}
                     </td>
                     <td class="paid">
-                      <span class="green-font">$</span> {{productInfo.paid | currency:""}}
+                      <span class="green-font">$</span> {{getSubTotalPaid(productInfo) | currency:""}}
                     </td>
                     <td class="remaining">
-                      <span class="green-font">$</span> {{productInfo.remaining | currency:""}}
+                      <span class="green-font">$</span> {{getSubTotalRemaining(productInfo) | currency:""}}
                     </td>
                   </tr>
                 </tbody>
@@ -96,34 +96,33 @@
                 <table class="transactions-table board-table">
 
                   <tbody>
-
-                    <tr ng-click="expandSection11 = !expandSection11" ng-class="expandSection11 ? 'user-row active' : 'user-row'" ng-repeat-start="orders in productInfo.orders">
+                    <tr ng-click="expandSection11 = !expandSection11" ng-class="expandSection11 ? 'user-row active' : 'user-row'" ng-repeat-start="orders in productInfo">
                       <td class="date">
                         <div class="month">{{(orders.createAt | date : 'MMM') | uppercase}}</div>
                         <div class="day">{{orders.createAt | date: 'dd'}}</div>
                       </td>
                       <td class="organization">
                         <div class="team-icon">
-                          <div>{{orders.productName | limitTo:2}}</div>
+                          <div>{{orders.allProductName[0] | limitTo:2}}</div>
                         </div>
                         <div class="team">
-                          <div class="team-name">{{orders.productName}}</div>
-                          <div class="team-contact">{{orders.beneficiaryName}}</div>
+                          <div class="team-name">{{orders.allProductName[0]}}</div>
+                          <div class="team-contact">{{orders.allBeneficiaryName[0]}}</div>
                         </div>
                         <div class="clearfix"></div>
                       </td>
 
                       <td class="tot">
-                        <span class="green-font">$</span> {{orders.total | currency:""}}
+                        <span class="green-font">$</span> {{orders.sumoriginalPrice | currency:""}}
                       </td>
                       <td class="discount">
-                        <span class="green-font">$</span> {{orders.discount | currency:""}}
+                        <span class="green-font">$</span> {{orders.sumDiscount | currency:""}}
                       </td>
                       <td class="paid">
-                        <span class="green-font">$</span> {{orders.paid | currency:""}}
+                        <span class="green-font">$</span> {{getSubTotalPaidOrder(orders) | currency:""}}
                       </td>
                       <td class="remaining">
-                        <span class="green-font">$</span> {{orders.remaining | currency:""}}
+                        <span class="green-font">$</span> {{getSubTotalRemainingOrder(orders) | currency:""}}
                       </td>
                     </tr>
 
@@ -167,7 +166,7 @@
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  <tr ng-repeat="pp in orders.pp | filter:{ status: 'pending' }">
+                                  <tr ng-repeat="pp in orders.paymentsPlan | filter:{ status: 'pending' }">
                                     <td class="date">
                                       <div class="month">{{(pp.dateCharge | date : 'MMM') | uppercase}}</div>
                                       <div class="day">{{pp.dateCharge | date: 'dd'}}</div>
@@ -214,7 +213,7 @@
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  <tr ng-repeat="pp in orders.pp | filter:{ status: '!pending' }">
+                                  <tr ng-repeat="pp in orders.paymentsPlan | filter:{ status: '!pending' }">
                                     <td class="date">
                                       <div class="month">{{(pp.dateCharge | date : 'MMM') | uppercase}}</div>
                                       <div class="day">{{pp.dateCharge | date: 'dd'}}</div>
