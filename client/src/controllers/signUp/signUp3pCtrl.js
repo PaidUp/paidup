@@ -62,6 +62,7 @@ module.exports = [ '$scope', 'ApplicationConfigService', 'UserService', 'SignUpS
       console.log('INVALID')
     }
   }
+
   $scope.validateCardInfo = function (f) {
     if (Stripe.card.validateCardNumber($scope.cardNumber)) {
       f.cNum.$setValidity('cNum', true)

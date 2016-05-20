@@ -81,6 +81,7 @@ module.exports = [ 'AuthService', 'UserService', 'OrganizationService', '$q', 'p
   }
 
   function createBillingAddress (billingAddress) {
+    console.log('billingAddress', billingAddress)
     return $q(function (resolve, reject) {
       var bAddress = {}
       bAddress.type = 'billing'
