@@ -21,6 +21,10 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
     init();
   }
 
+    $scope.getBrandCardClass = function(brand){
+      return PaymentService.getBrandCardClass(brand);
+    }
+
   function init(){
     AuthService.getCurrentUserPromise().then(function (user) {
       PaymentService.listCards(user._id).then(function (accounts) {
@@ -106,10 +110,15 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
       console.log('VALID')
       $scope.loading = true
       Stripe.card.createToken({
-        name: $scope.modalAccount.name,
+        name: $scope.modalAccount.nameOnCard,
         number: $scope.modalAccount.cardNumber,
         cvc: $scope.modalAccount.secCode,
-        exp: $scope.modalAccount.expireDate
+        exp: $scope.modalAccount.expireDate,
+        address_city: $scope.modalAccount.billingAddress.city,
+        address_line1: $scope.modalAccount.billingAddress.streetAddress,
+        address_state: $scope.modalAccount.billingAddress.state,
+        address_zip: $scope.modalAccount.billingAddress.zipCode
+
       }, function stripeResponseHandler (status, response) {
         if (response.error) {
           $scope.loading = false
@@ -132,6 +141,12 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
               var promise = SignUpService.createBillingAddress($scope.modalAccount.billingAddress)
               promise.then(function (message) {
                 $rootScope.GlobalAlertSystemAlerts.push({msg: 'Credit card was created successful', type: 'success', dismissOnTimeout: 5000})
+                $scope.show = false;
+                $scope.showAccountModal = false
+                $scope.loading = false
+                $rootScope.$emit('reloadAccountsBox')
+
+                init();
               }, function (err) {
                 console.log('ERROR', err)
                 $rootScope.GlobalAlertSystemAlerts.push({msg: 'Credit card can´t be crated', type: 'warning', dismissOnTimeout: 5000})
