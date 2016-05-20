@@ -4,4 +4,8 @@ module.exports = [ '$scope', '$rootScope', '$state', function ($scope, $rootScop
   $scope.clickAccount = function () {
     $rootScope.$emit('openAccountsMenu')
   }
+
+
+
+
 }]

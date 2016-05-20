@@ -1,188 +1,150 @@
 <!-- CHOOSE PLAN STEP -->
-<div class="white-container">
+<div ng-init="init()">
+
+<div id="step2" class="white-container" ng-show="step>=2" >
   <div class="title">
     Choose a payment plan
   </div>
   <p>Choose from the options below to setup your payment</p>
   <div class="teams">
     <div class="team">
-      <img src="/img/team2.jpg" class="circle team-img" alt="">
-      <div class="name">Cesar Rules</div>
-      <div class="loc">Orlando, FL</div>
+      <img src="{{categorySelected.image}}" class="circle team-img" alt="">
+      <div class="name">{{categorySelected.name}}</div>
+      <div class="loc">{{categorySelected.location}}</div>
     </div>
   </div>
   <div class="inputs inputs-plan">
-    <form name="form" novalidate>
+    <form name="formStep2" novalidate>
       <div class="select-container">
-        <select ng-model="user.state" name="uState" ng-class="containsValue ? 'selected' : ''" ng-change="containsValue = true" required>
-          <option value="" disabled selected class="placeholder">Select Age Group</option>
-          <option>
-            16U
-          </option>
+        <select ng-model="models.productSelected" name="productSelected"
+                ng-options="option.details.name for option in categorySelected.products track by option.details.name"
+                required>
+          <option value="" disabled selected class="placeholder">Select One</option>
         </select>
       </div>
-      <div class="select-container">
-        <select ng-model="user.state" name="uState" ng-class="containsValue ? 'selected' : ''" ng-change="containsValue = true" required>
+
+      <div class="select-container" ng-show="models.productSelected" >
+        <select ng-model="models.paymentPlanSelected" name="paymentPlanSelected"
+                ng-options="option1.description for option1 in models.productSelected.paymentPlans track by option1.description"
+                required>
           <option value="" disabled selected class="placeholder">Select Payment Plan</option>
-          <option>
-            16U
-          </option>
         </select>
       </div>
-      <input type="text" 
-      name="uFirst" 
-      placeholder="Athlete First Name" 
-      required 
-      ng-model="firstName" />
-      <small class="error" ng-show="form.uFirst.$error.required && form.uFirst.$touched">Athlete Name is required</small>
-      <input type="text" 
-      name="uLast" 
-      placeholder="Athlete Last Name" 
-      required 
-      ng-model="lastName" />
-      <small class="error" ng-show="form.uLast.$error.required && form.uLast.$touched">Athlete Name is required</small>  
+
+      <div ng-show="models.productSelected && models.paymentPlanSelected">
+        <input type="text"
+               name="athleteFirstName"
+               placeholder="Athlete First Name"
+               required
+               ng-model="orderDetails.athleteFirstName" />
+        <small class="error" ng-show="formStep2.athleteFirstName.$error.required && submit">Athlete First Name is required</small>
+        <input type="text"
+               name="athleteLastName"
+               placeholder="Athlete Last Name"
+               required
+               ng-model="orderDetails.athleteLastName" />
+        <small class="error" ng-show="formStep2.athleteLastName.$error.required && submit">Athlete Last Name is required</small>
+      </div>
+      <div class="buttons-container">
+        <button type="submit" ng-show="step===2" class="button-green" ng-click="goStep3(formStep2.$valid)" ng-disabled="loading" ng-bind-html="loading ? loader : 'Next'"></button>
+      </div>
     </form>
   </div>
-  <div class="buttons-container">
-    <button ui-sref="dashboard.payment.done" class="button-green" ng-disabled="loading" ng-bind-html="loading ? loader : 'Next'"></button>
-  </div>
-
 </div>
 
-<!-- REVIEW PAYMENT STEP -->
-<div class="white-container">
-  <div class="title">
-    Review Payment Plan
-  </div>
-  <p>Verify the dates and amounts below. If not correct, change your selection aboveor call us at <a class="phone" href="tel:8557643232">855.764.3232</a></p>
-  <p class="bold">Your account will be charged automatically on this schedule.</p>
+  <!-- REVIEW PAYMENT STEP -->
 
-  <table class="transactions-table striped">
-    <thead>
+  <div id="step3" class="white-container" ng-show="step>=3">
+    <div class="title">
+      Review Payment Plan
+    </div>
+    <p>Verify the dates and amounts below. If not correct, change your selection aboveor call us at <a class="phone" href="tel:8557643232">855.764.3232</a></p>
+    <p class="bold">Your account will be charged automatically on this schedule.</p>
+
+    <table class="transactions-table striped">
+      <thead>
       <tr>
         <th>#</th>
         <th>Date</th>
         <th>Details</th>
         <th>Amount</th>
       </tr>
-    </thead>
-    <tbody>
-      <tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="schedule in schedules">
         <td class="number">
           1
         </td>
         <td class="date">
-          <div class="month">DEC</div>
-          <div class="day">25</div>
+          <div class="month">{{schedule.dateCharge | date : 'MMM' }}</div>
+          <div class="day">
+            {{schedule.dateCharge | date : 'd' }}
+          </div>
         </td>
         <td class="details">
-          Payment 1 of 4 (Deposit + Uniform)
+          {{schedule.description}}
         </td>
         <td class="total">
-          <span class="green-font">$</span> 
-          998.75
+          <span class="green-font">$</span>
+          {{schedule.owedPrice}}
         </td>
-      </tr>  
-      <tr>
-        <td class="number">
-          2
-        </td>
-        <td class="date">
-          <div class="month">JAN</div>
-          <div class="day">22</div>
-        </td>
-        <td class="details">
-          Payment 2 of 4
-        </td>
-        <td class="total">
-          <span class="green-font">$</span> 
-          264.75
-        </td>
-      </tr>  
-      <tr>
-        <td class="number">
-          3
-        </td>
-        <td class="date">
-          <div class="month">FEB</div>
-          <div class="day">15</div>
-        </td>
-        <td class="details">
-          Payment 3 of 4
-        </td>
-        <td class="total">
-          <span class="green-font">$</span> 
-          264.75
-        </td>
-      </tr>  
-      <tr>
-        <td class="number">
-          4
-        </td>
-        <td class="date">
-          <div class="month">MAR</div>
-          <div class="day">18</div>
-        </td>
-        <td class="details">
-          Payment 4 of 4
-        </td>
-        <td class="total">
-          <span class="green-font">$</span> 
-          264.75
-        </td>
-      </tr>  
-      
-    </tbody>
-  </table>
+      </tr>
+      </tbody>
+    </table>
 
-  <div class="inputs">
-    <form name="form" novalidate>
-      <div class="input-container">
-        <input 
-        type="text" 
-        name="discountCode" 
-        placeholder="Discount Code" 
-        ng-model="discountCode" />
-      </div>
-      <button class="button-green btn-discount" ng-click="applyDiscount()">Apply Discount</button>
-      <div class="clearfix"></div>
-    </form>
+    <div class="inputs">
+      <form name="form" novalidate>
+        <div class="input-container">
+          <input
+                  type="text"
+                  name="discountCode"
+                  placeholder="Discount Code",
+                  ng-disabled="coupon.precent"
+                  ng-model="coupon.code" />
+        </div>
+        <button class="button-green btn-discount" ng-show="!coupon.precent" ng-click="applyDiscount()">Apply Discount</button>
+        <div class="clearfix"></div>
+      </form>
+    </div>
+
+    <div class="payment-total">
+      Total:&nbsp;&nbsp;
+      <span class="green-font">$</span>
+      <span>{{total | number : 2}}</span>
+    </div>
+
+    <div class="buttons-container">
+      <button ng-click="goStep4()" ng-show="step===3" class="button-green" ng-disabled="loading" ng-bind-html="loading ? loader : 'Next'"></button>
+    </div>
+
   </div>
 
-  <div class="payment-total">
-    Total:&nbsp;&nbsp;
-    <span class="green-font">$</span> 
-    <span>1098.75</span>
+
+  <!-- SELECT ACCOUNT FINAL STEP -->
+  <div id="step4" class="white-container" ng-show="step>=4">
+    <div class="title">
+      Select your payment account
+    </div>
+    <p>Choose or add your payment account</p>
+
+    <div ng-show="card" class="account-selected">
+      <div>You will be paying with:</div>
+      <div class="account-name">{{card.brand}} x-{{card.last4}}</div>
+    </div>
+
+    <div class="green-link" ng-click="clickAccount()">Add/Change payment account</div>
+
+    <p>You can change your payment account at any time by visiting Orders.</p>
+
+    <div class="green-link">View Terms of Service</div>
+
+    <div class="buttons-container">
+      <button ui-sref="dashboard.payment.done" ng-show="step===4 && card" class="button-green btn-setup-payment" ng-disabled="loading" ng-bind-html="loading ? loader : 'Setup Payment Now'"></button>
+    </div>
+
+    <div ui-sref="dashboard.payment.findOrg" ng-click="cancel" class="bottom-link">Cancel</div>
+
   </div>
 
-  <div class="buttons-container">
-    <button ui-sref="dashboard.payment.done" class="button-green" ng-disabled="loading" ng-bind-html="loading ? loader : 'Next'"></button>
-  </div>
-
-</div>
-
-<!-- SELECT ACCOUNT FINAL STEP -->
-<div class="white-container">
-  <div class="title">
-    Select your payment account
-  </div>
-  <p>Choose or add your payment account</p>
-
-  <div class="account-selected">
-    <div>You will be paying with:</div>
-    <div class="account-name">American Express x-1234</div>
-  </div>
-
-  <div class="green-link" ng-click="clickAccount()">Add/Change payment account</div>
-
-  <p>You can change your payment account at any time by visiting Orders.</p>
-  
-  <div class="green-link">View Terms of Service</div>
-  
-  <div class="buttons-container">
-    <button ui-sref="dashboard.payment.done" class="button-green btn-setup-payment" ng-disabled="loading" ng-bind-html="loading ? loader : 'Setup Payment Now'"></button>
-  </div>
-
-  <div class="bottom-link">Cancel</div>
 
 </div>

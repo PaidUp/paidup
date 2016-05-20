@@ -46,6 +46,13 @@ exports.groupedProducts = function (req, res) {
   })
 }
 
+exports.getCategories = function (req, res) {
+  catalogService.getCategires(function (err, categories) {
+    if (err) return res.status(500).json({status: err.status, message: JSON.stringify(err.message)})
+    res.status(200).json({categories: categories.body})
+  })
+}
+
 function handleError (res, err) {
   let httpErrorCode = 500
   if (err.name === 'ValidationError') {
