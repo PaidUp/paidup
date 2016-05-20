@@ -21,9 +21,14 @@ module.exports = [ '$scope', 'ApplicationConfigService', 'UserService', 'SignUpS
       console.log('VALID')
       $scope.loading = true
       Stripe.card.createToken({
+        name: $scope.nameOnCard,
         number: $scope.cardNumber,
         cvc: $scope.secCode,
-        exp: $scope.expDate
+        exp: $scope.expDate,
+        address_city: $scope.billingAddress.city,
+        address_line1: $scope.billingAddress.streetAddress,
+        address_state: $scope.billingAddress.state,
+        address_zip: $scope.billingAddress.zipCode
       }, function stripeResponseHandler (status, response) {
         if (response.error) {
           $scope.loading = false
@@ -62,6 +67,7 @@ module.exports = [ '$scope', 'ApplicationConfigService', 'UserService', 'SignUpS
       console.log('INVALID')
     }
   }
+
   $scope.validateCardInfo = function (f) {
     if (Stripe.card.validateCardNumber($scope.cardNumber)) {
       f.cNum.$setValidity('cNum', true)

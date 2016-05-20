@@ -4,7 +4,6 @@ const CommerceConnector = require('paidup-commerce-connect')
 const ScheduleConnector = require('paidup-schedule-connect')
 const config = require('../../../config/environment')
 const CatalogService = require('../catalog/catalog.service')
-const userService = require('../../user/user.service')
 const paymentEmailService = require('../../payment/payment.email.service')
 const paymentService = require('../../payment/payment.service')
 const logger = require('../../../config/logger')
@@ -126,28 +125,6 @@ var OrderService = {
       })
     })
   },
-
-  updateUser: function updateUser (beneficiaryId, dataProduct) {
-    // body.beneficiaryId
-    let team = {
-      seasonEnd: dataProduct.seasonEnd,
-      name: dataProduct.name,
-      productId: dataProduct.productId,
-      createdAt: dataProduct.createdAt,
-      sku: dataProduct.sku
-    }
-    userService.find({_id: beneficiaryId}, function (err, child) {
-      child[0].teams.push(team)
-      userService.save(child[0], function (err, userAthlete) {
-        if (err) {
-          logger.error('Update User: Error', err)
-        } else {
-          logger.debug('Update User: ', userAthlete)
-        }
-      })
-    })
-  },
-
   sendEmail: function sendEmail (last4, body, dataProduct, orderResult) {
     // body.email
     let emailParams = {
@@ -191,7 +168,6 @@ function createOrder (body, cb) {
           return cb(errorOrderResult)
         } else {
           logger.debug('Create Order: New Order', dataProduct)
-          OrderService.updateUser(body.beneficiaryId, dataProduct)
           OrderService.sendEmail(last4, body, dataProduct, orderResult)
           cb(null, orderResult)
         }

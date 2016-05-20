@@ -2,15 +2,19 @@
   <div class="title-blue">Active Orders</div>
 
   <p>Orders with remaining payments (click to see payment schedule):</p>
-  <div class="single-row-table" ng-repeat="activePayment in activePayments">
-    <div class="team-icon">
-      <div>{{activePayment.allProductName[0] | limitTo:2 }}</div>
+  <div ng-repeat="activePayment in activePayments | limitTo:5">
+    <div class="single-row-table" >
+      <div class="team-icon">
+        <div>{{activePayment.allProductName[0] | limitTo:2 }}</div>
+      </div>
+      <div class="team">
+        <div class="team-name">{{activePayment.allProductName[0] }}</div>
+        <div class="team-contact">{{activePayment.allBeneficiaryName[0]}}</div>
+      </div>
     </div>
-    <div class="team">
-      <div class="team-name">{{activePayment.allProductName[0] }}</div>
-      <div class="team-contact">{{activePayment.allBeneficiaryName[0]}}</div>
-    </div>
-  </div> 
+    <br/>
+  </div>
+
   <div class="clearfix"></div>
   <div class="bottom-link">View All</div>
 </div>  
