@@ -6,8 +6,8 @@
         <div class="white-container">
 
           <div class="title-blue">Dashboard</div>
-          
-          <!-- FILTERS -->          
+
+          <!-- FILTERS -->
           <div class="table-filters">
             <div class="date-filter">
               <div class="date-input">
@@ -55,976 +55,204 @@
                 <tr>
                   <td colspan="2" class="name">TOTAL</td>
                   <td class="tot">
-                    <span class="green-font">$</span> 
-                    998.75
+                    <span class="green-font">$</span> {{totalPrice | currency:""}}
                   </td>
                   <td class="discount">
-                    <span class="green-font">$</span> 
-                    998.75
+                    <span class="green-font">$</span> {{totalDiscount | currency:""}}
                   </td>
                   <td class="paid">
-                    <span class="green-font">$</span> 
-                    998.75
+                    <span class="green-font">$</span> {{totalPaid | currency:""}}
                   </td>
                   <td class="remaining">
-                    <span class="green-font">$</span> 
-                    998.75
+                    <span class="green-font">$</span> {{totalRemaining | currency:""}}
                   </td>
                 </tr>
               </tbody>
             </table>
 
             <!-- CATEGORY 1 -->
-            <table class="header-table">        
-              <tbody>
-                <tr ng-click="expandCategory1 = !expandCategory1">
-                  <td colspan="2" class="name">16U Red</td>
-                  <td class="tot">
-                    <span class="green-font">$</span> 
-                    998.75
-                  </td>
-                  <td class="discount">
-                    <span class="green-font">$</span> 
-                    998.75
-                  </td>
-                  <td class="paid">
-                    <span class="green-font">$</span> 
-                    998.75
-                  </td>
-                  <td class="remaining">
-                    <span class="green-font">$</span> 
-                    998.75
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-
-            <div ng-class="expandCategory1 ? 'category-table active' : 'category-table'">
-             <table class="transactions-table board-table">
-
-               <tbody>
-
-                 <tr ng-click="expandSection11 = !expandSection11" ng-class="expandSection11 ? 'user-row active' : 'user-row'">
-                   <td class="date">
-                     <div class="month">DEC</div>
-                     <div class="day">25</div>
-                   </td>
-                   <td class="organization">
-                     <div class="team-icon">
-                       <div>AB</div>
-                     </div>
-                     <div class="team">
-                       <div class="team-name">Austin Boom</div>
-                       <div class="team-contact">Jerry Garcia</div>
-                     </div>
-                     <div class="clearfix"></div>
-                   </td>
-
-                   <td class="tot">
-                     <span class="green-font">$</span> 
-                     998.75
-                   </td>
-                   <td class="discount">
-                     <span class="green-font">$</span> 
-                     998.75
-                   </td>
-                   <td class="paid">
-                     <span class="green-font">$</span> 
-                     998.75
-                   </td>
-                   <td class="remaining">
-                     <span class="green-font">$</span> 
-                     998.75
-                   </td>
-                 </tr>
-
-
-                 <tr class="expandable">
-                   <td class="expand" colspan="6">
-                     <div ng-class="expandSection11 ? 'expandable-section active' : 'expandable-section'">
-                       <div class="expanded-section contains-table">
-
-                         <div class="inline-block">
-                           <span class="green-font">
-                             Order Id:
-                           </span>
-                           <br>
-                           <span class="value">SFY2323SDSDSAD32</span>
-                         </div>
-                         <div class="inline-block">
-                           <span class="green-font">
-                             Status:
-                           </span>
-                           <br>
-                           <span class="value red-font">Past Due</span>
-                         </div>
-
-
-                         <div class="tables-separator"></div>
-
-                         <div class="charges-container">
-                           <div class="green-font charges-title">Pending Charges</div>
-
-                           <table class="charges-table">
-                             <thead>
-                               <tr>
-                                 <th>Date</th>
-                                 <th>Details</th>
-                                 <th>Account</th>
-                                 <th>Status</th>
-                                 <th>Base Price</th>
-                                 <th>Owed</th>
-                                 <th>Deposit</th>
-                               </tr>
-                             </thead>
-                             <tbody>
-                               <tr>                             
-                                 <td class="date">
-                                   <div class="month">DEC</div>
-                                   <div class="day">25</div>
-                                 </td>
-                                 <td class="details">
-                                   Payment 3 of 4
-                                 </td>
-                                 <td class="account">
-                                   <i class="fa fa-cc-visa"></i> 
-                                   <a href="" class="green-link">x-1234</a>
-                                 </td>
-                                 <td class="status">
-                                   <span>Pending</span>
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                               </tr>
-                               <tr>                             
-                                 <td class="date">
-                                   <div class="month">DEC</div>
-                                   <div class="day">25</div>
-                                 </td>
-                                 <td class="details">
-                                   Payment 4 of 4
-                                 </td>
-                                 <td class="account">
-                                   <i class="fa fa-cc-visa"></i> 
-                                   <a href="" class="green-link">x-1234</a>
-                                 </td>
-                                 <td class="status">
-                                   <span>Pending</span>
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                               </tr>
-                             </tbody>
-                           </table>
-                         </div>
-
-                         <div class="tables-separator"></div>
-
-                         <div class="charges-container">
-                           <div class="green-font charges-title">Payment History</div>
-
-                           <table class="charges-table">
-                             <thead>
-                               <tr>
-                                 <th>Date</th>
-                                 <th>Details</th>
-                                 <th>Account</th>
-                                 <th>Status</th>
-                                 <th>Base Price</th>
-                                 <th>Owed</th>
-                                 <th>Deposit</th>
-                               </tr>
-                             </thead>
-                             <tbody>
-                               <tr>                             
-                                 <td class="date">
-                                   <div class="month">DEC</div>
-                                   <div class="day">25</div>
-                                 </td>
-                                 <td class="details">
-                                   Payment 3 of 4
-                                 </td>
-                                 <td class="account">
-                                   <i class="fa fa-cc-visa"></i> 
-                                   <a href="" class="green-link">x-1234</a>
-                                 </td>
-                                 <td class="status">
-                                   <span>Pending</span>
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                               </tr>
-                               <tr>                             
-                                 <td class="date">
-                                   <div class="month">DEC</div>
-                                   <div class="day">25</div>
-                                 </td>
-                                 <td class="details">
-                                   Payment 4 of 4
-                                 </td>
-                                 <td class="account">
-                                   <i class="fa fa-cc-visa"></i> 
-                                   <a href="" class="green-link">x-1234</a>
-                                 </td>
-                                 <td class="status">
-                                   <span>Pending</span>
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                               </tr>
-                             </tbody>
-                           </table>
-                         </div>
-
-                       </div>                     
-                     </div>
-                   </td>                
-                 </tr>
-
-
-                 <tr ng-click="expandSection12 = !expandSection12" ng-class="expandSection12 ? 'user-row active' : 'user-row'">
-                   <td class="date">
-                     <div class="month">DEC</div>
-                     <div class="day">25</div>
-                   </td>
-                   <td class="organization">
-                     <div class="team-icon">
-                       <div>AB</div>
-                     </div>
-                     <div class="team">
-                       <div class="team-name">Austin Boom</div>
-                       <div class="team-contact">Jerry Garcia</div>
-                     </div>
-                     <div class="clearfix"></div>
-                   </td>
-
-                   <td class="tot">
-                     <span class="green-font">$</span> 
-                     998.75
-                   </td>
-                   <td class="discount">
-                     <span class="green-font">$</span> 
-                     998.75
-                   </td>
-                   <td class="paid">
-                     <span class="green-font">$</span> 
-                     998.75
-                   </td>
-                   <td class="remaining">
-                     <span class="green-font">$</span> 
-                     998.75
-                   </td>
-                 </tr>
-
-
-                 <tr class="expandable">
-                   <td class="expand" colspan="6">
-                     <div ng-class="expandSection12 ? 'expandable-section active' : 'expandable-section'">
-                       <div class="expanded-section contains-table">
-
-                         <div class="inline-block">
-                           <span class="green-font">
-                             Order Id:
-                           </span>
-                           <br>
-                           <span class="value">SFY2323SDSDSAD32</span>
-                         </div>
-                         <div class="inline-block">
-                           <span class="green-font">
-                             Status:
-                           </span>
-                           <br>
-                           <span class="value red-font">Past Due</span>
-                         </div>
-
-
-                         <div class="tables-separator"></div>
-
-                         <div class="charges-container">
-                           <div class="green-font charges-title">Pending Charges</div>
-
-                           <table class="charges-table">
-                             <thead>
-                               <tr>
-                                 <th>Date</th>
-                                 <th>Details</th>
-                                 <th>Account</th>
-                                 <th>Status</th>
-                                 <th>Base Price</th>
-                                 <th>Owed</th>
-                                 <th>Deposit</th>
-                               </tr>
-                             </thead>
-                             <tbody>
-                               <tr>                             
-                                 <td class="date">
-                                   <div class="month">DEC</div>
-                                   <div class="day">25</div>
-                                 </td>
-                                 <td class="details">
-                                   Payment 3 of 4
-                                 </td>
-                                 <td class="account">
-                                   <i class="fa fa-cc-visa"></i> 
-                                   <a href="" class="green-link">x-1234</a>
-                                 </td>
-                                 <td class="status">
-                                   <span>Pending</span>
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                               </tr>
-                               <tr>                             
-                                 <td class="date">
-                                   <div class="month">DEC</div>
-                                   <div class="day">25</div>
-                                 </td>
-                                 <td class="details">
-                                   Payment 4 of 4
-                                 </td>
-                                 <td class="account">
-                                   <i class="fa fa-cc-visa"></i> 
-                                   <a href="" class="green-link">x-1234</a>
-                                 </td>
-                                 <td class="status">
-                                   <span>Pending</span>
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                               </tr>
-                             </tbody>
-                           </table>
-                         </div>
-
-                         <div class="tables-separator"></div>
-
-                         <div class="charges-container">
-                           <div class="green-font charges-title">Payment History</div>
-
-                           <table class="charges-table">
-                             <thead>
-                               <tr>
-                                 <th>Date</th>
-                                 <th>Details</th>
-                                 <th>Account</th>
-                                 <th>Status</th>
-                                 <th>Base Price</th>
-                                 <th>Owed</th>
-                                 <th>Deposit</th>
-                               </tr>
-                             </thead>
-                             <tbody>
-                               <tr>                             
-                                 <td class="date">
-                                   <div class="month">DEC</div>
-                                   <div class="day">25</div>
-                                 </td>
-                                 <td class="details">
-                                   Payment 3 of 4
-                                 </td>
-                                 <td class="account">
-                                   <i class="fa fa-cc-visa"></i> 
-                                   <a href="" class="green-link">x-1234</a>
-                                 </td>
-                                 <td class="status">
-                                   <span>Pending</span>
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                               </tr>
-                               <tr>                             
-                                 <td class="date">
-                                   <div class="month">DEC</div>
-                                   <div class="day">25</div>
-                                 </td>
-                                 <td class="details">
-                                   Payment 4 of 4
-                                 </td>
-                                 <td class="account">
-                                   <i class="fa fa-cc-visa"></i> 
-                                   <a href="" class="green-link">x-1234</a>
-                                 </td>
-                                 <td class="status">
-                                   <span>Pending</span>
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                               </tr>
-                             </tbody>
-                           </table>
-                         </div>
-
-                       </div>                     
-                     </div>
-                   </td>                
-                 </tr>
-
-
-
-               </tbody>
-             </table>
-           </div>
-
-
-           <!-- CATEGORY 2 -->
-           <table class="header-table">        
-             <tbody>
-               <tr ng-click="expandCategory2 = !expandCategory2">
-                 <td colspan="2" class="name">17U Blue</td>
-                 <td class="tot">
-                   <span class="green-font">$</span> 
-                   998.75
-                 </td>
-                 <td class="discount">
-                   <span class="green-font">$</span> 
-                   998.75
-                 </td>
-                 <td class="paid">
-                   <span class="green-font">$</span> 
-                   998.75
-                 </td>
-                 <td class="remaining">
-                   <span class="green-font">$</span> 
-                   998.75
-                 </td>
-               </tr>
-             </tbody>
-           </table>
-
-           <div ng-class="expandCategory2 ? 'category-table active' : 'category-table'">
-             <table class="transactions-table board-table">
-
-               <tbody>
-
-                 <tr ng-click="expandSection21 = !expandSection21" ng-class="expandSection21 ? 'user-row active' : 'user-row'">
-                   <td class="date">
-                     <div class="month">DEC</div>
-                     <div class="day">25</div>
-                   </td>
-                   <td class="organization">
-                     <div class="team-icon">
-                       <div>AB</div>
-                     </div>
-                     <div class="team">
-                       <div class="team-name">Austin Boom</div>
-                       <div class="team-contact">Jerry Garcia</div>
-                     </div>
-                     <div class="clearfix"></div>
-                   </td>
-
-                   <td class="tot">
-                     <span class="green-font">$</span> 
-                     998.75
-                   </td>
-                   <td class="discount">
-                     <span class="green-font">$</span> 
-                     998.75
-                   </td>
-                   <td class="paid">
-                     <span class="green-font">$</span> 
-                     998.75
-                   </td>
-                   <td class="remaining">
-                     <span class="green-font">$</span> 
-                     998.75
-                   </td>
-                 </tr>
-
-
-                 <tr class="expandable">
-                   <td class="expand" colspan="6">
-                     <div ng-class="expandSection21 ? 'expandable-section active' : 'expandable-section'">
-                       <div class="expanded-section contains-table">
-
-                         <div class="inline-block">
-                           <span class="green-font">
-                             Order Id:
-                           </span>
-                           <br>
-                           <span class="value">SFY2323SDSDSAD32</span>
-                         </div>
-                         <div class="inline-block">
-                           <span class="green-font">
-                             Status:
-                           </span>
-                           <br>
-                           <span class="value red-font">Past Due</span>
-                         </div>
-
-
-                         <div class="tables-separator"></div>
-
-                         <div class="charges-container">
-                           <div class="green-font charges-title">Pending Charges</div>
-
-                           <table class="charges-table">
-                             <thead>
-                               <tr>
-                                 <th>Date</th>
-                                 <th>Details</th>
-                                 <th>Account</th>
-                                 <th>Status</th>
-                                 <th>Base Price</th>
-                                 <th>Owed</th>
-                                 <th>Deposit</th>
-                               </tr>
-                             </thead>
-                             <tbody>
-                               <tr>                             
-                                 <td class="date">
-                                   <div class="month">DEC</div>
-                                   <div class="day">25</div>
-                                 </td>
-                                 <td class="details">
-                                   Payment 3 of 4
-                                 </td>
-                                 <td class="account">
-                                   <i class="fa fa-cc-visa"></i> 
-                                   <a href="" class="green-link">x-1234</a>
-                                 </td>
-                                 <td class="status">
-                                   <span>Pending</span>
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                               </tr>
-                               <tr>                             
-                                 <td class="date">
-                                   <div class="month">DEC</div>
-                                   <div class="day">25</div>
-                                 </td>
-                                 <td class="details">
-                                   Payment 4 of 4
-                                 </td>
-                                 <td class="account">
-                                   <i class="fa fa-cc-visa"></i> 
-                                   <a href="" class="green-link">x-1234</a>
-                                 </td>
-                                 <td class="status">
-                                   <span>Pending</span>
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                               </tr>
-                             </tbody>
-                           </table>
-                         </div>
-
-                         <div class="tables-separator"></div>
-
-                         <div class="charges-container">
-                           <div class="green-font charges-title">Payment History</div>
-
-                           <table class="charges-table">
-                             <thead>
-                               <tr>
-                                 <th>Date</th>
-                                 <th>Details</th>
-                                 <th>Account</th>
-                                 <th>Status</th>
-                                 <th>Base Price</th>
-                                 <th>Owed</th>
-                                 <th>Deposit</th>
-                               </tr>
-                             </thead>
-                             <tbody>
-                               <tr>                             
-                                 <td class="date">
-                                   <div class="month">DEC</div>
-                                   <div class="day">25</div>
-                                 </td>
-                                 <td class="details">
-                                   Payment 3 of 4
-                                 </td>
-                                 <td class="account">
-                                   <i class="fa fa-cc-visa"></i> 
-                                   <a href="" class="green-link">x-1234</a>
-                                 </td>
-                                 <td class="status">
-                                   <span>Pending</span>
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                               </tr>
-                               <tr>                             
-                                 <td class="date">
-                                   <div class="month">DEC</div>
-                                   <div class="day">25</div>
-                                 </td>
-                                 <td class="details">
-                                   Payment 4 of 4
-                                 </td>
-                                 <td class="account">
-                                   <i class="fa fa-cc-visa"></i> 
-                                   <a href="" class="green-link">x-1234</a>
-                                 </td>
-                                 <td class="status">
-                                   <span>Pending</span>
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                               </tr>
-                             </tbody>
-                           </table>
-                         </div>
-
-                       </div>                     
-                     </div>
-                   </td>                
-                 </tr>
-
-
-                 <tr ng-click="expandSection22 = !expandSection22" ng-class="expandSection22 ? 'user-row active' : 'user-row'">
-                   <td class="date">
-                     <div class="month">DEC</div>
-                     <div class="day">25</div>
-                   </td>
-                   <td class="organization">
-                     <div class="team-icon">
-                       <div>AB</div>
-                     </div>
-                     <div class="team">
-                       <div class="team-name">Austin Boom</div>
-                       <div class="team-contact">Jerry Garcia</div>
-                     </div>
-                     <div class="clearfix"></div>
-                   </td>
-
-                   <td class="tot">
-                     <span class="green-font">$</span> 
-                     998.75
-                   </td>
-                   <td class="discount">
-                     <span class="green-font">$</span> 
-                     998.75
-                   </td>
-                   <td class="paid">
-                     <span class="green-font">$</span> 
-                     998.75
-                   </td>
-                   <td class="remaining">
-                     <span class="green-font">$</span> 
-                     998.75
-                   </td>
-                 </tr>
-
-
-                 <tr class="expandable">
-                   <td class="expand" colspan="6">
-                     <div ng-class="expandSection22 ? 'expandable-section active' : 'expandable-section'">
-                       <div class="expanded-section contains-table">
-
-                         <div class="inline-block">
-                           <span class="green-font">
-                             Order Id:
-                           </span>
-                           <br>
-                           <span class="value">SFY2323SDSDSAD32</span>
-                         </div>
-                         <div class="inline-block">
-                           <span class="green-font">
-                             Status:
-                           </span>
-                           <br>
-                           <span class="value red-font">Past Due</span>
-                         </div>
-
-
-                         <div class="tables-separator"></div>
-
-                         <div class="charges-container">
-                           <div class="green-font charges-title">Pending Charges</div>
-
-                           <table class="charges-table">
-                             <thead>
-                               <tr>
-                                 <th>Date</th>
-                                 <th>Details</th>
-                                 <th>Account</th>
-                                 <th>Status</th>
-                                 <th>Base Price</th>
-                                 <th>Owed</th>
-                                 <th>Deposit</th>
-                               </tr>
-                             </thead>
-                             <tbody>
-                               <tr>                             
-                                 <td class="date">
-                                   <div class="month">DEC</div>
-                                   <div class="day">25</div>
-                                 </td>
-                                 <td class="details">
-                                   Payment 3 of 4
-                                 </td>
-                                 <td class="account">
-                                   <i class="fa fa-cc-visa"></i> 
-                                   <a href="" class="green-link">x-1234</a>
-                                 </td>
-                                 <td class="status">
-                                   <span>Pending</span>
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                               </tr>
-                               <tr>                             
-                                 <td class="date">
-                                   <div class="month">DEC</div>
-                                   <div class="day">25</div>
-                                 </td>
-                                 <td class="details">
-                                   Payment 4 of 4
-                                 </td>
-                                 <td class="account">
-                                   <i class="fa fa-cc-visa"></i> 
-                                   <a href="" class="green-link">x-1234</a>
-                                 </td>
-                                 <td class="status">
-                                   <span>Pending</span>
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                               </tr>
-                             </tbody>
-                           </table>
-                         </div>
-
-                         <div class="tables-separator"></div>
-
-                         <div class="charges-container">
-                           <div class="green-font charges-title">Payment History</div>
-
-                           <table class="charges-table">
-                             <thead>
-                               <tr>
-                                 <th>Date</th>
-                                 <th>Details</th>
-                                 <th>Account</th>
-                                 <th>Status</th>
-                                 <th>Base Price</th>
-                                 <th>Owed</th>
-                                 <th>Deposit</th>
-                               </tr>
-                             </thead>
-                             <tbody>
-                               <tr>                             
-                                 <td class="date">
-                                   <div class="month">DEC</div>
-                                   <div class="day">25</div>
-                                 </td>
-                                 <td class="details">
-                                   Payment 3 of 4
-                                 </td>
-                                 <td class="account">
-                                   <i class="fa fa-cc-visa"></i> 
-                                   <a href="" class="green-link">x-1234</a>
-                                 </td>
-                                 <td class="status">
-                                   <span>Pending</span>
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                               </tr>
-                               <tr>                             
-                                 <td class="date">
-                                   <div class="month">DEC</div>
-                                   <div class="day">25</div>
-                                 </td>
-                                 <td class="details">
-                                   Payment 4 of 4
-                                 </td>
-                                 <td class="account">
-                                   <i class="fa fa-cc-visa"></i> 
-                                   <a href="" class="green-link">x-1234</a>
-                                 </td>
-                                 <td class="status">
-                                   <span>Pending</span>
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                                 <td>
-                                   <span class="green-font">$</span> 
-                                   998.75
-                                 </td>
-                               </tr>
-                             </tbody>
-                           </table>
-                         </div>
-
-                       </div>                     
-                     </div>
-                   </td>                
-                 </tr>
-
-
-
-               </tbody>
-             </table>
-           </div>
-
-         </div>
-
-
-
-         <div class="bottom-link">Next 20</div>
-
-       </div>
-     </div>
-   </div>
- </div>
+            <div ng-repeat="productInfo in groupProducts">
+              <table class="header-table">
+                <tbody>
+                  <tr ng-click="expandCategory1 = !expandCategory1">
+                    <td colspan="2" class="name"> {{productInfo[0].allProductName[0]}} {{productInfo.productName}}</td>
+                    <td class="tot">
+                      <span class="green-font">$</span> {{getSubTotal(productInfo) | currency:""}}
+                    </td>
+                    <td class="discount">
+                      <span class="green-font">$</span> {{getSubTotalDiscount(productInfo) | currency:""}}
+                    </td>
+                    <td class="paid">
+                      <span class="green-font">$</span> {{getSubTotalPaid(productInfo) | currency:""}}
+                    </td>
+                    <td class="remaining">
+                      <span class="green-font">$</span> {{getSubTotalRemaining(productInfo) | currency:""}}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div ng-class="expandCategory1 ? 'category-table active' : 'category-table'">
+                <table class="transactions-table board-table">
+
+                  <tbody>
+                    <tr ng-click="expandSection11 = !expandSection11" ng-class="expandSection11 ? 'user-row active' : 'user-row'" ng-repeat-start="orders in productInfo">
+                      <td class="date">
+                        <div class="month">{{(orders.createAt | date : 'MMM') | uppercase}}</div>
+                        <div class="day">{{orders.createAt | date: 'dd'}}</div>
+                      </td>
+                      <td class="organization">
+                        <div class="team-icon">
+                          <div>{{orders.allProductName[0] | limitTo:2}}</div>
+                        </div>
+                        <div class="team">
+                          <div class="team-name">{{orders.allProductName[0]}}</div>
+                          <div class="team-contact">{{orders.allBeneficiaryName[0]}}</div>
+                        </div>
+                        <div class="clearfix"></div>
+                      </td>
+
+                      <td class="tot">
+                        <span class="green-font">$</span> {{orders.sumoriginalPrice | currency:""}}
+                      </td>
+                      <td class="discount">
+                        <span class="green-font">$</span> {{orders.sumDiscount | currency:""}}
+                      </td>
+                      <td class="paid">
+                        <span class="green-font">$</span> {{getSubTotalPaid([orders]) | currency:""}}
+                      </td>
+                      <td class="remaining">
+                        <span class="green-font">$</span> {{getSubTotalRemaining([orders]) | currency:""}}
+                      </td>
+                    </tr>
+
+
+                    <tr class="expandable" ng-repeat-end>
+                      <td class="expand" colspan="6">
+                        <div ng-class="expandSection11 ? 'expandable-section active' : 'expandable-section'">
+                          <div class="expanded-section contains-table">
+
+                            <div class="inline-block">
+                              <span class="green-font">
+                              Order Id:
+                            </span>
+                              <br>
+                              <span class="value">{{orders.orderId}}</span>
+                            </div>
+                            <div class="inline-block">
+                              <span class="green-font">
+                              Status:
+                            </span>
+                              <br>
+                              <span class="value green-font">{{orders.status}}</span>
+                            </div>
+
+
+                            <div class="tables-separator"></div>
+
+                            <div class="charges-container">
+                              <div class="green-font charges-title">Pending Charges</div>
+
+                              <table class="charges-table">
+                                <thead>
+                                  <tr>
+                                    <th>Date</th>
+                                    <th>Details</th>
+                                    <th>Account</th>
+                                    <th>Status</th>
+                                    <th>Base Price</th>
+                                    <th>Owed</th>
+                                    <th>Deposit</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr ng-repeat="pp in orders.paymentsPlan | filter:{ status: 'pending' }">
+                                    <td class="date">
+                                      <div class="month">{{(pp.dateCharge | date : 'MMM') | uppercase}}</div>
+                                      <div class="day">{{pp.dateCharge | date: 'dd'}}</div>
+                                    </td>
+                                    <td class="details">
+                                      {{pp.description}}
+                                    </td>
+                                    <td class="account">
+                                      <i class="fa fa-{{pp.brand ? ('cc-'+pp.brand | lowercase) : 'credit-card-alt'}}"></i>
+                                      <a href="" class="green-link">x-{{pp.last4}}</a>
+                                    </td>
+                                    <td class="status">
+                                      <span>{{pp.status}}</span>
+                                    </td>
+                                    <td>
+                                      <span class="green-font">$</span> {{pp.originalPrice | currency:""}}
+                                    </td>
+                                    <td>
+                                      <span class="green-font">$</span> {{pp.price | currency:""}}
+                                    </td>
+                                    <td>
+                                      <span class="green-font">$</span> {{pp.originalPrice | currency:""}}
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+
+                            <div class="tables-separator"></div>
+
+                            <div class="charges-container">
+                              <div class="green-font charges-title">Payment History</div>
+
+                              <table class="charges-table">
+                                <thead>
+                                  <tr>
+                                    <th>Date</th>
+                                    <th>Details</th>
+                                    <th>Account</th>
+                                    <th>Status</th>
+                                    <th>Base Price</th>
+                                    <th>Owed</th>
+                                    <th>Deposit</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr ng-repeat="pp in orders.paymentsPlan | filter:{ status: '!pending' }">
+                                    <td class="date">
+                                      <div class="month">{{(pp.dateCharge | date : 'MMM') | uppercase}}</div>
+                                      <div class="day">{{pp.dateCharge | date: 'dd'}}</div>
+                                    </td>
+                                    <td class="details">
+                                      {{pp.description}}
+                                    </td>
+                                    <td class="account">
+                                      <i class="fa fa-{{pp.brand ? ('cc-'+pp.brand | lowercase) : 'credit-card-alt'}}"></i>
+                                      <a href="" class="green-link">x-{{pp.last4}}</a>
+                                    </td>
+                                    <td class="status">
+                                      <span>{{pp.status}}</span>
+                                    </td>
+                                    <td>
+                                      <span class="green-font">$</span> {{pp.originalPrice | currency:""}}
+                                    </td>
+                                    <td>
+                                      <span class="green-font">$</span> {{pp.price | currency:""}}
+                                    </td>
+                                    <td>
+                                      <span class="green-font">$</span> {{pp.originalPrice | currency:""}}
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="bottom-link">Next 20</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

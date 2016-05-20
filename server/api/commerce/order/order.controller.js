@@ -46,6 +46,14 @@ exports.orderGet = function (req, res) {
   })
 }
 
+exports.orderGetOrganization = function (req, res) {
+  console.log('req.params', req.params)
+  OrderService.orderGetOrganization(req.params.organizationId, req.params.limit, req.params.sort, function (err, result) {
+    if (err) return res.status(400).json(err)
+    return res.status(200).json(result)
+  })
+}
+
 function handleError (res, err) {
   let httpErrorCode = 500
   if (err.name === 'ValidationError') {
