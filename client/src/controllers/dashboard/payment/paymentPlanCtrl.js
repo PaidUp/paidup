@@ -76,7 +76,6 @@ module.exports = [ '$scope', '$rootScope', '$state', '$anchorScroll', '$location
         console.log(err);
       }
       $scope.schedules = data.prices.map(function(price){
-        price.dateCharge = new Date(price.dateCharge)
         $scope.total = $scope.total + price.owedPrice;
         return price;
       });
