@@ -17,6 +17,20 @@ module.exports = [ '$resource', function ($resource) {
     }
   });
 
+  var brands = {
+    'Visa' : 'cc-visa',
+    'MasterCard': 'cc-mastercard',
+    'American Express' : 'cc-amex',
+    'Discover' : 'cc-discover',
+    'Diners Club': 'cc-diners-club',
+    'JCB': 'cc-jcb'
+  }
+
+  this.getBrandCardClass = function(stripeBrand){
+    return brands[stripeBrand] || 'fa-credit-card';
+
+  }
+
   this.sendPayment = function (payment) {
     return Payment.save(payment).$promise
   }

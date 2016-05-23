@@ -7,7 +7,7 @@
     </div>  
     <ul class="accounts-list">
       <li ng-repeat="account in accounts" ng-class="account.selected ? 'clearfix selected' : 'clearfix'" ng-click="showAccount(account)">
-        <div class="icon-container"><i class="fa fa-{{account.brand ? ('cc-'+account.brand | lowercase) : 'credit-card-alt'}}"></i></div>
+        <div class="icon-container"><i class="fa fa-{{getBrandCardClass(account.brand)}}"></i></div>
         <div class="account-name">
           <div ng-bind="account.name"></div> 
           <div class="card-number" ng-bind="account.last4">{{account.last4}}</div>
@@ -22,33 +22,33 @@
 
     <!-- ACCOUNT VIEW -->
     <div ng-if="!editingAccount">
-      <i class="fa fa-cc-{{modalAccount.type}}"></i>
+      <i class="fa fa-{{getBrandCardClass(modalAccount.brand)}}"></i>
       <div ng-bind="modalAccount.name"></div> 
       <div class="card-info">ending in: <span  ng-bind="modalAccount.last4"></span></div>
       <div class="card-info">expiry date: <span  ng-bind="modalAccount.expMonth + '/' + modalAccount.expYear"></span></div>
-      <div class="card-info">name on card: <span  ng-bind="modalAccount.name"></span></div>
+      <div class="card-info">name on card: <span ng-bind="modalAccount.name"></span></div>
       <div class="clearfix"></div>
-      <div class="billing-title" ng-if="modalAccount.addressLine1 && modalAccount.addressLine2">Billing Address</div>
+      <div class="billing-title" ng-if="modalAccount.addressLine1">Billing Address</div>
       <div class="account-address">
-        <span ng-bind="(modalAccount.addressLine1 && modalAccount.addressLine2)  ?  modalAccount.addressLine1 + ' - ' + modalAccount.addressLine2  : ''"></span>
+        <span ng-bind="(modalAccount.addressLine1)  ?  modalAccount.addressLine1  : ''"></span>
         <br>
-        <span ng-bind="modalAccount.addressCity || ''"></span>&nbsp;
-        <span ng-bind="modalAccount.addressState || ''"></span>&nbsp;
-        <!--<span ng-bind="modalAccount.billingAddress.zipCode"></span>-->
+        <span ng-bind="modalAccount.addressCity"></span>&nbsp;
+        <span ng-bind="modalAccount.addressState"></span>&nbsp;
+        <span ng-bind="modalAccount.addressZip"></span>
       </div>
       <div ng-if="!deletingAccount">
         <div class="center">
-          <button ng-click="editAccount()" class="button-green save-cancel">Edit</button>
-          <button ng-click="deleteAccount()" class="button-green save-cancel">Delete</button>
+          <button ng-click="editAccount()" ng-if="false" class="button-green save-cancel">Edit</button>
+          <button ng-click="deleteAccount()" ng-if="false" class="button-green save-cancel">Delete</button>
         </div> 
         <div class="center">
-          <button ng-click="selectAccount(modalAccount.id)" ng-if="!modalAccount.selected" class="button-green save-cancel blue-btn">Select</button>
+          <button ng-click="selectAccount(modalAccount.id)" ng-if="!modalAccount.selected" class="button-green save-cancel">Select</button>
           <button ng-click="closeModal()" class="button-green save-cancel blue-btn">Close</button>
         </div>
       </div>
       <div ng-if="deletingAccount">
         <div class="center">
-          <button ng-click="deleteAccountProceed()" class="button-green save-cancel red-btn">Delete</button>
+          <button ng-click="deleteAccountProceed()" ng-if="false" class="button-green save-cancel red-btn">Delete</button>
         </div> 
        
       </div>
@@ -74,15 +74,15 @@
 
           <div ng-if="isNewCard">
             <input placeholder="Card Number" type="text" ng-model="modalAccount.cardNumber" name="cNum" ui-mask="999999999999?9?9?9?9?9?9?9" ui-mask-placeholder ui-mask-placeholder-char="space" ng-blur="validateCardInfo(form)"/>
-            <small class="error" ng-show="form.cNum.$error.cNum && form.cNum.$touched">Card Number not valid</small>  
+            <small class="error" ng-show="form.cNum.$error.cNum && form.cNum.$touched">Card Number not valid</small>
           </div>
           <div class="row two-colums">
             <div class="col s12 m6">
-              <input placeholder="Exp. Date (MM/YY)" type="text" ng-model="modalAccount.expiryDate" name="cExpDate" ui-mask="99/99" model-view-value="true"  ui-mask-placeholder ui-mask-placeholder-char="_" required ng-blur="validateCardInfo(form)" />
-              <small class="error" ng-show="form.cExpDate.$error.cExpDate && form.cExpDate.$touched">Expire Date not valid</small> 
+              <input placeholder="Exp. Date (MM/YY)" type="text" ng-model="modalAccount.expireDate" name="cExpDate" ui-mask="99/99" model-view-value="true"  ui-mask-placeholder ui-mask-placeholder-char="_" required ng-blur="validateCardInfo(form)" />
+              <small class="error" ng-show="form.cExpDate.$error.cExpDate && form.cExpDate.$touched">Expire Date not valid</small>
             </div>
             <div class="col s12 m6">
-              <input placeholder="Security Code" type="text" ng-model="secCode" name="cSecCode" ui-mask="999?9" ui-mask-placeholder ui-mask-placeholder-char="space" required ng-model-options="{ updateOn: 'blur' }" />
+              <input placeholder="Security Code" type="text" ng-model="modalAccount.secCode" name="cSecCode" ui-mask="999?9" ui-mask-placeholder ui-mask-placeholder-char="space" required ng-model-options="{ updateOn: 'blur' }" />
               <small class="error" ng-show="form.cSecCode.$error.required && form.cSecCode.$touched">Security Code is required</small> 
               <small class="error" ng-show="form.cSecCode.$error.mask && form.cSecCode.$touched">Security Code not valid</small> 
             </div>
@@ -94,7 +94,7 @@
           name="bStreetAddress" 
           placeholder="Street Address" 
           required 
-          ng-model="modalAccount.billingAddress.street" 
+          ng-model="modalAccount.billingAddress.streetAddress"
           ng-model-options="{ updateOn: 'blur' }" />
           <small class="error" ng-show="form.bStreetAddress.$error.required && form.bStreetAddress.$touched">Street Address is required</small> 
 
@@ -131,8 +131,8 @@
         </form>
       </div>
       <div class="center">
-        <button ng-click="saveAccount()" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Save'"></button>
-        <button ng-click="cancelEditing()" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Cancel'"></button>
+        <button ng-click="saveAccount(form)" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Save'"></button>
+        <button ng-click="cancelEditing()" class="button-green save-cancel blue-btn" ng-disabled="loading" ng-bind-html="loading ? loader : 'Cancel'"></button>
       </div>
     </div>
   </div>

@@ -1,6 +1,6 @@
 'use strict'
 
-module.exports = ['$rootScope', 'AuthService', '$state', '$timeout', function ($rootScope, AuthService, $state, $timeout) {
+module.exports = ['$rootScope', 'AuthService', '$state', '$timeout', 'localStorageService', function ($rootScope, AuthService, $state, $timeout, localStorageService) {
   $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
     var requireLogin = toState.data.requireLogin
 
@@ -17,6 +17,13 @@ module.exports = ['$rootScope', 'AuthService', '$state', '$timeout', function ($
   $rootScope.GlobalAlertSystemAlerts = []
   $rootScope.GlobalAlertSystemClose = function (index) {
     $rootScope.GlobalAlertSystemAlerts.splice(index, 1)
+  }
+
+  if(!localStorageService.cookie.isSupported) {
+    $rootScope.GlobalAlertSystemAlerts.push({msg: 'For using our services, you should enable cookies.', type: 'danger'})
+    $rootScope.isCoookieSupported = false;
+  } else {
+    $rootScope.isCoookieSupported = true;
   }
 
   // This is how to set alerts programatically uncmoment to test

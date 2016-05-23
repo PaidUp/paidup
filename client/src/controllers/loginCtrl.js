@@ -1,8 +1,9 @@
 'use strict'
 
-module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$translate', '$location', '$window', 'SessionService', '$stateParams', '$cookies',
-  function ($scope, $state, AuthService, TrackerService, $translate, $location, $window, SessionService, $stateParams, $cookies) {
+module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$translate', '$location', '$window', 'SessionService', '$stateParams', '$cookies', '$rootScope',
+  function ($scope, $state, AuthService, TrackerService, $translate, $location, $window, SessionService, $stateParams, $cookies, $rootScope) {
   // Initialization
+
   $scope.PageOptions.pageClass = 'login-page'
   $scope.user = {
     email: '',
@@ -12,7 +13,7 @@ module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$transl
   $scope.infoMessage = ''
   $scope.facebookLoginTemplate = '<i class="fa fa-lg fa-facebook" aria-hidden="true"></i> Login with Facebook'
   $scope.loader = '<i class="fa fa-circle-o-notch fa-spin"></i>'
-  $scope.loading = false
+  $scope.loading = !$rootScope.isCoookieSupported
 
   // TRANSLATE DEMO - START
   $scope.changeLang = function (lang) {
@@ -151,4 +152,5 @@ module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$transl
     }
     AuthService.loginFacebook(success, error)
   }
+
 }]
