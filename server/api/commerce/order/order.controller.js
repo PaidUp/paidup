@@ -47,11 +47,10 @@ exports.orderGet = function (req, res) {
 }
 
 exports.orderGetOrganization = function (req, res) {
-  console.log('req.params', req.params)
   OrderService.orderGetOrganization(req.params.organizationId, req.params.limit, req.params.sort, function (err, result) {
-    console.log('err', err)
-    console.log('result', result)
-    console.log('result.orders', result.orders)
+    console.log('back result', result)
+    console.log('back result.body', result.body)
+    console.log('back result.body.orders', result.body.orders)
     if (err) return res.status(400).json(err)
     return res.status(200).json(result)
   })
