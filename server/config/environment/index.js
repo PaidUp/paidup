@@ -259,7 +259,7 @@ var all = {
     user: {
       urlPrefix: '/api/v1',
       isHttp: false,
-      host: 'develop.getpaidup.com',
+      host: 'localhost',
       port: 9001,
       token: 'TDUserToken-CHANGE-ME!'
     },
@@ -274,10 +274,10 @@ var all = {
     commerce: {
       urlPrefix: '/api/v1',
       isHttp: false,
-      host: 'develop.getpaidup.com',
+      host: 'localhost',
       port: 9002,
       token: 'TDCommerceToken-CHANGE-ME!',
-      baseUrl: 'http://develop.getpaidup.com:9002/'
+      baseUrl: 'http://localhost:9002/'
     },
     schedule: {
       urlPrefix: '/api/v2',
