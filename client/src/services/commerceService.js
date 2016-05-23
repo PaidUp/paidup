@@ -5,8 +5,8 @@ module.exports = ['$resource', function ($resource) {
   var orderOrganization = $resource('/api/v1/commerce/order/organization/:action/:organizationId/:limit/:sort', {}, {})
 
   var CreateOrder = $resource('/api/v1/commerce/order/create', {}, {
-    post: { method:'POST', isArray: false }
-  });
+    post: { method: 'POST', isArray: false }
+  })
 
   this.getRecentOrders = function (userId, limit) {
     return Orders.get({ action: 'recent', userId: userId, limit: limit }).$promise
