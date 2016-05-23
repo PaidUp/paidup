@@ -1,5 +1,6 @@
 'use strict'
 var angular = require('angular')
+/* global Plaid */
 
 module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthService', 'PaymentService', 'TrackerService', 'SignUpService', 'ApplicationConfigService',
   function ($scope, UserService, $timeout, $rootScope, AuthService, PaymentService, TrackerService, SignUpService, ApplicationConfigService) {
@@ -13,6 +14,9 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
   $scope.states = UserService.getStates()
   $scope.modalAccount = {}
   $scope.showAccountModal = false
+  $scope.showSelectAccountTypeModal = false
+  // $scope.showSuccessBankModal = true
+  $scope.bank_name = ''
   $scope.editingAccount = false
   $scope.deletingAccount = false
   $scope.isNewCard = false
@@ -60,11 +64,16 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
     $scope.showAccountModal = false
   }
 
+  $scope.openSelectAccountType = function () {
+    $scope.showSelectAccountTypeModal = true
+  }
+
   $scope.linkNewCard = function () {
     $scope.modalAccount = {}
     $scope.accountModalTitle = 'Link New Account'
     $scope.isNewCard = true
     $scope.editingAccount = true
+    $scope.showSelectAccountTypeModal = false
     $scope.showAccountModal = true
   }
 
@@ -182,6 +191,23 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
     } else {
       f.cExpDate.$setValidity('cExpDate', false)
     }
+  }
+
+  var plaidHandler = Plaid.create({
+    env: 'tartan',
+    clientName: 'Client Name',
+    key: 'test_key',
+    product: 'auth',
+    onSuccess: function (public_token, metadata) {
+      $scope.bank_name = metadata.institution.name
+      $scope.showSuccessBankModal = true
+      $scope.$apply()
+    }
+  })
+
+  $scope.openPlaidModal = function () {
+    plaidHandler.open()
+    $scope.showSelectAccountTypeModal = false
   }
 
 
