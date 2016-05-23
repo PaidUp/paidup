@@ -51,6 +51,7 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', functio
         // console.log('user', user.meta.productRelated[0])// acct_17vBpJHXmwMXUx1q - acct_18AQWDGKajSrnujf
         CommerceService.orderGetOrganization(user.meta.productRelated[0], 200, -1).then(function (result) {
           console.log('result', result)
+          console.log('result.body', result.body)
           $scope.totalPrice = $scope.getSubTotal(result.body)
           $scope.totalPriceFees = $scope.getSubTotal(result.body, 'sumPrice')
           $scope.totalDiscount = $scope.getSubTotalDiscount(result.body)
