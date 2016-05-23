@@ -28,7 +28,7 @@ module.exports = ['$resource', function ($resource) {
     return orderOrganization.get({ organizationId: organizationId, limit: limit, sort: sort }).$promise
   }
 
-  this.createOrder = function(params){
-    return CreateOrder.post(params).$promise;
+  this.createOrder = function (params) {
+    return CreateOrder.post(params).$promise
   }
 }]

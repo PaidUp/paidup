@@ -264,7 +264,6 @@ function orderGetOrganization (organizationId, limit, sort, cb) {
     },
     // OK.
     success: function (result) {
-      console.log('err', result)
       return cb(null, result)
     }
   })
