@@ -1,7 +1,7 @@
 'use strict'
 
-module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$translate', '$location', '$window', 'SessionService', '$stateParams', '$cookies', '$rootScope',
-  function ($scope, $state, AuthService, TrackerService, $translate, $location, $window, SessionService, $stateParams, $cookies, $rootScope) {
+module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$translate', '$location', '$window', 'SessionService', '$rootScope',
+  function ($scope, $state, AuthService, TrackerService, $translate, $location, $window, SessionService, $rootScope) {
   // Initialization
 
   $scope.PageOptions.pageClass = 'login-page'
@@ -65,42 +65,6 @@ module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$transl
     }
   }
 
-  // While finish ve implementation
-
-    if($stateParams.team){
-      $cookies.put('team', $stateParams.team);
-    }
-    if($stateParams.paymentPlan){
-      $cookies.put('paymentPlan', $stateParams.paymentPlan);
-    }
-
-  var hosts = {
-    //'localhost': 'http://localhost:9000/sso/',
-    //'stg.getpaidup.com': 'https://stage.getpaidup.com/sso/',
-    'login.getpaidup.com': 'https://app.getpaidup.com/sso/'
-  }
-
-  function redirect () {
-    var newHost = hosts[$location.host()]
-
-    if (newHost) {
-      var token = SessionService.getCurrentSession()
-      newHost = newHost + token
-      if($cookies.get('team')){
-        newHost = newHost + '/' + $cookies.get('team');
-        if($cookies.get('paymentPlan')){
-          newHost = newHost + '/' + $cookies.get('paymentPlan');
-        }
-      }
-      $cookies.remove('team');
-      $cookies.remove('paymentPlan');
-      $window.location.href = newHost
-    } else {
-      $state.go('dashboard.summary.components')
-    }
-  }
-  // end
-
   // Functions
   $scope.localLogin = function () {
     var u = $scope.user
@@ -124,7 +88,7 @@ module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$transl
         roleType: AuthService.getCurrentUser().roles[0] === 'user' ? 'Payer' : 'Payee'
       })
 
-      redirect()
+      $state.go('dashboard.summary.components')
     }
     var error = function (err) {
       TrackerService.trackFormErrors('login error', err.message)
@@ -143,8 +107,7 @@ module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$transl
     var success = function (user) {
       var roleType = AuthService.getIsParent() ? 'Payer' : 'Payee'
       TrackerService.create('Login Facebook', {roleType: roleType})
-      redirect()
-    // $state.go('dashboard.summary.components')
+     $state.go('dashboard.summary.components')
     }
     var error = function (err) {
       console.log(err)

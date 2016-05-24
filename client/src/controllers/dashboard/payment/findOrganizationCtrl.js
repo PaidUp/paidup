@@ -15,7 +15,7 @@ module.exports = [ '$scope', '$rootScope', '$state', 'ProductService', 'SetupPay
 
   function findOrg (cb){
     ProductService.retrieveCategories().then(function(resp){
-      $scope.categories = resp.categories;
+      $scope.categories = resp.categories.filter(filter);
       if(!$scope.categories || !$scope.categories.length){
         $rootScope.GlobalAlertSystemAlerts.push({msg: 'No search results', type: 'info', dismissOnTimeout: 5000})
       }
@@ -25,6 +25,26 @@ module.exports = [ '$scope', '$rootScope', '$state', 'ProductService', 'SetupPay
       console.log('findOrg err', err)
       cb();
     });
+  }
+
+  var filterMethods = {
+    isPnProduct : function(product){
+      for (var key in ProductService.getPnProducts()) {
+        return (key === product._id && product.isActive)
+      }
+    },
+    isActive: function(product){
+      return product.isActive
+    }
+  }
+
+  function filter(category){
+    var pnProducts = ProductService.getPnProducts();
+    if(pnProducts !== null && typeof pnProducts === 'object' && Object.keys(pnProducts).length > 0){
+      return filterMethods.isPnProduct(category);
+    } else {
+      return filterMethods.isActive(category);
+    }
   }
 
   $scope.selectCategory = function(category){

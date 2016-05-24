@@ -14,7 +14,7 @@
         </div>
       </li>   
     </ul>
-    <div class="add-new" ng-click="linkNewCard()">Add a new account</div>
+    <div class="add-new" ng-click="openSelectAccountType()">Add a new account</div>
   </div>
   
   <modal-window show="showAccountModal" modal-title="accountModalTitle">
@@ -138,4 +138,30 @@
   </div>
 </modal-window>
 
+<modal-window show="showSelectAccountTypeModal" modal-title="'What type of account would you like to add?'">
+  <div class="account-modal">
+    <div class="account_type_box" ng-click="linkNewCard()">
+      <i class="fa fa-cc-mastercard"></i>
+      <i class="fa fa-cc-amex"></i>
+      <i class="fa fa-cc-discover"></i>
+      <i class="fa fa-cc-visa"></i>
+      <div>Add Debit/Credit Card</div>
+    </div>  
+    <div class="account_type_box" ng-click="openPlaidModal()">
+      <i class="fa fa-bank"></i>
+      <div>Add Bank Account</div>
+    </div>
+  </div>
+</modal-window>
+
+<modal-window show="showSuccessBankModal">
+  <div class="account-modal">
+   <div class="account_type_box">
+      <i class="fa fa-bank"></i>
+    </div>
+    <div class="">Your <span class="green-font" ng-bind="bank_name">Wells Fargo</span> account is now linked!</div>
+    <div class="section-title">You can start making payments using this account.</div>
+  </div>
+</modal-window>
+  
 </div>
