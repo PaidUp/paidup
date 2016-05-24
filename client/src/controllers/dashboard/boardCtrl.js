@@ -3,7 +3,6 @@
 module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', function ($scope, AuthService, $state, CommerceService) {
 
   $scope.getSubTotal = function getSubTotals (orders, key) {
-    console.log('getSubTotals orders', orders)
     return orders.reduce(function (result, order) {
       return result + order[(!key || key !== 'sumPrice') ? 'sumoriginalPrice' : key]
       // return result + order.sumoriginalPrice
@@ -47,11 +46,9 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', functio
     $scope.totalRemainingFees = 0
     $scope.groupProducts = []
     AuthService.getCurrentUserPromise().then(function (user) {
-      // console.log('user', user.meta.productRelated[0])// acct_17vBpJHXmwMXUx1q - acct_18AQWDGKajSrnujf
-      CommerceService.orderGetOrganization(user.meta.productRelated[0], 200, -1).then(function (result) {
-        console.log('result', result)
-        console.log('result.body', result.body)
-        console.log('result.body.orders', result.body.orders)
+      // user.meta.productRelated[0]) - acct_17vBpJHXmwMXUx1q - acct_18AQWDGKajSrnujf
+      let organizationId = (user.meta.productRelated[0]) ? user.meta.productRelated[0] : 'Does not have organization'
+      CommerceService.orderGetOrganization(organizationId, 200, -1).then(function (result) {
         $scope.totalPrice = $scope.getSubTotal(result.body)
         $scope.totalPriceFees = $scope.getSubTotal(result.body, 'sumPrice')
         $scope.totalDiscount = $scope.getSubTotalDiscount(result.body)
