@@ -15,5 +15,6 @@ app.controller('BoardCtrl', require('./boardCtrl'))
 app.controller('AgingCtrl', require('./agingCtrl'))
 app.controller('DepositsCtrl', require('./depositsCtrl'))
 app.controller('ProfileCtrl', require('./profileCtrl'))
+app.controller('CustomLinkCtrl', require('./customLinkCtrl'))
 
 require('./payment')

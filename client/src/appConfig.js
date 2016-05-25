@@ -193,18 +193,26 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
         requireLogin: false
       }
     })
-    .state('login-team', {
-      url: '/login/pn/:team',
+    .state('category', {
+      url: '/cat/:category',
       templateUrl: '../templates/login.html',
-      controller: 'LoginCtrl',
+      controller: 'CustomLinkCtrl',
       data: {
         requireLogin: false
       }
     })
-    .state('login-team-pp', {
-      url: '/login/pn/:team/:paymentPlan',
+    .state('product', {
+      url: '/cat/:category/prod/:product',
       templateUrl: '../templates/login.html',
-      controller: 'LoginCtrl',
+      controller: 'CustomLinkCtrl',
+      data: {
+        requireLogin: false
+      }
+    })
+    .state('product-pp', {
+      url: '/cat/:category/prod/:product/pp/:paymentPlan',
+      templateUrl: '../templates/login.html',
+      controller: 'CustomLinkCtrl',
       data: {
         requireLogin: false
       }

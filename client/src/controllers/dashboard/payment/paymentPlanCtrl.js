@@ -1,7 +1,7 @@
 'use strict'
 
-module.exports = [ '$scope', '$rootScope', '$state', '$anchorScroll', '$location', '$q', 'SetupPaymentService','PaymentService', 'CommerceService',
-  function ($scope, $rootScope, $state, $anchorScroll, $location, $q, SetupPaymentService, PaymentService, CommerceService) {
+module.exports = [ '$scope', '$rootScope', '$state', '$anchorScroll', '$location', '$q', 'SetupPaymentService','PaymentService', 'CommerceService', 'ProductService',
+  function ($scope, $rootScope, $state, $anchorScroll, $location, $q, SetupPaymentService, PaymentService, CommerceService,ProductService) {
 
     $rootScope.$on('loadCardSelected', function (event, data) {
       $scope.card = data;
@@ -20,10 +20,12 @@ module.exports = [ '$scope', '$rootScope', '$state', '$anchorScroll', '$location
     done : 5
   }
 
+    var pnProducts = ProductService.getPnProducts();
+
   $scope.init = function(){
     $scope.categorySelected = SetupPaymentService.categorySelected;
     if(!$scope.categorySelected._id){
-      $state.go('dashboard.payment.findOrg');
+      return $state.go('dashboard.payment.findOrg');
     }
 
     $rootScope.$emit('changePaymentStep', steps.select)
@@ -37,6 +39,9 @@ module.exports = [ '$scope', '$rootScope', '$state', '$anchorScroll', '$location
     $scope.total = 0;
 
     gotoAnchor(steps.select)
+
+    //define products
+    $scope.products = $scope.categorySelected.products.filter(filterProd);
 
   }
 
@@ -154,7 +159,6 @@ module.exports = [ '$scope', '$rootScope', '$state', '$anchorScroll', '$location
 
     }
 
-
     function gotoAnchor(step){
       var newHash = 'step' + step;
       if ($location.hash() !== newHash) {
@@ -163,4 +167,37 @@ module.exports = [ '$scope', '$rootScope', '$state', '$anchorScroll', '$location
         $anchorScroll();
       }
     }
+
+    var filterMethods = {
+      product: function (product) {
+        var match = false;
+        var products = pnProducts[$scope.categorySelected._id];
+        for (var keyProds in products) {
+          if (!match) {
+            match = (keyProds === product._id && product.details.status)
+            if (match && products[keyProds].pp) {
+              Object.keys(product.paymentPlans).forEach(function (ele) {
+                if (ele !== products[keyProds].pp) {
+                  delete product.paymentPlans[ele];
+                }
+              })
+            }
+          }
+
+        }
+        return match
+      },
+      isActive: function (product) {
+        return product.details.status && product.details.visibility
+      }
+    }
+
+    function filterProd(prod){
+      if(pnProducts !== null && typeof pnProducts === 'object' && pnProducts[$scope.categorySelected._id] && Object.keys(pnProducts[$scope.categorySelected._id]).length > 0){
+        return filterMethods.product(prod);
+      } else {
+        return filterMethods.isActive(prod);
+      }
+    }
+
 }]

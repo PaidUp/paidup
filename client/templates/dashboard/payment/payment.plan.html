@@ -17,7 +17,7 @@
     <form name="formStep2" novalidate>
       <div class="select-container">
         <select ng-model="models.productSelected" name="productSelected"
-                ng-options="option.details.name for option in categorySelected.products track by option.details.name"
+                ng-options="option.details.name for option in products track by option.details.name"
                 ng-disabled="step !== 2"
                 required>
           <option value="" disabled selected class="placeholder">Select One</option>

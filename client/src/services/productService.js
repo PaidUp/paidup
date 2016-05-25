@@ -5,11 +5,13 @@ module.exports = ['$resource', '$q', '$cookies', function ($resource, $q, $cooki
   var getCategories = $resource('/api/v1/commerce/catalog/categories', {}, {})
 
   this.getPnProducts = function(){
-    return $cookies.get('pnProds')
+    var pn = $cookies.get('pnProds') ? JSON.parse($cookies.get('pnProds')) : {};
+
+    return pn
   }
 
   this.setPnProducts = function(pnProds){
-    $cookies.set('pnProds', pnProds)
+    $cookies.put('pnProds', JSON.stringify(pnProds))
   }
 
   this.retrieveCategories = function () {

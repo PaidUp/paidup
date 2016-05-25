@@ -48,7 +48,7 @@ function getCategires (cb) {
     },
 // OK.
     success: function (categories){
-      cb(null, categories);
+      cb(null, JSON.parse(categories));
     },
   });
 }
