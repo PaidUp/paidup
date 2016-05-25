@@ -1,138 +1,156 @@
 'use strict'
 
-module.exports = [ '$scope', '$rootScope', '$state', '$anchorScroll', '$location', '$q', 'SetupPaymentService','PaymentService', 'CommerceService', 'ProductService',
-  function ($scope, $rootScope, $state, $anchorScroll, $location, $q, SetupPaymentService, PaymentService, CommerceService,ProductService) {
+module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location', '$q', 'SetupPaymentService', 'PaymentService', 'CommerceService', 'ProductService',
+  function ($scope, $rootScope, $state, $anchorScroll, $location, $q, SetupPaymentService, PaymentService, CommerceService, ProductService) {
 
-    $rootScope.$on('loadCardSelected', function (event, data) {
+    $rootScope.$on ('loadCardSelected', function (event, data) {
       $scope.card = data;
       SetupPaymentService.card = data
     })
 
-  $scope.clickAccount = function () {
-    $rootScope.$emit('openAccountsMenu')
-  }
-
-  var steps = {
-    find : 1,
-    select : 2,
-    review : 3,
-    pay : 4,
-    done : 5
-  }
-
-    var pnProducts = ProductService.getPnProducts();
-
-  $scope.init = function(){
-    $scope.categorySelected = SetupPaymentService.categorySelected;
-    if(!$scope.categorySelected._id){
-      return $state.go('dashboard.payment.findOrg');
+    $scope.clickAccount = function () {
+      $rootScope.$emit ('openAccountsMenu')
     }
 
-    $rootScope.$emit('changePaymentStep', steps.select)
-    $scope.step = steps.select;
-    $scope.loader = '<i class="fa fa-circle-o-notch fa-spin"></i>'
-    $scope.loading = false;
-
-    $scope.orderDetails = {}
-    $scope.models = {}
-    $scope.coupon = {}
-    $scope.total = 0;
-
-    gotoAnchor(steps.select)
-
-    //define products
-    $scope.products = $scope.categorySelected.products.filter(filterProd);
-
-  }
-
-  $scope.goStep3 = function(isValid){
-    $scope.submit = true;
-    if(!isValid){
-      $rootScope.GlobalAlertSystemAlerts.push({msg: 'All fields are required', type: 'warning', dismissOnTimeout: 5000})
-      return;
+    var steps = {
+      find: 1,
+      select: 2,
+      review: 3,
+      pay: 4,
+      done: 5
     }
 
-    SetupPaymentService.productSelected = $scope.models.productSelected;
-    SetupPaymentService.paymentPlanSelected = $scope.models.productSelected.paymentPlans[$scope.models.paymentPlanSelected];
-    SetupPaymentService.orderDetails = $scope.orderDetails;
+    var pnProducts = ProductService.getPnProducts ();
 
-    var params = $scope.models.productSelected.paymentPlans[$scope.models.paymentPlanSelected].dues.map(function(ele){
-      if($scope.coupon.precent) {
-        ele.applyDiscount = true;
-        ele.discount = $scope.coupon.precent;
-        ele.couponId = $scope.coupon.code
+    $scope.init = function () {
+      $scope.categorySelected = SetupPaymentService.categorySelected;
+      if (!$scope.categorySelected._id) {
+        return $state.go ('dashboard.payment.findOrg');
       }
 
-      return {
-        originalPrice: ele.amount,
-        stripePercent: $scope.models.productSelected.processingFees.cardFeeDisplay,
-        stripeFlat: $scope.models.productSelected.processingFees.cardFeeFlatDisplay,
-        paidUpFee: $scope.models.productSelected.collectionsFee.fee,
-        discount: ele.applyDiscount ? ele.discount : 0,
-        payProcessing: $scope.models.productSelected.paysFees.processing,
-        payCollecting: $scope.models.productSelected.paysFees.collections,
-        description : ele.description,
-        dateCharge : ele.dateCharge
-      }
-    });
+      $rootScope.$emit ('changePaymentStep', steps.select)
+      $scope.step = steps.select;
+      $scope.loader = '<i class="fa fa-circle-o-notch fa-spin"></i>'
+      $scope.loading = false;
 
-    PaymentService.calculateDues(params, function(err, data){
-      if(err){
-        console.log(err);
+      $scope.orderDetails = {}
+      $scope.models = {}
+      $scope.coupon = {}
+      $scope.total = 0;
+
+      gotoAnchor (steps.select)
+
+      //define products
+      $scope.products = $scope.categorySelected.products.filter (filterProd);
+
+    }
+
+    $scope.goStep3 = function (isValid) {
+      $scope.submit = true;
+      if (!isValid) {
+        $rootScope.GlobalAlertSystemAlerts.push ({
+          msg: 'All fields are required',
+          type: 'warning',
+          dismissOnTimeout: 5000
+        })
+        return;
       }
-      $scope.schedules = data.prices.map(function(price){
-        $scope.total = $scope.total + price.owedPrice;
-        return price;
+
+      SetupPaymentService.productSelected = $scope.models.productSelected;
+      SetupPaymentService.paymentPlanSelected = $scope.models.productSelected.paymentPlans[$scope.models.paymentPlanSelected];
+      SetupPaymentService.orderDetails = $scope.orderDetails;
+
+      var params = $scope.models.productSelected.paymentPlans[$scope.models.paymentPlanSelected].dues.map (function (ele) {
+        if ($scope.coupon.precent) {
+          ele.applyDiscount = true;
+          ele.discount = $scope.coupon.precent;
+          ele.couponId = $scope.coupon.code
+        }
+
+        return {
+          originalPrice: ele.amount,
+          stripePercent: $scope.models.productSelected.processingFees.cardFeeDisplay,
+          stripeFlat: $scope.models.productSelected.processingFees.cardFeeFlatDisplay,
+          paidUpFee: $scope.models.productSelected.collectionsFee.fee,
+          discount: ele.applyDiscount ? ele.discount : 0,
+          payProcessing: $scope.models.productSelected.paysFees.processing,
+          payCollecting: $scope.models.productSelected.paysFees.collections,
+          description: ele.description,
+          dateCharge: ele.dateCharge
+        }
       });
-      SetupPaymentService.schedules = $scope.schedules;
 
-    })
+      PaymentService.calculateDues (params, function (err, data) {
+        if (err) {
+          console.log (err);
+        }
+        $scope.schedules = data.prices.map (function (price) {
+          $scope.total = $scope.total + price.owedPrice;
+          return price;
+        });
+        SetupPaymentService.schedules = $scope.schedules;
 
-    $rootScope.$emit('changePaymentStep', steps.review)
-    $scope.step = steps.review;
-    gotoAnchor(steps.review);
-  }
+      })
 
-    $scope.applyDiscount = function(){
-      if($scope.coupon.code && !$scope.coupon.code.trim().length){
+      $rootScope.$emit ('changePaymentStep', steps.review)
+      $scope.step = steps.review;
+      gotoAnchor (steps.review);
+    }
+
+    $scope.applyDiscount = function () {
+      if ($scope.coupon.code && !$scope.coupon.code.trim ().length) {
         //TrackerService.create('Apply discount error',{errorMessage : 'Discount code is required'});
-        $rootScope.GlobalAlertSystemAlerts.push({msg: 'Discount code is required', type: 'warning', dismissOnTimeout: 5000})
-      }else{
+        $rootScope.GlobalAlertSystemAlerts.push ({
+          msg: 'Discount code is required',
+          type: 'warning',
+          dismissOnTimeout: 5000
+        })
+      } else {
         $scope.loading = true;
-        PaymentService.applyDiscount($scope.models.productSelected._id, $scope.coupon.code, function(err, data){
-          if(err){
+        PaymentService.applyDiscount ($scope.models.productSelected._id, $scope.coupon.code, function (err, data) {
+          if (err) {
             //TrackerService.create('Apply discount error' , {errorMessage : 'Coupon in not valid'});
-            $rootScope.GlobalAlertSystemAlerts.push({msg: 'Coupon is not valid', type: 'warning', dismissOnTimeout: 5000});
+            $rootScope.GlobalAlertSystemAlerts.push ({
+              msg: 'Coupon is not valid',
+              type: 'warning',
+              dismissOnTimeout: 5000
+            });
             $scope.loading = false;
           }
-          else{
+          else {
             //TrackerService.create('Apply discount success',{coupon : $scope.codeDiscounts});
-            $rootScope.GlobalAlertSystemAlerts.push({msg: 'Coupon was applied successfully', type: 'success', dismissOnTimeout: 5000})
+            $rootScope.GlobalAlertSystemAlerts.push ({
+              msg: 'Coupon was applied successfully',
+              type: 'success',
+              dismissOnTimeout: 5000
+            })
             $scope.coupon.precent = data.percent;
             $scope.total = 0;
-            $scope.goStep3(true);
+            $scope.goStep3 (true);
             $scope.loading = false;
           }
         })
-      }}
+      }
+    }
 
-    $scope.goStep4 = function(){
-      $rootScope.$emit('changePaymentStep', steps.pay)
+    $scope.goStep4 = function () {
+      $rootScope.$emit ('changePaymentStep', steps.pay)
       $scope.step = steps.pay;
       $scope.cards = [];
 
-      gotoAnchor(steps.pay);
+      gotoAnchor (steps.pay);
     }
 
-    $scope.cancel = function(){
-      SetupPaymentService.reset();
-      $rootScope.$emit('accountMenuReset')
+    $scope.cancel = function () {
+      SetupPaymentService.reset ();
+      $rootScope.$emit ('accountMenuReset')
     }
 
-    $scope.createOrder = function (){
+    $scope.createOrder = function () {
       $scope.loading = true;
 
-      var params = { organizationImage: $scope.categorySelected.image,
+      var params = {
+        organizationImage: $scope.categorySelected.image,
         organizationId: $scope.categorySelected._id,
         organizationName: $scope.categorySelected.name,
         organizationLocation: $scope.categorySelected.location,
@@ -145,26 +163,31 @@ module.exports = [ '$scope', '$rootScope', '$state', '$anchorScroll', '$location
         beneficiaryId: 'N/A',
         beneficiaryName: $scope.orderDetails.athleteFirstName + ' ' + $scope.orderDetails.athleteLastName,
         typeAccount: $scope.card.object,
-        account: $scope.card.id }
+        account: $scope.card.id
+      }
 
-      CommerceService.createOrder(params).then(function(res){
-        $rootScope.$emit('accountMenuReset')
-        $state.go('dashboard.payment.done');
+      CommerceService.createOrder (params).then (function (res) {
+        $rootScope.$emit ('accountMenuReset')
+        $state.go ('dashboard.payment.done');
         SetupPaymentService.resumeOrder = res.body
-      }).catch(function(err){
-        $rootScope.GlobalAlertSystemAlerts.push({msg: 'Oh no, there’s a problem with your order.  Please call us at 855.764.3232 or email us at support@getpaidup.com so we can resolve it.', type: 'warning', dismissOnTimeout: 5000})
+      }).catch (function (err) {
+        $rootScope.GlobalAlertSystemAlerts.push ({
+          msg: 'Oh no, there’s a problem with your order.  Please call us at 855.764.3232 or email us at support@getpaidup.com so we can resolve it.',
+          type: 'warning',
+          dismissOnTimeout: 5000
+        })
         $scope.loading = false;
       });
 
 
     }
 
-    function gotoAnchor(step){
+    function gotoAnchor (step) {
       var newHash = 'step' + step;
-      if ($location.hash() !== newHash) {
-        $location.hash(newHash);
+      if ($location.hash () !== newHash) {
+        $location.hash (newHash);
       } else {
-        $anchorScroll();
+        $anchorScroll ();
       }
     }
 
@@ -175,12 +198,19 @@ module.exports = [ '$scope', '$rootScope', '$state', '$anchorScroll', '$location
         for (var keyProds in products) {
           if (!match) {
             match = (keyProds === product._id && product.details.status)
+
             if (match && products[keyProds].pp) {
-              Object.keys(product.paymentPlans).forEach(function (ele) {
+              Object.keys (product.paymentPlans).forEach (function (ele) {
                 if (ele !== products[keyProds].pp) {
                   delete product.paymentPlans[ele];
                 }
-              })
+              });
+            } else {
+              Object.keys (product.paymentPlans).forEach (function (ele) {
+                if (!product.paymentPlans[ele].visible) {
+                  delete product.paymentPlans[ele];
+                }
+              });
             }
           }
 
@@ -188,16 +218,24 @@ module.exports = [ '$scope', '$rootScope', '$state', '$anchorScroll', '$location
         return match
       },
       isActive: function (product) {
-        return product.details.status && product.details.visibility
+        var result = product.details.status && product.details.visibility
+        if(result){
+          Object.keys (product.paymentPlans).forEach (function (ele) {
+            if (!product.paymentPlans[ele].visible) {
+              delete product.paymentPlans[ele];
+            }
+          });
+        }
+        return result;
       }
     }
 
-    function filterProd(prod){
-      if(pnProducts !== null && typeof pnProducts === 'object' && pnProducts[$scope.categorySelected._id] && Object.keys(pnProducts[$scope.categorySelected._id]).length > 0){
-        return filterMethods.product(prod);
+    function filterProd (prod) {
+      if (pnProducts !== null && typeof pnProducts === 'object' && pnProducts[$scope.categorySelected._id] && Object.keys (pnProducts[$scope.categorySelected._id]).length > 0) {
+        return filterMethods.product (prod);
       } else {
-        return filterMethods.isActive(prod);
+        return filterMethods.isActive (prod);
       }
     }
 
-}]
+  }]
