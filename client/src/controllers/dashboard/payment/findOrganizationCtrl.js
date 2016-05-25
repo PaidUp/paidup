@@ -29,9 +29,14 @@ module.exports = [ '$scope', '$rootScope', '$state', 'ProductService', 'SetupPay
 
   var filterMethods = {
     isPnProduct : function(product){
+      var match = false;
       for (var key in ProductService.getPnProducts()) {
-        return (key === product._id && product.isActive)
+        if(!match){
+          match = (key === product._id && product.isActive)
+        }
+
       }
+      return match;
     },
     isActive: function(product){
       return product.isActive
