@@ -9,5 +9,6 @@ router.get('/category/:categoryId', authService.isAuthenticated(), controller.li
 router.get('/categories', authService.isAuthenticated(), controller.getCategories)
 router.get('/grouped/product/:productId', authService.isAuthenticated(), controller.groupedProducts)
 router.get('/product/:productId', authService.isAuthenticated(), controller.catalogInfo)
+router.get('/product/fm/:productId', authService.isAuthenticated(), controller.getProduct)
 
 module.exports = router

@@ -53,9 +53,30 @@ function getCategires (cb) {
   });
 }
 
+function getProduct (productId, cb) {
+  //TODO when implement PUProduct this method must be update (get product from puproduct)
+  PaidUpProductConnect.productRetrieve({
+    baseUrl: config.connections.commerce.baseUrl,
+    token: config.connections.commerce.token,
+    productId: productId
+  }).exec({
+// An unexpected error occurred.
+    error: function (err){
+      cb(err)
+    },
+// OK.
+    success: function (product){
+      console.log("##Product", product)
+      let resp = JSON.parse(product);
+      cb(null, resp.body);
+    },
+  });
+}
+
 exports.catalogList = catalogList
 exports.catalogProduct = catalogProduct
 exports.catalogCreate = catalogCreate
 exports.groupedList = groupedList
 exports.getCategires = getCategires
+exports.getProduct = getProduct
 

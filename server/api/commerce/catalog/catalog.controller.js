@@ -53,6 +53,19 @@ exports.getCategories = function (req, res) {
   })
 }
 
+exports.getProduct = function (req, res) {
+  if (!req.params && !req.params.productId) {
+    return res.status(400).json({
+      'code': 'ValidationError',
+      'message': 'Product Id is required'
+    })
+  }
+  catalogService.getProduct(req.params.productId, function (err, product) {
+    if (err) return res.status(500).json({status: err.status, message: JSON.stringify(err.message)})
+    res.status(200).json(product);
+  })
+}
+
 function handleError (res, err) {
   let httpErrorCode = 500
   if (err.name === 'ValidationError') {

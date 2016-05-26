@@ -10,12 +10,12 @@ const logger = require('../../../config/logger')
 
 var OrderService = {
   calculatePrices: function calculatePrices (body, cb) {
-    CatalogService.catalogProduct(body.productId, function (errProduct, dataProduct) {
+    CatalogService.getProduct(body.productId, function (errProduct, dataProduct) {
       if (errProduct) {
         return cb(errProduct)
       }
-      let fm = JSON.parse(dataProduct.feeManagement)
-      let dues = fm.paymentPlans[body.paymentPlanSelected].dues
+
+      let dues = dataProduct.paymentPlans[body.paymentPlanSelected].dues
       let params = []
 
       dues.forEach(function (ele, idx, arr) {
@@ -25,12 +25,12 @@ var OrderService = {
 
         params.push({
           originalPrice: ele.amount,
-          stripePercent: fm.processingFees.cardFeeActual,
-          stripeFlat: fm.processingFees.cardFeeFlatActual,
-          paidUpFee: fm.collectionsFee.fee,
+          stripePercent: dataProduct.processingFees.cardFeeActual,
+          stripeFlat: dataProduct.processingFees.cardFeeFlatActual,
+          paidUpFee: dataProduct.collectionsFee.fee,
           discount: ele.applyDiscount ? ele.discount : 0,
-          payProcessing: fm.paysFees.processing,
-          payCollecting: fm.paysFees.collections,
+          payProcessing: dataProduct.paysFees.processing,
+          payCollecting: dataProduct.paysFees.collections,
           description: ele.description,
           dateCharge: ele.dateCharge
         })
@@ -61,8 +61,6 @@ var OrderService = {
         return cb(err)
       }
 
-      let fm = JSON.parse(dataProduct.feeManagement)
-
       let orderReq = {
         baseUrl: config.connections.commerce.baseUrl,
         token: config.connections.commerce.token,
@@ -70,10 +68,9 @@ var OrderService = {
         paymentsPlan: []
       }
       prices.forEach(function (ele, idx, arr) {
-        console.log('$$ELE', JSON.stringify(ele))
         orderReq.paymentsPlan.push({
           email: body.email,
-          destinationId: dataProduct.tDPaymentId,
+          destinationId: dataProduct.details.paymentId,
           dateCharge: ele.dateCharge,
           originalPrice: ele.originalPrice,
           totalFee: ele.totalFee,
@@ -85,16 +82,16 @@ var OrderService = {
           paymentId: body.paymentId,
           wasProcessed: false,
           status: 'pending',
-          processingFees: fm.processingFees,
-          collectionsFee: fm.collectionsFee,
-          paysFees: fm.paysFees,
+          processingFees: dataProduct.processingFees,
+          collectionsFee: dataProduct.collectionsFee,
+          paysFees: dataProduct.paysFees,
           typeAccount: body.typeAccount,
           account: body.account,
           last4: card.last4,
           accountBrand: card.brand,
           description: ele.description,
           productInfo: {
-            productId: dataProduct.productId,
+            productId: dataProduct._id,
             productName: body.productName,
             productImage: body.productImage,
             organizationId: body.organizationId,
@@ -133,7 +130,7 @@ var OrderService = {
       last4: last4,
       amount: 0,
       schedules: [],
-      product: dataProduct.name
+      product: dataProduct.details.name
     }
     orderResult.body.paymentsPlan.forEach(function (ele, idx, arr) {
       emailParams.amount = emailParams.amount + ele.price
