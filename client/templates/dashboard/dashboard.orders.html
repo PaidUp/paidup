@@ -36,7 +36,7 @@
               <tr ng-click="expandSection1 = !expandSection1" ng-repeat-start="order in allOrders">
                 <td class="date">
                   <div class="month">{{(order.createAt | date : 'MMM') | uppercase}}</div>
-                  <div class="day">{{order.createAt | date: 'd'}}</div>
+                  <div class="day">{{order.createAt | date: 'dd'}}</div>
                 </td>
                 <td class="organization">
                   <div class="team-icon">
@@ -55,7 +55,7 @@
                 </td>
                 <td class="total">
                   <span class="green-font">$</span> 
-                  {{order.totalPrice}}
+                  {{order.totalPrice | currency:""}}
                 </td>
               </tr>
 
@@ -92,7 +92,7 @@
                             <tr ng-repeat="pp in order.paymentsPlan">                             
                               <td class="date">
                                 <div class="month">{{(pp.dateCharge | date : 'MMM') | uppercase}}</div>
-                                <div class="day">{{pp.dateCharge | date: 'd'}}</div>
+                                <div class="day">{{pp.dateCharge | date: 'dd'}}</div>
                               </td>
                               <td class="details">
                                 {{pp.description}}
@@ -106,7 +106,7 @@
                               </td>
                               <td class="total">
                                 <span class="green-font">$</span> 
-                                {{pp.price}}
+                                {{pp.price | currency:""}}
                               </td>
                             </tr>
                             </tr>
@@ -124,7 +124,7 @@
             </tbody>
           </table>
 
-          <div class="bottom-link">Next 30</div>
+          <!--<div class="bottom-link">Next 30</div>-->
 
         </div>
       </div>
