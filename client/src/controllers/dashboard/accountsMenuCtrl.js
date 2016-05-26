@@ -192,7 +192,7 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
       f.cExpDate.$setValidity('cExpDate', false)
     }
   }
-
+/*
   var plaidHandler = Plaid.create({
     env: 'tartan',
     clientName: 'Client Name',
@@ -209,6 +209,6 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
     plaidHandler.open()
     $scope.showSelectAccountTypeModal = false
   }
-
+ */
 
 }]
