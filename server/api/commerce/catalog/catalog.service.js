@@ -66,7 +66,6 @@ function getProduct (productId, cb) {
     },
 // OK.
     success: function (product){
-      console.log("##Product", product)
       let resp = JSON.parse(product);
       cb(null, resp.body);
     },
