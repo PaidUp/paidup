@@ -18,7 +18,8 @@
       <div class="select-container">
         <select ng-model="models.productSelected" name="productSelected"
                 ng-options="option.details.name for option in products track by option.details.name"
-                ng-disabled="step !== 2"
+                ng-disabled="step > 3 || coupon.precent"
+                ng-change="onChangeProduct()"
                 required>
           <option value="" disabled selected class="placeholder">Select One</option>
         </select>
@@ -27,7 +28,8 @@
       <div class="select-container" ng-show="models.productSelected" >
         <select ng-model="models.paymentPlanSelected" name="paymentPlanSelected"
                 ng-options="k as v.description for (k, v) in models.productSelected.paymentPlans"
-                ng-disabled="step !== 2"
+                ng-disabled="step > 3 || coupon.precent"
+                ng-change="onChangePaymentPlan()"
                 required>
           <option value="" disabled selected class="placeholder">Select Payment Plan</option>
         </select>
@@ -39,7 +41,7 @@
                placeholder="Athlete First Name"
                required
                ng-model="orderDetails.athleteFirstName"
-               ng-disabled="step !== 2"
+               ng-disabled="step > 3"
         />
         <small class="error" ng-show="formStep2.athleteFirstName.$error.required && submit">Athlete First Name is required</small>
         <input type="text"
@@ -47,7 +49,7 @@
                placeholder="Athlete Last Name"
                required
                ng-model="orderDetails.athleteLastName"
-               ng-disabled="step !== 2"
+               ng-disabled="step > 3"
         />
         <small class="error" ng-show="formStep2.athleteLastName.$error.required && submit">Athlete Last Name is required</small>
       </div>
@@ -105,10 +107,10 @@
                   type="text"
                   name="discountCode"
                   placeholder="Discount Code",
-                  ng-disabled="coupon.precent || step !== 3"
+                  ng-disabled="coupon.precent || step > 3"
                   ng-model="coupon.code" />
         </div>
-        <button class="button-green btn-discount" ng-show="!coupon.precent && step === 3" ng-click="applyDiscount()">Apply Discount</button>
+        <button class="button-green btn-discount" ng-show="!coupon.precent && step < 4" ng-click="applyDiscount()" ng-disabled="loading" ng-bind-html="loading ? loader : 'Apply Discount'"></button>
         <div class="clearfix"></div>
       </form>
     </div>

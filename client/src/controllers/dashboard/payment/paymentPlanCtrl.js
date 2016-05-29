@@ -45,21 +45,20 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
 
     }
 
-    $scope.goStep3 = function (isValid) {
-      $scope.submit = true;
-      if (!isValid) {
-        $rootScope.GlobalAlertSystemAlerts.push ({
-          msg: 'All fields are required',
-          type: 'warning',
-          dismissOnTimeout: 5000
-        })
-        return;
-      }
-
+    $scope.onChangeProduct = function (){
       SetupPaymentService.productSelected = $scope.models.productSelected;
-      SetupPaymentService.paymentPlanSelected = $scope.models.productSelected.paymentPlans[$scope.models.paymentPlanSelected];
-      SetupPaymentService.orderDetails = $scope.orderDetails;
+      $scope.models.paymentPlanSelected = null;
+      SetupPaymentService.paymentPlanSelected = null;
+      $scope.schedules = [];
+      SetupPaymentService.schedules = null;
+      $scope.total = 0;
 
+    }
+
+    $scope.onChangePaymentPlan = function (){
+      $scope.loading = true;
+      $scope.total = 0;
+      SetupPaymentService.paymentPlanSelected = $scope.models.productSelected.paymentPlans[$scope.models.paymentPlanSelected];
       var params = $scope.models.productSelected.paymentPlans[$scope.models.paymentPlanSelected].dues.map (function (ele) {
         if ($scope.coupon.precent) {
           ele.applyDiscount = true;
@@ -83,14 +82,28 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
       PaymentService.calculateDues (params, function (err, data) {
         if (err) {
           console.log (err);
+          $scope.loading = false;
         }
         $scope.schedules = data.prices.map (function (price) {
           $scope.total = $scope.total + price.owedPrice;
           return price;
         });
         SetupPaymentService.schedules = $scope.schedules;
+        $scope.loading = false;
+      });
 
-      })
+    }
+
+    $scope.goStep3 = function (isValid) {
+      $scope.submit = true;
+      if (!isValid) {
+        $rootScope.GlobalAlertSystemAlerts.push ({
+          msg: 'All fields are required',
+          type: 'warning',
+          dismissOnTimeout: 5000
+        })
+        return;
+      }
 
       $rootScope.$emit ('changePaymentStep', steps.review)
       $scope.step = steps.review;
@@ -125,8 +138,7 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
               dismissOnTimeout: 5000
             })
             $scope.coupon.precent = data.percent;
-            $scope.total = 0;
-            $scope.goStep3 (true);
+            $scope.onChangePaymentPlan();
             $scope.loading = false;
           }
         })
@@ -134,6 +146,17 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
     }
 
     $scope.goStep4 = function () {
+      if(!$scope.models.productSelected || !$scope.models.paymentPlanSelected || !$scope.orderDetails.athleteFirstName || !$scope.orderDetails.athleteLastName){
+        $rootScope.GlobalAlertSystemAlerts.push ({
+          msg: 'Form fields are required',
+          type: 'danger',
+          dismissOnTimeout: 5000
+        })
+        gotoAnchor (steps.select);
+        return;
+      }
+
+      SetupPaymentService.orderDetails = $scope.orderDetails;
       $rootScope.$emit ('changePaymentStep', steps.pay)
       $scope.step = steps.pay;
       $scope.cards = [];
