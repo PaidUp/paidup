@@ -5,15 +5,20 @@ module.exports = [ '$q', 'localStorageService', function ( $q, localStorageServi
 
   var service = this;
 
-  service.resumeOrder = {}
-  service.schedules = []
-  service.categorySelected = {}
-  service.productSelected = {}
-  service.paymentPlanSelected = {}
-  service.orderDetails = {}
-  service.card = {}
+  function init() {
+    service.resumeOrder = {}
+    service.schedules = []
+    service.categorySelected = {}
+    service.productSelected = {}
+    service.paymentPlanSelected = {}
+    service.orderDetails = {}
+    service.card = {}
+  };
 
+  init();
 
-
+  service.reset = function(){
+    init();
+  }
 
 }]
