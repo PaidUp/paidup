@@ -45,16 +45,12 @@ module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$transl
       $scope.loading = true
 
       var successFn = function () {
-        TrackerService.create('forgot', {
-          email: emailValue
-        })
         $scope.error = ''
         $scope.infoMessage = 'Please check your email for password reset instructions.'
         $scope.loading = false
         $scope.showForgotModal = false
       }
       var errorFn = function (err) {
-        TrackerService.trackFormErrors('forgot form', emailValue)
         $scope.loading = false
         $scope.showForgotModal = false
         $scope.infoMessage = ''
@@ -84,20 +80,13 @@ module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$transl
       password: u.password
     }
     var success = function () {
-      TrackerService.create('login success', {
-        roleType: AuthService.getCurrentUser().roles[0] === 'user' ? 'Payer' : 'Payee'
-      })
+      TrackerService.track('test')
 
       $state.go('dashboard.summary.components')
     }
     var error = function (err) {
-      TrackerService.trackFormErrors('login error', err.message)
       $scope.loading = false
       $scope.error = err.message
-      TrackerService.create('login error', {
-        errorMessage: err.message,
-        email: $scope.user.email
-      })
     }
     AuthService.login(credentials, success, error)
   }
@@ -106,7 +95,6 @@ module.exports = [ '$scope', '$state', 'AuthService', 'TrackerService', '$transl
     $scope.loading = true
     var success = function (user) {
       var roleType = AuthService.getIsParent() ? 'Payer' : 'Payee'
-      TrackerService.create('Login Facebook', {roleType: roleType})
      $state.go('dashboard.summary.components')
     }
     var error = function (err) {

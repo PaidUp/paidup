@@ -189,7 +189,7 @@ var all = {
     apiPublic: 'pk_test_J5gfockQi2DP28GszFZvTnwS'
   },
   mixpanel: {
-    apiKey: '254e7cd14a29f087143735b673e51d65'
+    apiKey: 'f97659afce9c44283fbd59ad718803dc'
   },
   encryptKey: 'PZ3oXv2v6Pq5HAPFI9NFbQ==',
   loan: {
