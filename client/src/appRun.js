@@ -1,7 +1,7 @@
 'use strict'
 
-module.exports = ['$rootScope', 'AuthService', '$state', '$timeout', 'localStorageService',
-  function ($rootScope, AuthService, $state, $timeout, localStorageService) {
+module.exports = ['$rootScope', 'AuthService', '$state', '$timeout', 'localStorageService', 'TrackerService',
+  function ($rootScope, AuthService, $state, $timeout, localStorageService, TrackerService) {
     $rootScope.$on ('$stateChangeStart', function (event, toState, toParams) {
       var requireLogin = toState.data.requireLogin
 

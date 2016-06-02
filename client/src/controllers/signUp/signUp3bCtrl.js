@@ -12,7 +12,6 @@ module.exports = [ '$scope', 'SignUpService', '$state', 'UserService', function 
     f.$commitViewValue()
     SignUpService.runFormControlsValidation(f)
     if (f.$valid) {
-      console.log('VALID')
       SignUpService.saveBusinessOrganization($scope.user)
       $state.go('^.step4b')
     } else {

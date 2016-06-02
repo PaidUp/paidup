@@ -36,7 +36,6 @@ module.exports = [ '$scope', 'SignUpService', '$state', 'UserService', 'AuthServ
     }
     SignUpService.runFormControlsValidation(f)
     if (f.$valid) {
-      console.log('VALID')
       $scope.loading = true
       var promise
       if (isFacebookSignUp) {
@@ -45,12 +44,9 @@ module.exports = [ '$scope', 'SignUpService', '$state', 'UserService', 'AuthServ
         promise = SignUpService.createPersonalAccount($scope.user)
       }
       promise.then(function (message) {
-        TrackerService.create('signup success', {
-          firstName: $scope.user.firstName,
-          lastName: $scope.user.lastName,
-          email: SignUpService.getUser().credentials.email,
-          roleType: AuthService.getIsParent() ? 'Payer' : 'Payee'
-        })
+        var type = isFacebookSignUp ? "Facebook" : "Email";
+        AuthService.trackerLogin("Sign Up", type);
+
         if (SignUpService.getType() === 'business') {
           SignUpService.saveBusinessInfo($scope.user)
           // We will add referral code later
@@ -60,12 +56,6 @@ module.exports = [ '$scope', 'SignUpService', '$state', 'UserService', 'AuthServ
           $state.go('^.step3p')
         }
       }, function (err) {
-        TrackerService.create('signup error', {
-          firstName: $scope.user.firstName,
-          lastName: $scope.user.lastName,
-          email: SignUpService.getUser().credentials.email,
-          errorMessage: err.message
-        })
         console.log('ERROR', err)
         $scope.error = err.message + '. Redirecting to Step 1.'
         $timeout(function () {

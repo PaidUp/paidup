@@ -131,22 +131,12 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
       }, function stripeResponseHandler (status, response) {
         if (response.error) {
           $scope.loading = false
-          if (response.error.message) {
-            TrackerService.create('Create credit card error', response.error.message)
-          } else if (Object.keys(response.error).length !== 0) {
-            for (var key in response.error) {
-              TrackerService.create('Create credit card error', response.error[key])
-            }
-          } else {
-            TrackerService.create('Create credit card error', 'Hey, you left some fields blank. Please fill them out.')
-          }
+
         } else {
           var token = response.id
 
           PaymentService.associateCard(token).then(
             function (source) {
-              console.log('success')
-              TrackerService.create('Create card success', {})
               var promise = SignUpService.createBillingAddress($scope.modalAccount.billingAddress)
               promise.then(function (message) {
                 $rootScope.GlobalAlertSystemAlerts.push({msg: 'Credit card was created successful', type: 'success', dismissOnTimeout: 5000})
@@ -166,7 +156,6 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
             },
             function () {
               $scope.loading = false
-              TrackerService.create('Create card error', 'Oops. Invalid card. Please check the number and try again.')
               $rootScope.GlobalAlertSystemAlerts.push({msg: 'Oops. Invalid card. Please check the number and try again.', type: 'warning', dismissOnTimeout: 5000})
               $scope.showAccountModal = false
             })

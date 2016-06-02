@@ -1,7 +1,7 @@
 'use strict'
 var angular = require('angular')
 
-module.exports = [ '$rootScope', '$http', 'UserService', 'SessionService', 'Facebook', '$q', function ($rootScope, $http, UserService, SessionService, Facebook, $q) {
+module.exports = [ '$rootScope', '$http', 'UserService', 'SessionService', 'Facebook', '$q', 'TrackerService', function ($rootScope, $http, UserService, SessionService, Facebook, $q, TrackerService) {
   var ROLES_ROUTES = {
     USER: 'athletes',
     COACH: 'provider-request',
@@ -76,7 +76,7 @@ module.exports = [ '$rootScope', '$http', 'UserService', 'SessionService', 'Face
           SessionService.addSession(data)
           UserService.get(data.token, function (user) {
             $rootScope.currentUser = user
-            success()
+            success(user)
           })
         })
         .error(function (err) {
@@ -343,6 +343,30 @@ module.exports = [ '$rootScope', '$http', 'UserService', 'SessionService', 'Face
      */
     getToken: function () {
       return SessionService.getCurrentSession()
+    },
+
+    trackerLogin: function (event, type){
+      var role = $rootScope.currentUser.roles[$rootScope.currentUser.roles.length -1]
+      var resp = 'unknown';
+      switch(role) {
+        case "user":
+          resp = "Personal"
+          break;
+        case "coach":
+          resp = "Business"
+          break;
+        default:
+          resp = role
+      }
+
+      var props = {
+        "Type": type,
+        "Roles": resp
+      }
+      TrackerService.identify($rootScope.currentUser._id);
+      TrackerService.peopleSet(props)
+      TrackerService.track (event, props);
     }
+
   }
 }]
