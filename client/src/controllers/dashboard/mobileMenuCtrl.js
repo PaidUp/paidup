@@ -1,6 +1,6 @@
 'use strict'
 
-module.exports = [ '$scope', '$rootScope', '$state', function ($scope, $rootScope, $state) {
+module.exports = [ '$scope', '$rootScope', '$state', 'AuthService', function ($scope, $rootScope, $state, AuthService) {
   $rootScope.$on('openMobileMenu', function (event, data) {
     $scope.activeMobileMenu = true
   })
@@ -12,5 +12,10 @@ module.exports = [ '$scope', '$rootScope', '$state', function ($scope, $rootScop
 
   $scope.hideMenu = function () {
     $scope.activeMobileMenu = false
+  }
+
+  $scope.logout = function () {
+    AuthService.logout()
+    $state.go('login')
   }
 }]
