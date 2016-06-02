@@ -113,7 +113,6 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
 
     $scope.applyDiscount = function () {
       if ($scope.coupon.code && !$scope.coupon.code.trim ().length) {
-        //TrackerService.create('Apply discount error',{errorMessage : 'Discount code is required'});
         $rootScope.GlobalAlertSystemAlerts.push ({
           msg: 'Discount code is required',
           type: 'warning',
@@ -123,7 +122,6 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
         $scope.loading = true;
         PaymentService.applyDiscount ($scope.models.productSelected._id, $scope.coupon.code, function (err, data) {
           if (err) {
-            //TrackerService.create('Apply discount error' , {errorMessage : 'Coupon in not valid'});
             $rootScope.GlobalAlertSystemAlerts.push ({
               msg: 'Coupon is not valid',
               type: 'warning',
@@ -132,7 +130,6 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
             $scope.loading = false;
           }
           else {
-            //TrackerService.create('Apply discount success',{coupon : $scope.codeDiscounts});
             $rootScope.GlobalAlertSystemAlerts.push ({
               msg: 'Coupon was applied successfully',
               type: 'success',

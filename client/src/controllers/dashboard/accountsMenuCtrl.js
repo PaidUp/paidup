@@ -116,7 +116,6 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
     $scope.validateCardInfo(f)
     SignUpService.runFormControlsValidation(f)
     if (f.$valid) {
-      console.log('VALID')
       $scope.loading = true
       Stripe.card.createToken({
         name: $scope.modalAccount.nameOnCard,
@@ -137,6 +136,7 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
 
           PaymentService.associateCard(token).then(
             function (source) {
+              TrackerService.track('Add Payment Account', {Type : source.object});
               var promise = SignUpService.createBillingAddress($scope.modalAccount.billingAddress)
               promise.then(function (message) {
                 $rootScope.GlobalAlertSystemAlerts.push({msg: 'Credit card was created successful', type: 'success', dismissOnTimeout: 5000})
@@ -169,7 +169,6 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
   }
 
   $scope.validateCardInfo = function (f) {
-    console.log('$scope.cardNumber', $scope.modalAccount.cardNumber)
     if (Stripe.card.validateCardNumber($scope.modalAccount.cardNumber)) {
       f.cNum.$setValidity('cNum', true)
     } else {
@@ -181,23 +180,6 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
       f.cExpDate.$setValidity('cExpDate', false)
     }
   }
-/*
-  var plaidHandler = Plaid.create({
-    env: 'tartan',
-    clientName: 'Client Name',
-    key: 'test_key',
-    product: 'auth',
-    onSuccess: function (public_token, metadata) {
-      $scope.bank_name = metadata.institution.name
-      $scope.showSuccessBankModal = true
-      $scope.$apply()
-    }
-  })
 
-  $scope.openPlaidModal = function () {
-    plaidHandler.open()
-    $scope.showSelectAccountTypeModal = false
-  }
- */
 
 }]
