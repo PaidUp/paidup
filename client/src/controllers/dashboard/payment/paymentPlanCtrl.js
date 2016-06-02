@@ -1,7 +1,7 @@
 'use strict'
 
-module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location', '$q', 'SetupPaymentService', 'PaymentService', 'CommerceService', 'ProductService',
-  function ($scope, $rootScope, $state, $anchorScroll, $location, $q, SetupPaymentService, PaymentService, CommerceService, ProductService) {
+module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location', '$q', 'SetupPaymentService', 'PaymentService', 'CommerceService', 'ProductService', 'TrackerService',
+  function ($scope, $rootScope, $state, $anchorScroll, $location, $q, SetupPaymentService, PaymentService, CommerceService, ProductService, TrackerService) {
 
     $rootScope.$on ('loadCardSelected', function (event, data) {
       $scope.card = data;
@@ -58,6 +58,7 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
     $scope.onChangePaymentPlan = function (){
       $scope.loading = true;
       $scope.total = 0;
+      TrackerService.track('Select Payment Plan', {'PaymentPlanSelected': $scope.models.paymentPlanSelected});
       SetupPaymentService.paymentPlanSelected = $scope.models.productSelected.paymentPlans[$scope.models.paymentPlanSelected];
       var params = $scope.models.productSelected.paymentPlans[$scope.models.paymentPlanSelected].dues.map (function (ele) {
         if ($scope.coupon.precent) {
@@ -112,7 +113,6 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
 
     $scope.applyDiscount = function () {
       if ($scope.coupon.code && !$scope.coupon.code.trim ().length) {
-        //TrackerService.create('Apply discount error',{errorMessage : 'Discount code is required'});
         $rootScope.GlobalAlertSystemAlerts.push ({
           msg: 'Discount code is required',
           type: 'warning',
@@ -122,7 +122,6 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
         $scope.loading = true;
         PaymentService.applyDiscount ($scope.models.productSelected._id, $scope.coupon.code, function (err, data) {
           if (err) {
-            //TrackerService.create('Apply discount error' , {errorMessage : 'Coupon in not valid'});
             $rootScope.GlobalAlertSystemAlerts.push ({
               msg: 'Coupon is not valid',
               type: 'warning',
@@ -131,7 +130,6 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
             $scope.loading = false;
           }
           else {
-            //TrackerService.create('Apply discount success',{coupon : $scope.codeDiscounts});
             $rootScope.GlobalAlertSystemAlerts.push ({
               msg: 'Coupon was applied successfully',
               type: 'success',
@@ -193,6 +191,7 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
         $rootScope.$emit ('accountMenuReset')
         $state.go ('dashboard.payment.done');
         SetupPaymentService.resumeOrder = res.body
+        TrackerService.track('Place Order', {'Payment Type': params.typeAccount})
       }).catch (function (err) {
         $rootScope.GlobalAlertSystemAlerts.push ({
           msg: 'Oh no, there’s a problem with your order.  Please call us at 855.764.3232 or email us at support@getpaidup.com so we can resolve it.',

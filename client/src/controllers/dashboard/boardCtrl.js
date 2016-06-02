@@ -1,6 +1,6 @@
 'use strict'
 
-module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', function ($scope, AuthService, $state, CommerceService) {
+module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'TrackerService', function ($scope, AuthService, $state, CommerceService, TrackerService) {
 
   $scope.getSubTotal = function getSubTotals (orders, key) {
     return orders.reduce(function (result, order) {
@@ -99,7 +99,13 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', functio
     // link.click()
   }
 
-  function init () {
+  $scope.downloadAsCSV = function (){
+    TrackerService.track('Download as CSV', {Report: 'Dashboard'});
+  }
+
+   $scope.init = function () {
+    TrackerService.track('View Dashboard');
+
     $scope.expandCategory1 = true
     $scope.expandSection11 = false
     $scope.totalPrice = 0
@@ -130,6 +136,4 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', functio
       })
     })
   }
-
-  init()
 }]

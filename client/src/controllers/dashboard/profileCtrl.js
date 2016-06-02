@@ -1,11 +1,15 @@
 'use strict'
 var angular = require('angular')
 
-module.exports = [ '$scope', 'UserService', '$timeout', function ($scope, UserService, $timeout) {
+module.exports = [ '$scope', 'UserService', '$timeout', 'TrackerService', 'AuthService', function ($scope, UserService, $timeout, TrackerService, AuthService) {
   $scope.editName = false
   $scope.loading = false
   $scope.loader = '<i class="fa fa-circle-o-notch fa-spin"></i>'
   $scope.states = UserService.getStates()
+
+  $scope.init = function (){
+    TrackerService.track('View Profile', {Role: AuthService.getRoleForTrack()});
+  }
 
   $scope.addresses = [
     {
