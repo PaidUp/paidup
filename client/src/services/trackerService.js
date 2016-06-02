@@ -24,4 +24,8 @@ module.exports = ['$location', 'ApplicationConfigService', function ($location, 
   TrackerService.peopleSet = function (obj){
     mixpanel.people.set(obj);
   }
+
+  TrackerService.register = function (obj){
+    mixpanel.register(obj);
+  }
 }]
