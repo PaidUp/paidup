@@ -94,7 +94,7 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
       controller: 'PaymentDoneCtrl'
     })
     .state('dashboard.activities', {
-      url: '/activities',
+      url: '/activity',
       templateUrl: '../templates/dashboard/dashboard.activities.html',
       controller: 'ActivitiesCtrl'
     })
