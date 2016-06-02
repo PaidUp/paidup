@@ -11,7 +11,7 @@ module.exports = [ '$scope', 'SignUpService', '$state', '$timeout', function ($s
   if ($scope.userType === 'business') {
     $scope.welcomeTitle = 'Welcome to PaidUp. We are excited to join your team.'
     if (angular.isDefined(SignUpService.getReferralCode())) {
-      $scope.welcomeMsg = 'Thanks for submitting your referral code. You must know some important people.You will be redirected to your account page in a few seconds or click the link below.'
+      $scope.welcomeMsg = 'Thanks for submitting your referral code. You must know some important people. You will be redirected to your account page in a few seconds or click the link below.'
     } else {
       $scope.welcomeMsg = 'Your payment was processed successfully. You will be redirected to your account page in a few seconds or click the link below.'
     }
