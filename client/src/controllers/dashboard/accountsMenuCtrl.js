@@ -177,20 +177,20 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
       }
     }
 
-    var plaidHandler = Plaid.create({
-      env: 'tartan',
-      clientName: 'Client Name',
-      key: 'test_key',
-      product: 'auth',
-      onSuccess: function (public_token, metadata) {
-        $scope.bank_name = metadata.institution.name
-        $scope.showSuccessBankModal = true
-        $scope.$apply()
-      }
-    })
+    // var plaidHandler = Plaid.create({
+    //   env: 'tartan',
+    //   clientName: 'Client Name',
+    //   key: 'test_key',
+    //   product: 'auth',
+    //   onSuccess: function (public_token, metadata) {
+    //     $scope.bank_name = metadata.institution.name
+    //     $scope.showSuccessBankModal = true
+    //     $scope.$apply()
+    //   }
+    // })
 
-    $scope.openPlaidModal = function () {
-      plaidHandler.open()
-      $scope.showSelectAccountTypeModal = false
-    }
+    // $scope.openPlaidModal = function () {
+    //   plaidHandler.open()
+    //   $scope.showSelectAccountTypeModal = false
+    // }
   }]
