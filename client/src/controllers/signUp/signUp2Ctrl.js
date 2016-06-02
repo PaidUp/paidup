@@ -1,7 +1,7 @@
 'use strict'
 var angular = require('angular')
 
-module.exports = [ '$scope', 'SignUpService', '$state', 'UserService', 'AuthService', 'TrackerService', '$timeout', function ($scope, SignUpService, $state, UserService, AuthService, TrackerService, $timeout) {
+module.exports = [ '$scope', 'SignUpService', '$state', 'UserService', 'AuthService', '$timeout', function ($scope, SignUpService, $state, UserService, AuthService, $timeout) {
   $scope.isBusiness = function () {
     return SignUpService.getType() === 'business'
   }
@@ -45,7 +45,7 @@ module.exports = [ '$scope', 'SignUpService', '$state', 'UserService', 'AuthServ
       }
       promise.then(function (message) {
         var type = isFacebookSignUp ? "Facebook" : "Email";
-        AuthService.trackerLogin("Sign Up", type);
+        AuthService.trackerLogin("Sign Up", type, $scope.user.phone);
 
         if (SignUpService.getType() === 'business') {
           SignUpService.saveBusinessInfo($scope.user)

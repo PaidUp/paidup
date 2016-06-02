@@ -365,14 +365,30 @@ module.exports = [ '$rootScope', '$http', 'UserService', 'SessionService', 'Face
       return getRoleForTracking();
     },
 
-    trackerLogin: function (event, type){
-      var props = {
+    trackerLogin: function (event, type, phone){
+      TrackerService.identify($rootScope.currentUser._id);
+
+      TrackerService.peopleSet({
+        "$first_name": $rootScope.currentUser.firstName,
+        "$last_name": $rootScope.currentUser.lastName,
+        "$email": $rootScope.currentUser.email
+      });
+
+      if(event === "Sign Up"){
+        TrackerService.peopleSet({
+          "$created": new Date(),
+          "$phone": phone
+        });
+      }
+
+      TrackerService.register({
+        "Email": $rootScope.currentUser.email
+      });
+
+      TrackerService.track (event, {
         "Type": type,
         "Roles": getRoleForTracking()
-      }
-      TrackerService.identify($rootScope.currentUser._id);
-      TrackerService.peopleSet(props)
-      TrackerService.track (event, props);
+      });
     }
 
   }
