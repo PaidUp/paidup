@@ -2,8 +2,8 @@
 var angular = require('angular')
 /* global Plaid, Stripe */
 
-module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthService', 'PaymentService', 'TrackerService', 'SignUpService', 'ApplicationConfigService',
-  function ($scope, UserService, $timeout, $rootScope, AuthService, PaymentService, TrackerService, SignUpService, ApplicationConfigService) {
+module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthService', 'PaymentService', 'TrackerService', 'SignUpService', 'ApplicationConfigService', '$location',
+  function ($scope, UserService, $timeout, $rootScope, AuthService, PaymentService, TrackerService, SignUpService, ApplicationConfigService, $location) {
     ApplicationConfigService.getConfig().then(function (config) {
       Stripe.setPublishableKey(config.stripeApiPublic)
     })
@@ -137,6 +137,9 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
                 var promise = SignUpService.createBillingAddress($scope.modalAccount.billingAddress)
                 promise.then(function (message) {
                   $rootScope.GlobalAlertSystemAlerts.push({msg: 'Credit card was created successful', type: 'success', dismissOnTimeout: 5000})
+                  if($location.path() === '/payment/plan'){
+                    $rootScope.GlobalAlertSystemAlerts.push({msg: 'Please select the account you would like to pay with.', type: 'warning', dismissOnTimeout: 10000})
+                  }
                   $scope.show = false
                   $scope.showAccountModal = false
                   $scope.loading = false
