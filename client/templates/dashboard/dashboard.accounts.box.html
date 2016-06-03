@@ -1,15 +1,17 @@
 <div class="white-container" ng-init="init()">
   <div class="title-blue">Accounts</div>
-  <!-- No accounts START -->
-  <div class="center">
-    <img src="../img/credit-cards.png" alt="credit-cards">
+  <div ng-if="!payments.length">
+    <!-- No accounts START -->
+    <div class="center">
+      <img src="../img/credit-cards.png" alt="credit-cards">
+    </div>
+    <p><a href="" ng-click="updateAccounts()" class="green-link">Add your debit / credit card</a> to your account so you're ready to make a payment.</p>
   </div>
-  <p><a href="" ng-click="updateAccounts()" class="green-link">Add your debit / credit card</a> to your account so you're ready to make a payment.</p>
   <!-- No accounts END -->
   <!-- Accounts START -->
   <div ng-if="payments.length" name="divAccountsList" ng-model="user.routingNumber">
-    <hr> 
-    <p>Orders with remaining payments (Click to see payment schedule):</p>
+    
+    <!-- <p>Orders with remaining payments (Click to see payment schedule):</p> -->
     <ul class="accounts-list">
       <li class="clearfix" ng-repeat="payment in payments">
         <div class="icon-container"><i class="fa fa-{{getBrandCardClass(payment.brand)}}"></i></div>
