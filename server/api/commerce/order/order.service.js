@@ -14,7 +14,6 @@ var OrderService = {
       if (errProduct) {
         return cb(errProduct)
       }
-
       let dues = dataProduct.paymentPlans[body.paymentPlanSelected].dues
       let params = []
 
@@ -65,6 +64,7 @@ var OrderService = {
         baseUrl: config.connections.commerce.baseUrl,
         token: config.connections.commerce.token,
         userId: body.userId,
+        description: dataProduct.details.description,
         paymentsPlan: []
       }
       prices.forEach(function (ele, idx, arr) {
