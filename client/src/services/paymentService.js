@@ -1,6 +1,6 @@
 'use strict'
 
-module.exports = [ '$resource', function ($resource) {
+module.exports = ['$resource', function ($resource) {
   var Payment = $resource('/api/v1/commerce/checkout/place', {}, {})
   var BankPayment = $resource('/api/v1/payment/bank/:action', {}, {})
   var ListBanks = $resource('/api/v1/payment/bank/list/user/:userId', {}, {})
@@ -8,27 +8,26 @@ module.exports = [ '$resource', function ($resource) {
   var CardPayment = $resource('/api/v1/payment/card/:action', {}, {})
   var ListCards = $resource('/api/v1/payment/card/list/user/:userId', {}, {})
   var CustomerPayment = $resource('/api/v1/payment/customer/:action', {}, {})
-  var calculateDuesPost = $resource("/api/v1/commerce/dues/calculate", {}, {});
+  var calculateDuesPost = $resource('/api/v1/commerce/dues/calculate', {}, {})
 
-  var discount = $resource('/api/v1/commerce/cart/coupon/add',{},{
-    apply:{
-      method:'POST',
-      isArray:false
+  var discount = $resource('/api/v1/commerce/cart/coupon/add', {}, {
+    apply: {
+      method: 'POST',
+      isArray: false
     }
-  });
+  })
 
   var brands = {
-    'Visa' : 'cc-visa',
+    'Visa': 'cc-visa',
     'MasterCard': 'cc-mastercard',
-    'American Express' : 'cc-amex',
-    'Discover' : 'cc-discover',
+    'American Express': 'cc-amex',
+    'Discover': 'cc-discover',
     'Diners Club': 'cc-diners-club',
     'JCB': 'cc-jcb'
   }
 
-  this.getBrandCardClass = function(stripeBrand){
-    return brands[stripeBrand] || 'fa-credit-card';
-
+  this.getBrandCardClass = function (stripeBrand) {
+    return brands[stripeBrand] || 'fa-credit-card'
   }
 
   this.sendPayment = function (payment) {
@@ -88,30 +87,30 @@ module.exports = [ '$resource', function ($resource) {
 
   var CardService = $resource('/api/v1/payment/card/associate', {}, {})
   this.associateCard = function (cardId) {
-    return CardService.save({cardId: cardId}).$promise
+    return CardService.save({ cardId: cardId }).$promise
   }
 
   this.updateCustomer = function (dataCustomer) {
-    return CustomerPayment.save({action: 'update'}, dataCustomer).$promise
+    return CustomerPayment.save({ action: 'update' }, dataCustomer).$promise
   }
 
-  this.calculateDues = function(params, cb){
-    calculateDuesPost.save(null, {prices: params}).$promise.then(function(data){
-      cb(null, data.body);
-    }).catch(function(err){
-      cb(err);
-    });
-  };
+  this.calculateDues = function (params, cb) {
+    calculateDuesPost.save(null, { prices: params }).$promise.then(function (data) {
+      cb(null, data.body)
+    }).catch(function (err) {
+      cb(err)
+    })
+  }
 
-  this.applyDiscount = function(productId, coupon, cb){
-    discount.apply({coupon:coupon,
-      productId:productId}).$promise.then(function(result){
-      cb(null, result);
-    }).catch(function(err){
-      console.log(err);
-      cb(err);
-    });
-
-  };
-
+  this.applyDiscount = function (productId, coupon, cb) {
+    discount.apply({
+      coupon: coupon,
+      productId: productId
+    }).$promise.then(function (result) {
+      cb(null, result)
+    }).catch(function (err) {
+      console.log(err)
+      cb(err)
+    })
+  }
 }]
