@@ -144,7 +144,7 @@
 
     <p>You can change your payment account at any time by visiting Orders.</p>
 
-    <div class="green-link">View Terms of Service</div>
+    <div class="green-link" ng-click="modalterms = true">View Terms of Service</div>
 
     <div class="buttons-container">
       <button ng-click="createOrder()" ng-show="step===4 && card" class="button-green btn-setup-payment" ng-disabled="loading" ng-bind-html="loading ? loader : 'Setup Payment Now'"></button>
@@ -154,5 +154,9 @@
 
   </div>
 
-
+  <modal-window show="modalterms" modal-title="'Terms of Service'">
+    <div style="max-height: 400px; overflow-y:scroll;">
+      <div ng-include="'/templates/dashboard/payment/terms.of.service.html'"></div>
+    </div>
+  </modal-window>
 </div>
