@@ -438,6 +438,17 @@ SIGNUP PAGES
           }
         }
       }
+      // .birth-date-cal{
+      //   color: @c-green-font;
+      //   float:left;
+      //   font-size: 22px;
+      //   margin-top: 17px;
+      //   margin-right: 8px;
+      // }
+      // .birth-date-input{
+      //   float:left;
+      //   width: 80% !important;
+      // }
       .two-colums{
         margin-bottom: 0px;
         div.col:first-child{
@@ -2233,4 +2244,29 @@ DASHBOARD PAGES
     background: transparent;
     border: 0;
   }
+}
+
+// NAMESPACED BOOTSTRAP STYLES
+// To work with Bootstrap Styles like Plugins prepend always bootstrap-styles class to every bootstrap class
+.bootstrap-styles {
+  @import (less) url("vendor/bootstrap.css");
+}
+
+ul.uib-datepicker-popup{
+  position: absolute;
+  z-index: 1000;
+  min-width: 160px;
+  padding: 5px;
+  font-size: 14px;
+  text-align: left;
+  list-style: none;
+  background-color: #fff;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0,0,0,.15);
+  border-radius: 4px;
+  -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+  box-shadow: 0 6px 12px rgba(0,0,0,.175);
+
 }
