@@ -20,6 +20,22 @@ module.exports = ['$scope', 'AuthService', '$state', 'CommerceService', 'Tracker
     })
 
     // DATE PICKER
+    $scope.popup1 = {
+      opened: false
+    }
+
+    $scope.popup2 = {
+      opened: false
+    }
+
+    $scope.open1 = function () {
+      $scope.popup1.opened = true
+    }
+
+    $scope.open2 = function () {
+      $scope.popup2.opened = true
+    }
+
     $scope.dateOptions1 = {
       maxDate: $scope.dt2,
       showWeeks: false
@@ -28,10 +44,6 @@ module.exports = ['$scope', 'AuthService', '$state', 'CommerceService', 'Tracker
     $scope.dateOptions2 = {
       minDate: $scope.dt1,
       showWeeks: false
-    }
-
-    $scope.open1 = function () {
-      $scope.popup1.opened = true
     }
 
     $scope.change1 = function () {
@@ -50,17 +62,5 @@ module.exports = ['$scope', 'AuthService', '$state', 'CommerceService', 'Tracker
         maxDate: $scope.dt2,
         showWeeks: false
       }
-    }
-
-    $scope.open2 = function () {
-      $scope.popup2.opened = true
-    }
-
-    $scope.popup1 = {
-      opened: false
-    }
-
-    $scope.popup2 = {
-      opened: false
     }
   }]

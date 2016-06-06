@@ -30,9 +30,7 @@
     <small class="error" ng-show="form.uFirstName.$error.maxlength && form.uFirstName.$touched">First Name exceeds 128 characters</small>  
     <small class="error" ng-show="form.uFirstName.$error.pattern && form.uFirstName.$touched">First Name should only contain letters</small>
 
-    <div class="input-help-text" ng-show="isBusiness()">
-      Provide your name as it appears in legal documents to avoid delays in getting paid (e.g. Michael not Mike).
-    </div>
+    <div class="input-help-text" ng-show="isBusiness()">Provide your name as it appears in legal documents to avoid delays in getting paid (e.g. Michael not Mike).</div>
 
     <input
     type="text" 
@@ -48,20 +46,25 @@
     <small class="error" ng-show="form.uLastName.$error.pattern && form.uLastName.$touched">Last Name should only contain letters</small> 
 
     <input type="text"
+    class="birth-date-input"
+    ng-click="open1()"
     ng-if="isBusiness()"
     name="uDateOfBirth" 
     placeholder="Date of Birth (mm/dd/yyyy)" 
     required
     ng-pattern="/^((((0[13578])|([13578])|(1[02]))[\/](([1-9])|([0-2][0-9])|(3[01])))|(((0[469])|([469])|(11))[\/](([1-9])|([0-2][0-9])|(30)))|((2|02)[\/](([1-9])|([0-2][0-9]))))[\/]\d{4}$|^\d{4}$/"
     ng-model="user.dateOfBirth" 
-    ng-model-options="{ updateOn: 'blur' }" 
-    ui-mask="99/99/99?9?9"
-    model-view-value="true"
-    ui-mask-placeholder />
-    <small ng-if="isBusiness()" class="error" ng-show="form.uDateOfBirth.$error.required && form.uDateOfBirth.$touched">Date of Birth is required</small>
-    <small ng-if="isBusiness()" class="error" ng-show="form.uDateOfBirth.$error.pattern && form.uDateOfBirth.$touched">Invalid date format</small>
-    <small ng-if="isBusiness()" class="error" ng-show="form.uDateOfBirth.$error.mask && form.uDateOfBirth.$touched">Invalid date</small>
-
+    uib-datepicker-popup="MM/dd/yyyy" 
+    is-open="popup1.opened" 
+    datepicker-options="dateOptions1"
+    on-open-focus="false"
+    show-button-bar="false"
+    maxlength="10"
+    />
+    <div ng-if="isBusiness()">
+        <small  class="error" ng-show="form.uDateOfBirth.$error.required && form.uDateOfBirth.$touched">Date of Birth is required</small>
+        <small  class="error" ng-show="form.uDateOfBirth.$error.pattern && form.uDateOfBirth.$touched">Invalid date format</small>
+    </div>
     <input type="text"
     ng-if="isBusiness()"
     name="uSSN" 
@@ -75,7 +78,7 @@
     <small ng-if="isBusiness()" class="error" ng-show="form.uSSN.$error.required && form.uSSN.$touched">SSN is required</small>
     <small ng-if="isBusiness()" class="error" ng-show="form.uSSN.$error.pattern && form.uSSN.$touched">Invalid SSN format</small>
     <small ng-if="isBusiness()" class="error" ng-show="form.uSSN.$error.mask && form.uSSN.$touched">Invalid SSN</small>
-    
+
     <input type="text" 
     name="uStreetAddress" 
     placeholder="Street Address" 
@@ -99,46 +102,46 @@
             <option value="" disabled selected class="placeholder">State</option>
             <option ng-repeat="state in states" value="{{state.abbreviation}}">
               {{state.abbreviation}}
-            </option>
-          </select>
-          <small class="error" ng-show="form.uState.$error.required && form.uState.$touched">State is required</small>  
-        </div>
-      </div>
-      <div class="col s12 m6">
-        <input type="text" 
-        name="uZipCode" 
-        placeholder="Zip Code" 
-        required
-        ui-mask="99999"
-        ui-mask-placeholder
-        ng-model="user.zipCode" 
-        ng-model-options="{ updateOn: 'blur' }" />
-        <small class="error" ng-show="form.uZipCode.$error.required && form.uZipCode.$touched">Zip Code is required</small>
-        <small class="error" ng-show="form.uZipCode.$error.mask && form.uZipCode.$touched">Invalid ZipCode</small>
-      </div>
-    </div>
-    <input 
-    type="text" 
-    placeholder="Phone Number"
-    name="uPhone" 
-    ng-model="user.phone"
-    ui-mask="(999) 999-9999"
-    ui-mask-placeholder
+          </option>
+      </select>
+      <small class="error" ng-show="form.uState.$error.required && form.uState.$touched">State is required</small>  
+  </div>
+</div>
+<div class="col s12 m6">
+    <input type="text" 
+    name="uZipCode" 
+    placeholder="Zip Code" 
     required
-    ng-model-options="{ updateOn: 'blur' }" 
-    />
-    <small class="error" ng-show="form.uPhone.$error.required && form.uPhone.$touched">Phone is required</small>
-    <small class="error" ng-show="form.uPhone.$error.mask && form.uPhone.$touched">Invalid phone format</small>
-    
-    <div class="agree-checkbox" ng-show="!isBusiness()">
-      <small class="error" ng-show="form.agreeTerms.$error.terms">Please agree to terms</small> 
-      <input type="checkbox" id="agreeTerms" name="agreeTerms" ng-model="agreeTerms" />
-      <label for="agreeTerms" class="input-help-text">
-        By signing up, I agree with the PaidUp's <a href="">Terms of Service</a>, <a href="">Privacy Policy</a> &amp; <a href="">Stripe Connectec Account Agreement</a>.
-      </label>
-    </div>
-    
-  </form>
+    ui-mask="99999"
+    ui-mask-placeholder
+    ng-model="user.zipCode" 
+    ng-model-options="{ updateOn: 'blur' }" />
+    <small class="error" ng-show="form.uZipCode.$error.required && form.uZipCode.$touched">Zip Code is required</small>
+    <small class="error" ng-show="form.uZipCode.$error.mask && form.uZipCode.$touched">Invalid ZipCode</small>
+</div>
+</div>
+<input 
+type="text" 
+placeholder="Phone Number"
+name="uPhone" 
+ng-model="user.phone"
+ui-mask="(999) 999-9999"
+ui-mask-placeholder
+required
+ng-model-options="{ updateOn: 'blur' }" 
+/>
+<small class="error" ng-show="form.uPhone.$error.required && form.uPhone.$touched">Phone is required</small>
+<small class="error" ng-show="form.uPhone.$error.mask && form.uPhone.$touched">Invalid phone format</small>
+
+<div class="agree-checkbox" ng-show="!isBusiness()">
+  <small class="error" ng-show="form.agreeTerms.$error.terms">Please agree to terms</small> 
+  <input type="checkbox" id="agreeTerms" name="agreeTerms" ng-model="agreeTerms" />
+  <label for="agreeTerms" class="input-help-text">
+    By signing up, I agree with the PaidUp's <a href="">Terms of Service</a>, <a href="">Privacy Policy</a> &amp; <a href="">Stripe Connectec Account Agreement</a>.
+</label>
+</div>
+
+</form>
 </div>
 
 

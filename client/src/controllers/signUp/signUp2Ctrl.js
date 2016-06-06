@@ -44,8 +44,8 @@ module.exports = [ '$scope', 'SignUpService', '$state', 'UserService', 'AuthServ
         promise = SignUpService.createPersonalAccount($scope.user)
       }
       promise.then(function (message) {
-        var type = isFacebookSignUp ? "Facebook" : "Email";
-        AuthService.trackerLogin("Sign Up", type, $scope.user.phone);
+        var type = isFacebookSignUp ? 'Facebook' : 'Email'
+        AuthService.trackerLogin('Sign Up', type, $scope.user.phone)
 
         if (SignUpService.getType() === 'business') {
           SignUpService.saveBusinessInfo($scope.user)
@@ -73,5 +73,18 @@ module.exports = [ '$scope', 'SignUpService', '$state', 'UserService', 'AuthServ
     } else {
       f.agreeTerms.$setValidity('terms', true)
     }
+  }
+  // DATE PICKER
+  $scope.popup1 = {
+    opened: false
+  }
+
+  $scope.open1 = function () {
+    $scope.popup1.opened = true
+  }
+
+  $scope.dateOptions1 = {
+    showWeeks: false,
+    datepickerMode: 'year'
   }
 }]
