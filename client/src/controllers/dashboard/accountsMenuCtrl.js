@@ -136,6 +136,8 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
                 TrackerService.track('Add Payment Account', {Type: source.object})
                 var promise = SignUpService.createBillingAddress($scope.modalAccount.billingAddress)
                 promise.then(function (message) {
+                  f.$setPristine();
+                  f.$setUntouched();
                   $rootScope.GlobalAlertSystemAlerts.push({msg: 'Card was created successfully', type: 'success', dismissOnTimeout: 5000})
                   if($location.path() === '/payment/plan'){
                     $rootScope.GlobalAlertSystemAlerts.push({msg: 'Please select the account you would like to pay with.', type: 'warning', dismissOnTimeout: 10000})
