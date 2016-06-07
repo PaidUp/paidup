@@ -12,7 +12,6 @@ module.exports = [ '$scope', '$rootScope', '$state', 'PaymentService', 'AuthServ
     AuthService.getCurrentUserPromise().then(function (user) {
       PaymentService.listCards(user._id).then(function (cards) {
         $scope.payments = cards.data
-        cards.data.length ? $rootScope.$emit('existsAccount', true) : $rootScope.$emit('existsAccount', false)
       }).catch(function (err) {
         console.log('ERR', err)
       })
