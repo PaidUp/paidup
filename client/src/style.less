@@ -73,11 +73,11 @@ table.striped.even-rows-gray>tbody>tr:nth-child(even){background-color:#fafafa}
 }
 
 .green-font{
-  color: @c-green-font;
+  color: @c-green-font !important;
 }
 
 .red-font{
-  color: @c-error;
+  color: @c-error !important;
 }
 
 .gray-font{
@@ -438,6 +438,17 @@ SIGNUP PAGES
           }
         }
       }
+      // .birth-date-cal{
+      //   color: @c-green-font;
+      //   float:left;
+      //   font-size: 22px;
+      //   margin-top: 17px;
+      //   margin-right: 8px;
+      // }
+      // .birth-date-input{
+      //   float:left;
+      //   width: 80% !important;
+      // }
       .two-colums{
         margin-bottom: 0px;
         div.col:first-child{
@@ -932,6 +943,7 @@ DASHBOARD PAGES
         td.aging-value{
           text-align: center;
           width:12%;
+          white-space: nowrap;
         }
         // Deposits Table
         td.deposits-total{
@@ -948,7 +960,7 @@ DASHBOARD PAGES
   }
 
   div.main-tables-container{
-    min-width: 550px;
+    overflow: scroll;
   }
 
   div.category-table{
@@ -1860,8 +1872,8 @@ DASHBOARD PAGES
             margin:20px;
             cursor: pointer;
             img{
-              max-width: 100%;
-              max-height: 110px;
+              max-width: 110px;
+              max-height: 80px;
               // border: 3px solid @c-blue-back;
             }
             .name{
@@ -2120,6 +2132,7 @@ DASHBOARD PAGES
 
 // ALERT SYSTEM
 .alerts-container{
+  z-index: 200;
   position: fixed;
   top: 30px;
   left: 50%;
@@ -2233,4 +2246,34 @@ DASHBOARD PAGES
     background: transparent;
     border: 0;
   }
+}
+
+// NAMESPACED BOOTSTRAP STYLES
+// To work with Bootstrap Styles like Plugins prepend always bootstrap-styles class to every bootstrap class
+.bootstrap-styles {
+  @import (less) url("vendor/bootstrap.css");
+}
+
+ul.uib-datepicker-popup{
+  position: absolute;
+  z-index: 1000;
+  min-width: 160px;
+  padding: 5px;
+  font-size: 14px;
+  text-align: left;
+  list-style: none;
+  background-color: #fff;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0,0,0,.15);
+  border-radius: 4px;
+  -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+  box-shadow: 0 6px 12px rgba(0,0,0,.175);
+
+}
+
+// Olark CSS Fix
+#habla_window_div button{
+  color: #000 !important;
 }

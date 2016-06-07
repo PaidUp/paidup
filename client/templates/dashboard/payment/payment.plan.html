@@ -3,7 +3,7 @@
 
 <div id="step2" class="white-container" ng-show="step>=2" >
   <div class="title">
-    Choose a payment plan
+    Setup your payment
   </div>
   <p>Choose from the options below to setup your payment</p>
   <div class="teams">
@@ -66,8 +66,8 @@
     <div class="title">
       Review Payment Plan
     </div>
-    <p>Verify the dates and amounts below. If not correct, change your selection aboveor call us at <a class="phone" href="tel:8557643232">855.764.3232</a></p>
-    <p class="bold">Your account will be charged automatically on this schedule.</p>
+    <p>Verify the dates and amounts below. If not correct, change your selection above or call us at <a class="phone" href="tel:8557643232">855.764.3232</a></p>
+    <p class="bold red-font">Your account will be charged automatically on this schedule.</p>
 
     <table class="transactions-table striped">
       <thead>
@@ -144,7 +144,9 @@
 
     <p>You can change your payment account at any time by visiting Orders.</p>
 
-    <div class="green-link">View Terms of Service</div>
+    <div class="green-link">
+      <a href="https://getpaidup.com/terms-of-service/" target="_blank" class="green-font">View Terms of Service</a>
+    </div>
 
     <div class="buttons-container">
       <button ng-click="createOrder()" ng-show="step===4 && card" class="button-green btn-setup-payment" ng-disabled="loading" ng-bind-html="loading ? loader : 'Setup Payment Now'"></button>
@@ -154,5 +156,11 @@
 
   </div>
 
-
+    <div ng-show="step>=4"><img style="height: 20px" src="../img/lock.svg"><b><small> We take security seriously. Your account is encrypted with AES-256 and stored in a PCI-DSS Level 1 provider.</small></b> </div>
+  
+  <modal-window show="modalterms" modal-title="'Terms of Service'">
+    <div style="max-height: 400px; overflow-y:scroll;">
+      <div ng-include="'/templates/dashboard/payment/terms.of.service.html'"></div>
+    </div>
+  </modal-window>
 </div>
