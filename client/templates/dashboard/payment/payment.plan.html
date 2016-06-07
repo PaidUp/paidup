@@ -67,7 +67,7 @@
       Review Payment Plan
     </div>
     <p>Verify the dates and amounts below. If not correct, change your selection above or call us at <a class="phone" href="tel:8557643232">855.764.3232</a></p>
-    <p class="bold">Your account will be charged automatically on this schedule.</p>
+    <p class="bold red-font">Your account will be charged automatically on this schedule.</p>
 
     <table class="transactions-table striped">
       <thead>
@@ -144,7 +144,9 @@
 
     <p>You can change your payment account at any time by visiting Orders.</p>
 
-    <div class="green-link" ng-click="modalterms = true">View Terms of Service</div>
+    <div class="green-link">
+      <a href="https://getpaidup.com/terms-of-service/" target="_blank" class="green-font">View Terms of Service</a>
+    </div>
 
     <div class="buttons-container">
       <button ng-click="createOrder()" ng-show="step===4 && card" class="button-green btn-setup-payment" ng-disabled="loading" ng-bind-html="loading ? loader : 'Setup Payment Now'"></button>
