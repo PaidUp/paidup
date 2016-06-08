@@ -4,7 +4,7 @@ const config = require('../../config/environment')
 const nodemailer = require('nodemailer')
 const emailTemplates = require('email-templates')
 const transporter = nodemailer.createTransport(config.emailService)
-// const PaidUpProductConnect = require('paidup-product-connect')
+const PaidUpProductConnect = require('paidup-product-connect')
 
 exports.sendContactEmail = function sendContactEmail (dataOrganization, cb) {
   if (!isValidEmail(dataOrganization.ownerEmail)) {
@@ -37,8 +37,18 @@ exports.sendContactEmail = function sendContactEmail (dataOrganization, cb) {
 }
 
 exports.getOrganization = function getOrganization (organizationId, cb) {
-  // PaidUpProductConnect.//()
-  return cb(null, true)
+  PaidUpProductConnect.organizationGet({
+    baseUrl: config.connections.product.baseUrl,
+    token: config.connections.product.token,
+    organizationId: organizationId
+  }).exec({
+    error: function (err) {
+      return cb(err)
+    },
+    success: function (response) {
+      return cb(null, response.body)
+    }
+  })
 }
 
 function isValidEmail (mail) {

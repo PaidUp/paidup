@@ -4,7 +4,7 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
   $scope.getSubTotal = function getSubTotals (orders, key) {
     return orders.reduce(function (result, order) {
       return result + order[(!key || key !== 'sumPrice') ? 'sumoriginalPrice' : key]
-      // return result + order.sumoriginalPrice
+    // return result + order.sumoriginalPrice
     }, 0)
   }
 
@@ -94,10 +94,10 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
     }
     data = encodeURI(csv)
 
-    // link = document.createElement('a')
-    // link.setAttribute('href', data)
-    // link.setAttribute('download', filename)
-    // link.click()
+  // link = document.createElement('a')
+  // link.setAttribute('href', data)
+  // link.setAttribute('download', filename)
+  // link.click()
   }
 
   $scope.downloadAsCSV = function () {
@@ -118,10 +118,8 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
     $scope.groupProducts = []
     AuthService.getCurrentUserPromise().then(function (user) {
       console.log('user.meta.productRelated[0]', user.meta.productRelated)
-      // user.meta.productRelated[0]) - acct_17vBpJHXmwMXUx1q - acct_18AQWDGKajSrnujf
       var organizationId = (user.meta.productRelated[0]) ? user.meta.productRelated[0] : 'Does not have organization'
       CommerceService.orderGetOrganization(organizationId, 200, -1).then(function (result) {
-        console.log('result', result)
         $scope.totalPrice = $scope.getSubTotal(result.body)
         $scope.totalPriceFees = $scope.getSubTotal(result.body, 'sumPrice')
         $scope.totalDiscount = $scope.getSubTotalDiscount(result.body)
@@ -140,47 +138,47 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
   }
 
   // DATE PICKER
-    $scope.popup1 = {
-      opened: false
-    }
+  $scope.popup1 = {
+    opened: false
+  }
 
-    $scope.popup2 = {
-      opened: false
-    }
+  $scope.popup2 = {
+    opened: false
+  }
 
-    $scope.open1 = function () {
-      $scope.popup1.opened = true
-    }
+  $scope.open1 = function () {
+    $scope.popup1.opened = true
+  }
 
-    $scope.open2 = function () {
-      $scope.popup2.opened = true
-    }
+  $scope.open2 = function () {
+    $scope.popup2.opened = true
+  }
 
-    $scope.dateOptions1 = {
-      maxDate: $scope.dt2,
-      showWeeks: false
-    }
+  $scope.dateOptions1 = {
+    maxDate: $scope.dt2,
+    showWeeks: false
+  }
 
+  $scope.dateOptions2 = {
+    minDate: $scope.dt1,
+    showWeeks: false
+  }
+
+  $scope.change1 = function () {
+    var formatOptions = { month: '2-digit', day: '2-digit', year: 'numeric' }
+    console.log($scope.dt1.toLocaleDateString('en-US', formatOptions))
     $scope.dateOptions2 = {
       minDate: $scope.dt1,
       showWeeks: false
     }
+  }
 
-    $scope.change1 = function () {
-      var formatOptions = { month: '2-digit', day: '2-digit', year: 'numeric' }
-      console.log($scope.dt1.toLocaleDateString('en-US', formatOptions))
-      $scope.dateOptions2 = {
-        minDate: $scope.dt1,
-        showWeeks: false
-      }
+  $scope.change2 = function () {
+    var formatOptions = { month: '2-digit', day: '2-digit', year: 'numeric' }
+    console.log($scope.dt2.toLocaleDateString('en-US', formatOptions))
+    $scope.dateOptions1 = {
+      maxDate: $scope.dt2,
+      showWeeks: false
     }
-
-    $scope.change2 = function () {
-      var formatOptions = { month: '2-digit', day: '2-digit', year: 'numeric' }
-      console.log($scope.dt2.toLocaleDateString('en-US', formatOptions))
-      $scope.dateOptions1 = {
-        maxDate: $scope.dt2,
-        showWeeks: false
-      }
-    }
+  }
 }]

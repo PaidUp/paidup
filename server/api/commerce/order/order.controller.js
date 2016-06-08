@@ -2,6 +2,7 @@
 
 const logger = require('../../../config/logger')
 const OrderService = require('./order.service')
+const OrganizationService = require('../../organization/organization.service')
 
 exports.createOrder = function (req, res) {
   let user = req.user
@@ -47,10 +48,12 @@ exports.orderGet = function (req, res) {
 }
 
 exports.orderGetOrganization = function (req, res) {
-  console.log('req.params', req.params.organizationId)
-  OrderService.orderGetOrganization(req.params.organizationId, req.params.limit, req.params.sort, function (err, result) {
+  OrganizationService.getOrganization(req.params.organizationId, function (err, organizationData) {
     if (err) return res.status(400).json(err)
-    return res.status(200).json(result)
+    OrderService.orderGetOrganization(organizationData.paymentId, req.params.limit, req.params.sort, function (err, result) {
+      if (err) return res.status(400).json(err)
+      return res.status(200).json(result)
+    })
   })
 }
 
