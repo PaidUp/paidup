@@ -117,7 +117,6 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
     $scope.totalRemainingFees = 0
     $scope.groupProducts = []
     AuthService.getCurrentUserPromise().then(function (user) {
-      console.log('user.meta.productRelated[0]', user.meta.productRelated)
       var organizationId = (user.meta.productRelated[0]) ? user.meta.productRelated[0] : 'Does not have organization'
       CommerceService.orderGetOrganization(organizationId, 200, -1).then(function (result) {
         $scope.totalPrice = $scope.getSubTotal(result.body)
