@@ -105,6 +105,7 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
       })
       $scope.showAccountModal = false
       $scope.activeAccountMenu = false
+      $rootScope.$emit ('focusBtnCreateOrder')
     }
 
     $scope.saveAccount = function (form) {

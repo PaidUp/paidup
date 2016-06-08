@@ -149,7 +149,7 @@
     </div>
 
     <div class="buttons-container">
-      <button ng-click="createOrder()" ng-show="step===4 && card" class="button-green btn-setup-payment" ng-disabled="loading" ng-bind-html="loading ? loader : 'Setup Payment Now'"></button>
+      <button id="btnCreateOrder" ng-click="createOrder()" ng-show="step===4 && card" class="button-green btn-setup-payment" ng-disabled="loading" ng-bind-html="loading ? loader : 'Setup Payment Now'"></button>
     </div>
 
     <div ui-sref="dashboard.payment.findOrg" ng-hide="loading" ng-click="cancel()" class="bottom-link">Cancel</div>
