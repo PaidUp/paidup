@@ -50,6 +50,7 @@ exports.orderGet = function (req, res) {
 exports.orderGetOrganization = function (req, res) {
   OrganizationService.getOrganization(req.params.organizationId, function (err, organizationData) {
     if (err) return res.status(400).json(err)
+    if (!organizationData.paymentId) return res.status(400).json({message: 'Organization does not activated', status: '400'})
     OrderService.orderGetOrganization(organizationData.paymentId, req.params.limit, req.params.sort, function (err, result) {
       if (err) return res.status(400).json(err)
       return res.status(200).json(result)
