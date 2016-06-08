@@ -8,6 +8,11 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
       SetupPaymentService.card = data
     })
 
+    $rootScope.$on ('focusBtnCreateOrder', function (event, data) {
+      $location.hash ("btnCreateOrder");
+      $anchorScroll();
+    })
+
     $scope.clickAccount = function () {
       $rootScope.$emit ('openAccountsMenu')
     }
