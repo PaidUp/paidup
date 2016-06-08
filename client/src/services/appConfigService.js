@@ -1,6 +1,6 @@
 'use strict'
 
-module.exports = [ '$resource', '$cookieStore', function ($resource, $cookieStore) {
+module.exports = [ '$resource', function ($resource) {
   var Config = $resource('/api/v1/application/config', {}, {})
 
   this.getConfig = function () {
