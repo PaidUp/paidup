@@ -136,9 +136,10 @@ var OrderService = {
       emailParams.amount = emailParams.amount + ele.price
       emailParams.schedules.push({
         nextPaymentDue: ele.dateCharge,
-        price: ele.price
+        price: Number(ele.price).toFixed(2)
       })
     })
+    emailParams.amount = Number(emailParams.amount).toFixed(2)
     paymentEmailService.sendNewOrderEmail(emailParams, function (err, data) {
       if (err) {
         logger.error('Send New Order Email: Error', err)
