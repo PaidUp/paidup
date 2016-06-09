@@ -23,6 +23,7 @@ var OrderService = {
         ele.couponId = body.couponId
 
         params.push({
+          version: ele.version,
           originalPrice: ele.amount,
           stripePercent: dataProduct.processingFees.cardFeeActual,
           stripeFlat: dataProduct.processingFees.cardFeeFlatActual,
@@ -48,7 +49,7 @@ var OrderService = {
         },
         // OK.
         success: function (prices) {
-          return cb(null, prices.body.prices, dataProduct)
+          return cb(null, JSON.parse(prices.body).prices, dataProduct)
         }
       })
     })
@@ -69,6 +70,7 @@ var OrderService = {
       }
       prices.forEach(function (ele, idx, arr) {
         orderReq.paymentsPlan.push({
+          version: ele.version,
           email: body.email,
           destinationId: dataProduct.details.paymentId,
           dateCharge: ele.dateCharge,
@@ -77,6 +79,7 @@ var OrderService = {
           feePaidUp: ele.feePaidUp,
           feeStripe: ele.feeStripe,
           price: ele.owedPrice,
+          basePrice: ele.basePrice,
           discount: body.discount,
           discountCode: body.couponId,
           paymentId: body.paymentId,

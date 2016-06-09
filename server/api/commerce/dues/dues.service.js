@@ -15,6 +15,7 @@ function calculateDues (params, cb) {
       return cb(err)
     },
     success: function (result) {
+      result.body = JSON.parse(result.body)
       return cb(null, result)
     }
   })

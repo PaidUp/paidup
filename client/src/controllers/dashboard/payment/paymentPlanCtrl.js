@@ -73,6 +73,7 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
         }
 
         return {
+          version: ele.version,
           originalPrice: ele.amount,
           stripePercent: $scope.models.productSelected.processingFees.cardFeeDisplay,
           stripeFlat: $scope.models.productSelected.processingFees.cardFeeFlatDisplay,
@@ -86,6 +87,7 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
       });
 
       PaymentService.calculateDues (params, function (err, data) {
+        console.log('DATA:  ' , data);
         if (err) {
           console.log (err);
           $scope.loading = false;
