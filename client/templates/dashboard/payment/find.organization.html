@@ -24,7 +24,7 @@
     </form>
   </div>
   <p>Do these look familiar? Setup a payment with them again.</p>
-  <div class="teams">
+  <div class="teams" ng-if="search.name.length >= 3">
     <div class="team" ui-sref="dashboard.payment.plan" ng-repeat="category in categories | filter:search">
     <img src="{{category.image}}" ng-click="selectCategory(category)" class="team-img" alt="">
       <div class="name">{{category.name}}</div>
