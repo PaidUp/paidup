@@ -25,21 +25,25 @@
 
 
 @font-face{
-	font-family: 'The_Northern_Block';
-	src: url(../fonts/The_Northern_Block_Ltd__Brokman_Medium.otf);
+  font-family: 'The_Northern_Block';
+  src: url(../fonts/The_Northern_Block_Ltd__Brokman_Medium.otf);
 }
 
 @font-face{
-	font-family: 'The_Northern_Block_Book';
-	src: url(../fonts/The_Northern_Block_Ltd__Brokman_Book.otf);
+  font-family: 'The_Northern_Block_Book';
+  src: url(../fonts/The_Northern_Block_Ltd__Brokman_Book.otf);
 }
 
 
 html, body {
-	height: 100%;
-	margin: 0;
-	padding: 0;
+  height: 100%;
+  margin: 0;
+  padding: 0;
   font-family: @family-book;
+  @media @small-only{
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 /*
@@ -73,11 +77,11 @@ table.striped.even-rows-gray>tbody>tr:nth-child(even){background-color:#fafafa}
 }
 
 .green-font{
-  color: @c-green-font;
+  color: @c-green-font !important;
 }
 
 .red-font{
-  color: @c-error;
+  color: @c-error !important;
 }
 
 .gray-font{
@@ -438,6 +442,17 @@ SIGNUP PAGES
           }
         }
       }
+      // .birth-date-cal{
+      //   color: @c-green-font;
+      //   float:left;
+      //   font-size: 22px;
+      //   margin-top: 17px;
+      //   margin-right: 8px;
+      // }
+      // .birth-date-input{
+      //   float:left;
+      //   width: 80% !important;
+      // }
       .two-colums{
         margin-bottom: 0px;
         div.col:first-child{
@@ -932,6 +947,7 @@ DASHBOARD PAGES
         td.aging-value{
           text-align: center;
           width:12%;
+          white-space: nowrap;
         }
         // Deposits Table
         td.deposits-total{
@@ -948,7 +964,7 @@ DASHBOARD PAGES
   }
 
   div.main-tables-container{
-    min-width: 550px;
+    overflow: scroll;
   }
 
   div.category-table{
@@ -1860,9 +1876,9 @@ DASHBOARD PAGES
             margin:20px;
             cursor: pointer;
             img{
-              width:90px;
-              height:90px;
-              border: 3px solid @c-blue-back;
+              max-width: 110px;
+              max-height: 80px;
+              // border: 3px solid @c-blue-back;
             }
             .name{
               color: @c-green-font;
@@ -2005,6 +2021,7 @@ DASHBOARD PAGES
     height: 100%;
     padding: 15px;
     margin-left: 0px;
+    overflow-y: auto;
     @media @medium-up{
       top: 20%;
       left: 50%;
@@ -2097,4 +2114,170 @@ DASHBOARD PAGES
     font-size: 16px;
 
   }
+  .account_type_box{
+    width: 180px;
+    margin: 0 auto;
+    margin-bottom: 30px;
+    font-size: 16px;
+    cursor:pointer;
+    .fa{
+      display:inline-block;
+      margin: 2px;
+      font-size: 46px;
+    }
+    .fa-bank{
+      font-size: 60px;
+    }
+  }
+
+}
+
+
+
+// ALERT SYSTEM
+.alerts-container{
+  z-index: 200;
+  position: fixed;
+  top: 30px;
+  left: 50%;
+  margin-left: -150px;
+  width: 300px;
+  @media @medium-only{
+    margin-left: -300px;
+    width: 600px;
+  }
+  @media @large-up{
+    margin-left: -400px;
+    width: 800px;
+  }
+  .alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+  }
+  .alert h4 {
+    margin-top: 0;
+    color: inherit;
+  }
+  .alert .alert-link {
+    font-weight: bold;
+  }
+  .alert > p,
+  .alert > ul {
+    margin-bottom: 0;
+  }
+  .alert > p + p {
+    margin-top: 5px;
+  }
+  .alert-dismissable,
+  .alert-dismissible {
+    padding-right: 35px;
+  }
+  .alert-dismissable .close,
+  .alert-dismissible .close {
+    position: relative;
+    top: -2px;
+    right: -21px;
+    color: inherit;
+  }
+  .alert-success {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+  }
+  .alert-success hr {
+    border-top-color: #c9e2b3;
+  }
+  .alert-success .alert-link {
+    color: #2b542c;
+  }
+  .alert-info {
+    color: #31708f;
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+  }
+  .alert-info hr {
+    border-top-color: #a6e1ec;
+  }
+  .alert-info .alert-link {
+    color: #245269;
+  }
+  .alert-warning {
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+  }
+  .alert-warning hr {
+    border-top-color: #f7e1b5;
+  }
+  .alert-warning .alert-link {
+    color: #66512c;
+  }
+  .alert-danger {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+  }
+  .alert-danger hr {
+    border-top-color: #e4b9c0;
+  }
+  .alert-danger .alert-link {
+    color: #843534;
+  }
+  .close {
+    float: right;
+    font-size: 21px;
+    font-weight: bold;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    filter: alpha(opacity=20);
+    opacity: .2;
+  }
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+    filter: alpha(opacity=50);
+    opacity: .5;
+  }
+  button.close {
+    -webkit-appearance: none;
+    padding: 0;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+  }
+}
+
+// NAMESPACED BOOTSTRAP STYLES
+// To work with Bootstrap Styles like Plugins prepend always bootstrap-styles class to every bootstrap class
+.bootstrap-styles {
+  @import (less) url("vendor/bootstrap.css");
+}
+
+ul.uib-datepicker-popup{
+  position: absolute;
+  z-index: 1000;
+  min-width: 160px;
+  padding: 5px;
+  font-size: 14px;
+  text-align: left;
+  list-style: none;
+  background-color: #fff;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0,0,0,.15);
+  border-radius: 4px;
+  -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+  box-shadow: 0 6px 12px rgba(0,0,0,.175);
+
+}
+
+// Olark CSS Fix
+#habla_window_div button{
+  color: #000 !important;
 }

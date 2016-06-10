@@ -81,6 +81,7 @@ module.exports = [ 'AuthService', 'UserService', 'OrganizationService', '$q', 'p
   }
 
   function createBillingAddress (billingAddress) {
+    console.log('billingAddress', billingAddress)
     return $q(function (resolve, reject) {
       var bAddress = {}
       bAddress.type = 'billing'
@@ -183,8 +184,8 @@ module.exports = [ 'AuthService', 'UserService', 'OrganizationService', '$q', 'p
       organization.ownerEmail = user.credentials.email
       organization.referralCode = user.referralCode
       OrganizationService.organizationRequest(
-        organization,
-        user.id).then(function (organization) {
+        organization, user.id).then(function (organization) {
+
           resolve(organization.organizationId)
         }).catch(error)
     })

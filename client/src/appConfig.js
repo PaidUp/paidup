@@ -2,7 +2,7 @@
 var englishTranslations = require('./translations/en')
 var spanishTranslations = require('./translations/es')
 
-module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$locationProvider', '$translateProvider', '$httpProvider', 'uiMask.ConfigProvider', '$provide', function ($stateProvider, $urlRouterProvider, FacebookProvider, $locationProvider, $translateProvider, $httpProvider, uiMaskConfigProvider, $provide) {
+module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$locationProvider', '$translateProvider', '$httpProvider', 'uiMask.ConfigProvider', '$provide', 'localStorageServiceProvider', function ($stateProvider, $urlRouterProvider, FacebookProvider, $locationProvider, $translateProvider, $httpProvider, uiMaskConfigProvider, $provide, localStorageServiceProvider) {
   // UI MAsk
   uiMaskConfigProvider.clearOnBlur(false)
   uiMaskConfigProvider.maskDefinitions({'D': /^[0-9]*$/})
@@ -11,6 +11,11 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
   $locationProvider.html5Mode({
     enabled: true
   })
+
+  localStorageServiceProvider
+      .setPrefix('PaidUp')
+      .setStorageType('sessionStorage')
+      .setNotify(true, true)
 
   // Facebook API key
   // FacebookProvider.init('717631811625048')
@@ -89,7 +94,7 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
       controller: 'PaymentDoneCtrl'
     })
     .state('dashboard.activities', {
-      url: '/activities',
+      url: '/activity',
       templateUrl: '../templates/dashboard/dashboard.activities.html',
       controller: 'ActivitiesCtrl'
     })
@@ -188,18 +193,26 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
         requireLogin: false
       }
     })
-    .state('login-team', {
-      url: '/login/pn/:team',
+    .state('category', {
+      url: '/cat/:category',
       templateUrl: '../templates/login.html',
-      controller: 'LoginCtrl',
+      controller: 'CustomLinkCtrl',
       data: {
         requireLogin: false
       }
     })
-    .state('login-team-pp', {
-      url: '/login/pn/:team/:paymentPlan',
+    .state('product', {
+      url: '/cat/:category/prod/:product',
       templateUrl: '../templates/login.html',
-      controller: 'LoginCtrl',
+      controller: 'CustomLinkCtrl',
+      data: {
+        requireLogin: false
+      }
+    })
+    .state('product-pp', {
+      url: '/cat/:category/prod/:product/pp/:paymentPlan',
+      templateUrl: '../templates/login.html',
+      controller: 'CustomLinkCtrl',
       data: {
         requireLogin: false
       }

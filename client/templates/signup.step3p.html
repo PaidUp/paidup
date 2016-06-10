@@ -10,6 +10,14 @@
 
 <div class="inputs">
   <form name="form" novalidate>
+    <input type="text"
+           name="nameOnCard"
+           placeholder="Name on Card"
+           required
+           ng-model="nameOnCard"
+           ng-model-options="{ updateOn: 'blur' }" />
+    <small class="error" ng-show="form.nameOnCard.$error.required && form.nameOnCard.$touched">Name on Card is required</small>
+
     <input placeholder="Card Number" type="text" ng-model="cardNumber" name="cNum" ui-mask="999999999999?9?9?9?9?9?9?9" ui-mask-placeholder ui-mask-placeholder-char="space" ng-blur="validateCardInfo(form)"/>
     <small class="error" ng-show="form.cNum.$error.cNum && form.cNum.$touched">Card Number not valid</small>  
     <div class="row two-colums">

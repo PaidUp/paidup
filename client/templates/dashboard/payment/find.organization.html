@@ -1,8 +1,8 @@
-<div class="white-container">
+<div class="white-container" ng-init="init()">
   <div class="title">
     Setup your payments
   </div>
-  <p>Let's find the organization you are making payment to. If you cannot find them, check the spelling and if you still cannot find them give us a call <a class="phone" href="tel:8557643232">855.764.3232</a></p>
+  <p>Let's find the business you would like to pay. Start typing their name below.</p>
   <div class="inputs">
     <form name="form" novalidate>
       <div class="input-container">
@@ -11,24 +11,24 @@
         name="uOrganization" 
         placeholder="Organization Name" 
         required 
-        ng-model="organizationName" />
+        ng-model="search.name" />
         <small class="error" ng-show="form.uOrganization.$error.required && form.uOrganization.$touched">Please enter an Organization name</small>
       </div>
-      <button class="button-green btn-find" ng-click="findOrg()">find</button>
+      <button class="button-green btn-find" ng-if="false" ng-click="findOrg()">find</button>
+
+      <div class="buttons-container">
+        <button class="button-green" ng-if="loading" ng-disabled="loading" ng-bind-html="loading ? loader : 'Find'"></button>
+      </div>
+
       <div class="clearfix"></div>
     </form>
   </div>
   <p>Do these look familiar? Setup a payment with them again.</p>
   <div class="teams">
-    <div class="team" ui-sref="dashboard.payment.plan">
-    <img src="/img/team1.jpg" class="circle team-img" alt="">
-      <div class="name">Austin Boom</div>
-      <div class="loc">Austin, TX</div>
-    </div>
-    <div class="team" ui-sref="dashboard.payment.plan">
-      <img src="/img/team2.jpg" class="circle team-img" alt="">
-      <div class="name">Cesar Rules</div>
-      <div class="loc">Orlando, FL</div>
+    <div class="team" ui-sref="dashboard.payment.plan" ng-repeat="category in categories | filter:search">
+    <img src="{{category.image}}" ng-click="selectCategory(category)" class="team-img" alt="">
+      <div class="name">{{category.name}}</div>
+      <div class="loc">{{category.location ? category.location : 'N/A'}}</div>
     </div>
   </div>
   

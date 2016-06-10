@@ -1,4 +1,4 @@
-<div class="white-container">
+<div class="white-container" ng-init="init()">
   <div class="title">
     Thank you for your order
   </div>
@@ -8,9 +8,9 @@
     <div class="left-side">   
       <div class="teams">
         <div class="team">
-          <img src="/img/team2.jpg" class="circle team-img" alt="">
-          <div class="name">Cesar Rules</div>
-          <div class="loc">Orlando, FL</div>
+          <img src="{{categorySelected.image}}" class="team-img" alt="">
+          <div class="name">{{categorySelected.name}}</div>
+          <div class="loc">{{categorySelected.location}}</div>
         </div>
       </div> 
     </div>
@@ -19,24 +19,25 @@
         <tbody>
           <tr>
             <td class="field">Order Id:</td>
-            <td class="value">SFY0432BE45H</td>
+            <td class="value">{{resumeOrder.orderId}}</td>
           </tr>
           <tr>
             <td class="field">Age Group:</td>
-            <td class="value">16U</td>
+            <td class="value">{{resumeOrder.paymentsPlan[0].productInfo.productName}}</td>
           </tr>
           <tr>
             <td class="field">Payment Plan:</td>
-            <td class="value">4 Payments <br> <span class="green-font">$</span> 375 per mo.</td>
+            <td class="value">{{paymenPlanDescription}}</td>
           </tr>
           <tr>
             <td class="field">Athlete First Name:</td>
-            <td class="value">Jerry</td>
+            <td class="value">{{orderDetails.athleteFirstName}}</td>
           </tr>
           <tr>
             <td class="field">Athlete Last Name:</td>
-            <td class="value">Simpson</td>
+            <td class="value">{{orderDetails.athleteLastName}}</td>
           </tr>
+
         </tbody>
       </table>
     </div>
@@ -54,82 +55,35 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td class="number">
-          1
-        </td>
-        <td class="date">
-          <div class="month">DEC</div>
-          <div class="day">25</div>
-        </td>
-        <td class="details">
-          Payment 1 of 4 (Deposit + Uniform)
-        </td>
-        <td class="total">
-          <span class="green-font">$</span> 
-          998.75
-        </td>
-      </tr>  
-      <tr>
-        <td class="number">
-          2
-        </td>
-        <td class="date">
-          <div class="month">JAN</div>
-          <div class="day">22</div>
-        </td>
-        <td class="details">
-          Payment 2 of 4
-        </td>
-        <td class="total">
-          <span class="green-font">$</span> 
-          264.75
-        </td>
-      </tr>  
-      <tr>
-        <td class="number">
-          3
-        </td>
-        <td class="date">
-          <div class="month">FEB</div>
-          <div class="day">15</div>
-        </td>
-        <td class="details">
-          Payment 3 of 4
-        </td>
-        <td class="total">
-          <span class="green-font">$</span> 
-          264.75
-        </td>
-      </tr>  
-      <tr>
-        <td class="number">
-          4
-        </td>
-        <td class="date">
-          <div class="month">MAR</div>
-          <div class="day">18</div>
-        </td>
-        <td class="details">
-          Payment 4 of 4
-        </td>
-        <td class="total">
-          <span class="green-font">$</span> 
-          264.75
-        </td>
-      </tr>  
-
+    <tr ng-repeat="schedule in schedules">
+      <td class="number">
+        {{$index+1}}
+      </td>
+      <td class="date">
+        <div class="month">{{schedule.dateCharge | date : 'MMM' }}</div>
+        <div class="day">
+          {{schedule.dateCharge | date : 'd' }}
+        </div>
+      </td>
+      <td class="details">
+        {{schedule.description}}
+      </td>
+      <td class="total">
+        <span class="green-font">$</span>
+        {{schedule.owedPrice | currency: "" : 2}}
+      </td>
+    </tr>
     </tbody>
   </table>
 
   <div class="payment-total">
     Total:&nbsp;&nbsp;
-    <span class="green-font">$</span> 
-    <span>1098.75</span>
+    <span class="green-font">$</span>
+    <span>{{total | currency: "" : 2}}</span>
   </div>
 
   <div class="buttons-container">
-    <button ng-click="next()" class="button-green" ng-disabled="loading" ng-bind-html="loading ? loader : 'View Summary'"></button>
+    <button ui-sref="dashboard.summary.components" class="button-green" ng-disabled="loading" ng-bind-html="loading ? loader : 'View Summary'"></button>
   </div>
 
 </div>

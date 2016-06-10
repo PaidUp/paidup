@@ -189,7 +189,7 @@ var all = {
     apiPublic: 'pk_test_J5gfockQi2DP28GszFZvTnwS'
   },
   mixpanel: {
-    apiKey: '254e7cd14a29f087143735b673e51d65'
+    apiKey: 'f97659afce9c44283fbd59ad718803dc'
   },
   encryptKey: 'PZ3oXv2v6Pq5HAPFI9NFbQ==',
   loan: {
@@ -266,34 +266,34 @@ var all = {
     payment: {
       urlPrefix: '/api/v1',
       isHttp: false,
-      host: 'develop.getpaidup.com',
+      host: 'localhost',
       port: 9005,
       token: 'TDPaymentToken-CHANGE-ME!',
-      baseUrl: 'http://develop.getpaidup.com:9005/'
+      baseUrl: 'http://localhost:9005/'
     },
     commerce: {
       urlPrefix: '/api/v1',
       isHttp: false,
-      host: 'develop.getpaidup.com',
+      host: 'localhost',
       port: 9002,
       token: 'TDCommerceToken-CHANGE-ME!',
-      baseUrl: 'http://develop.getpaidup.com:9002/'
+      baseUrl: 'http://localhost:9002/'
     },
     schedule: {
       urlPrefix: '/api/v2',
       isHttp: false,
-      host: 'develop.getpaidup.com',
+      host: 'localhost',
       port: 9006,
       token: 'tdschedule-secret',
-      baseUrl: 'http://develop.getpaidup.com:9006/'
+      baseUrl: 'http://localhost:9006/'
     },
     product: {
       urlPrefix: '/api/v1',
       isHttp: false,
-      host: 'develop.getpaidup.com',
+      host: 'localhost',
       port: 9007,
       token: 'puproduct-secret',
-      baseUrl: 'http://develop.getpaidup.com:9007/'
+      baseUrl: 'http://localhost:9007/'
     }
   },
   logger: {

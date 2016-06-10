@@ -4,19 +4,17 @@ const CommerceConnector = require('paidup-commerce-connect')
 const ScheduleConnector = require('paidup-schedule-connect')
 const config = require('../../../config/environment')
 const CatalogService = require('../catalog/catalog.service')
-const userService = require('../../user/user.service')
 const paymentEmailService = require('../../payment/payment.email.service')
 const paymentService = require('../../payment/payment.service')
 const logger = require('../../../config/logger')
 
 var OrderService = {
   calculatePrices: function calculatePrices (body, cb) {
-    CatalogService.catalogProduct(body.productId, function (errProduct, dataProduct) {
+    CatalogService.getProduct(body.productId, function (errProduct, dataProduct) {
       if (errProduct) {
         return cb(errProduct)
       }
-      let fm = JSON.parse(dataProduct.feeManagement)
-      let dues = fm.paymentPlans[body.paymentPlanSelected].dues
+      let dues = dataProduct.paymentPlans[body.paymentPlanSelected].dues
       let params = []
 
       dues.forEach(function (ele, idx, arr) {
@@ -25,13 +23,14 @@ var OrderService = {
         ele.couponId = body.couponId
 
         params.push({
+          version: ele.version,
           originalPrice: ele.amount,
-          stripePercent: fm.processingFees.cardFeeActual,
-          stripeFlat: fm.processingFees.cardFeeFlatActual,
-          paidUpFee: fm.collectionsFee.fee,
+          stripePercent: dataProduct.processingFees.cardFeeActual,
+          stripeFlat: dataProduct.processingFees.cardFeeFlatActual,
+          paidUpFee: dataProduct.collectionsFee.fee,
           discount: ele.applyDiscount ? ele.discount : 0,
-          payProcessing: fm.paysFees.processing,
-          payCollecting: fm.paysFees.collections,
+          payProcessing: dataProduct.paysFees.processing,
+          payCollecting: dataProduct.paysFees.collections,
           description: ele.description,
           dateCharge: ele.dateCharge
         })
@@ -50,7 +49,7 @@ var OrderService = {
         },
         // OK.
         success: function (prices) {
-          return cb(null, prices.body.prices, dataProduct)
+          return cb(null, JSON.parse(prices.body).prices, dataProduct)
         }
       })
     })
@@ -62,40 +61,40 @@ var OrderService = {
         return cb(err)
       }
 
-      let fm = JSON.parse(dataProduct.feeManagement)
-
       let orderReq = {
         baseUrl: config.connections.commerce.baseUrl,
         token: config.connections.commerce.token,
         userId: body.userId,
+        description: dataProduct.details.description,
         paymentsPlan: []
       }
       prices.forEach(function (ele, idx, arr) {
-        console.log('$$ELE', JSON.stringify(ele))
         orderReq.paymentsPlan.push({
+          version: ele.version,
           email: body.email,
-          destinationId: dataProduct.tDPaymentId,
+          destinationId: dataProduct.details.paymentId,
           dateCharge: ele.dateCharge,
           originalPrice: ele.originalPrice,
           totalFee: ele.totalFee,
           feePaidUp: ele.feePaidUp,
           feeStripe: ele.feeStripe,
           price: ele.owedPrice,
+          basePrice: ele.basePrice,
           discount: body.discount,
           discountCode: body.couponId,
           paymentId: body.paymentId,
           wasProcessed: false,
           status: 'pending',
-          processingFees: fm.processingFees,
-          collectionsFee: fm.collectionsFee,
-          paysFees: fm.paysFees,
+          processingFees: dataProduct.processingFees,
+          collectionsFee: dataProduct.collectionsFee,
+          paysFees: dataProduct.paysFees,
           typeAccount: body.typeAccount,
           account: body.account,
           last4: card.last4,
           accountBrand: card.brand,
           description: ele.description,
           productInfo: {
-            productId: dataProduct.productId,
+            productId: dataProduct._id,
             productName: body.productName,
             productImage: body.productImage,
             organizationId: body.organizationId,
@@ -126,28 +125,6 @@ var OrderService = {
       })
     })
   },
-
-  updateUser: function updateUser (beneficiaryId, dataProduct) {
-    // body.beneficiaryId
-    let team = {
-      seasonEnd: dataProduct.seasonEnd,
-      name: dataProduct.name,
-      productId: dataProduct.productId,
-      createdAt: dataProduct.createdAt,
-      sku: dataProduct.sku
-    }
-    userService.find({_id: beneficiaryId}, function (err, child) {
-      child[0].teams.push(team)
-      userService.save(child[0], function (err, userAthlete) {
-        if (err) {
-          logger.error('Update User: Error', err)
-        } else {
-          logger.debug('Update User: ', userAthlete)
-        }
-      })
-    })
-  },
-
   sendEmail: function sendEmail (last4, body, dataProduct, orderResult) {
     // body.email
     let emailParams = {
@@ -156,15 +133,16 @@ var OrderService = {
       last4: last4,
       amount: 0,
       schedules: [],
-      product: dataProduct.name
+      product: dataProduct.details.name
     }
     orderResult.body.paymentsPlan.forEach(function (ele, idx, arr) {
       emailParams.amount = emailParams.amount + ele.price
       emailParams.schedules.push({
         nextPaymentDue: ele.dateCharge,
-        price: ele.price
+        price: Number(ele.price).toFixed(2)
       })
     })
+    emailParams.amount = Number(emailParams.amount).toFixed(2)
     paymentEmailService.sendNewOrderEmail(emailParams, function (err, data) {
       if (err) {
         logger.error('Send New Order Email: Error', err)
@@ -191,7 +169,6 @@ function createOrder (body, cb) {
           return cb(errorOrderResult)
         } else {
           logger.debug('Create Order: New Order', dataProduct)
-          OrderService.updateUser(body.beneficiaryId, dataProduct)
           OrderService.sendEmail(last4, body, dataProduct, orderResult)
           cb(null, orderResult)
         }
@@ -272,11 +249,32 @@ function orderGet (userId, limit, sort, cb) {
     }
   })
 }
+// machinepack exec order-get-organization --organizationId='acct_18AQWDGKajSrnujf' --token='TDCommerceToken-CHANGE-ME!' --baseUrl='http://localhost:9002' --limit='1000' --sort='1'
+function orderGetOrganization (organizationId, limit, sort, cb) {
+  CommerceConnector.orderGetOrganization({
+    baseUrl: config.connections.commerce.baseUrl,
+    token: config.connections.commerce.token,
+    organizationId: organizationId,
+    limit: limit,
+    sort: sort
+  }).exec({
+    // An unexpected error occurred.
+    error: function (err) {
+      console.log('err', err)
+      return cb(err)
+    },
+    // OK.
+    success: function (result) {
+      return cb(null, result)
+    }
+  })
+}
 
 module.exports = {
   createOrder: createOrder,
   orderPaymentRecent: orderPaymentRecent,
   orderPaymentNext: orderPaymentNext,
   orderPaymentActive: orderPaymentActive,
-  orderGet: orderGet
+  orderGet: orderGet,
+  orderGetOrganization: orderGetOrganization
 }

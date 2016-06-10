@@ -9,12 +9,11 @@
     <div class="navigation-items left hide-on-med-and-down">
      <ul ng-if="!isCoach">
       <li ui-sref="dashboard.summary.components">Summary</li>
-      <li ui-sref="dashboard.activities">Activities</li>
-      <li ui-sref="dashboard.orders">Orders</li>
-      <li ng-click="clickAccounts()">Accounts</li>
+      <!--<li ui-sref="dashboard.activities">Activity</li>
+      <li ui-sref="dashboard.orders">Orders</li>-->
     </ul>  
     <ul ng-if="isCoach">
-      <li ui-sref="dashboard.summary.components">Summary</li>
+      <!-- <li ui-sref="dashboard.summary.components">Summary</li> -->
       <li ui-sref="dashboard.board">Dashboard</li>
       <li ui-sref="dashboard.deposits">Deposits</li>
       <li ui-sref="dashboard.aging">Aging</li>

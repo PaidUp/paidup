@@ -24,6 +24,7 @@ exports.load = function (req, res, next) {
 }
 
 exports.update = function (req, res, next) {
+  req.body.userId = req.params.id
   addressService.update(req.body, function (err, data) {
     if (err) res.status(402).json(err)
     res.status(200).json(data)

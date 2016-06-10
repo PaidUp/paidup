@@ -5,28 +5,32 @@
     <div class="clearfix"></div>
   </div>  
   <ul class="mobile-list">
-    <li class="clearfix" ui-sref="dashboard.summary.components" ng-click="hideMenu()">
-      <div class="icon-container"><i class="fa fa-columns"></i></div>
+    <li class="clearfix" ui-sref="dashboard.summary.components" ng-click="hideMenu()" ng-if="!isCoach">
+      <div class="icon-container"><i class="fa fa-dashboard"></i></div>
       <div>Summary</div> 
     </li> 
-    <li class="clearfix" ui-sref="dashboard.activities" ng-click="hideMenu()">
-      <div class="icon-container"><i class="fa fa-calendar-o"></i></div>
-      <div>Activities</div> 
-    </li> 
-    <li class="clearfix" ui-sref="dashboard.orders" ng-click="hideMenu()">
+    <!--<li class="clearfix" ui-sref="dashboard.activities" ng-click="hideMenu()" ng-if="!isCoach">
+      <div class="icon-container"><i class="fa fa-line-chart"></i></div>
+      <div>Activity</div> 
+    </li>
+    <li class="clearfix" ui-sref="dashboard.orders" ng-click="hideMenu()" ng-if="!isCoach">
       <div class="icon-container"><i class="fa fa-list-alt"></i></div>
       <div>Orders</div> 
-    </li>
-    <li class="clearfix" ng-click="clickAccounts()">
+    </li>-->
+   <!--  <li class="clearfix" ng-click="clickAccounts()">
       <div class="icon-container"><i class="fa fa-credit-card"></i></div>
-      <div>Accounts</div> 
+      <div>Accounts</div>
+    </li> -->
+    <li class="clearfix" ng-if="isCoach" ng-click="hideMenu()" ui-sref="dashboard.board">
+      <div class="icon-container"><i class="fa fa-dashboard"></i></div>
+      <div>Dashboard</div>
     </li>
-    <li class="clearfix" ng-if="isCoach">
+    <li class="clearfix" ng-if="isCoach" ng-click="hideMenu()" ui-sref="dashboard.deposits">
       <div class="icon-container"><i class="fa fa-bank"></i></div>
       <div>Deposits</div> 
     </li> 
-    <li class="clearfix" ng-if="isCoach">
-      <div class="icon-container"><i class="fa fa-bar-chart"></i></div>
+    <li class="clearfix" ng-if="isCoach" ng-click="hideMenu()" ui-sref="dashboard.aging">
+      <div class="icon-container"><i class="fa fa-line-chart"></i></div>
       <div>Aging</div> 
     </li>       
   </ul>
@@ -36,7 +40,7 @@
       <div class="icon-container"><i class="fa fa-gear"></i></div>
       <div>Profile</div> 
     </li>
-    <li class="clearfix">
+    <li class="clearfix" ng-click="logout()">
       <div class="icon-container"><i class="fa fa-sign-out"></i></div>
       <div>Logout</div> 
     </li>

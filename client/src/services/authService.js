@@ -1,7 +1,7 @@
 'use strict'
 var angular = require('angular')
 
-module.exports = [ '$rootScope', '$http', 'UserService', 'SessionService', 'Facebook', '$q', function ($rootScope, $http, UserService, SessionService, Facebook, $q) {
+module.exports = [ '$rootScope', '$http', 'UserService', 'SessionService', 'Facebook', '$q', 'TrackerService', function ($rootScope, $http, UserService, SessionService, Facebook, $q, TrackerService) {
   var ROLES_ROUTES = {
     USER: 'athletes',
     COACH: 'provider-request',
@@ -19,6 +19,22 @@ module.exports = [ '$rootScope', '$http', 'UserService', 'SessionService', 'Face
 
   var dest = 'signup'
   var isParent = true
+
+  function getRoleForTracking(){
+    var role = $rootScope.currentUser.roles[$rootScope.currentUser.roles.length -1]
+    var resp = 'unknown';
+    switch(role) {
+      case "user":
+        resp = "Personal"
+        break;
+      case "coach":
+        resp = "Business"
+        break;
+      default:
+        resp = role
+    }
+    return resp;
+  }
 
   return {
     getDest: function () {
@@ -76,7 +92,7 @@ module.exports = [ '$rootScope', '$http', 'UserService', 'SessionService', 'Face
           SessionService.addSession(data)
           UserService.get(data.token, function (user) {
             $rootScope.currentUser = user
-            success()
+            success(user)
           })
         })
         .error(function (err) {
@@ -343,6 +359,37 @@ module.exports = [ '$rootScope', '$http', 'UserService', 'SessionService', 'Face
      */
     getToken: function () {
       return SessionService.getCurrentSession()
+    },
+
+    getRoleForTrack: function(){
+      return getRoleForTracking();
+    },
+
+    trackerLogin: function (event, type, phone){
+      TrackerService.identify($rootScope.currentUser._id);
+
+      TrackerService.peopleSet({
+        "$first_name": $rootScope.currentUser.firstName,
+        "$last_name": $rootScope.currentUser.lastName,
+        "$email": $rootScope.currentUser.email
+      });
+
+      if(event === "Sign Up"){
+        TrackerService.peopleSet({
+          "$created": new Date(),
+          "$phone": phone
+        });
+      }
+
+      TrackerService.register({
+        "Email": $rootScope.currentUser.email
+      });
+
+      TrackerService.track (event, {
+        "Type": type,
+        "Roles": getRoleForTracking()
+      });
     }
+
   }
 }]

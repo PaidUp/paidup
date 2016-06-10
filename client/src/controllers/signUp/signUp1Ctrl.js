@@ -15,14 +15,12 @@ module.exports = [ '$scope', 'SignUpService', '$state', 'AuthService', function 
     $scope.validatePassword(f)
     SignUpService.runFormControlsValidation(f)
     if (f.$valid) {
-      console.log('VALID')
       SignUpService.setFacebookSignUp(false)
       SignUpService.setCredentials($scope.user)
       $scope.loading = false
       $state.go('^.step2')
     } else {
       $scope.loading = false
-      console.log('INVALID')
     }
   }
 

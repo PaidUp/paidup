@@ -6,21 +6,29 @@ require('angular-resource')
 require('angular-sanitize')
 require('angular-cookies')
 require('angular-translate')
+require('angular-animate')
 require('./vendor/angular-facebook')
+// require('./vendor/alert.min')
+// require('./vendor/mixpanel')
+require('angular-ui-bootstrap')
 require('angulartics')
 require('angulartics-google-analytics')
 require('angular-ui-mask')
+require('angular-local-storage')
 
 var paidUpApp = angular.module('paidUpApp', [
   'ui.router',
   'ngResource',
   'ngSanitize',
   'ngCookies',
+  'ngAnimate',
   'pascalprecht.translate',
   'facebook',
   'angulartics',
   'angulartics.google.analytics',
-  'ui.mask' ])
+  'ui.mask',
+  'LocalStorageModule',
+  'ui.bootstrap' ])
 
 paidUpApp.config(require('./appConfig'))
 paidUpApp.run(require('./appRun'))
@@ -30,3 +38,7 @@ require('./services')
 require('./controllers')
 require('./directives')
 require('./filters')
+
+// This OVerrides the templates for Bootstrap UI Plugins.
+// They basically adds the bootstrap-styles  Class and Replace the Glyphicons with Font Awesome icons
+require('./bootstrap-template-overrides')

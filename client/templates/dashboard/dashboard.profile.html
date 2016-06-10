@@ -1,26 +1,26 @@
 <div ng-include="'/templates/dashboard/dashboard.greetings.header.html'"></div>
-<div class="profile-container">
+<div class="profile-container" ng-init="init()">
   <div class="row">
     <div class="col s12 m12 l6">
       <div class="main-content">
         <div class="white-container">
-          <div class="title-blue">Profile</div> 
+          <div class="title-blue">Profile</div>
           <div class="profile-photo">
             <div class="icon">
               <i class="fa fa-user"></i>
             </div>
-            <div href="" class="green-link">Upload Photo</div>
+            <!--<div href="" class="green-link">Upload Photo</div>-->
           </div>
           <div class="profile-name">
-            <span ng-hide="editName">Diego Fortes</span>
+            <span ng-hide="editName">{{user.firstName}}</span>
             <div ng-hide="editName" ng-click="editName=true" class="green-link">Edit Name</div>
-            <input ng-show="editName" type="text" placeholder="First Name">
-            <input ng-show="editName" type="text" placeholder="Last Name">
-            <button ng-show="editName" ng-click="loading=true" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Save'"></button>
+            <input ng-show="editName" type="text" placeholder="First Name" ng-model="user.firstName" maxlength="40">
+            <input ng-show="editName" type="text" placeholder="Last Name" ng-model="user.lastName" maxlength="40">
+            <button ng-show="editName" ng-click="updateName()" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Save'"></button>
             <button ng-show="editName" ng-click="editName=false" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Cancel'"></button>
-          </div> 
-          <div class="clearfix"></div> 
-          <hr>
+          </div>
+          <div class="clearfix"></div>
+          <!--<hr>
           <div class="profile-photo">
             <div class="icon">
               <img src="img/team2.jpg" alt="photo" />
@@ -30,11 +30,11 @@
           <div class="profile-name">
             <span>With Pic</span>
             <div class="green-link">Edit Name</div>
-          </div> 
-          <div class="clearfix"></div>        
+          </div>
+          <div class="clearfix"></div>-->
         </div>
 
-        <div class="white-container">
+        <!--<div class="white-container">
           <div class="title-blue">Account Options</div>
           <ul class="account-options">
             <li>
@@ -49,8 +49,8 @@
               <i class="fa fa-chevron-circle-right hide-on-small-only"></i>
               <div class="green-link">Delete Account</div>
             </li>
-          </ul>          
-        </div>
+          </ul>
+        </div>-->
       </div>
     </div>
     <div class="col s12 m12 l6 right-column">
@@ -60,61 +60,73 @@
           <ul>
             <li ng-repeat="address in addresses">
               <div class="address">
-                <span ng-bind="address.street"></span>
+                <span ng-bind="address.address1"></span> <span ng-bind="address.address2"></span>
                 <br>
                 <span ng-bind="address.city"></span>,&nbsp;
                 <span ng-bind="address.state"></span>&nbsp;
                 <span ng-bind="address.zipCode"></span>
                 <div>
                   <div class="green-link" ng-click="editAddress(address)">Edit</div>
-                  <div class="green-link">Remove</div>
+                  <!--<div class="green-link">Remove</div>-->
                 </div>
               </div>
-            </li> 
-          </ul>           
-          <div class="green-link" ng-click="editAddress({})">Add a New Address</div>
+            </li>
+          </ul>
+         <!--<div class="green-link" ng-click="editAddress({})">Add a New Address</div>-->
         </div>
 
         <div class="white-container account-email">
-          <div class="title-blue">Email</div> 
+          <div class="title-blue">Email</div>
           <div ng-hide="editEmail || editPass">
             <div>
-              <p>Email used to Login and Receive Notifications</p>            
-              <p class="field-value">qwer@qwe.com</p>        
+              <p>Email used to Login and Receive Notifications</p>
+              <p class="field-value" ng-bind="email"></p>
             </div>
             <div>
               <div class="green-link" ng-click="editEmail=true">Edit</div>
               <div class="green-link" ng-click="editPass=true">Change Password</div>
-            </div>         
-          </div>         
+            </div>
+          </div>
           <div ng-show="editEmail">
-            <input type="text" placeholder="Email">
-            <button ng-click="loading=true" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Save'"></button>
+            <input type="text" placeholder="Email" ng-value="email" ng-model="inputEmail">
+            <button ng-click="updateEmail()" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Save'"></button>
             <button ng-click="editEmail=false" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Cancel'"></button>
           </div>
           <div ng-show="editPass">
-            <input type="text" placeholder="Password">
-            <input type="text" placeholder="Repeat Password">
-            <button ng-click="loading=true" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Save'"></button>
-            <button ng-click="editPass=false" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Cancel'"></button>
+            <form name="form" novalidate>
+              <input type="password" placeholder="Old Password" ng-model="inputOldPass" name="oldPass">
+              <small class="error">{{errPass}}</small>
+              
+              <input type="password" placeholder="Password" ng-model="inputNewPass" name="newPass" required ng-minlength="6"  ng-model-options="{ updateOn: 'blur' }">
+              <small class="error" ng-show="form.newPass.$touched && (form.newPass.$error.minlength || form.newPass.$error.required)">Min 6 Characters</small>
+
+              <input type="password" placeholder="Repeat Password" ng-model="inputRFepeatNewPass" name="repeatNewPass" required ng-minlength="6" ng-model-options="{ updateOn: 'blur' }" ng-blur="validateUpdatePassword(form)">
+              <small class="error" ng-show="form.repeatNewPass.$touched && (form.repeatNewPass.$error.minlength || form.repeatNewPass.$error.required)">Min 6 Characters</small>
+              <small class="error" ng-show="form.repeatNewPass.$error.match">Passwords do not match</small>
+              <br>
+              <button ng-click="updatePass()" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Save'"></button>
+              <button ng-click="editPass=false" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Cancel'"></button>
+            </form>
           </div>
         </div>
 
         <div class="white-container account-phone">
-          <div class="title-blue">Phone</div>       
-          <div ng-hide="editPhone">
-            <div>
-              <p class="field-value">123-444-5555</p>
+          <div class="title-blue">Phone</div>
+          <div ng-repeat="contact in contacts">
+            <div ng-hide="editPhone">
+              <div>
+                <p class="field-value">{{contact.value}}</p>
+              </div>
+              <div>
+                <div class="green-link" ng-click="editPhone=true">Edit</div>
+              </div>
             </div>
-            <div>
-              <div class="green-link" ng-click="editPhone=true">Edit Phone</div>
+            <div ng-show="editPhone">
+              <input type="text" placeholder="Phone" ng-model="contact.value">
+              <button ng-click="updatePhone(contact); editPhone=false" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Save'"></button>
+              <button ng-click="editPhone=false" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Cancel'"></button>
             </div>
           </div>
-          <div ng-show="editPhone">
-            <input type="text" placeholder="Phone">
-            <button ng-click="loading=true" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Save'"></button>
-            <button ng-click="editPhone=false" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Cancel'"></button>
-          </div>       
         </div>
       </div>
     </div>
@@ -122,51 +134,39 @@
 </div>
 
 <modal-window show="showAddressModal" modal-title="'Edit Address'">
-<div class="inputs">
-  <form name="form" novalidate>
-    <input type="text" 
-    name="street" 
-    placeholder="Street Address" 
-    required 
-    ng-model="editingAddress.street" 
-    ng-model-options="{ updateOn: 'blur' }" />
-    <small class="error" ng-show="form.street.$error.required && form.street.$touched">Street Address is required</small>
+  <div class="inputs">
+    <form name="form" novalidate>
+      <input type="text" name="street" placeholder="Street Address" required ng-model="editingAddress.address1" ng-model-options="{ updateOn: 'blur' }"
+      />
+      <small class="error" ng-show="form.address1.$error.required && form.address1.$touched">Street Address is required</small>
 
-    <input type="text" 
-    name="city" 
-    placeholder="City" 
-    required 
-    ng-model="editingAddress.city" 
-    ng-model-options="{ updateOn: 'blur' }" />
-    <small class="error" ng-show="form.city.$error.required && form.city.$touched">City is required</small> 
+      <input type="text" name="city" placeholder="City" required ng-model="editingAddress.city" ng-model-options="{ updateOn: 'blur' }"
+      />
+      <small class="error" ng-show="form.city.$error.required && form.city.$touched">City is required</small>
 
-    <div class="row two-colums">
-      <div class="col s12 m6">
-        <div class="select-container">
-          <select ng-model="editingAddress.state" name="state" ng-class="containsValue ? 'selected' : ''" ng-change="containsValue = true" required>
+      <div class="row two-colums">
+        <div class="col s12 m6">
+          <div class="select-container">
+            <select ng-model="editingAddress.state" name="state" ng-class="containsValue ? 'selected' : ''" ng-change="containsValue = true"
+              required>
             <option value="" disabled selected class="placeholder">State</option>
             <option ng-repeat="state in states" value="{{state.abbreviation}}">
               {{state.abbreviation}}
             </option>
           </select>
-          <small class="error" ng-show="form.state.$error.required && form.state.$touched">State is required</small>  
+            <small class="error" ng-show="form.state.$error.required && form.state.$touched">State is required</small>
+          </div>
+        </div>
+        <div class="col s12 m6">
+          <input type="text" name="zipCode" placeholder="Zip Code" required ng-model="editingAddress.zipCode" ng-model-options="{ updateOn: 'blur' }"
+          />
+          <small class="error" ng-show="form.zipCode.$error.required && form.zipCode.$touched">Zip Code is required</small>
         </div>
       </div>
-      <div class="col s12 m6">
-        <input type="text" 
-        name="zipCode" 
-        placeholder="Zip Code" 
-        required 
-        ng-model="editingAddress.zipCode" 
-        ng-model-options="{ updateOn: 'blur' }" />
-        <small class="error" ng-show="form.zipCode.$error.required && form.zipCode.$touched">Zip Code is required</small> 
-      </div>
-    </div>
-  </form>
-</div>
-<div class="center">
-  <button ng-click="saveAddress()" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Save'"></button>
-  <button ng-click="closeModal()" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Cancel'"></button>
-</div>
+    </form>
+  </div>
+  <div class="center">
+    <button ng-click="saveAddress()" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Save'"></button>
+    <button ng-click="closeModal()" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Cancel'"></button>
+  </div>
 </modal-window>
-

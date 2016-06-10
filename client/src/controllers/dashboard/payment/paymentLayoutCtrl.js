@@ -1,5 +1,10 @@
 'use strict'
 
-module.exports = [ '$scope', '$rootScope', '$state', 'SetupPaymentService', function ($scope, $rootScope, $state, SetupPaymentService) {
-  $scope.state = SetupPaymentService.getString()
+module.exports = [ '$scope', '$rootScope', '$state', function ($scope, $rootScope, $state) {
+
+  $rootScope.$on('changePaymentStep', function (event, data) {
+    $scope.step = data;
+  })
+
+
 }]

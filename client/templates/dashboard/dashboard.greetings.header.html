@@ -13,15 +13,15 @@
       <div class="col s12 m5 l4">
         <div class="action-buttons">
         <ul ng-if="!isCoach">
-          <li ui-sref="dashboard.summary.components">
+          <li ui-sref="dashboard.summary.components" ng-if="false">
             <i class="fa fa-dashboard"></i>
-            <span>Dashboard</span>
+            <span>Summary</span>
           </li>
           <li ui-sref="dashboard.payment.findOrg">
             <i class="fa fa-money"></i>
             <span>Make a Payment</span>
           </li>
-           <li ui-sref="dashboard.activities">
+           <li ui-sref="dashboard.activities" ng-if="false">
             <i class="fa fa-line-chart"></i>
             <span>View Activity</span>
           </li>

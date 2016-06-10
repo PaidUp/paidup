@@ -1,5 +1,5 @@
 <div ng-include="'/templates/dashboard/dashboard.greetings.header.html'"></div>
-<div class="orders-container">
+<div class="orders-container" ng-init="init()">
   <div class="row">
     <div class="col s12 l8 offset-l2">
       <div class="main-content">
@@ -10,17 +10,44 @@
           <!-- FILTERS -->          
           <div class="table-filters">
             <div class="date-filter">
-              <div class="date-input">
-                <i class="fa fa-calendar"></i>
-                <input type="text" placeholder="From" />
-              </div>
-              <div class="date-input">
-                <i class="fa fa-calendar"></i>
-                <input type="text" placeholder="To" />
-              </div>
+                <form name="form" novalidate>
+                <div class="date-input">
+                  <i class="fa fa-calendar" ng-click="open1()"></i>
+                  <input 
+                  type="text" 
+                  placeholder="From" 
+                  uib-datepicker-popup="MM/dd/yyyy" 
+                  ng-model="dt1" 
+                  name="udt1"
+                  is-open="popup1.opened" 
+                  ng-required="true" 
+                  close-text="Close"
+                  datepicker-options="dateOptions1"
+                  ng-change="change1()"
+                  alt-input-formats="['M!/d!/yyyy', 'M!/d!/yy']"
+                  on-open-focus="false"              
+                  />
+                </div>
+                <div class="date-input">
+                  <i class="fa fa-calendar" ng-click="open2()"></i>
+                  <input 
+                  type="text" 
+                  placeholder="To" 
+                  uib-datepicker-popup="MM/dd/yyyy" 
+                  ng-model="dt2" 
+                  is-open="popup2.opened" 
+                  ng-required="true" 
+                  close-text="Close"
+                  datepicker-options="dateOptions2"
+                  ng-change="change2()"
+                  alt-input-formats="['M!/d!/yyyy', 'M!/d!/yy']"
+                  on-open-focus="false" 
+                  />
+                </div>
+              </form>
             </div>
             <div class="right-filters">              
-              <div class="download-cvs">
+              <div class="download-cvs" ng-click="downloadAsCSV()">
                 Download as CVS
               </div>
             </div>
@@ -404,7 +431,7 @@
 
 
 
-          <div class="bottom-link">Next 20</div>
+          <!-- <div class="bottom-link">Next 20</div>-->
 
         </div>
       </div>

@@ -14,7 +14,6 @@ module.exports = ['$scope', 'SignUpService', '$state', 'UserService', function (
     $scope.validateDDA(f)
     SignUpService.runFormControlsValidation(f)
     if (f.$valid) {
-      console.log('VALID')
       SignUpService.saveBusinessBank($scope.bankAccount)
       SignUpService.createBusinessAccount($scope.user).then(function (organizationId) {
         $state.go('^.welcome')

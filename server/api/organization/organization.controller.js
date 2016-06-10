@@ -5,8 +5,7 @@ const PaidUpProductConnect = require('paidup-product-connect')
 const config = require('../../config/environment')
 const organizationService = require('./organization.service')
 const paymentService = require('../payment/payment.service')
-// var commerceEmailService = require('../commerce.email.service')
-// var userService = require('../../user/user.service')
+var userService = require('../user/user.service')
 
 exports.organizationRequest = function (req, res) {
   PaidUpProductConnect.organizationRequest({
@@ -84,14 +83,26 @@ exports.organizationResponse = function (req, res) {
                 PaidUpProductConnect.organizationResponseUpdate({
                   baseUrl: config.connections.product.baseUrl,
                   token: config.connections.product.token,
-                  organizationId: organizationId
+                  organizationId: organizationId,
+                  paymentId: account.id
                 }).exec({
                   // An unexpected error occurred.
                   error: function (err) {
                     return handleError(res, err)
                   },
-                  success: function (organization) {
-                    return res.status(200).json(organization)
+                  success: function (organizationUpd) {
+                    userService.find({_id: organization.body.ownerId}, function (err, users) {
+                      if (err) return handleError(res, err)
+                      var user = users[0]
+                      user.meta.providerStatus = 'done'
+                      user.meta.productRelated.push(organization.body._id)
+                      userService.save(user, function (err, data) {
+                        if (err) {
+                          return handleError(res, err)
+                        }
+                        return res.status(200).json(organizationUpd)
+                      })
+                    })
                   }
                 })
               })

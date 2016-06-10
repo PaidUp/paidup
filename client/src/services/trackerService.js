@@ -1,63 +1,31 @@
 'use strict'
 var angular = require('angular')
 
-module.exports = [ '$analytics', 'AuthService', '$location', function ($analytics, AuthService, $location) {
+module.exports = ['$location', 'ApplicationConfigService', function ($location, ApplicationConfigService) {
+
+(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
+      for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===e.location.protocol&&"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//)?"https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js":"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+
+
+  ApplicationConfigService.getConfig().then(function (data){
+    mixpanel.init(data.mixpanelApiKey);
+  });
+
   var TrackerService = this
 
-  TrackerService.trackFormErrors = function (event, form, details) {
-    var user = AuthService.getCurrentUser()
-    var obj = {formErrors: []}
-    if (user) {
-      obj.email = user.email
-    }
-    if (form.$error) {
-      angular.forEach(form.$error, function (value, key) {
-        var field = {}
-        field[key] = []
-        angular.forEach(value, function (item) {
-          field[key].push(item.$name)
-        })
-
-        obj.formErrors.push(field)
-      })
-      if (details) {
-        angular.forEach(details, function (value, key) {
-          obj[key] = value
-        })
-      }
-      if (obj.formErrors.length) {
-        $analytics.eventTrack(event, obj)
-      }
-    }
+  TrackerService.track = function (msg, data){
+    mixpanel.track(msg, data);
   }
 
-  TrackerService.create = function (event, details) {
-    var objDetails = {}
-
-    if (!details && typeof details === 'string') {
-      objDetails.messageError = details
-    } else if (details && (typeof details === 'object')) {
-      objDetails = details
-    }
-    var user = AuthService.getCurrentUser()
-    if (user) {
-      objDetails.email = user.email
-    }
-    $analytics.eventTrack(event, objDetails)
+  TrackerService.identify = function (id){
+    mixpanel.identify(id);
   }
 
-  TrackerService.pageTrack = function (details) {
-    var user = AuthService.getCurrentUser()
-    var objDetails = {}
-    if (user) {
-      objDetails.email = user.email
-    }
-    if (details) {
-      angular.forEach(details, function (value, key) {
-        objDetails[key] = value
-      })
-    }
-    objDetails.page = $location.path()
-    $analytics.eventTrack('Page viewed', objDetails)
+  TrackerService.peopleSet = function (obj){
+    mixpanel.people.set(obj);
+  }
+
+  TrackerService.register = function (obj){
+    mixpanel.register(obj);
   }
 }]
