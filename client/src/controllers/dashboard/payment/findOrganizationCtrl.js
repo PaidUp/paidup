@@ -1,27 +1,38 @@
 'use strict'
 
-module.exports = ['$scope', '$rootScope', '$state', 'ProductService', 'SetupPaymentService', 'TrackerService',
-  function ($scope, $rootScope, $state, ProductService, SetupPaymentService, TrackerService) {
+module.exports = ['$scope', '$rootScope', '$state', 'ProductService', 'SetupPaymentService', 'TrackerService', 'AuthService', 'CommerceService',
+  function ($scope, $rootScope, $state, ProductService, SetupPaymentService, TrackerService, AuthService, CommerceService) {
     $scope.clickAccount = function () {
       $rootScope.$emit ('openAccountsMenu')
     }
 
     $rootScope.$emit ('changePaymentStep', 1)
 
-    $scope.categories = [];
+    $scope.allCategories = [];
+    $scope.filteredCategories = [];
     $scope.search = {name: ""};
 
     function findOrg (cb) {
       ProductService.retrieveCategories ().then (function (resp) {
-        $scope.categories = resp.categories.filter (filter);
-        if (!$scope.categories || !$scope.categories.length) {
-          $rootScope.GlobalAlertSystemAlerts.push ({msg: 'No search results', type: 'info', dismissOnTimeout: 5000})
+        $scope.allCategories = resp.categories.filter (filter);
+        if(Object.keys (ProductService.getPnProducts()).length > 0){
+          $scope.filteredCategories = $scope.allCategories;
+          cb (null, true);
+        } else {
+          loadPreviousCategories ($scope.allCategories, function (err, res) {
+            if (err) {
+              return cb (err)
+            }
+            cb (null, true);
+          })
         }
-        cb ();
+
+
+
       }).catch (function (err) {
         $rootScope.GlobalAlertSystemAlerts.push ({msg: 'No search results', type: 'warn', dismissOnTimeout: 5000})
         console.log ('findOrg err', err)
-        cb ();
+        cb (err);
       });
     }
 
@@ -51,15 +62,40 @@ module.exports = ['$scope', '$rootScope', '$state', 'ProductService', 'SetupPaym
 
     $scope.selectCategory = function (category) {
       SetupPaymentService.categorySelected = category;
-      TrackerService.track('Select Organization', {Org: category.name});
+      TrackerService.track ('Select Organization', {Org: category.name});
     }
+
+    function loadPreviousCategories (allCategories, cb) {
+      AuthService.getCurrentUserPromise ().then (function (user) {
+        CommerceService.orderGet (user._id, 20, -1).then (function (orders) {
+          $scope.filteredCategories = allCategories.filter (function (category) {
+            var result = false;
+            orders.body.orders.forEach (function (ele, idx, arr) {
+              if (category._id === ele.paymentsPlan[0].productInfo.organizationId) {
+                result = true;
+              }
+            });
+            return result;
+          })
+          cb (null, true)
+        }).catch (function (err) {
+          cb (err)
+          console.log ('err', err)
+        })
+      }).catch (function (err) {
+        cb (err)
+        console.log ('err', err)
+      })
+    }
+
 
     $scope.init = function () {
       $rootScope.$emit ('accountMenuReset')
       $scope.loader = '<i class="fa fa-circle-o-notch fa-spin"></i>'
       $scope.loading = true;
-      findOrg (function () {
+      findOrg (function (err, data) {
         $scope.loading = false;
+
       })
     }
   }]

@@ -24,8 +24,17 @@
     </form>
   </div>
   <p>Do these look familiar? Setup a payment with them again.</p>
-  <div class="teams">
-    <div class="team" ui-sref="dashboard.payment.plan" ng-repeat="category in categories | filter:search">
+
+  <div class="teams" ng-if="!search.name.length" >
+    <div class="team" ui-sref="dashboard.payment.plan" ng-repeat="category in filteredCategories">
+      <img src="{{category.image}}" ng-click="selectCategory(category)" class="team-img" alt="">
+      <div class="name">{{category.name}}</div>
+      <div class="loc">{{category.location ? category.location : 'N/A'}}</div>
+    </div>
+  </div>
+
+  <div class="teams" ng-if="search.name.length">
+    <div class="team" ui-sref="dashboard.payment.plan" ng-repeat="category in allCategories | filter:search">
     <img src="{{category.image}}" ng-click="selectCategory(category)" class="team-img" alt="">
       <div class="name">{{category.name}}</div>
       <div class="loc">{{category.location ? category.location : 'N/A'}}</div>
