@@ -73,6 +73,7 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
         }
 
         return {
+          version: ele.version,
           originalPrice: ele.amount,
           stripePercent: $scope.models.productSelected.processingFees.cardFeeDisplay,
           stripeFlat: $scope.models.productSelected.processingFees.cardFeeFlatDisplay,
@@ -88,6 +89,12 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
       PaymentService.calculateDues (params, function (err, data) {
         if (err) {
           console.log (err);
+          $scope.models.paymentPlanSelected = null;
+          $rootScope.GlobalAlertSystemAlerts.push ({
+            msg: 'This payment plan is not available',
+            type: 'danger',
+            dismissOnTimeout: 5000
+          })
           $scope.loading = false;
         }
         $scope.schedules = data.prices.map (function (price) {

@@ -140,6 +140,7 @@ function capture (order, cb) {
       order.paymentsPlan[0].status = data.status
     }
     order.paymentsPlan[0].wasProcessed = true
+    order.paymentsPlan[0].basePrice = order.paymentsPlan[0].basePrice || 0;
     let params = {
       baseUrl: config.connections.commerce.baseUrl,
       token: config.connections.commerce.token,
