@@ -25,6 +25,11 @@
           </div>
           <div class="clearfix"></div>
         </td>
+        <td class="status">
+          <div class="{{order.paymentsPlan.status === 'succeeded' ? 'green-font' : 'red-font' }}">
+            <i class="{{order.paymentsPlan.status === 'succeeded' ? 'fa fa-check' : 'fa fa-times' }}"></i> <span>{{order.paymentsPlan.status}}</span>
+          </div>
+        </td>
         <td class="total">
           <span class="green-font">$</span> 
           {{order.paymentsPlan.price | currency:""}}
