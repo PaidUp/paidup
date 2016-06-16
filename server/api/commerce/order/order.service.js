@@ -106,11 +106,7 @@ var OrderService = {
             userId: body.userId,
             userName: body.userName
           },
-          beneficiaryInfo: {
-            beneficiaryId: body.beneficiaryId,
-            beneficiaryName: body.beneficiaryName
-
-          }
+          customInfo: body.customInfo
         })
       })
       CommerceConnector.orderCreate(orderReq).exec({

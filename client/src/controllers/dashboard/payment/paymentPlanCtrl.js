@@ -1,7 +1,7 @@
 'use strict'
 
-module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location', '$q', 'SetupPaymentService', 'PaymentService', 'CommerceService', 'ProductService', 'TrackerService',
-  function ($scope, $rootScope, $state, $anchorScroll, $location, $q, SetupPaymentService, PaymentService, CommerceService, ProductService, TrackerService) {
+module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location', '$q', 'SetupPaymentService', 'PaymentService', 'CommerceService', 'ProductService', 'TrackerService', '$compile',
+  function ($scope, $rootScope, $state, $anchorScroll, $location, $q, SetupPaymentService, PaymentService, CommerceService, ProductService, TrackerService, $compile) {
 
     $rootScope.$on ('loadCardSelected', function (event, data) {
       $scope.card = data;
@@ -51,13 +51,13 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
     }
 
     $scope.onChangeProduct = function (){
+      $scope.renderCustomForm =false;
       SetupPaymentService.productSelected = $scope.models.productSelected;
       $scope.models.paymentPlanSelected = null;
       SetupPaymentService.paymentPlanSelected = null;
       $scope.schedules = [];
       SetupPaymentService.schedules = null;
       $scope.total = 0;
-
     }
 
     $scope.onChangePaymentPlan = function (){
@@ -103,8 +103,24 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
         });
         SetupPaymentService.schedules = $scope.schedules;
         $scope.loading = false;
+
       });
 
+      buildDynamicForm();
+
+    }
+
+    function buildDynamicForm(){
+      $scope.renderCustomForm =true;
+      var count = 0;
+      var interval = setInterval(function(){
+          if(document.getElementById('dynamicForm')){
+            var ele = document.getElementById('dynamicForm');
+            $compile(ele)($scope);
+            $scope.loading = false;
+            clearInterval(interval);
+          }
+      }, 500);
     }
 
     $scope.goStep3 = function (isValid) {
@@ -118,6 +134,7 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
         return;
       }
 
+      SetupPaymentService.productSelected = $scope.models.productSelected;
       $rootScope.$emit ('changePaymentStep', steps.review)
       $scope.step = steps.review;
       gotoAnchor (steps.review);
@@ -156,7 +173,7 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
     }
 
     $scope.goStep4 = function () {
-      if(!$scope.models.productSelected || !$scope.models.paymentPlanSelected || !$scope.orderDetails.athleteFirstName || !$scope.orderDetails.athleteLastName){
+      if(!$scope.models.productSelected || !$scope.models.paymentPlanSelected || !$scope.dynamicForm.$valid){
         $rootScope.GlobalAlertSystemAlerts.push ({
           msg: 'Form fields are required',
           type: 'danger',
@@ -166,6 +183,7 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
         return;
       }
 
+      SetupPaymentService.productSelected = $scope.models.productSelected;
       SetupPaymentService.orderDetails = $scope.orderDetails;
       $rootScope.$emit ('changePaymentStep', steps.pay)
       $scope.step = steps.pay;
@@ -194,7 +212,7 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
         discount: $scope.coupon.precent ? $scope.coupon.precent : 0,
         couponId: $scope.coupon.precent ? $scope.coupon.code : '',
         beneficiaryId: 'N/A',
-        beneficiaryName: $scope.orderDetails.athleteFirstName + ' ' + $scope.orderDetails.athleteLastName,
+        customInfo: $scope.models.productSelected.customInfo,
         typeAccount: $scope.card.object,
         account: $scope.card.id
       }
