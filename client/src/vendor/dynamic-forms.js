@@ -521,6 +521,37 @@ angular.module('dynform', [])
         return deferred.promise;
       }
     };
-  }]);
+  }])
+
+
+  .directive('orderDetailsTable', function($compile, $parse){
+  return {
+    restrict: 'A',
+    replace: true,
+    link: function($scope, element, attrs){
+
+      var template = ($parse(attrs.template)($scope));
+      var data = ($parse(attrs.data)($scope));
+
+      var buildFields = function (field, id) {
+
+        for (var key in data) {
+          if(key === field.model){
+            var tr = angular.element('<tr></tr>');
+            var tdField =  angular.element('<td class="field">'+field.name+'</td>');
+            var tdValue =  angular.element('<td class="value">'+data[key]+'</td>');
+            tdValue.attr('class', field['value']);
+
+            tr.append(tdField)
+            tr.append(tdValue)
+            this.append(tr);
+          }
+        }
+      }
+
+      angular.forEach(template, buildFields, element);
+    }
+  }
+});
 
 /*  End of dynamic-forms.js */

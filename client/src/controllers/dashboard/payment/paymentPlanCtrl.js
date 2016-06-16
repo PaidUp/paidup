@@ -17,27 +17,6 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
       $rootScope.$emit ('openAccountsMenu')
     }
 
-    $scope.formData = {};   // JavaScript needs an object to put our form's models into.
-
-    $scope.formTemplate = [
-      {
-        "type": "text",
-        "label": "First Name",
-        "model": "name.first",
-        required: true
-      },
-      {
-        "type": "text",
-        "label": "Last Name",
-        "model": "name.last"
-      },
-      {
-        "type": "email",
-        "label": "Email Address",
-        "model": "email"
-      }
-    ];
-
     var steps = {
       find: 1,
       select: 2,
@@ -155,6 +134,7 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
         return;
       }
 
+      SetupPaymentService.productSelected = $scope.models.productSelected;
       $rootScope.$emit ('changePaymentStep', steps.review)
       $scope.step = steps.review;
       gotoAnchor (steps.review);
@@ -193,7 +173,7 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
     }
 
     $scope.goStep4 = function () {
-      if(!$scope.models.productSelected || !$scope.models.paymentPlanSelected || !$scope.orderDetails.athleteFirstName || !$scope.orderDetails.athleteLastName){
+      if(!$scope.models.productSelected || !$scope.models.paymentPlanSelected || !$scope.dynamicForm.$valid){
         $rootScope.GlobalAlertSystemAlerts.push ({
           msg: 'Form fields are required',
           type: 'danger',
@@ -203,6 +183,7 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
         return;
       }
 
+      SetupPaymentService.productSelected = $scope.models.productSelected;
       SetupPaymentService.orderDetails = $scope.orderDetails;
       $rootScope.$emit ('changePaymentStep', steps.pay)
       $scope.step = steps.pay;
@@ -231,7 +212,7 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
         discount: $scope.coupon.precent ? $scope.coupon.precent : 0,
         couponId: $scope.coupon.precent ? $scope.coupon.code : '',
         beneficiaryId: 'N/A',
-        beneficiaryName: $scope.orderDetails.athleteFirstName + ' ' + $scope.orderDetails.athleteLastName,
+        customInfo: $scope.models.productSelected.customInfo,
         typeAccount: $scope.card.object,
         account: $scope.card.id
       }

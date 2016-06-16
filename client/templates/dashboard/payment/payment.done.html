@@ -29,16 +29,12 @@
             <td class="field">Payment Plan:</td>
             <td class="value">{{paymenPlanDescription}}</td>
           </tr>
-          <tr>
-            <td class="field">Athlete First Name:</td>
-            <td class="value">{{orderDetails.athleteFirstName}}</td>
-          </tr>
-          <tr>
-            <td class="field">Athlete Last Name:</td>
-            <td class="value">{{orderDetails.athleteLastName}}</td>
-          </tr>
-
         </tbody>
+      </table>
+
+
+      <table class="order-details-table" >
+        <tbody order-details-table template="productSelected.customInfo.formTemplate" data="productSelected.customInfo.formData"></tbody>
       </table>
     </div>
     <div class="clearfix"></div>
