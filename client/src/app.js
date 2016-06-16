@@ -8,6 +8,7 @@ require('angular-cookies')
 require('angular-translate')
 require('angular-animate')
 require('./vendor/angular-facebook')
+require('./vendor/dynamic-forms')
 // require('./vendor/alert.min')
 // require('./vendor/mixpanel')
 require('angular-ui-bootstrap')
@@ -28,7 +29,8 @@ var paidUpApp = angular.module('paidUpApp', [
   'angulartics.google.analytics',
   'ui.mask',
   'LocalStorageModule',
-  'ui.bootstrap' ])
+  'ui.bootstrap',
+  'dynform' ])
 
 paidUpApp.config(require('./appConfig'))
 paidUpApp.run(require('./appRun'))

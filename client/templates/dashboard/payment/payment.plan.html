@@ -35,28 +35,20 @@
         </select>
       </div>
 
-      <div ng-show="models.productSelected && models.paymentPlanSelected">
-        <input type="text"
-               name="athleteFirstName"
-               placeholder="Athlete First Name"
-               required
-               ng-model="orderDetails.athleteFirstName"
-               ng-disabled="step > 3"
-        />
-        <small class="error" ng-show="formStep2.athleteFirstName.$error.required && submit">Athlete First Name is required</small>
-        <input type="text"
-               name="athleteLastName"
-               placeholder="Athlete Last Name"
-               required
-               ng-model="orderDetails.athleteLastName"
-               ng-disabled="step > 3"
-        />
-        <small class="error" ng-show="formStep2.athleteLastName.$error.required && submit">Athlete Last Name is required</small>
-      </div>
-      <div class="buttons-container">
-        <button type="submit" ng-show="step===2" class="button-green" ng-click="goStep3(formStep2.$valid)" ng-disabled="loading" ng-bind-html="loading ? loader : 'Next'"></button>
-      </div>
+
     </form>
+
+    <div ng-if="renderCustomForm">
+      <form id="dynamicForm" name="dynamicForm" dynamic-form template="models.productSelected.meta.formTemplate"
+            ng-model="models.productSelected.meta.formData">
+      </form>
+    </div>
+
+
+    <div class="buttons-container">
+      <button type="submit" ng-show="step===2" class="button-green" ng-click="goStep3(formStep2.$valid && dynamicForm.$valid)" ng-disabled="loading" ng-bind-html="loading ? loader : 'Next'"></button>
+    </div>
+
   </div>
 </div>
 

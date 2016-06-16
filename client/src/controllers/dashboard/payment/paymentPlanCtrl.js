@@ -1,7 +1,7 @@
 'use strict'
 
-module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location', '$q', 'SetupPaymentService', 'PaymentService', 'CommerceService', 'ProductService', 'TrackerService',
-  function ($scope, $rootScope, $state, $anchorScroll, $location, $q, SetupPaymentService, PaymentService, CommerceService, ProductService, TrackerService) {
+module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location', '$q', 'SetupPaymentService', 'PaymentService', 'CommerceService', 'ProductService', 'TrackerService', '$compile',
+  function ($scope, $rootScope, $state, $anchorScroll, $location, $q, SetupPaymentService, PaymentService, CommerceService, ProductService, TrackerService, $compile) {
 
     $rootScope.$on ('loadCardSelected', function (event, data) {
       $scope.card = data;
@@ -16,6 +16,27 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
     $scope.clickAccount = function () {
       $rootScope.$emit ('openAccountsMenu')
     }
+
+    $scope.formData = {};   // JavaScript needs an object to put our form's models into.
+
+    $scope.formTemplate = [
+      {
+        "type": "text",
+        "label": "First Name",
+        "model": "name.first",
+        required: true
+      },
+      {
+        "type": "text",
+        "label": "Last Name",
+        "model": "name.last"
+      },
+      {
+        "type": "email",
+        "label": "Email Address",
+        "model": "email"
+      }
+    ];
 
     var steps = {
       find: 1,
@@ -51,13 +72,13 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
     }
 
     $scope.onChangeProduct = function (){
+      $scope.renderCustomForm =false;
       SetupPaymentService.productSelected = $scope.models.productSelected;
       $scope.models.paymentPlanSelected = null;
       SetupPaymentService.paymentPlanSelected = null;
       $scope.schedules = [];
       SetupPaymentService.schedules = null;
       $scope.total = 0;
-
     }
 
     $scope.onChangePaymentPlan = function (){
@@ -103,8 +124,24 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
         });
         SetupPaymentService.schedules = $scope.schedules;
         $scope.loading = false;
+
       });
 
+      buildDynamicForm();
+
+    }
+
+    function buildDynamicForm(){
+      $scope.renderCustomForm =true;
+      var count = 0;
+      var interval = setInterval(function(){
+          if(document.getElementById('dynamicForm')){
+            var ele = document.getElementById('dynamicForm');
+            $compile(ele)($scope);
+            $scope.loading = false;
+            clearInterval(interval);
+          }
+      }, 500);
     }
 
     $scope.goStep3 = function (isValid) {
