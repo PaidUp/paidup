@@ -12,7 +12,8 @@
     </div>
     <div class="team">
       <div class="team-name">{{nextPayment.paymentsPlan.productInfo.productName}}</div>
-      <div class="team-contact">{{nextPayment.paymentsPlan.beneficiaryInfo.beneficiaryName}}</div>
+      <div ng-if="!nextPayment.paymentsPlan.customInfo" class="team-contact">{{nextPayment.paymentsPlan.beneficiaryInfo.beneficiaryName}}</div>
+      <div class="team-contact" custom-fields-displayable custominfo="nextPayment.paymentsPlan.customInfo"></div>
     </div>
     <div class="total">
       <div class="amount">

@@ -15,7 +15,6 @@ module.exports = [ '$scope', '$rootScope', '$state', 'SetupPaymentService', 'Pro
     }
 
     $scope.productSelected = SetupPaymentService.productSelected;
-    console.log($scope.productSelected)
     $scope.schedules = SetupPaymentService.schedules;
     $scope.paymenPlanDescription = SetupPaymentService.paymentPlanSelected.description;
     $scope.orderDetails = SetupPaymentService.orderDetails;

@@ -121,7 +121,7 @@ function capture (order, cb) {
     organizationName: order.paymentsPlan[0].productInfo.organizationName,
     productId: order.paymentsPlan[0].productInfo.productId,
     productName: order.paymentsPlan[0].productInfo.productName,
-    beneficiaryName: order.paymentsPlan[0].beneficiaryInfo.beneficiaryName,
+    beneficiaryName: order.paymentsPlan[0].beneficiaryInfo ? order.paymentsPlan[0].beneficiaryInfo.beneficiaryName : '',
     totalFee: order.paymentsPlan[0].totalFee,
     feePaidUp: order.paymentsPlan[0].feePaidUp,
     feeStripe: order.paymentsPlan[0].feeStripe,

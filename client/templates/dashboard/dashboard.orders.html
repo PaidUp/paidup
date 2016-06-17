@@ -71,7 +71,8 @@
                   </div>
                   <div class="team">
                     <div class="team-name">{{order.paymentsPlan[0].productInfo.productName}}</div>
-                    <div class="team-contact">{{order.paymentsPlan[0].beneficiaryInfo.beneficiaryName}}</div>
+                    <div ng-if="!order.paymentsPlan[0].customInfo" class="team-contact">{{order.paymentsPlan[0].beneficiaryInfo.beneficiaryName}}</div>
+                    <div class="team-contact" custom-fields-displayable custominfo="order.paymentsPlan[0].customInfo"></div>
                   </div>
                   <div class="clearfix"></div>
                 </td>
