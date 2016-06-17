@@ -599,8 +599,31 @@ angular.module ('dynform', [])
     };
   }])
 
+  .directive ('customFieldsDisplayable',['$parse', function ($parse) {
+    return {
+      restrict: 'A',
+      replace: true,
+      link: function ($scope, element, attrs) {
+        console.log('customFieldsDisplayable###')
+        var customInfo = ($parse (attrs.custominfo) ($scope));
+        console.log('customInfo###',customInfo)
 
-  .directive ('orderDetailsTable', function ($parse) {
+        var template = customInfo ? customInfo.formTemplate : [];
+        var data = customInfo ? customInfo.formData : {};
+
+        var text = "";
+        template.forEach(function (ele, idx, arr){
+          if(ele.displayed){
+            text = text + ' ' + data[ele.model]
+          }
+        });
+        var span = angular.element ('<span>'+text+'</span>');
+        element.append(span);
+      }
+    }
+  }])
+
+  .directive ('orderDetailsTable', ['$parse', function ($parse) {
     return {
       restrict: 'A',
       replace: true,
@@ -628,30 +651,7 @@ angular.module ('dynform', [])
         angular.forEach (template, buildFields, element);
       }
     }
-  })
-  .directive ('customFieldsDisplayable', function ($parse) {
-    return {
-      restrict: 'A',
-      replace: true,
-      link: function ($scope, element, attrs) {
-        console.log('customFieldsDisplayable###')
-          var customInfo = ($parse (attrs.custominfo) ($scope));
-        console.log('customInfo###',customInfo)
-
-        var template = customInfo ? customInfo.formTemplate : [];
-          var data = customInfo ? customInfo.formData : {};
-
-          var text = "";
-          template.forEach(function (ele, idx, arr){
-            if(ele.displayed){
-              text = text + ' ' + data[ele.model]
-            }
-          });
-          var span = angular.element ('<span>'+text+'</span>');
-          element.append(span);
-      }
-    }
-  })
+  }])
 
 ;
 
