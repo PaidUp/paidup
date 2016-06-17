@@ -634,10 +634,9 @@ angular.module ('dynform', [])
       restrict: 'A',
       replace: true,
       link: function ($scope, element, attrs) {
-        if(attrs.custominfo){
           var customInfo = ($parse (attrs.custominfo) ($scope));
-          var template = customInfo.formTemplate || [];
-          var data = customInfo.formData || {};
+          var template = customInfo ? customInfo.formTemplate : [];
+          var data = customInfo ? customInfo.formData : {};
 
           var text = "";
           template.forEach(function (ele, idx, arr){
@@ -647,7 +646,6 @@ angular.module ('dynform', [])
           });
           var span = angular.element ('<span>'+text+'</span>');
           element.append(span);
-        }
       }
     }
   })
