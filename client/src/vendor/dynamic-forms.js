@@ -629,7 +629,7 @@ angular.module ('dynform', [])
       }
     }
   })
-  .directive ('customFieldsDisplayable', function ($compile, $parse) {
+  .directive ('customFieldsDisplayable', function ($parse) {
     return {
       restrict: 'A',
       replace: true,
