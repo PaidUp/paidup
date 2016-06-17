@@ -9,7 +9,7 @@
       </div>
       <div class="team">
         <div class="team-name">{{activePayment.allProductName[0]}}</div>
-        <div ng-if="!activePayment.paymentsPlan[0].customInfo" class="team-contact">{{activePayment.paymentsPlan[0].beneficiaryInfo.beneficiaryName}}</div>
+        <div ng-if="activePayment.paymentsPlan[0].beneficiaryInfo.beneficiaryName" class="team-contact">{{activePayment.paymentsPlan[0].beneficiaryInfo.beneficiaryName}}</div>
         <div class="team-contact" custom-fields-displayable custominfo="activePayment.paymentsPlan[0].customInfo"></div>
       </div>
     </div>
