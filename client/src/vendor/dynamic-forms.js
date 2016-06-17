@@ -634,8 +634,11 @@ angular.module ('dynform', [])
       restrict: 'A',
       replace: true,
       link: function ($scope, element, attrs) {
+        console.log('customFieldsDisplayable###')
           var customInfo = ($parse (attrs.custominfo) ($scope));
-          var template = customInfo ? customInfo.formTemplate : [];
+        console.log('customInfo###',customInfo)
+
+        var template = customInfo ? customInfo.formTemplate : [];
           var data = customInfo ? customInfo.formData : {};
 
           var text = "";
