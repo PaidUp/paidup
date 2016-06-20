@@ -186,7 +186,7 @@ var all = {
     appearsOnStatementAs: 'Conv. Select'
   },
   stripe: {
-    apiPublic: 'pk_test_J5gfockQi2DP28GszFZvTnwS'
+    apiPublic: 'pk_test_y86FeOIMDzHKLvR5xkylpKrg'
   },
   mixpanel: {
     apiKey: 'f97659afce9c44283fbd59ad718803dc'

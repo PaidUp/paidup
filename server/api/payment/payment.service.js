@@ -140,7 +140,7 @@ function capture (order, cb) {
       order.paymentsPlan[0].status = data.status
     }
     order.paymentsPlan[0].wasProcessed = true
-    order.paymentsPlan[0].basePrice = order.paymentsPlan[0].basePrice || 0;
+    order.paymentsPlan[0].basePrice = order.paymentsPlan[0].basePrice || 0
     let params = {
       baseUrl: config.connections.commerce.baseUrl,
       token: config.connections.commerce.token,
@@ -226,6 +226,22 @@ function updateAccount (dataDetails, cb) {
   })
 }
 
+function getTransfers (stripeId, cb) {
+  tdPaymentService.init(config.connections.payment)
+  tdPaymentService.getTransfers(stripeId, function (err, data) {
+    if (err) return cb(err)
+    return cb(null, data)
+  })
+}
+
+function getBalance (stripeId, cb) {
+  tdPaymentService.init(config.connections.payment)
+  tdPaymentService.getBalance(stripeId, function (err, data) {
+    if (err) return cb(err)
+    return cb(null, data)
+  })
+}
+
 exports.createCustomer = createCustomer
 exports.associateCard = associateCard
 exports.createCard = createCard
@@ -245,3 +261,5 @@ exports.updateAccount = updateAccount
 exports.updateCustomer = updateCustomer
 exports.fetchCustomer = fetchCustomer
 exports.capture = capture
+exports.getTransfers = getTransfers
+exports.getBalance = getBalance

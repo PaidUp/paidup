@@ -9,6 +9,8 @@ module.exports = ['$resource', function ($resource) {
   var ListCards = $resource('/api/v1/payment/card/list/user/:userId', {}, {})
   var CustomerPayment = $resource('/api/v1/payment/customer/:action', {}, {})
   var calculateDuesPost = $resource('/api/v1/commerce/dues/calculate', {}, {})
+  var transfer = $resource('/api/v1/payment/transfer/:organizationId', {}, {})
+  var balance = $resource('/api/v1/payment/balance/:organizationId', {}, {})
 
   var discount = $resource('/api/v1/commerce/cart/coupon/add', {}, {
     apply: {
@@ -112,5 +114,13 @@ module.exports = ['$resource', function ($resource) {
       console.log(err)
       cb(err)
     })
+  }
+
+  this.getTransfers = function (organizationId) {
+    return transfer.get({ organizationId: organizationId }).$promise
+  }
+
+  this.getBalance = function (organizationId) {
+    return balance.get({ organizationId: organizationId }).$promise
   }
 }]
