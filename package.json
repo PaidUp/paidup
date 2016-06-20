@@ -36,7 +36,7 @@
     "moment": "^2.13.0",
     "morgan": "^1.7.0",
     "nodemailer": "^2.3.2",
-    "paidup-commerce-connect": "^0.12.1",
+    "paidup-commerce-connect": "^0.12.2",
     "paidup-product-connect": "^0.5.0",
     "paidup-schedule-connect": "^2.3.0",
     "pmx": "^0.6.1",
