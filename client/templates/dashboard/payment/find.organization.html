@@ -23,9 +23,9 @@
       <div class="clearfix"></div>
     </form>
   </div>
-  <p>Do these look familiar? Setup a payment with them again.</p>
 
   <div class="teams" ng-if="!search.name.length" >
+    <p ng-show="filteredCategories.length > 0">Do these look familiar? Setup a payment with them again.</p>
     <div class="team" ui-sref="dashboard.payment.plan" ng-repeat="category in filteredCategories">
       <img src="{{category.image}}" ng-click="selectCategory(category)" class="team-img" alt="">
       <div class="name">{{category.name}}</div>
@@ -34,6 +34,7 @@
   </div>
 
   <div class="teams" ng-if="search.name.length">
+    <p ng-show="(allCategories|filter:search).length > 0">Do these look familiar? Setup a payment with them again.</p>
     <div class="team" ui-sref="dashboard.payment.plan" ng-repeat="category in allCategories | filter:search">
     <img src="{{category.image}}" ng-click="selectCategory(category)" class="team-img" alt="">
       <div class="name">{{category.name}}</div>
