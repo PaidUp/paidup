@@ -424,8 +424,9 @@ angular.module ('dynform', [])
             angular.forEach (attrs.$attr, function (attName, attIndex) {
               newElement.attr (attName, attrs[attIndex]);
             });
-            newElement.attr ('model', attrs.ngModel);
-            newElement.removeAttr ('ng-model');
+
+            //newElement.attr ('model', attrs.ngModel);
+            //newElement.removeAttr ('ng-model');
             angular.forEach (element[0].classList, function (clsName) {
               newElement[0].classList.add (clsName);
             });
@@ -433,24 +434,25 @@ angular.module ('dynform', [])
             newElement.append (element.contents ());
 
             //  onReset logic
-            newElement.data ('$_cleanModel', angular.copy (model));
-            newElement.bind ('reset', function () {
-              $timeout (function () {
-                $scope.$broadcast ('reset', arguments);
-              }, 0);
-            });
-            $scope.$on ('reset', function () {
-              $scope.$apply (function () {
-                $scope[attrs.ngModel] = {};
-              });
-              $scope.$apply (function () {
-                $scope[attrs.ngModel] = angular.copy (newElement.data ('$_cleanModel'));
-              });
-            });
+            //newElement.data ('$_cleanModel', angular.copy (model));
+            //newElement.bind ('reset', function () {
+            //  $timeout (function () {
+            //    $scope.$broadcast ('reset', arguments);
+            //  }, 0);
+            //});
+            //$scope.$on ('reset', function () {
+            //  $scope.$apply (function () {
+            //    $scope[attrs.ngModel] = {};
+            //  });
+            //  $scope.$apply (function () {
+            //    $scope[attrs.ngModel] = angular.copy (newElement.data ('$_cleanModel'));
+            //  });
+            //});
 
             //  Compile and update DOM
-            $compile (newElement) ($scope);
             element.replaceWith (newElement);
+            $compile (newElement) ($scope);
+
           });
         }
       }
