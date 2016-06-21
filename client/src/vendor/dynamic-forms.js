@@ -22,7 +22,7 @@ angular.module ('dynform', [])
       'date': {element: 'input', type: 'date', editable: true, textBased: true},
       'datetime': {element: 'input', type: 'datetime', editable: true, textBased: true},
       'datetime-local': {element: 'input', type: 'datetime-local', editable: true, textBased: true},
-      'email': {element: 'input', type: 'email', editable: true, textBased: true},
+      'email': {element: 'input', type: 'text', editable: true, textBased: true},
       'month': {element: 'input', type: 'month', editable: true, textBased: true},
       'number': {element: 'input', type: 'number', editable: true, textBased: true},
       'password': {element: 'input', type: 'password', editable: true, textBased: true},
@@ -152,6 +152,10 @@ angular.module ('dynform', [])
                     if (angular.isDefined (field.placeholder)) {
                       newElement.attr ('placeholder', field.placeholder);
                     }
+                  }
+
+                  if(field.type === 'email'){
+                    newElement.attr ('pattern', "[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z.-]{3,4}$");
                   }
 
                   //  Special cases
