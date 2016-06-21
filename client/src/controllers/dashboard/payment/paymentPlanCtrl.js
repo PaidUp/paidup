@@ -122,15 +122,29 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
           }
       }, 500);
     }
-
-    $scope.goStep3 = function (isValid) {
-      $scope.submit = true;
-      if (!isValid) {
-        $rootScope.GlobalAlertSystemAlerts.push ({
-          msg: 'All fields are required',
-          type: 'warning',
-          dismissOnTimeout: 5000
+    
+    function setFormFieldsTouched (form) {
+      angular.forEach(form.$error, function (field) {
+        angular.forEach(field, function(errorField){
+          errorField.$setTouched();
         })
+      });
+      $rootScope.GlobalAlertSystemAlerts.push ({
+        msg: 'Please complete required fields.',
+        type: 'warning',
+        dismissOnTimeout: 5000
+      })
+    };
+
+    $scope.goStep3 = function () {
+      $scope.submit = true;
+      if ($scope.formStep2.$invalid) {
+        setFormFieldsTouched($scope.formStep2)
+        return;
+      }
+
+      if ($scope.dynamicForm && $scope.dynamicForm.$invalid) {
+        setFormFieldsTouched($scope.dynamicForm);
         return;
       }
 
@@ -173,12 +187,14 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
     }
 
     $scope.goStep4 = function () {
-      if(!$scope.models.productSelected || !$scope.models.paymentPlanSelected || !$scope.dynamicForm.$valid){
-        $rootScope.GlobalAlertSystemAlerts.push ({
-          msg: 'Form fields are required',
-          type: 'danger',
-          dismissOnTimeout: 5000
-        })
+      if ($scope.formStep2.$invalid) {
+        setFormFieldsTouched($scope.formStep2);
+        gotoAnchor (steps.select);
+        return;
+      }
+
+      if ($scope.dynamicForm && $scope.dynamicForm.$invalid) {
+        setFormFieldsTouched($scope.dynamicForm);
         gotoAnchor (steps.select);
         return;
       }
