@@ -64,7 +64,7 @@
                     <div class="day">{{(charges[0].created | date : 'dd') | uppercase}}</div>
                   </td>
                   <td class="account">
-                    Bank name (pending)
+                    {{bankName}}
                   </td>
                   <td class="deposits">
                     <span class="green-font">$</span> {{getSubtotal(charges) | currency:""}}

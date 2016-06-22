@@ -8,11 +8,10 @@ module.exports = [ '$scope', 'PaymentService', 'AuthService', '$state', 'Tracker
     TrackerService.track('View Deposits')
     AuthService.getCurrentUserPromise().then(function (user) {
       var organizationId = (user.meta.productRelated[0]) ? user.meta.productRelated[0] : 'Does not have organization'
-      console.log('jesse', organizationId)
       PaymentService.getChargesList(organizationId).then(function (result) {
         $scope.totalAmount = result.total
+        $scope.bankName = result.bankName
         $scope.listChargesGrouped = result.data
-        console.log('result charges', result)
       }).catch(function (err) {
         console.log('err', err)
       })

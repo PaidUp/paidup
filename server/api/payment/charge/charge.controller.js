@@ -10,28 +10,24 @@ exports.getChargesList = function (req, res) {
       return handleError(res, err)
     }
     // TODO !org.paymentId
-    paymentService.getChargesList(org.paymentId, function (err, data) {
+    paymentService.retrieveAccount(org.paymentId, function (err, listbanks) {
       if (err) {
         return handleError(res, err)
       }
-      let bycreated = R.groupBy(function (charge) {
-        return charge.created.substring(0, 10)
+      paymentService.getChargesList(org.paymentId, function (err, data) {
+        if (err) {
+          return handleError(res, err)
+        }
+        let bycreated = R.groupBy(function (charge) {
+          return charge.created.substring(0, 10)
+        })
+        let result = bycreated(data.data)
+        let total = data.data.reduce((t, c) => {
+          // return t + (c.amount / 100)
+          return t + ((c.amount / 100) - c.metadata.totalFee)
+        }, 0)
+        return res.status(200).json({data: result, total: total, bankName: listbanks.external_accounts.data[0].bank_name})
       })
-      let result = bycreated(data.data)
-      let total = data.data.reduce((t, c) => {
-        // return t + (c.amount / 100)
-        return t + ((c.amount / 100) - c.metadata.totalFee)
-      }, 0)
-      // console.log(bycreated(data.data))
-      /* data.data.map(function (c) {
-        console.log('transfer.date', c.created)
-        console.log('transfer.date', c.created.substring(0, 10))
-        console.log('transfer.date getDate', new Date(c.created).getDate())
-        console.log('transfer.date getFullYear', new Date(c.created).getFullYear())
-        console.log('transfer.date getMonth', new Date(c.created).getMonth())
-        console.log('----------------------------------')
-      })*/
-      return res.status(200).json({data: result, total: total})
     })
   })
 }

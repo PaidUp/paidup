@@ -250,6 +250,22 @@ function getChargesList (stripeId, cb) {
   })
 }
 
+function listCustomerBanks (stripeId, cb) {
+  tdPaymentService.init(config.connections.payment)
+  tdPaymentService.listCustomerBanks(stripeId, function (err, data) {
+    if (err) return cb(err)
+    return cb(null, data)
+  })
+}
+
+function retrieveAccount (stripeId, cb) {
+  tdPaymentService.init(config.connections.payment)
+  tdPaymentService.retrieveAccount(stripeId, function (err, data) {
+    if (err) return cb(err)
+    return cb(null, data)
+  })
+}
+
 exports.createCustomer = createCustomer
 exports.associateCard = associateCard
 exports.createCard = createCard
@@ -272,3 +288,5 @@ exports.capture = capture
 exports.getTransfers = getTransfers
 exports.getBalance = getBalance
 exports.getChargesList = getChargesList
+exports.listCustomerBanks = listCustomerBanks
+exports.retrieveAccount = retrieveAccount
