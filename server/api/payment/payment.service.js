@@ -127,7 +127,9 @@ function capture (order, cb) {
     feeStripe: order.paymentsPlan[0].feeStripe,
     _id: order._id,
     orderId: order.orderId,
-    scheduleId: order.paymentsPlan[0]._id
+    scheduleId: order.paymentsPlan[0]._id,
+    buyerName: order.paymentsPlan[0].userInfo.userName,
+    beneficiaryInfo: order.paymentsPlan[0].customInfo.formData.athleteFirstName + ' ' + order.paymentsPlan[0].customInfo.formData.athleteLastName
   }
 
   debitCardv2(order.paymentsPlan[0].account, order.paymentsPlan[0].price, order.paymentsPlan[0].productInfo.organizationName, order.paymentsPlan[0]._id, order.paymentsPlan[0].paymentId, order.paymentsPlan[0].destinationId, order.paymentsPlan[0].totalFee, newmeta, function (debitErr, data) {

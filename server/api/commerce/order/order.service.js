@@ -245,6 +245,25 @@ function orderGet (userId, limit, sort, cb) {
     }
   })
 }
+
+function orderGetByorderId (orderId, limit, sort, cb) {
+  CommerceConnector.orderGet({
+    baseUrl: config.connections.commerce.baseUrl,
+    token: config.connections.commerce.token,
+    orderId: orderId,
+    limit: limit,
+    sort: sort
+  }).exec({
+    // An unexpected error occurred.
+    error: function (err) {
+      return cb(err)
+    },
+    // OK.
+    success: function (result) {
+      return cb(null, result)
+    }
+  })
+}
 // machinepack exec order-get-organization --organizationId='acct_18AQWDGKajSrnujf' --token='TDCommerceToken-CHANGE-ME!' --baseUrl='http://localhost:9002' --limit='1000' --sort='1'
 function orderGetOrganization (organizationId, limit, sort, cb) {
   CommerceConnector.orderGetOrganization({
@@ -272,5 +291,6 @@ module.exports = {
   orderPaymentNext: orderPaymentNext,
   orderPaymentActive: orderPaymentActive,
   orderGet: orderGet,
-  orderGetOrganization: orderGetOrganization
+  orderGetOrganization: orderGetOrganization,
+  orderGetByorderId: orderGetByorderId
 }
