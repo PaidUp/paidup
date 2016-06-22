@@ -127,7 +127,9 @@ function capture (order, cb) {
     feeStripe: order.paymentsPlan[0].feeStripe,
     _id: order._id,
     orderId: order.orderId,
-    scheduleId: order.paymentsPlan[0]._id
+    scheduleId: order.paymentsPlan[0]._id,
+    buyerName: order.paymentsPlan[0].userInfo.userName,
+    beneficiaryInfo: order.paymentsPlan[0].customInfo.formData.athleteFirstName + ' ' + order.paymentsPlan[0].customInfo.formData.athleteLastName
   }
 
   debitCardv2(order.paymentsPlan[0].account, order.paymentsPlan[0].price, order.paymentsPlan[0].productInfo.organizationName, order.paymentsPlan[0]._id, order.paymentsPlan[0].paymentId, order.paymentsPlan[0].destinationId, order.paymentsPlan[0].totalFee, newmeta, function (debitErr, data) {
@@ -140,7 +142,7 @@ function capture (order, cb) {
       order.paymentsPlan[0].status = data.status
     }
     order.paymentsPlan[0].wasProcessed = true
-    order.paymentsPlan[0].basePrice = order.paymentsPlan[0].basePrice || 0;
+    order.paymentsPlan[0].basePrice = order.paymentsPlan[0].basePrice || 0
     let params = {
       baseUrl: config.connections.commerce.baseUrl,
       token: config.connections.commerce.token,
@@ -226,6 +228,46 @@ function updateAccount (dataDetails, cb) {
   })
 }
 
+function getTransfers (stripeId, cb) {
+  tdPaymentService.init(config.connections.payment)
+  tdPaymentService.getTransfers(stripeId, function (err, data) {
+    if (err) return cb(err)
+    return cb(null, data)
+  })
+}
+
+function getBalance (stripeId, cb) {
+  tdPaymentService.init(config.connections.payment)
+  tdPaymentService.getBalance(stripeId, function (err, data) {
+    if (err) return cb(err)
+    return cb(null, data)
+  })
+}
+
+function getChargesList (stripeId, cb) {
+  tdPaymentService.init(config.connections.payment)
+  tdPaymentService.getChargesList(stripeId, function (err, data) {
+    if (err) return cb(err)
+    return cb(null, data)
+  })
+}
+
+function listCustomerBanks (stripeId, cb) {
+  tdPaymentService.init(config.connections.payment)
+  tdPaymentService.listCustomerBanks(stripeId, function (err, data) {
+    if (err) return cb(err)
+    return cb(null, data)
+  })
+}
+
+function retrieveAccount (stripeId, cb) {
+  tdPaymentService.init(config.connections.payment)
+  tdPaymentService.retrieveAccount(stripeId, function (err, data) {
+    if (err) return cb(err)
+    return cb(null, data)
+  })
+}
+
 exports.createCustomer = createCustomer
 exports.associateCard = associateCard
 exports.createCard = createCard
@@ -245,3 +287,8 @@ exports.updateAccount = updateAccount
 exports.updateCustomer = updateCustomer
 exports.fetchCustomer = fetchCustomer
 exports.capture = capture
+exports.getTransfers = getTransfers
+exports.getBalance = getBalance
+exports.getChargesList = getChargesList
+exports.listCustomerBanks = listCustomerBanks
+exports.retrieveAccount = retrieveAccount

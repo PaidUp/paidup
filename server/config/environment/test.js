@@ -7,5 +7,8 @@ module.exports = {
   mongo: {
     uri: 'mongodb://localhost/paidUp-dev'
   },
-  seedDB: true
+  seedDB: true,
+  stripe: {
+    apiPublic: 'pk_test_J5gfockQi2DP28GszFZvTnwS'
+  }
 }

@@ -6,50 +6,29 @@
         <div class="white-container">
 
           <div class="title-blue">Deposits</div>
-          
-          <!-- FILTERS -->          
+
+          <!-- FILTERS -->
           <div class="table-filters">
             <div class="date-filter">
-                <form name="form" novalidate>
+              <form name="form" novalidate>
                 <div class="date-input">
                   <i class="fa fa-calendar" ng-click="open1()"></i>
-                  <input 
-                  type="text" 
-                  placeholder="From" 
-                  uib-datepicker-popup="MM/dd/yyyy" 
-                  ng-model="dt1" 
-                  name="udt1"
-                  is-open="popup1.opened" 
-                  ng-required="true" 
-                  close-text="Close"
-                  datepicker-options="dateOptions1"
-                  ng-change="change1()"
-                  alt-input-formats="['M!/d!/yyyy', 'M!/d!/yy']"
-                  on-open-focus="false"              
-                  />
+                  <input type="text" placeholder="From" uib-datepicker-popup="MM/dd/yyyy" ng-model="dt1" name="udt1" is-open="popup1.opened"
+                    ng-required="true" close-text="Close" datepicker-options="dateOptions1" ng-change="change1()" alt-input-formats="['M!/d!/yyyy', 'M!/d!/yy']"
+                    on-open-focus="false" />
                 </div>
                 <div class="date-input">
                   <i class="fa fa-calendar" ng-click="open2()"></i>
-                  <input 
-                  type="text" 
-                  placeholder="To" 
-                  uib-datepicker-popup="MM/dd/yyyy" 
-                  ng-model="dt2" 
-                  is-open="popup2.opened" 
-                  ng-required="true" 
-                  close-text="Close"
-                  datepicker-options="dateOptions2"
-                  ng-change="change2()"
-                  alt-input-formats="['M!/d!/yyyy', 'M!/d!/yy']"
-                  on-open-focus="false" 
-                  />
+                  <input type="text" placeholder="To" uib-datepicker-popup="MM/dd/yyyy" ng-model="dt2" is-open="popup2.opened" ng-required="true"
+                    close-text="Close" datepicker-options="dateOptions2" ng-change="change2()" alt-input-formats="['M!/d!/yyyy', 'M!/d!/yy']"
+                    on-open-focus="false" />
                 </div>
               </form>
             </div>
-            <div class="right-filters">              
-              <div class="download-cvs" ng-click="downloadAsCSV()">
+            <div class="right-filters">
+              <!--<div class="download-cvs" ng-click="downloadAsCSV()">
                 Download as CVS
-              </div>
+              </div>-->
             </div>
             <div class="clearfix"></div>
           </div>
@@ -67,10 +46,9 @@
               </thead>
               <tbody>
                 <tr>
-                  <td colspan="2" class="deposits-total">TOTAL (for time period selected)</td>                 
+                  <td colspan="2" class="deposits-total">TOTAL (for time period selected)</td>
                   <td class="deposits">
-                    <span class="green-font">$</span> 
-                    1298.75
+                    <span class="green-font">$</span> {{totalAmount | currency:""}}
                   </td>
                 </tr>
               </tbody>
@@ -80,21 +58,20 @@
             <table class="transactions-table deposits-table">
               <tbody>
 
-                <tr ng-click="expandSection1 = !expandSection1" ng-class="expandSection1 ? 'user-row active' : 'user-row'">
+                <tr ng-click="expandSection1 = !expandSection1" ng-class="expandSection1 ? 'user-row active' : 'user-row'" ng-repeat-start="charges in listChargesGrouped">
                   <td class="date">
-                    <div class="month">DEC</div>
-                    <div class="day">25</div>
+                    <div class="month">{{(charges[0].created | date : 'MMM') | uppercase}}</div>
+                    <div class="day">{{(charges[0].created | date : 'dd') | uppercase}}</div>
                   </td>
                   <td class="account">
-                    Chase Bank x-1234
+                    {{bankName}}
                   </td>
                   <td class="deposits">
-                    <span class="green-font">$</span> 
-                    750
+                    <span class="green-font">$</span> {{getSubtotal(charges) | currency:""}}
                   </td>
                 </tr>
 
-                <tr class="expandable">
+                <tr class="expandable" ng-repeat-end>
                   <td class="expand" colspan="3">
                     <div ng-class="expandSection1 ? 'expandable-section active' : 'expandable-section'">
                       <div class="expanded-section contains-table">
@@ -113,326 +90,49 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr>                             
+                              <tr ng-repeat="charge in charges">
                                 <td class="date">
-                                  <div class="month">DEC</div>
-                                  <div class="day">25</div>
+                                  <div class="month">{{(charge.created | date : 'MMM') | uppercase}}</div>
+                                  <div class="day">{{(charge.created | date : 'dd') | uppercase}}</div>
                                 </td>
                                 <td class="organization">
                                   <div class="team-icon">
-                                    <div>AB</div>
+                                    <div class="fa fa-user"></div>
                                   </div>
                                   <div class="team">
-                                    <div class="team-name">Austin Boom</div>
-                                    <div class="team-contact">Jerry Garcia</div>
+                                    <div class="team-name">{{charge.metadata.buyerName}}</div>
+                                    <div class="team-contact">{{charge.metadata.beneficiaryInfo}}</div>
                                   </div>
                                   <div class="clearfix"></div>
                                 </td>
                                 <td>
-                                  16U Red
+                                  {{charge.metadata.productName}}
                                 </td>
                                 <td>
-                                  <span class="green-font">$</span> 
-                                  998.75
+                                  <span class="green-font">$</span> {{charge.amount / 100}}
                                 </td>
                                 <td>
-                                  <span class="green-font">$</span> 
-                                  998.75
+                                  <span class="green-font">$</span> {{charge.metadata.feePaidUp}}
                                 </td>
                                 <td>
-                                  <span class="green-font">$</span> 
-                                  998.75
+                                  <span class="green-font">$</span> {{charge.metadata.feeStripe}}
                                 </td>
                                 <td>
-                                  <span class="green-font">$</span> 
-                                  998.75
-                                </td>
-                              </tr>
-                              <tr>                             
-                                <td class="date">
-                                  <div class="month">DEC</div>
-                                  <div class="day">25</div>
-                                </td>
-                                <td class="organization">
-                                  <div class="team-icon">
-                                    <div>AB</div>
-                                  </div>
-                                  <div class="team">
-                                    <div class="team-name">Austin Boom</div>
-                                    <div class="team-contact">Jerry Garcia</div>
-                                  </div>
-                                  <div class="clearfix"></div>
-                                </td>
-                                <td>
-                                  16U Red
-                                </td>
-                                <td>
-                                  <span class="green-font">$</span> 
-                                  998.75
-                                </td>
-                                <td>
-                                  <span class="green-font">$</span> 
-                                  998.75
-                                </td>
-                                <td>
-                                  <span class="green-font">$</span> 
-                                  998.75
-                                </td>
-                                <td>
-                                  <span class="green-font">$</span> 
-                                  998.75
-                                </td>
-                              </tr>
-                              
-                            </tbody>
-                          </table>
-                        </div>
-
-                      </div>                     
-                    </div>
-                  </td>                
-                </tr>
-                
-                <tr ng-click="expandSection2 = !expandSection2" ng-class="expandSection2 ? 'user-row active' : 'user-row'">
-                  <td class="date">
-                    <div class="month">DEC</div>
-                    <div class="day">25</div>
-                  </td>
-                  <td class="account">
-                    Chase Bank x-1234
-                  </td>
-                  <td class="deposits">
-                    <span class="green-font">$</span> 
-                    750
-                  </td>
-                </tr>
-
-                <tr class="expandable">
-                  <td class="expand" colspan="3">
-                    <div ng-class="expandSection2 ? 'expandable-section active' : 'expandable-section'">
-                      <div class="expanded-section contains-table">
-
-                        <div class="charges-container">
-                          <table class="charges-table">
-                            <thead>
-                              <tr>
-                                <th>Date</th>
-                                <th>Person</th>
-                                <th>Product</th>
-                                <th>Paid</th>
-                                <th>PaidUp Fee</th>
-                                <th>Card Fee</th>
-                                <th>Deposit</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>                             
-                                <td class="date">
-                                  <div class="month">DEC</div>
-                                  <div class="day">25</div>
-                                </td>
-                                <td class="organization">
-                                  <div class="team-icon">
-                                    <div>AB</div>
-                                  </div>
-                                  <div class="team">
-                                    <div class="team-name">Austin Boom</div>
-                                    <div class="team-contact">Jerry Garcia</div>
-                                  </div>
-                                  <div class="clearfix"></div>
-                                </td>
-                                <td>
-                                  16U Red
-                                </td>
-                                <td>
-                                  <span class="green-font">$</span> 
-                                  998.75
-                                </td>
-                                <td>
-                                  <span class="green-font">$</span> 
-                                  998.75
-                                </td>
-                                <td>
-                                  <span class="green-font">$</span> 
-                                  998.75
-                                </td>
-                                <td>
-                                  <span class="green-font">$</span> 
-                                  998.75
+                                  <span class="green-font">$</span> {{(charge.amount / 100) - charge.metadata.totalFee}}
                                 </td>
                               </tr>
                             </tbody>
                           </table>
                         </div>
 
-                      </div>                     
+                      </div>
                     </div>
-                  </td>                
-                </tr> 
-
-                <tr ng-click="expandSection3 = !expandSection3" ng-class="expandSection3 ? 'user-row active' : 'user-row'">
-                  <td class="date">
-                    <div class="month">DEC</div>
-                    <div class="day">25</div>
-                  </td>
-                  <td class="account">
-                    Chase Bank x-1234
-                  </td>
-                  <td class="deposits">
-                    <span class="green-font">$</span> 
-                    750
                   </td>
                 </tr>
-
-                <tr class="expandable">
-                  <td class="expand" colspan="3">
-                    <div ng-class="expandSection3 ? 'expandable-section active' : 'expandable-section'">
-                      <div class="expanded-section contains-table">
-
-                        <div class="charges-container">
-                          <table class="charges-table">
-                            <thead>
-                              <tr>
-                                <th>Date</th>
-                                <th>Person</th>
-                                <th>Product</th>
-                                <th>Paid</th>
-                                <th>PaidUp Fee</th>
-                                <th>Card Fee</th>
-                                <th>Deposit</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>                             
-                                <td class="date">
-                                  <div class="month">DEC</div>
-                                  <div class="day">25</div>
-                                </td>
-                                <td class="organization">
-                                  <div class="team-icon">
-                                    <div>AB</div>
-                                  </div>
-                                  <div class="team">
-                                    <div class="team-name">Austin Boom</div>
-                                    <div class="team-contact">Jerry Garcia</div>
-                                  </div>
-                                  <div class="clearfix"></div>
-                                </td>
-                                <td>
-                                  16U Red
-                                </td>
-                                <td>
-                                  <span class="green-font">$</span> 
-                                  998.75
-                                </td>
-                                <td>
-                                  <span class="green-font">$</span> 
-                                  998.75
-                                </td>
-                                <td>
-                                  <span class="green-font">$</span> 
-                                  998.75
-                                </td>
-                                <td>
-                                  <span class="green-font">$</span> 
-                                  998.75
-                                </td>
-                              </tr>
-                              <tr>                             
-                                <td class="date">
-                                  <div class="month">DEC</div>
-                                  <div class="day">25</div>
-                                </td>
-                                <td class="organization">
-                                  <div class="team-icon">
-                                    <div>AB</div>
-                                  </div>
-                                  <div class="team">
-                                    <div class="team-name">Austin Boom</div>
-                                    <div class="team-contact">Jerry Garcia</div>
-                                  </div>
-                                  <div class="clearfix"></div>
-                                </td>
-                                <td>
-                                  16U Red
-                                </td>
-                                <td>
-                                  <span class="green-font">$</span> 
-                                  998.75
-                                </td>
-                                <td>
-                                  <span class="green-font">$</span> 
-                                  998.75
-                                </td>
-                                <td>
-                                  <span class="green-font">$</span> 
-                                  998.75
-                                </td>
-                                <td>
-                                  <span class="green-font">$</span> 
-                                  998.75
-                                </td>
-                              </tr>
-                              <tr>                             
-                                <td class="date">
-                                  <div class="month">DEC</div>
-                                  <div class="day">25</div>
-                                </td>
-                                <td class="organization">
-                                  <div class="team-icon">
-                                    <div>AB</div>
-                                  </div>
-                                  <div class="team">
-                                    <div class="team-name">Austin Boom</div>
-                                    <div class="team-contact">Jerry Garcia</div>
-                                  </div>
-                                  <div class="clearfix"></div>
-                                </td>
-                                <td>
-                                  16U Red
-                                </td>
-                                <td>
-                                  <span class="green-font">$</span> 
-                                  998.75
-                                </td>
-                                <td>
-                                  <span class="green-font">$</span> 
-                                  998.75
-                                </td>
-                                <td>
-                                  <span class="green-font">$</span> 
-                                  998.75
-                                </td>
-                                <td>
-                                  <span class="green-font">$</span> 
-                                  998.75
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-
-                      </div>                     
-                    </div>
-                  </td>                
-                </tr>
-
-
-
-
               </tbody>
             </table>
-
-
-
-
-
           </div>
-
-
-
           <!-- <div class="bottom-link">Next 20</div>-->
-
         </div>
       </div>
     </div>
