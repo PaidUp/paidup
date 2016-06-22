@@ -401,7 +401,14 @@ angular.module ('dynform', [])
                   }
 
                   // Add the element to the page
-                  this.append (newElement);
+
+                  if(field.type === 'select'){
+                    var div = angular.element ('<div class="select-container"></div>');
+                    div.append(newElement);
+                    this.append(div);
+                  } else {
+                    this.append (newElement);
+                  }
                   newElement = null;
                 }
               };
