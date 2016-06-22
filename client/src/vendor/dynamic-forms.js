@@ -273,12 +273,15 @@ angular.module ('dynform', [])
                     }
                   }
                   else if (field.type === 'select') {
+
+                    newElement.append (angular.element ($document[0].createElement ('option')).attr ('value', '').attr('ng-disabled', true).html ("Select One"));
+
                     if (angular.isDefined (field.multiple) && field.multiple !== false) {
                       newElement.attr ('multiple', 'multiple');
                     }
-                    if (angular.isDefined (field.empty) && field.empty !== false) {
-                      newElement.append (angular.element ($document[0].createElement ('option')).attr ('value', '').html (field.empty));
-                    }
+                    //if (angular.isDefined (field.empty) && field.empty !== false) {
+                    //  newElement.append (angular.element ($document[0].createElement ('option')).attr ('value', '').attr('ng-disabled', true).html (""));
+                    //}
 
                     if (angular.isDefined (field.autoOptions)) {
                       newElement.attr ('ng-options', field.autoOptions);
@@ -434,20 +437,20 @@ angular.module ('dynform', [])
             newElement.append (element.contents ());
 
             //  onReset logic
-            //newElement.data ('$_cleanModel', angular.copy (model));
-            //newElement.bind ('reset', function () {
-            //  $timeout (function () {
-            //    $scope.$broadcast ('reset', arguments);
-            //  }, 0);
-            //});
-            //$scope.$on ('reset', function () {
-            //  $scope.$apply (function () {
-            //    $scope[attrs.ngModel] = {};
-            //  });
-            //  $scope.$apply (function () {
-            //    $scope[attrs.ngModel] = angular.copy (newElement.data ('$_cleanModel'));
-            //  });
-            //});
+            newElement.data ('$_cleanModel', angular.copy (model));
+            newElement.bind ('reset', function () {
+              $timeout (function () {
+                $scope.$broadcast ('reset', arguments);
+              }, 0);
+            });
+            $scope.$on ('reset', function () {
+              $scope.$apply (function () {
+                $scope[attrs.ngModel] = {};
+              });
+              $scope.$apply (function () {
+                $scope[attrs.ngModel] = angular.copy (newElement.data ('$_cleanModel'));
+              });
+            });
 
             //  Compile and update DOM
             element.replaceWith (newElement);
