@@ -19,9 +19,9 @@ angular.module ('dynform', [])
     var supported = {
       //  Text-based elements
       'text': {element: 'input', type: 'text', editable: true, textBased: true},
-      'date': {element: 'input', type: 'date', editable: true, textBased: true},
-      'datetime': {element: 'input', type: 'datetime', editable: true, textBased: true},
-      'datetime-local': {element: 'input', type: 'datetime-local', editable: true, textBased: true},
+      'date': {element: 'input', type: 'text', editable: true, textBased: true},
+      'datetime': {element: 'input', type: 'text', editable: true, textBased: true},
+      'datetime-local': {element: 'input', type: 'text', editable: true, textBased: true},
       'email': {element: 'input', type: 'text', editable: true, textBased: true},
       'month': {element: 'input', type: 'month', editable: true, textBased: true},
       'number': {element: 'input', type: 'number', editable: true, textBased: true},
@@ -348,6 +348,15 @@ angular.module ('dynform', [])
                     }
                   }
 
+                  else if(field.type === 'date' || field.type === 'datetime' || field.type === 'datetime-local'){
+                    newElement.attr ('uib-datepicker-popup', 'MM/dd/yyyy');
+                    newElement.attr ('is-open', 'isOpen'+field.model);
+                    newElement.attr ('on-open-focus', 'false');
+                    newElement.attr ('close-text', 'Close');
+                    //newElement.attr ('alt-input-formats', "['M!/d!/yyyy', 'M!/d!/yy']");
+                    newElement.attr ('ng-click', 'isOpen'+field.model+' = !isOpen'+field.model);
+                  }
+
                   //  Common attributes; radio already applied these...
                   if (field.type !== "radio") {
                     if (angular.isDefined (field['class'])) {
@@ -628,7 +637,11 @@ angular.module ('dynform', [])
         var text = "";
         template.forEach(function (ele, idx, arr){
           if(ele.displayed){
-            text = text + ' ' + data[ele.model]
+            if(data[ele.model] instanceof Date){
+              text = text + ' ' + data[ele.model].toLocaleDateString()
+            } else {
+              text = text + ' ' + data[ele.model]
+            }
           }
         });
         var span = angular.element ('<span>'+text+'</span>');
@@ -652,7 +665,13 @@ angular.module ('dynform', [])
             if (key === field.model) {
               var tr = angular.element ('<tr></tr>');
               var tdField = angular.element ('<td class="field">' + field.name + '</td>');
-              var tdValue = angular.element ('<td class="value">' + data[key] + '</td>');
+              var tdValue = null;
+              if(data[key] instanceof Date){
+                tdValue = angular.element ('<td class="value">' + data[key].toLocaleDateString() + '</td>');
+              } else {
+                tdValue = angular.element ('<td class="value">' + data[key] + '</td>');
+              }
+
               tdValue.attr ('class', field['value']);
 
               tr.append (tdField)
