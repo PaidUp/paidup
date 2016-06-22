@@ -42,6 +42,7 @@
     "pmx": "^0.6.1",
     "prerender-node": "^2.2.1",
     "q": "^1.4.1",
+    "ramda": "^0.21.0",
     "serve-favicon": "2.3.0",
     "winston": "^2.2.0"
   },

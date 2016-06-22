@@ -1,33 +1,31 @@
 'use strict'
 
 module.exports = [ '$scope', 'PaymentService', 'AuthService', '$state', 'TrackerService', function ($scope, PaymentService, AuthService, $state, TrackerService) {
-  $scope.expandSection1 = false
+  $scope.expandSection1 = true
   $scope.expandSection2 = true
-  $scope.listTransfers = []
+  $scope.listCharges = []
   $scope.init = function () {
     TrackerService.track('View Deposits')
     AuthService.getCurrentUserPromise().then(function (user) {
       var organizationId = (user.meta.productRelated[0]) ? user.meta.productRelated[0] : 'Does not have organization'
       console.log('jesse', organizationId)
-      PaymentService.getBalance(organizationId).then(function (result) {
-        // $scope.listTransfers = result.transfers
-        console.log('result', result)
-        /* result.transfers.map(function (t) {
-          console.log('transfer', t)
-          console.log('transfer.id', t.id)
-          console.log('transfer.balance_transaction', t.balance_transaction)
-          console.log('transfer.date', t.date)
-          console.log('transfer.date new', new Date(t.date))
-          console.log('transfer.source_transaction', t.source_transaction)
-          console.log('----------------------------------')
-        })*/
-        // $scope.totalAmount = result.transfers.reduce(function (total, t) { return total + t.amount }, 0) / 100
+      PaymentService.getChargesList(organizationId).then(function (result) {
+        $scope.totalAmount = result.total
+        $scope.listChargesGrouped = result.data
+        console.log('result charges', result)
       }).catch(function (err) {
         console.log('err', err)
       })
     }).catch(function (err) {
       console.log('err', err)
     })
+  }
+
+  $scope.getSubtotal = function getSubtotal (charges) {
+    console.log('charges', charges)
+    return charges.reduce((t, c) => {
+      return t + ((c.amount / 100) - c.metadata.totalFee)
+    }, 0)
   }
 
   $scope.downloadAsCSV = function () {

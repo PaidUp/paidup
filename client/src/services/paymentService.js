@@ -11,6 +11,7 @@ module.exports = ['$resource', function ($resource) {
   var calculateDuesPost = $resource('/api/v1/commerce/dues/calculate', {}, {})
   var transfer = $resource('/api/v1/payment/transfer/:organizationId', {}, {})
   var balance = $resource('/api/v1/payment/balance/:organizationId', {}, {})
+  var charge = $resource('/api/v1/payment/charge/:organizationId', {}, {})
 
   var discount = $resource('/api/v1/commerce/cart/coupon/add', {}, {
     apply: {
@@ -122,5 +123,9 @@ module.exports = ['$resource', function ($resource) {
 
   this.getBalance = function (organizationId) {
     return balance.get({ organizationId: organizationId }).$promise
+  }
+
+  this.getChargesList = function (organizationId) {
+    return charge.get({ organizationId: organizationId }).$promise
   }
 }]

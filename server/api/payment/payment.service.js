@@ -242,6 +242,14 @@ function getBalance (stripeId, cb) {
   })
 }
 
+function getChargesList (stripeId, cb) {
+  tdPaymentService.init(config.connections.payment)
+  tdPaymentService.getChargesList(stripeId, function (err, data) {
+    if (err) return cb(err)
+    return cb(null, data)
+  })
+}
+
 exports.createCustomer = createCustomer
 exports.associateCard = associateCard
 exports.createCard = createCard
@@ -263,3 +271,4 @@ exports.fetchCustomer = fetchCustomer
 exports.capture = capture
 exports.getTransfers = getTransfers
 exports.getBalance = getBalance
+exports.getChargesList = getChargesList
