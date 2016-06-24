@@ -1,11 +1,23 @@
 'use strict'
 
-module.exports = [ '$scope', 'AuthService', '$state', 'TrackerService', function ($scope, AuthService, $state, TrackerService) {
+module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'TrackerService', function ($scope, AuthService, $state, CommerceService, TrackerService) {
   $scope.expandSection1 = true
   $scope.expandSection2 = true
 
   $scope.init = function () {
     TrackerService.track('View Aging')
+    AuthService.getCurrentUserPromise().then(function (user) {
+      var organizationId = (user.meta.productRelated[0]) ? user.meta.productRelated[0] : 'Does not have organization'
+      CommerceService.orderGetOrganization(organizationId, 200, -1).then(function (result) {
+        console.log('result', result.body)
+        // var finalResult = R.groupBy(function (order) {
+          // return order.allProductName[0]
+        // })
+        // $scope.groupProducts = finalResult(result.body)
+      }).catch(function (err) {
+        console.log('err', err)
+      })
+    })
   }
 
   $scope.downloadAsCSV = function () {

@@ -6,43 +6,22 @@
         <div class="white-container">
 
           <div class="title-blue">Aging</div>
-          
-          <!-- FILTERS -->          
+
+          <!-- FILTERS -->
           <div class="table-filters">
             <div class="date-filter">
-             <form name="form" novalidate>
+              <form name="form" novalidate>
                 <div class="date-input">
                   <i class="fa fa-calendar" ng-click="open1()"></i>
-                  <input 
-                  type="text" 
-                  placeholder="From" 
-                  uib-datepicker-popup="MM/dd/yyyy" 
-                  ng-model="dt1" 
-                  name="udt1"
-                  is-open="popup1.opened" 
-                  ng-required="true" 
-                  close-text="Close"
-                  datepicker-options="dateOptions1"
-                  ng-change="change1()"
-                  alt-input-formats="['M!/d!/yyyy', 'M!/d!/yy']"
-                  on-open-focus="false"              
-                  />
+                  <input type="text" placeholder="From" uib-datepicker-popup="MM/dd/yyyy" ng-model="dt1" name="udt1" is-open="popup1.opened"
+                    ng-required="true" close-text="Close" datepicker-options="dateOptions1" ng-change="change1()" alt-input-formats="['M!/d!/yyyy', 'M!/d!/yy']"
+                    on-open-focus="false" />
                 </div>
                 <div class="date-input">
                   <i class="fa fa-calendar" ng-click="open2()"></i>
-                  <input 
-                  type="text" 
-                  placeholder="To" 
-                  uib-datepicker-popup="MM/dd/yyyy" 
-                  ng-model="dt2" 
-                  is-open="popup2.opened" 
-                  ng-required="true" 
-                  close-text="Close"
-                  datepicker-options="dateOptions2"
-                  ng-change="change2()"
-                  alt-input-formats="['M!/d!/yyyy', 'M!/d!/yy']"
-                  on-open-focus="false" 
-                  />
+                  <input type="text" placeholder="To" uib-datepicker-popup="MM/dd/yyyy" ng-model="dt2" is-open="popup2.opened" ng-required="true"
+                    close-text="Close" datepicker-options="dateOptions2" ng-change="change2()" alt-input-formats="['M!/d!/yyyy', 'M!/d!/yy']"
+                    on-open-focus="false" />
                 </div>
               </form>
             </div>
@@ -73,24 +52,19 @@
                 <tr>
                   <td colspan="2" class="name">TOTAL (for time period selected)</td>
                   <td class="aging-value">
-                    <span class="green-font">$</span> 
-                    998.75
+                    <span class="green-font">$</span> 998.75
                   </td>
                   <td class="aging-value">
-                    <span class="green-font">$</span> 
-                    998.75
+                    <span class="green-font">$</span> 998.75
                   </td>
                   <td class="aging-value">
-                    <span class="green-font">$</span> 
-                    12000
+                    <span class="green-font">$</span> 12000
                   </td>
                   <td class="aging-value">
-                    <span class="green-font">$</span> 
-                    0
+                    <span class="green-font">$</span> 0
                   </td>
                   <td class="aging-value">
-                    <span class="green-font">$</span> 
-                    20008.75
+                    <span class="green-font">$</span> 20008.75
                   </td>
 
                 </tr>
@@ -98,29 +72,24 @@
             </table>
 
             <!-- CATEGORY 1 -->
-            <table class="header-table">        
+            <table class="header-table">
               <tbody>
                 <tr ng-click="expandCategory1 = !expandCategory1">
                   <td colspan="2" class="name">16U Red</td>
                   <td class="aging-value">
-                    <span class="green-font">$</span> 
-                    0.75
+                    <span class="green-font">$</span> 0.75
                   </td>
                   <td class="aging-value">
-                    <span class="green-font">$</span> 
-                    0
+                    <span class="green-font">$</span> 0
                   </td>
                   <td class="aging-value">
-                    <span class="green-font">$</span> 
-                    0
+                    <span class="green-font">$</span> 0
                   </td>
                   <td class="aging-value">
-                    <span class="green-font">$</span> 
-                    0
+                    <span class="green-font">$</span> 0
                   </td>
                   <td class="aging-value">
-                    <span class="green-font">$</span> 
-                    0.75
+                    <span class="green-font">$</span> 0.75
                   </td>
                 </tr>
               </tbody>
@@ -128,140 +97,121 @@
 
             <div ng-class="expandCategory1 ? 'category-table active' : 'category-table'">
 
-             <table class="transactions-table aging-table">
+              <table class="transactions-table aging-table">
 
-               <tbody>
+                <tbody>
 
-                 <tr>
-                   <td class="date">
-                     <div class="month">DEC</div>
-                     <div class="day">25</div>
-                   </td>
-                   <td class="organization">
-                     <div class="team-icon">
-                       <div>AB</div>
-                     </div>
-                     <div class="team">
-                       <div class="team-name">Austin Boom</div>
-                       <div class="team-contact">Jerry Garcia</div>
-                     </div>
-                     <div class="clearfix"></div>
-                   </td>
-                   <td class="aging-value">
-                    <span class="green-font">$</span> 
-                    2.75
-                  </td>
-                  <td class="aging-value">
-                    <span class="green-font">$</span> 
-                    444.75
-                  </td>
-                  <td class="aging-value">
-                    <span class="green-font">$</span> 
-                    343434
-                  </td>
-                  <td class="aging-value">
-                    <span class="green-font">$</span> 
-                    03
-                  </td>
-                  <td class="aging-value">
-                    <span class="green-font">$</span> 
-                    200083.75
-                  </td>
+                  <tr>
+                    <td class="date">
+                      <div class="month">DEC</div>
+                      <div class="day">25</div>
+                    </td>
+                    <td class="organization">
+                      <div class="team-icon">
+                        <div>AB</div>
+                      </div>
+                      <div class="team">
+                        <div class="team-name">Austin Boom</div>
+                        <div class="team-contact">Jerry Garcia</div>
+                      </div>
+                      <div class="clearfix"></div>
+                    </td>
+                    <td class="aging-value">
+                      <span class="green-font">$</span> 2.75
+                    </td>
+                    <td class="aging-value">
+                      <span class="green-font">$</span> 444.75
+                    </td>
+                    <td class="aging-value">
+                      <span class="green-font">$</span> 343434
+                    </td>
+                    <td class="aging-value">
+                      <span class="green-font">$</span> 03
+                    </td>
+                    <td class="aging-value">
+                      <span class="green-font">$</span> 200083.75
+                    </td>
 
-                </tr>
+                  </tr>
 
-                <tr>
-                 <td class="date">
-                   <div class="month">DEC</div>
-                   <div class="day">25</div>
-                 </td>
-                 <td class="organization">
-                   <div class="team-icon">
-                     <div>AB</div>
-                   </div>
-                   <div class="team">
-                     <div class="team-name">Austin Boom</div>
-                     <div class="team-contact">Jerry Garcia</div>
-                   </div>
-                   <div class="clearfix"></div>
-                 </td>
-                 <td class="aging-value">
-                  <span class="green-font">$</span> 
-                  948.75
-                </td>
-                <td class="aging-value">
-                  <span class="green-font">$</span> 
-                  3214.75
-                </td>
-                <td class="aging-value">
-                  <span class="green-font">$</span> 
-                  12000
-                </td>
-                <td class="aging-value">
-                  <span class="green-font">$</span> 
-                  0
-                </td>
-                <td class="aging-value">
-                  <span class="green-font">$</span> 
-                  48.75
-                </td>
+                  <tr>
+                    <td class="date">
+                      <div class="month">DEC</div>
+                      <div class="day">25</div>
+                    </td>
+                    <td class="organization">
+                      <div class="team-icon">
+                        <div>AB</div>
+                      </div>
+                      <div class="team">
+                        <div class="team-name">Austin Boom</div>
+                        <div class="team-contact">Jerry Garcia</div>
+                      </div>
+                      <div class="clearfix"></div>
+                    </td>
+                    <td class="aging-value">
+                      <span class="green-font">$</span> 948.75
+                    </td>
+                    <td class="aging-value">
+                      <span class="green-font">$</span> 3214.75
+                    </td>
+                    <td class="aging-value">
+                      <span class="green-font">$</span> 12000
+                    </td>
+                    <td class="aging-value">
+                      <span class="green-font">$</span> 0
+                    </td>
+                    <td class="aging-value">
+                      <span class="green-font">$</span> 48.75
+                    </td>
 
-              </tr>
+                  </tr>
 
-              <tr>
-               <td class="date">
-                 <div class="month">DEC</div>
-                 <div class="day">25</div>
-               </td>
-               <td class="organization">
-                 <div class="team-icon">
-                   <div>AB</div>
-                 </div>
-                 <div class="team">
-                   <div class="team-name">Austin Boom</div>
-                   <div class="team-contact">Jerry Garcia</div>
-                 </div>
-                 <div class="clearfix"></div>
-               </td>
-               <td class="aging-value">
-                <span class="green-font">$</span> 
-                998.75
-              </td>
-              <td class="aging-value">
-                <span class="green-font">$</span> 
-                4.75
-              </td>
-              <td class="aging-value">
-                <span class="green-font">$</span> 
-                55
-              </td>
-              <td class="aging-value">
-                <span class="green-font">$</span> 
-                3434
-              </td>
-              <td class="aging-value">
-                <span class="green-font">$</span> 
-                34.75
-              </td>
+                  <tr>
+                    <td class="date">
+                      <div class="month">DEC</div>
+                      <div class="day">25</div>
+                    </td>
+                    <td class="organization">
+                      <div class="team-icon">
+                        <div>AB</div>
+                      </div>
+                      <div class="team">
+                        <div class="team-name">Austin Boom</div>
+                        <div class="team-contact">Jerry Garcia</div>
+                      </div>
+                      <div class="clearfix"></div>
+                    </td>
+                    <td class="aging-value">
+                      <span class="green-font">$</span> 998.75
+                    </td>
+                    <td class="aging-value">
+                      <span class="green-font">$</span> 4.75
+                    </td>
+                    <td class="aging-value">
+                      <span class="green-font">$</span> 55
+                    </td>
+                    <td class="aging-value">
+                      <span class="green-font">$</span> 3434
+                    </td>
+                    <td class="aging-value">
+                      <span class="green-font">$</span> 34.75
+                    </td>
 
-            </tr>
+                  </tr>
 
 
 
 
 
-          </tbody>
-        </table>
-      </div>         
+                </tbody>
+              </table>
+            </div>
 
+          </div>
+          <!--<div class="bottom-link">Next 20</div>-->
+        </div>
+      </div>
     </div>
-
-
-
-    <div class="bottom-link">Next 20</div>
-
   </div>
-</div>
-</div>
-</div>
 </div>
