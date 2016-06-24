@@ -274,7 +274,7 @@ angular.module ('dynform', [])
                   }
                   else if (field.type === 'select') {
 
-                    newElement.append (angular.element ($document[0].createElement ('option')).attr ('value', '').attr('ng-disabled', true).html ("Select One"));
+                    newElement.append (angular.element ($document[0].createElement ('option')).attr ('value', '').attr('ng-disabled', true).html (field.placeholder));
 
                     if (angular.isDefined (field.multiple) && field.multiple !== false) {
                       newElement.attr ('multiple', 'multiple');
