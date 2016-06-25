@@ -185,6 +185,14 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
         requireLogin: false
       }
     })
+    .state('commerceProviderResponse', {
+      url: '/commerce/provider/response/:id',
+      templateUrl: '../templates/product/organization.response.html',
+      controller: 'ProviderResponseCtrl',
+      data: {
+        requireLogin: false
+      }
+    })
     .state('login', {
       url: '/login',
       templateUrl: '../templates/login.html',
