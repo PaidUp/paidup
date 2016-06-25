@@ -9,11 +9,24 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
     AuthService.getCurrentUserPromise().then(function (user) {
       var organizationId = (user.meta.productRelated[0]) ? user.meta.productRelated[0] : 'Does not have organization'
       CommerceService.orderGetOrganization(organizationId, 200, -1).then(function (result) {
-        console.log('result', result.body)
-        // var finalResult = R.groupBy(function (order) {
-          // return order.allProductName[0]
+        console.log('result1', result.body)
+        var test = result.body.map(function (order) {
+          // console.log('order', order)
+          return order.paymentsPlan.filter(function (pp) {
+            // console.log('pp', pp.status)
+            return pp.status === 'pending'
+          })
+        })
+        console.log('test', test)
+        var groupByProductName = R.groupBy(function (order) {
+          return order.allProductName[0]
+        })
+        console.log('groupByProductrName', groupByProductName(result.body))
+
+        // var groupByPaymentPlan = R.groupBy(function (order) {
+          // return order.status
         // })
-        // $scope.groupProducts = finalResult(result.body)
+        // console.log('groupByPaymentPlan', groupByPaymentPlan(groupByProductName(result.body)))
       }).catch(function (err) {
         console.log('err', err)
       })
