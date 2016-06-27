@@ -14,6 +14,10 @@ module.exports = ['$resource', '$q', '$cookies', function ($resource, $q, $cooki
     $cookies.put('pnProds', JSON.stringify(pnProds))
   }
 
+  this.removePnProducts = function(pnProds){
+    $cookies.remove('pnProds')
+  }
+
   this.retrieveCategories = function () {
     return getCategories.get({}).$promise;
   }

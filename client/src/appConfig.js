@@ -225,5 +225,13 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
         requireLogin: false
       }
     })
+    .state('clean', {
+      url: '/clean',
+      templateUrl: '../templates/login.html',
+      controller: 'CustomLinkCtrl',
+      data: {
+        requireLogin: false
+      }
+    })
 }
 ]
