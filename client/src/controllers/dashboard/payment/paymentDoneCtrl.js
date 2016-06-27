@@ -14,6 +14,7 @@ module.exports = [ '$scope', '$rootScope', '$state', 'SetupPaymentService', 'Pro
       $state.go('dashboard.summary.components');
     }
 
+    $scope.productSelected = SetupPaymentService.productSelected;
     $scope.schedules = SetupPaymentService.schedules;
     $scope.paymenPlanDescription = SetupPaymentService.paymentPlanSelected.description;
     $scope.orderDetails = SetupPaymentService.orderDetails;

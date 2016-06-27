@@ -1,7 +1,7 @@
 'use strict'
 
-module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location', '$q', 'SetupPaymentService', 'PaymentService', 'CommerceService', 'ProductService', 'TrackerService',
-  function ($scope, $rootScope, $state, $anchorScroll, $location, $q, SetupPaymentService, PaymentService, CommerceService, ProductService, TrackerService) {
+module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location', '$q', 'SetupPaymentService', 'PaymentService', 'CommerceService', 'ProductService', 'TrackerService', '$compile',
+  function ($scope, $rootScope, $state, $anchorScroll, $location, $q, SetupPaymentService, PaymentService, CommerceService, ProductService, TrackerService, $compile) {
 
     $rootScope.$on ('loadCardSelected', function (event, data) {
       $scope.card = data;
@@ -51,13 +51,13 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
     }
 
     $scope.onChangeProduct = function (){
+      $scope.renderCustomForm =false;
       SetupPaymentService.productSelected = $scope.models.productSelected;
       $scope.models.paymentPlanSelected = null;
       SetupPaymentService.paymentPlanSelected = null;
       $scope.schedules = [];
       SetupPaymentService.schedules = null;
       $scope.total = 0;
-
     }
 
     $scope.onChangePaymentPlan = function (){
@@ -103,21 +103,52 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
         });
         SetupPaymentService.schedules = $scope.schedules;
         $scope.loading = false;
+
       });
+
+      buildDynamicForm();
 
     }
 
-    $scope.goStep3 = function (isValid) {
-      $scope.submit = true;
-      if (!isValid) {
-        $rootScope.GlobalAlertSystemAlerts.push ({
-          msg: 'All fields are required',
-          type: 'warning',
-          dismissOnTimeout: 5000
+    function buildDynamicForm(){
+      $scope.renderCustomForm =true;
+      var count = 0;
+      var interval = setInterval(function(){
+          if(document.getElementById('dynamicForm')){
+            var ele = document.getElementById('dynamicForm');
+            $compile(ele)($scope);
+            $scope.loading = false;
+            clearInterval(interval);
+          }
+      }, 500);
+    }
+    
+    function setFormFieldsTouched (form) {
+      angular.forEach(form.$error, function (field) {
+        angular.forEach(field, function(errorField){
+          errorField.$setTouched();
         })
+      });
+      $rootScope.GlobalAlertSystemAlerts.push ({
+        msg: 'Please complete required fields.',
+        type: 'warning',
+        dismissOnTimeout: 5000
+      })
+    };
+
+    $scope.goStep3 = function () {
+      $scope.submit = true;
+      if ($scope.formStep2.$invalid) {
+        setFormFieldsTouched($scope.formStep2)
         return;
       }
 
+      if ($scope.dynamicForm && $scope.dynamicForm.$invalid) {
+        setFormFieldsTouched($scope.dynamicForm);
+        return;
+      }
+
+      SetupPaymentService.productSelected = $scope.models.productSelected;
       $rootScope.$emit ('changePaymentStep', steps.review)
       $scope.step = steps.review;
       gotoAnchor (steps.review);
@@ -156,16 +187,19 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
     }
 
     $scope.goStep4 = function () {
-      if(!$scope.models.productSelected || !$scope.models.paymentPlanSelected || !$scope.orderDetails.athleteFirstName || !$scope.orderDetails.athleteLastName){
-        $rootScope.GlobalAlertSystemAlerts.push ({
-          msg: 'Form fields are required',
-          type: 'danger',
-          dismissOnTimeout: 5000
-        })
+      if ($scope.formStep2.$invalid) {
+        setFormFieldsTouched($scope.formStep2);
         gotoAnchor (steps.select);
         return;
       }
 
+      if ($scope.dynamicForm && $scope.dynamicForm.$invalid) {
+        setFormFieldsTouched($scope.dynamicForm);
+        gotoAnchor (steps.select);
+        return;
+      }
+
+      SetupPaymentService.productSelected = $scope.models.productSelected;
       SetupPaymentService.orderDetails = $scope.orderDetails;
       $rootScope.$emit ('changePaymentStep', steps.pay)
       $scope.step = steps.pay;
@@ -194,7 +228,7 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
         discount: $scope.coupon.precent ? $scope.coupon.precent : 0,
         couponId: $scope.coupon.precent ? $scope.coupon.code : '',
         beneficiaryId: 'N/A',
-        beneficiaryName: $scope.orderDetails.athleteFirstName + ' ' + $scope.orderDetails.athleteLastName,
+        customInfo: $scope.models.productSelected.customInfo,
         typeAccount: $scope.card.object,
         account: $scope.card.id
       }

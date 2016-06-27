@@ -12,11 +12,22 @@ module.exports = ['$scope', '$rootScope', '$state', 'ProductService', 'SetupPaym
     $scope.filteredCategories = [];
     $scope.search = {name: ""};
 
-    function findOrg (cb) {
+    function findOrg(cb){
       ProductService.retrieveCategories ().then (function (resp) {
-        $scope.allCategories = resp.categories.filter (filter);
+        $scope.allCategories = resp.categories.filter (function (product) {
+          return product.isActive
+        });
+
         if(Object.keys (ProductService.getPnProducts()).length > 0){
-          $scope.filteredCategories = $scope.allCategories;
+          $scope.filteredCategories = $scope.allCategories.filter(function (product) {
+            var match = false;
+            for (var key in ProductService.getPnProducts ()) {
+              if (!match) {
+                match = (key === product._id && product.isActive)
+              }
+            }
+            return match;
+          });
           cb (null, true);
         } else {
           loadPreviousCategories ($scope.allCategories, function (err, res) {
@@ -27,38 +38,13 @@ module.exports = ['$scope', '$rootScope', '$state', 'ProductService', 'SetupPaym
           })
         }
 
-
-
       }).catch (function (err) {
         $rootScope.GlobalAlertSystemAlerts.push ({msg: 'No search results', type: 'warn', dismissOnTimeout: 5000})
         console.log ('findOrg err', err)
         cb (err);
       });
     }
-
-    var filterMethods = {
-      isPnProduct: function (product) {
-        var match = false;
-        for (var key in ProductService.getPnProducts ()) {
-          if (!match) {
-            match = (key === product._id && product.isActive)
-          }
-        }
-        return match;
-      },
-      isActive: function (product) {
-        return product.isActive
-      }
-    }
-
-    function filter (category) {
-      var pnProducts = ProductService.getPnProducts ();
-      if (pnProducts !== null && typeof pnProducts === 'object' && Object.keys (pnProducts).length > 0) {
-        return filterMethods.isPnProduct (category);
-      } else {
-        return filterMethods.isActive (category);
-      }
-    }
+    
 
     $scope.selectCategory = function (category) {
       SetupPaymentService.categorySelected = category;

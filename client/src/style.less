@@ -183,7 +183,21 @@ input[type="text"],
 input[type="number"], 
 input[type="password"], 
 input[type="email"], 
+input[type="date"],
+input[type="datetime"],
+input[type="datetime-local"],
 select{
+  padding: 10px 15px;
+  width: 100%;
+  display: block;
+  margin: 10px auto;
+  border-radius: 20px;
+  border: 1px solid @c-gray-back;
+  @media @medium-up{
+    width: 300px;
+  }
+}
+textarea{
   padding: 10px 15px;
   width: 100%;
   display: block;
