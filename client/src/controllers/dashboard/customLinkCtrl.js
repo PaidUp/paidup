@@ -20,6 +20,8 @@ module.exports = [ '$scope', '$state', '$rootScope', '$stateParams', 'ProductSer
           pnProds[$stateParams.category][$stateParams.product].pp = $stateParams.paymentPlan || ''
         }
         ProductService.setPnProducts(pnProds);
+      } else {
+        ProductService.removePnProducts();
       }
     }
     $state.go('login');
