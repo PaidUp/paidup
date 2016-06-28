@@ -18,15 +18,23 @@ module.exports = [ '$scope', 'SignUpService', '$state', '$timeout', function ($s
   }
 
   var timeoutPromise = $timeout(function () {
-    $state.go('dashboard.summary.components')
+    $state.go(getRedirectPageLogin($scope.userType))
   }, 5000)
 
   $scope.goToHomepage = function () {
     $timeout.cancel(timeoutPromise)
-    $state.go('dashboard.summary.components')
+    $state.go(getRedirectPageLogin($scope.userType))
   }
 
   $scope.$on('destroy', function () {
     $timeout.cancel(timeoutPromise)
   })
+
+  function getRedirectPageLogin (userType) {
+    if (userType === 'business') {
+      return 'dashboard.board'
+    } else {
+      return 'dashboard.summary.components'
+    }
+  }
 }]
