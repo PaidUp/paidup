@@ -13,7 +13,7 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
   function filterpaymentsPlan (pps, status) {
     var now = new Date()
     return pps.filter(function (pp) {
-      return pp.status === 'pending' && new Date(pp.dateCharge) <= now && status === 'active'
+      return (pp.status === 'pending' || pp.status === 'failed') && new Date(pp.dateCharge) <= now && status === 'active'
     })
   }
 
