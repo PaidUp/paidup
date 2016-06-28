@@ -11,7 +11,7 @@
           <div class="table-filters">
             <div class="date-filter">
               <form name="form" novalidate>
-                <div class="date-input">
+                <!--<div class="date-input">
                   <i class="fa fa-calendar" ng-click="open1()"></i>
                   <input type="text" placeholder="From" uib-datepicker-popup="MM/dd/yyyy" ng-model="dt1" name="udt1" is-open="popup1.opened"
                     ng-required="true" close-text="Close" datepicker-options="dateOptions1" ng-change="change1()" alt-input-formats="['M!/d!/yyyy', 'M!/d!/yy']"
@@ -22,13 +22,13 @@
                   <input type="text" placeholder="To" uib-datepicker-popup="MM/dd/yyyy" ng-model="dt2" is-open="popup2.opened" ng-required="true"
                     close-text="Close" datepicker-options="dateOptions2" ng-change="change2()" alt-input-formats="['M!/d!/yyyy', 'M!/d!/yy']"
                     on-open-focus="false" />
-                </div>
+                </div>-->
               </form>
             </div>
             <div class="right-filters">
-              <div class="download-cvs" ng-click="downloadAsCSV()">
+              <!--<div class="download-cvs" ng-click="downloadAsCSV()">
                 Download as CVS
-              </div>
+              </div>-->
             </div>
             <div class="clearfix"></div>
           </div>
@@ -52,19 +52,19 @@
                 <tr>
                   <td colspan="2" class="name">TOTAL (for time period selected)</td>
                   <td class="aging-value">
-                    <span class="green-font">$</span> 998.75
+                    <span class="green-font">$</span> {{overDue0130 | currency:""}}
                   </td>
                   <td class="aging-value">
-                    <span class="green-font">$</span> 998.75
+                    <span class="green-font">$</span> {{overDue3160 | currency:""}}
                   </td>
                   <td class="aging-value">
-                    <span class="green-font">$</span> 12000
+                    <span class="green-font">$</span> {{overDue6190 | currency:""}}
                   </td>
                   <td class="aging-value">
-                    <span class="green-font">$</span> 0
+                    <span class="green-font">$</span> {{overDue9100 | currency:""}}
                   </td>
                   <td class="aging-value">
-                    <span class="green-font">$</span> 20008.75
+                    <span class="green-font">$</span> {{overDueTotal | currency:""}}
                   </td>
 
                 </tr>
@@ -72,142 +72,68 @@
             </table>
 
             <!-- CATEGORY 1 -->
-            <table class="header-table">
-              <tbody>
-                <tr ng-click="expandCategory1 = !expandCategory1">
-                  <td colspan="2" class="name">16U Red</td>
-                  <td class="aging-value">
-                    <span class="green-font">$</span> 0.75
-                  </td>
-                  <td class="aging-value">
-                    <span class="green-font">$</span> 0
-                  </td>
-                  <td class="aging-value">
-                    <span class="green-font">$</span> 0
-                  </td>
-                  <td class="aging-value">
-                    <span class="green-font">$</span> 0
-                  </td>
-                  <td class="aging-value">
-                    <span class="green-font">$</span> 0.75
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-
-            <div ng-class="expandCategory1 ? 'category-table active' : 'category-table'">
-
-              <table class="transactions-table aging-table">
-
+            <div ng-repeat="orderOverDues in ordersOverDues">
+              <table class="header-table">
                 <tbody>
-
-                  <tr>
-                    <td class="date">
-                      <div class="month">DEC</div>
-                      <div class="day">25</div>
-                    </td>
-                    <td class="organization">
-                      <div class="team-icon">
-                        <div>AB</div>
-                      </div>
-                      <div class="team">
-                        <div class="team-name">Austin Boom</div>
-                        <div class="team-contact">Jerry Garcia</div>
-                      </div>
-                      <div class="clearfix"></div>
+                  <tr ng-click="expandCategory1 = !expandCategory1">
+                    <td colspan="2" class="name">{{orderOverDues[0].allProductName[0]}}</td>
+                    <td class="aging-value">
+                      <span class="green-font">$</span> {{getTotalDues(orderOverDues, 1, 0) | currency:""}}
                     </td>
                     <td class="aging-value">
-                      <span class="green-font">$</span> 2.75
+                      <span class="green-font">$</span> {{getTotalDues(orderOverDues, 2, 1) | currency:""}}
                     </td>
                     <td class="aging-value">
-                      <span class="green-font">$</span> 444.75
+                      <span class="green-font">$</span> {{getTotalDues(orderOverDues, 3, 2) | currency:""}}
                     </td>
                     <td class="aging-value">
-                      <span class="green-font">$</span> 343434
+                      <span class="green-font">$</span> {{getTotalDues(orderOverDues, 12, 3) | currency:""}}
                     </td>
                     <td class="aging-value">
-                      <span class="green-font">$</span> 03
+                      <span class="green-font">$</span> {{getTotalDue(orderOverDues) | currency:""}}
                     </td>
-                    <td class="aging-value">
-                      <span class="green-font">$</span> 200083.75
-                    </td>
-
                   </tr>
-
-                  <tr>
-                    <td class="date">
-                      <div class="month">DEC</div>
-                      <div class="day">25</div>
-                    </td>
-                    <td class="organization">
-                      <div class="team-icon">
-                        <div>AB</div>
-                      </div>
-                      <div class="team">
-                        <div class="team-name">Austin Boom</div>
-                        <div class="team-contact">Jerry Garcia</div>
-                      </div>
-                      <div class="clearfix"></div>
-                    </td>
-                    <td class="aging-value">
-                      <span class="green-font">$</span> 948.75
-                    </td>
-                    <td class="aging-value">
-                      <span class="green-font">$</span> 3214.75
-                    </td>
-                    <td class="aging-value">
-                      <span class="green-font">$</span> 12000
-                    </td>
-                    <td class="aging-value">
-                      <span class="green-font">$</span> 0
-                    </td>
-                    <td class="aging-value">
-                      <span class="green-font">$</span> 48.75
-                    </td>
-
-                  </tr>
-
-                  <tr>
-                    <td class="date">
-                      <div class="month">DEC</div>
-                      <div class="day">25</div>
-                    </td>
-                    <td class="organization">
-                      <div class="team-icon">
-                        <div>AB</div>
-                      </div>
-                      <div class="team">
-                        <div class="team-name">Austin Boom</div>
-                        <div class="team-contact">Jerry Garcia</div>
-                      </div>
-                      <div class="clearfix"></div>
-                    </td>
-                    <td class="aging-value">
-                      <span class="green-font">$</span> 998.75
-                    </td>
-                    <td class="aging-value">
-                      <span class="green-font">$</span> 4.75
-                    </td>
-                    <td class="aging-value">
-                      <span class="green-font">$</span> 55
-                    </td>
-                    <td class="aging-value">
-                      <span class="green-font">$</span> 3434
-                    </td>
-                    <td class="aging-value">
-                      <span class="green-font">$</span> 34.75
-                    </td>
-
-                  </tr>
-
-
-
-
-
                 </tbody>
               </table>
-            </div>
 
+              <div ng-class="expandCategory1 ? 'category-table active' : 'category-table'">
+                <table class="transactions-table aging-table">
+                  <tbody>
+                    <tr ng-click="expandSection11 = !expandSection11" ng-class="expandSection11 ? 'user-row active' : 'user-row'" ng-repeat="order in orderOverDues">
+                      <td class="date">
+                        <div class="month">{{(order.createAt | date : 'MMM') | uppercase}}</div>
+                        <div class="day">{{order.createAt | date: 'dd'}}</div>
+                      </td>
+                      <td class="organization">
+                        <div class="team-icon">
+                          <div>{{order.allProductName[0] | limitTo:2}}</div>
+                        </div>
+                        <div class="team">
+                          <div class="team-name">{{order.paymentsPlan[0].userInfo.userName}}</div>
+                          <div class="team-contact">{{getBeneficiaryInfo(order.paymentsPlan[0].customInfo.formData)}}</div>
+                        </div>
+                        <div class="clearfix"></div>
+                      </td>
+                      <td class="aging-value">
+                        <span class="green-font">$</span> {{getTotalDues([{paymentsPlan: order.paymentsPlan}], 1, 0) | currency:""}}
+                      </td>
+                      <td class="aging-value">
+                        <span class="green-font">$</span> {{getTotalDues([{paymentsPlan: order.paymentsPlan}], 2, 1) | currency:""}}
+                      </td>
+                      <td class="aging-value">
+                        <span class="green-font">$</span> {{getTotalDues([{paymentsPlan: order.paymentsPlan}], 3, 2) | currency:""}}
+                      </td>
+                      <td class="aging-value">
+                        <span class="green-font">$</span> {{getTotalDues([{paymentsPlan: order.paymentsPlan}], 12, 3) | currency:""}}
+                      </td>
+                      <td class="aging-value">
+                        <span class="green-font">$</span> {{getTotalDue([{paymentsPlan: order.paymentsPlan}]) | currency:""}}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
           <!--<div class="bottom-link">Next 20</div>-->
         </div>

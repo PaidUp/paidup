@@ -180,4 +180,12 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
       showWeeks: false
     }
   }
+
+  $scope.getBeneficiaryInfo = function getBeneficiaryInfo (formData) {
+    var ret = ''
+    for (var prop in formData) {
+      ret = ret + ' ' + formData[prop]
+    }
+    return ret
+  }
 }]
