@@ -15,20 +15,19 @@ module.exports = ['$scope', '$state', 'AuthService', 'TrackerService', '$transla
     $scope.loader = '<i class="fa fa-circle-o-notch fa-spin"></i>'
     $scope.loading = !$rootScope.isCoookieSupported
 
-    $scope.init = function (){
-      TrackerService.track('Page Viewed');
+    $scope.init = function () {
+      TrackerService.track('Page Viewed')
     }
-
 
     // TRANSLATE DEMO - START
     $scope.changeLang = function (lang) {
-      $translate.use (lang)
+      $translate.use(lang)
     }
 
     $scope.fetchErrorCode = function () {
       // Get error code from server async
       var errorCodeFromServer = '404'
-      $translate ('ERRORS.' + errorCodeFromServer).then (function (translationMsg) {
+      $translate('ERRORS.' + errorCodeFromServer).then(function (translationMsg) {
         $scope.error = translationMsg
       })
     }
@@ -43,8 +42,8 @@ module.exports = ['$scope', '$state', 'AuthService', 'TrackerService', '$transla
     }
 
     $scope.submitForgotPassword = function (emailController) {
-      emailController.$setTouched ()
-      emailController.$validate ()
+      emailController.$setTouched()
+      emailController.$validate()
       var emailValue = emailController.$viewValue
       if (emailController.$valid) {
         $scope.loading = true
@@ -62,7 +61,7 @@ module.exports = ['$scope', '$state', 'AuthService', 'TrackerService', '$transla
           $scope.error = err.message
         }
 
-        AuthService.forgotPassword (emailValue, successFn, errorFn)
+        AuthService.forgotPassword(emailValue, successFn, errorFn)
       }
     }
 
@@ -85,29 +84,34 @@ module.exports = ['$scope', '$state', 'AuthService', 'TrackerService', '$transla
         password: u.password
       }
       var success = function (user) {
-        AuthService.trackerLogin("Login", "Email");
-        $state.go ('dashboard.summary.components')
+        AuthService.trackerLogin('Login', 'Email')
+        $state.go(getRedirectPageLogin(user))
       }
       var error = function (err) {
         $scope.loading = false
         $scope.error = err.message
       }
-      AuthService.login (credentials, success, error)
+      AuthService.login(credentials, success, error)
     }
 
     $scope.facebookLogin = function () {
       $scope.loading = true
       var success = function (user) {
-        AuthService.trackerLogin("Login", "Facebook");
-        $state.go ('dashboard.summary.components')
+        AuthService.trackerLogin('Login', 'Facebook')
+        $state.go(getRedirectPageLogin(user))
       }
       var error = function (err) {
-        console.log (err)
+        console.log(err)
         $scope.loading = false
       }
-      AuthService.loginFacebook (success, error)
+      AuthService.loginFacebook(success, error)
     }
 
-
-
+    function getRedirectPageLogin (user) {
+      if (user.roles.indexOf('coach') !== -1) {
+        return 'dashboard.board'
+      } else {
+        return 'dashboard.summary.components'
+      }
+    }
   }]
