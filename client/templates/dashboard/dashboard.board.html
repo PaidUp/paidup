@@ -10,39 +10,18 @@
           <!-- FILTERS -->
           <div class="table-filters">
             <div class="date-filter">
-             <form name="form" novalidate>
-                <div class="date-input">
+              <form name="form" novalidate>
+                <!--<div class="date-input">
                   <i class="fa fa-calendar" ng-click="open1()"></i>
-                  <input 
-                  type="text" 
-                  placeholder="From" 
-                  uib-datepicker-popup="MM/dd/yyyy" 
-                  ng-model="dt1" 
-                  name="udt1"
-                  is-open="popup1.opened" 
-                  ng-required="true" 
-                  close-text="Close"
-                  datepicker-options="dateOptions1"
-                  ng-change="change1()"
-                  alt-input-formats="['M!/d!/yyyy', 'M!/d!/yy']"
-                  on-open-focus="false"              
-                  />
+                  <input type="text" placeholder="From" uib-datepicker-popup="MM/dd/yyyy" ng-model="dt1" name="udt1" is-open="popup1.opened"
+                    ng-required="true" close-text="Close" datepicker-options="dateOptions1" ng-change="change1()" alt-input-formats="['M!/d!/yyyy', 'M!/d!/yy']"
+                    on-open-focus="false" />
                 </div>
                 <div class="date-input">
                   <i class="fa fa-calendar" ng-click="open2()"></i>
-                  <input 
-                  type="text" 
-                  placeholder="To" 
-                  uib-datepicker-popup="MM/dd/yyyy" 
-                  ng-model="dt2" 
-                  is-open="popup2.opened" 
-                  ng-required="true" 
-                  close-text="Close"
-                  datepicker-options="dateOptions2"
-                  ng-change="change2()"
-                  alt-input-formats="['M!/d!/yyyy', 'M!/d!/yy']"
-                  on-open-focus="false" 
-                  />
+                  <input type="text" placeholder="To" uib-datepicker-popup="MM/dd/yyyy" ng-model="dt2" is-open="popup2.opened" ng-required="true"
+                    close-text="Close" datepicker-options="dateOptions2" ng-change="change2()" alt-input-formats="['M!/d!/yyyy', 'M!/d!/yy']"
+                    on-open-focus="false" />-->
                 </div>
               </form>
             </div>
@@ -140,7 +119,6 @@
 
               <div ng-class="expandCategory1 ? 'category-table active' : 'category-table'">
                 <table class="transactions-table board-table">
-
                   <tbody>
                     <tr ng-click="expandSection11 = !expandSection11" ng-class="expandSection11 ? 'user-row active' : 'user-row'" ng-repeat-start="orders in productInfo">
                       <td class="date">
@@ -152,8 +130,8 @@
                           <div>{{orders.allProductName[0] | limitTo:2}}</div>
                         </div>
                         <div class="team">
-                          <div class="team-name">{{orders.allProductName[0]}}</div>
-                          <div class="team-contact">{{orders.allBeneficiaryName[0]}}</div>
+                          <div class="team-name">{{orders.paymentsPlan[0].userInfo.userName}}</div>
+                          <div class="team-contact">{{getBeneficiaryInfo(orders.paymentsPlan[0].customInfo.formData)}}</div>
                         </div>
                         <div class="clearfix"></div>
                       </td>
@@ -180,8 +158,6 @@
                         <span class="green-font">$</span> {{getSubTotalRemaining([orders], 'price') | currency:""}}
                       </td>
                     </tr>
-
-
                     <tr class="expandable" ng-repeat-end>
                       <td class="expand" colspan="6">
                         <div ng-class="expandSection11 ? 'expandable-section active' : 'expandable-section'">
