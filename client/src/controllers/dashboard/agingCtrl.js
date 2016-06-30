@@ -51,12 +51,8 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
     }, 0)
   }
 
-  $scope.getBeneficiaryInfo = function getBeneficiaryInfo (formData) {
-    var ret = ''
-    for (var prop in formData) {
-      ret = ret + ' ' + formData[prop]
-    }
-    return ret
+  $scope.getBeneficiaryInfo = function getBeneficiaryInfo (customInfo) {
+    return CommerceService.getVisibleBeneficiaryData(customInfo)
   }
 
   $scope.init = function () {
