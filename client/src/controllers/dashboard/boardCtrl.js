@@ -188,4 +188,9 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
     }
     return ret
   }
+
+  $scope.showPayments = function showPayments (pps, filter) {
+    // return true
+    return pps.filter(function (pp) { return (pp.status === filter || pp.status === 'failed') }).length
+  }
 }]
