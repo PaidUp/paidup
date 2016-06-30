@@ -2,6 +2,7 @@
 
 module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'TrackerService', function ($scope, AuthService, $state, CommerceService, TrackerService) {
   $scope.expandSection1 = true
+  $scope.expandSection11 = true
   $scope.expandSection2 = true
   $scope.overDue0130 = 0
   $scope.overDue3160 = 0
