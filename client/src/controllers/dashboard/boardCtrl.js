@@ -59,13 +59,9 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
     result = ''
     result += keys.join(columnDelimiter)
     result += lineDelimiter
-    console.log('keys', keys)
     data.forEach(function (item) {
-      console.log('item', item)
       ctr = 0
       keys.forEach(function (key) {
-        console.log('key', key)
-        console.log('key', key.length)
         if (ctr > 0) result += columnDelimiter
 
         result += item[key]
@@ -73,7 +69,6 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
       })
       result += lineDelimiter
     })
-    console.log('result', result)
     return result
   }
 
