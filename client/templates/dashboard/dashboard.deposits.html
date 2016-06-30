@@ -109,16 +109,16 @@
                                   {{charge.metadata.productName}}
                                 </td>
                                 <td>
-                                  <span class="green-font">$</span> {{charge.amount / 100}}
+                                  <span class="green-font">$</span> {{charge.amount / 100 | currency:""}}
                                 </td>
                                 <td>
-                                  <span class="green-font">$</span> {{charge.metadata.feePaidUp}}
+                                  <span class="green-font">$</span> {{charge.metadata.feePaidUp | currency:""}}
                                 </td>
                                 <td>
-                                  <span class="green-font">$</span> {{charge.metadata.feeStripe}}
+                                  <span class="green-font">$</span> {{charge.metadata.feeStripe | currency:""}}
                                 </td>
                                 <td>
-                                  <span class="green-font">$</span> {{(charge.amount / 100) - charge.metadata.totalFee}}
+                                  <span class="green-font">$</span> {{(charge.amount / 100) - charge.metadata.totalFee | currency:""}}
                                 </td>
                               </tr>
                             </tbody>
