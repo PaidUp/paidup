@@ -26,7 +26,7 @@
               </form>
             </div>
             <div class="right-filters">
-              <div class="price-toggle">
+              <!--<div class="price-toggle">
                 <div class="switch">
                   <label>
                     Base Price
@@ -36,13 +36,13 @@
                     Price w/ Fees
                   </label>
                 </div>
-              </div>
+              </div>-->
               <!--<div class="download-cvs" ng-click="getCVS()">
                 Download as CVS
               </div>-->
             </div>
             <div class="clearfix"></div>
-          </div>
+          
 
           <div class="main-tables-container">
 
@@ -131,7 +131,7 @@
                         </div>
                         <div class="team">
                           <div class="team-name">{{orders.paymentsPlan[0].userInfo.userName}}</div>
-                          <div class="team-contact">{{getBeneficiaryInfo(orders.paymentsPlan[0].customInfo.formData)}}</div>
+                          <div class="team-contact">{{getBeneficiaryInfo(orders.paymentsPlan[0].customInfo)}}</div>
                         </div>
                         <div class="clearfix"></div>
                       </td>
@@ -181,7 +181,7 @@
 
                             <div class="tables-separator"></div>
 
-                            <div class="charges-container">
+                            <div class="charges-container" ng-show="showPayments(orders.paymentsPlan, 'pending')">
                               <div class="green-font charges-title">Pending Charges</div>
 
                               <table class="charges-table">
@@ -228,7 +228,7 @@
 
                             <div class="tables-separator"></div>
 
-                            <div class="charges-container">
+                            <div class="charges-container" ng-show="showPayments(orders.paymentsPlan, 'succeeded')">
                               <div class="green-font charges-title">Payment History</div>
 
                               <table class="charges-table">

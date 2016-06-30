@@ -59,13 +59,9 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
     result = ''
     result += keys.join(columnDelimiter)
     result += lineDelimiter
-    console.log('keys', keys)
     data.forEach(function (item) {
-      console.log('item', item)
       ctr = 0
       keys.forEach(function (key) {
-        console.log('key', key)
-        console.log('key', key.length)
         if (ctr > 0) result += columnDelimiter
 
         result += item[key]
@@ -73,7 +69,6 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
       })
       result += lineDelimiter
     })
-    console.log('result', result)
     return result
   }
 
@@ -181,11 +176,12 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
     }
   }
 
-  $scope.getBeneficiaryInfo = function getBeneficiaryInfo (formData) {
-    var ret = ''
-    for (var prop in formData) {
-      ret = ret + ' ' + formData[prop]
-    }
-    return ret
+  $scope.getBeneficiaryInfo = function getBeneficiaryInfo (customInfo) {
+    return CommerceService.getVisibleBeneficiaryData(customInfo)
+  }
+
+  $scope.showPayments = function showPayments (pps, filter) {
+    // return true
+    return pps.filter(function (pp) { return (pp.status === filter || pp.status === 'failed') }).length
   }
 }]

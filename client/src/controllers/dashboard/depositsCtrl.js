@@ -21,7 +21,6 @@ module.exports = [ '$scope', 'PaymentService', 'AuthService', '$state', 'Tracker
   }
 
   $scope.getSubtotal = function getSubtotal (charges) {
-    console.log('charges', charges)
     return charges.reduce(function (t, c) {
       return t + ((c.amount / 100) - c.metadata.totalFee)
     }, 0)
