@@ -46,8 +46,16 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
       gotoAnchor (steps.select)
 
       //define products
-      $scope.products = $scope.categorySelected.products.filter (filterProd);
+      $scope.products = $scope.categorySelected.products.filter (filterProd).sort(compare);
 
+    }
+
+    function compare(a,b) {
+      if (a.details.name < b.details.name)
+        return -1;
+      if (a.details.name > b.details.name)
+        return 1;
+      return 0;
     }
 
     $scope.onChangeProduct = function (){
