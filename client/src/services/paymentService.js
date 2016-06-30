@@ -12,6 +12,7 @@ module.exports = ['$resource', function ($resource) {
   var transfer = $resource('/api/v1/payment/transfer/:organizationId', {}, {})
   var balance = $resource('/api/v1/payment/balance/:organizationId', {}, {})
   var charge = $resource('/api/v1/payment/charge/:organizationId', {}, {})
+  var plaidServices = $resource('/api/v1/payment/plaid/:action', {}, {})
 
   var discount = $resource('/api/v1/commerce/cart/coupon/add', {}, {
     apply: {
@@ -26,7 +27,8 @@ module.exports = ['$resource', function ($resource) {
     'American Express': 'cc-amex',
     'Discover': 'cc-discover',
     'Diners Club': 'cc-diners-club',
-    'JCB': 'cc-jcb'
+    'JCB': 'cc-jcb',
+    'bank': 'university'
   }
 
   this.getBrandCardClass = function (stripeBrand) {
@@ -127,5 +129,9 @@ module.exports = ['$resource', function ($resource) {
 
   this.getChargesList = function (organizationId) {
     return charge.get({ organizationId: organizationId }).$promise
+  }
+
+  this.plaidServices = function (data) {
+    return plaidServices.save({ action: 'authenticate' }, data).$promise
   }
 }]

@@ -278,6 +278,14 @@ function retrieveAccount (stripeId, cb) {
   })
 }
 
+function plaidAuthenticate (plaidData, cb) {
+  tdPaymentService.init(config.connections.payment)
+  tdPaymentService.plaidAuthenticate(plaidData, function (err, data) {
+    if (err) return cb(err)
+    return cb(null, data)
+  })
+}
+
 exports.createCustomer = createCustomer
 exports.associateCard = associateCard
 exports.createCard = createCard
@@ -302,3 +310,6 @@ exports.getBalance = getBalance
 exports.getChargesList = getChargesList
 exports.listCustomerBanks = listCustomerBanks
 exports.retrieveAccount = retrieveAccount
+
+exports.plaidAuthenticate = plaidAuthenticate
+

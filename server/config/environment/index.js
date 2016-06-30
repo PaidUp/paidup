@@ -185,6 +185,12 @@ var all = {
     marketplace: 'TEST-MP2OaM2stYkoWBlGFd0M8YV7',
     appearsOnStatementAs: 'Conv. Select'
   },
+  plaid: {
+    env: 'tartan',
+    clientName: 'Paidup dev.',
+    key: 'test_key',
+    product: 'auth'
+  },
   stripe: {
     apiPublic: 'pk_test_y86FeOIMDzHKLvR5xkylpKrg'
   },
