@@ -101,7 +101,7 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
 
   $scope.init = function () {
     TrackerService.track('View Dashboard')
-    $scope.expandCategory1 = true
+    $scope.expandCategory1 = false
     $scope.expandSection11 = false
     $scope.totalPrice = 0
     $scope.totalPriceFees = 0

@@ -1,8 +1,8 @@
 'use strict'
 
 module.exports = [ '$scope', 'PaymentService', 'AuthService', '$state', 'TrackerService', function ($scope, PaymentService, AuthService, $state, TrackerService) {
-  $scope.expandSection1 = true
-  $scope.expandSection2 = true
+  $scope.expandSection1 = false
+  $scope.expandSection2 = false
   $scope.listCharges = []
   $scope.init = function () {
     TrackerService.track('View Deposits')
