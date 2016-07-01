@@ -197,7 +197,7 @@
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  <tr ng-repeat="pp in orders.paymentsPlan | filter:{ status: 'pending' }">
+                                  <tr ng-repeat="pp in orders.paymentsPlan | filter:getPaymentsPending">
                                     <td class="date">
                                       <div class="month">{{(pp.dateCharge | date : 'MMM') | uppercase}}</div>
                                       <div class="day">{{pp.dateCharge | date: 'dd'}}</div>
@@ -210,7 +210,7 @@
                                       <a href="" class="green-link">x-{{pp.last4}}</a>
                                     </td>
                                     <td class="status">
-                                      <span>{{pp.status}}</span>
+                                      <span>pending</span>
                                     </td>
                                     <td>
                                       <span class="green-font">$</span> {{pp.basePrice | currency:""}}
@@ -244,7 +244,7 @@
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  <tr ng-repeat="pp in orders.paymentsPlan | filter:{ status: '!pending' }">
+                                  <tr ng-repeat="pp in orders.paymentsPlan | filter:getPaymentsHistory">
                                     <td class="date">
                                       <div class="month">{{(pp.dateCharge | date : 'MMM') | uppercase}}</div>
                                       <div class="day">{{pp.dateCharge | date: 'dd'}}</div>
