@@ -26,7 +26,7 @@
               </form>
             </div>
             <div class="right-filters">
-              <!--<div class="price-toggle">
+              <div class="price-toggle">
                 <div class="switch">
                   <label>
                     Base Price
@@ -36,7 +36,7 @@
                     Price w/ Fees
                   </label>
                 </div>
-              </div>-->
+              </div>
               <!--<div class="download-cvs" ng-click="getCVS()">
                 Download as CVS
               </div>-->
@@ -137,7 +137,7 @@
                       </td>
 
                       <td class="tot" ng-show="!chkFilter">
-                        <span class="green-font">$</span> {{orders.sumoriginalPrice | currency:""}}
+                        <span class="green-font">$</span> {{orders.sumbasePrice | currency:""}}
                       </td>
                       <td class="tot" ng-show="chkFilter">
                         <span class="green-font">$</span> {{orders.sumPrice | currency:""}}
@@ -213,13 +213,13 @@
                                       <span>{{pp.status}}</span>
                                     </td>
                                     <td>
-                                      <span class="green-font">$</span> {{pp.originalPrice | currency:""}}
+                                      <span class="green-font">$</span> {{pp.basePrice | currency:""}}
                                     </td>
                                     <td>
                                       <span class="green-font">$</span> {{pp.price | currency:""}}
                                     </td>
                                     <td>
-                                      <span class="green-font">$</span> {{pp.originalPrice | currency:""}}
+                                      <span class="green-font">$</span> {{pp.basePrice | currency:""}}
                                     </td>
                                   </tr>
                                 </tbody>
@@ -260,13 +260,13 @@
                                       <span>{{pp.status}}</span>
                                     </td>
                                     <td>
-                                      <span class="green-font">$</span> {{pp.originalPrice | currency:""}}
+                                      <span class="green-font">$</span> {{pp.basePrice | currency:""}}
                                     </td>
                                     <td>
                                       <span class="green-font">$</span> {{pp.price | currency:""}}
                                     </td>
                                     <td>
-                                      <span class="green-font">$</span> {{pp.originalPrice | currency:""}}
+                                      <span class="green-font">$</span> {{pp.basePrice | currency:""}}
                                     </td>
                                   </tr>
                                 </tbody>

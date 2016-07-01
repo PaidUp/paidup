@@ -3,8 +3,7 @@
 module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'TrackerService', function ($scope, AuthService, $state, CommerceService, TrackerService) {
   $scope.getSubTotal = function getSubTotals (orders, key) {
     return orders.reduce(function (result, order) {
-      return result + order[(!key || key !== 'sumPrice') ? 'sumoriginalPrice' : key]
-    // return result + order.sumoriginalPrice
+      return result + order[(!key || key !== 'sumPrice') ? 'sumbasePrice' : key]
     }, 0)
   }
 
@@ -17,8 +16,7 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
   $scope.getSubTotalPaid = function getSubTotalPaid (orders, key) {
     return orders.reduce(function (result, order) {
       return result + order.paymentsPlan.reduce(function (previousPrice, pp) {
-        var sum = (pp.status === 'succeeded') ? pp[(!key || key !== 'price') ? 'originalPrice' : key] : 0
-        // var sum = (pp.status === 'succeeded') ? pp.originalPrice : 0
+        var sum = (pp.status === 'succeeded') ? pp[(!key || key !== 'price') ? 'basePrice' : key] : 0
         return previousPrice + sum
       }, 0)
     }, 0)
@@ -27,7 +25,7 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
   $scope.getSubTotalRemaining = function getSubTotalRemaining (subTotals, key) {
     return subTotals.reduce(function (result, sTotals) {
       return result + sTotals.paymentsPlan.reduce(function (previousPrice, pp) {
-        var sum = (pp.status === 'failed' || pp.status === 'pending') ? pp[(!key || key !== 'price') ? 'originalPrice' : key] : 0
+        var sum = (pp.status === 'failed' || pp.status === 'pending') ? pp[(!key || key !== 'price') ? 'basePrice' : key] : 0
         return previousPrice + sum
       }, 0)
     }, 0)
@@ -101,7 +99,7 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
 
   $scope.init = function () {
     TrackerService.track('View Dashboard')
-    $scope.expandCategory1 = true
+    $scope.expandCategory1 = false
     $scope.expandSection11 = false
     $scope.totalPrice = 0
     $scope.totalPriceFees = 0
