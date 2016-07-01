@@ -7,6 +7,7 @@ const fs = require('fs')
 const config = require('./config/environment')
 const errors = require('./components/errors')
 const pmx = require('pmx')
+const cors = require('cors')
 
 module.exports = function (app) {
   app.use(function (req, res, next) {
@@ -21,6 +22,19 @@ module.exports = function (app) {
       }
     })
   })
+
+  const whitelist = config.corsWhitelist;
+  let corsOptions = {
+    origin: function (origin, callback) {
+
+      console.log('Origin', origin)
+
+      var originIsWhitelisted = whitelist.indexOf (origin) !== -1;
+      callback (null, originIsWhitelisted);
+    }
+  }
+
+  app.use(cors(corsOptions));
 
   // Insert routes below
   app.use('/api/v1/auth', require('./api/auth'))
