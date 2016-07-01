@@ -4,8 +4,6 @@ const paymentService = require('../payment.service')
 
 exports.authenticate = function (req, res) {
   paymentService.plaidAuthenticate(req.body, function (err, accounts) {
-    console.log('err', err)
-    console.log('accounts', accounts)
     if (err) {
       return handleError(res, err)
     }

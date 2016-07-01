@@ -197,7 +197,7 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
           // AuthService.getCurrentUserPromise().then(function (user) {
           PaymentService.plaidServices({publicToken: publicToken, metadata: metadata}).then(function (accounts) {
             accounts.accounts.map(function (bankAccount) {
-              console.log('bankAccount', bankAccount)
+              // console.log('bankAccount', bankAccount)
               $scope.accounts.push({brand: 'bank', name: metadata.institution.name, last4: bankAccount.meta.number})
             })
             $scope.bank_name = metadata.institution.name
