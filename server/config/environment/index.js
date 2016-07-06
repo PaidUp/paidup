@@ -301,7 +301,8 @@ var all = {
   },
   prerender: {
     token: 'U3jxQ8zAatml2xL5LVd1'
-  }
+  },
+  corsWhitelist : ['http://localhost:4000', 'https://admin.getpaidup.com', 'https://adminstg.getpaidup.com', 'https://admindev.getpaidup.com']
 }
 
 // Export the config object based on the NODE_ENV

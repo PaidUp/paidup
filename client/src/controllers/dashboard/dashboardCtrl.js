@@ -6,6 +6,7 @@ module.exports = [ '$scope', 'AuthService', '$state', function ($scope, AuthServ
   AuthService.getCurrentUserPromise().then(function (u) {
     $scope.user = u
     $scope.isCoach = AuthService.isCoach()
+    $scope.isAdmin = AuthService.isAdmin();
   }, function (e) {
     console.log(e)
   })
