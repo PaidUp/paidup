@@ -243,21 +243,21 @@
                                     <th>Deposit</th>
                                   </tr>
                                 </thead>
-                                <tbody>
-                                  <tr ng-repeat="pp in orders.paymentsPlan | filter:getPaymentsHistory">
+                                <tbody ng-repeat="pp in orders.paymentsPlan | filter:getPaymentsHistory">
+                                  <tr ng-repeat="at in pp.attempts">
                                     <td class="date">
-                                      <div class="month">{{(pp.dateCharge | date : 'MMM') | uppercase}}</div>
-                                      <div class="day">{{pp.dateCharge | date: 'dd'}}</div>
+                                      <div class="month">{{(at.dateAttemp | date : 'MMM') | uppercase}}</div>
+                                      <div class="day">{{at.dateAttemp | date: 'dd'}}</div>
                                     </td>
                                     <td class="details">
                                       {{pp.description}}
                                     </td>
                                     <td class="account">
                                       <i class="fa fa-{{pp.brand ? ('cc-'+pp.brand | lowercase) : 'credit-card-alt'}}"></i>
-                                      <a href="" class="green-link">x-{{pp.last4}}</a>
+                                      <a href="" class="green-link">x-{{at.last4}}</a>
                                     </td>
                                     <td class="status">
-                                      <span>{{pp.status}}</span>
+                                      <span>{{at.status}}</span>
                                     </td>
                                     <td>
                                       <span class="green-font">$</span> {{pp.basePrice | currency:""}}
