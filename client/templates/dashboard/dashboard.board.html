@@ -107,10 +107,10 @@
                     <td class="discount" ng-show="chkFilter">
                       <span class="green-font">$</span> {{getSubTotalDiscount(productInfo, 'price') | currency:""}}
                     </td>
-                    <td class="paid" ng-show="!chkFilter">
+                    <td class="paid">
                       <span class="green-font">$</span> {{getSubTotalPaid(productInfo) | currency:""}}
                     </td>
-                    <!--<td class="paid">
+                    <!--<td class="paid" ng-show="!chkFilter">
                       <span class="green-font">$</span> {{getSubTotalPaid(productInfo, 'price') | currency:""}}
                     </td>-->
                     <td class="remaining" ng-show="!chkFilter">
@@ -154,10 +154,10 @@
                       <td class="discount" ng-show="chkFilter">
                         <span class="green-font">$</span> {{getSubTotalDiscount([orders], 'price') | currency:""}}
                       </td>
-                      <td class="paid" ng-show="!chkFilter">
+                      <td class="paid">
                         <span class="green-font">$</span> {{getSubTotalPaid([orders]) | currency:""}}
                       </td>
-                      <!--<td class="paid">
+                      <!--<td class="paid" ng-show="!chkFilter">
                         <span class="green-font">$</span> {{getSubTotalPaid([orders], 'price') | currency:""}}
                       </td>-->
                       <td class="remaining" ng-show="!chkFilter">
