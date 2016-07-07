@@ -58,6 +58,78 @@ exports.orderGetOrganization = function (req, res) {
   })
 }
 
+exports.orderSearch = function(req , res){
+  if (!req.body.params) {
+    return handleError(res, {name : 'ValidationError' , message : 'params is required' });
+  }
+
+  OrderService.orderSearch(req.body.params, function(err, data){
+    if (err) {
+      return res.status(500).json({code : 'commerceService.orderSearch', message : JSON.stringify(err)});
+    }
+    return res.status(200).json(data);
+  });
+
+}
+
+exports.editOrder = function(req , res){
+
+  let user = req.user;
+  if (!req.body.orderId) {
+    return handleError(res, {name : 'ValidationError' , message : 'order id is required' });
+  }
+  if (!req.body.paymentPlanId) {
+    return handleError(res, {name : 'ValidationError' , message : 'paymen plan id is required' });
+  }
+  req.body.userSysId = user._id;
+  OrderService.editOrder(req.body, function(err, data){
+
+    if (err) {
+      return res.status(500).json({code : 'commerceService.editOrder', message : JSON.stringify(err)});
+    }
+    return res.status(200).json(data.body);
+  });
+
+}
+
+exports.editAllPaymentsPlanByOrder = function(req , res){
+
+  let user = req.user;
+  if (!req.body._id) {
+    return handleError(res, {name : 'ValidationError' , message : 'order _id is required' });
+  }
+  if (!req.body.paymentsPlan) {
+    return handleError(res, {name : 'ValidationError' , message : 'paymentsPlan is required' });
+  }
+  
+  req.body.userSysId = user._id;
+  OrderService.editOrder(req.body, function(err, data){
+
+    if (err) {
+      return res.status(500).json({code : 'commerceService.editOrder', message : JSON.stringify(err)});
+    }
+    return res.status(200).json(data.body);
+  });
+
+}
+
+exports.addPaymentPlan = function(req , res){
+  let user = req.user;
+  if (!req.body.orderId || !req.body.description || !req.body.dateCharge || !req.body.originalPrice ||
+    !req.body.account) {
+    return handleError(res, {name : 'ValidationError' , message : 'These params are required: description, dateCharge, originalPrice, account' });
+  }
+
+  req.body.userSysId = user._id;
+  OrderService.addPaymentPlan(req.body, function(err, data){
+    if (err) {
+      return res.status(500).json({code : 'commerceService.addPaymenPlan', message : JSON.stringify(err)});
+    }
+    return res.status(200).json(data.body);
+  });
+
+}
+
 function handleError (res, err) {
   let httpErrorCode = 500
   if (err.name === 'ValidationError') {

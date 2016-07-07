@@ -228,7 +228,8 @@ function orderPaymentActive (userId, limit, cb) {
 }
 
 function orderGet (userId, limit, sort, cb) {
-  CommerceConnector.orderGet({
+  console.log('###############')
+  CommerceConnector.orderGetStr({
     baseUrl: config.connections.commerce.baseUrl,
     token: config.connections.commerce.token,
     userId: userId,
@@ -241,13 +242,14 @@ function orderGet (userId, limit, sort, cb) {
     },
     // OK.
     success: function (result) {
+      result.body = JSON.parse(result.body)
       return cb(null, result)
     }
   })
 }
 
 function orderGetByorderId (orderId, limit, sort, cb) {
-  CommerceConnector.orderGet({
+  CommerceConnector.orderGetStr({
     baseUrl: config.connections.commerce.baseUrl,
     token: config.connections.commerce.token,
     orderId: orderId,
@@ -260,6 +262,7 @@ function orderGetByorderId (orderId, limit, sort, cb) {
     },
     // OK.
     success: function (result) {
+      result.body = JSON.parse(result.body)
       return cb(null, result)
     }
   })
@@ -285,6 +288,209 @@ function orderGetOrganization (organizationId, limit, sort, cb) {
   })
 }
 
+function orderSearch(params, cb){
+
+  CommerceConnector.orderSearch({
+    baseUrl : config.connections.commerce.baseUrl,
+    token: config.connections.commerce.token,
+    params: params
+  }).exec({
+    // An unexpected error occurred.
+    error: function (err) {
+      return cb(err)
+    },
+    // OK.
+    success: function (orderResult) {
+      return cb(null, orderResult)
+    },
+  });
+
+}
+
+function addPaymentPlan(params, cb){
+  getPaymentPlan(params.orderId, null, function(err, pp){
+    if(err){
+      return cb(err);
+    }else{
+      params.version = pp.version || 'v1';
+      editPaymentPlan(pp, params, function(err2, pp2){
+        if(err2){
+          return cb(err2);
+        }else{
+          pp2.attempts = [];
+          pp2.status = "pending"
+          delete pp2.id;
+
+          let ppe = {
+            baseUrl : config.connections.commerce.baseUrl,
+            token: config.connections.commerce.token,
+            userSysId: params.userSysId,
+            orderId : params.orderId,
+            paymentsPlan: [pp2]
+          }
+
+          CommerceConnector.orderAddPayments(ppe).exec({
+            // An unexpected error occurred.
+            error: function (err) {
+
+              console.log('err', err)
+
+              return cb(err)
+            },
+            // OK.
+            success: function (orderResult) {
+              console.log('ORDER Result: ', JSON.stringify(orderResult))
+              return cb(null, orderResult)
+            },
+          });
+        }
+      })
+    }
+  });
+
+
+
+}
+
+function editOrder(params, cb){
+  getPaymentPlan(params.orderId, params.paymentPlanId, function(err, pp){
+    if(err){
+      console.log('throw ee', err)
+      return cb(err);
+    }else{
+      editPaymentPlan(pp, params, function(err2, pp2){
+        if(err2){
+          console.log('throw err2 ',err2)
+
+          return cb(err2);
+        }else{
+
+          let ppe = {
+            baseUrl : config.connections.commerce.baseUrl,
+            token: config.connections.commerce.token,
+            orderId: params.orderId,
+            userSysId: params.userSysId,
+            paymentPlanId : params.paymentPlanId,
+            paymentPlan: pp2
+          }
+
+          CommerceConnector.orderUpdatePayments(ppe).exec({
+
+            // An unexpected error occurred.
+            error: function (err) {
+              console.log('throw err3 ',err)
+
+              return cb(err)
+            },
+            // OK.
+            success: function (orderResult) {
+              return cb(null, orderResult)
+            },
+          });
+        }
+      })
+    }
+  });
+}
+
+function editPaymentPlan(pp, params, cb){
+  let originalPrice = params.originalPrice;
+  let description = params.description;
+  let dateCharge = params.dateCharge;
+  let status = params.status;
+  let wasProcessed = params.wasProcessed || false;
+
+  PUScheduleConnect.calculatePrice({
+    version: params.version,
+    baseUrl: config.connections.schedule.baseUrl,
+    token: config.connections.schedule.token,
+    originalPrice: originalPrice,
+    stripePercent: pp.processingFees.cardFeeDisplay,
+    stripeFlat: pp.processingFees.cardFeeFlatDisplay,
+    paidUpFee: pp.collectionsFee.fee,
+    discount: pp.discount,
+    payProcessing: pp.paysFees.processing,
+    payCollecting: pp.paysFees.collections,
+  }).exec({
+// An unexpected error occurred.
+    error: function (err){
+      return cb(err);
+    },
+// OK.
+    success: function (result){
+      result.body = JSON.parse(result.body);
+      pp.version = result.body.version;
+      pp.price = result.body.owedPrice;
+      pp.basePrice = result.body.basePrice;
+      pp.originalPrice = originalPrice;
+      pp.description = description;
+      pp.dateCharge = dateCharge;
+      pp.wasProcessed = wasProcessed;
+      pp.account = params.account;
+      pp.accountBrand = params.accountBrand;
+      pp.last4 = params.last4;
+      pp.typeAccount =  params.typeAccount;
+      pp.totalFee = result.body.totalFee;
+      pp.feeStripe = result.body.feeStripe;
+      pp.feePaidUp = result.body.feePaidUp;
+      pp.status = status;
+      return cb(null, pp);
+    },
+  });
+}
+
+function getPaymentPlan(orderId, paymentPlanId, cb){
+  CommerceConnector.orderGet({
+    baseUrl: config.connections.commerce.baseUrl,
+    token: config.connections.commerce.token,
+    orderId: orderId,
+    limit: 1
+  }).exec({
+// An unexpected error occurred.
+    error: function (err){
+      return cb(err)
+    },
+// OK.
+    success: function (result){
+      let res = null;
+      if(!paymentPlanId){
+        res = result.body.orders[0].paymentsPlan[0]
+      }else{
+        result.body.orders[0].paymentsPlan.map(function(pp){
+          if(pp._id === paymentPlanId){
+            res = pp;
+          }
+        });
+      }
+      if(res){
+        return cb(null, res);
+      }
+      return cb('payment plan not found')
+    },
+  });
+}
+
+function editAllPaymentsPlan(orderId, oldPaymentsPlan, cb){
+
+  let paramsForCalculations = [];
+  
+  oldPaymentsPlan.forEach(function (pp, idx, arr) {
+    paramsForCalculations.push({
+      version: pp.version,
+      description : pp._id,
+      dateCharge : pp.dateCharge,
+      originalPrice : pp.originalPrice,
+      stripePercent : pp.processingFees.cardFeeDisplay,
+      stripeFlat : pp.processingFees.cardFeeFlatDisplay,
+      paidUpFee : 5,
+      discount : 10,
+      payProcessing : false,
+      payCollecting : true
+    })
+  });
+
+}
+
 module.exports = {
   createOrder: createOrder,
   orderPaymentRecent: orderPaymentRecent,
@@ -292,5 +498,8 @@ module.exports = {
   orderPaymentActive: orderPaymentActive,
   orderGet: orderGet,
   orderGetOrganization: orderGetOrganization,
-  orderGetByorderId: orderGetByorderId
+  orderGetByorderId: orderGetByorderId,
+  orderSearch: orderSearch,
+  addPaymentPlan: addPaymentPlan,
+  editOrder: editOrder
 }

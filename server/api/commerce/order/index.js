@@ -13,5 +13,9 @@ router.get('/active/:userId/:limit', authService.isAuthenticated(), controller.o
 router.get('/organization/:organizationId/:limit/:sort', authService.isAuthenticated(), controller.orderGetOrganization)
 router.get('/:userId/:limit/:sort', authService.isAuthenticated(), controller.orderGet)
 
+router.post('/search', authService.isAuthenticated(), controller.orderSearch);
+router.post('/edit', authService.isAuthenticated(), controller.editOrder);
+router.post('/add', authService.isAuthenticated(), controller.addPaymentPlan);
+
 
 module.exports = router
