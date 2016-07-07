@@ -19,7 +19,8 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
   $scope.getSubTotalPaid = function getSubTotalPaid (orders, key) {
     return orders.reduce(function (result, order) {
       return result + order.paymentsPlan.reduce(function (previousPrice, pp) {
-        var sum = (pp.status === 'succeeded') ? (pp[(!key || key !== 'price') ? 'basePrice' : key] - pp.totalFee) : 0
+        // var sum = (pp.status === 'succeeded') ? (pp[(!key || key !== 'price') ? 'basePrice' : key] - pp.totalFee) : 0
+        var sum = (pp.status === 'succeeded') ? (pp[(!key || key !== 'price') ? 'basePrice' : key]) : 0
         return previousPrice + sum
       }, 0)
     }, 0)
