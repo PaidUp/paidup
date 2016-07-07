@@ -228,7 +228,6 @@ function orderPaymentActive (userId, limit, cb) {
 }
 
 function orderGet (userId, limit, sort, cb) {
-  console.log('###############')
   CommerceConnector.orderGetStr({
     baseUrl: config.connections.commerce.baseUrl,
     token: config.connections.commerce.token,
