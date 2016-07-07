@@ -73,10 +73,10 @@
                   <td class="discount" ng-show="chkFilter">
                     <span class="green-font">$</span> {{totalDiscountFees | currency:""}}
                   </td>
-                  <td class="paid" ng-show="!chkFilter">
+                  <td class="paid">
                     <span class="green-font">$</span> {{totalPaid | currency:""}}
                   </td>
-                  <!--<td class="paid">
+                  <!--<td class="paid" ng-show="chkFilter">
                     <span class="green-font">$</span> {{totalPaidFees | currency:""}}
                   </td>-->
                   <td class="remaining" ng-show="!chkFilter">
