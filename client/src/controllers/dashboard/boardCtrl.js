@@ -7,9 +7,12 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
     }, 0)
   }
 
-  $scope.getSubTotalDiscount = function getSubTotalDiscount (orders) {
+  $scope.getSubTotalDiscount = function getSubTotalDiscount (orders, key) {
     return orders.reduce(function (result, order) {
-      return result + order.sumDiscount
+      return order.paymentsPlan.reduce(function (prevDiscount, pp) {
+        var sum = pp[(!key || key !== 'price') ? 'basePrice' : key] * (pp.discount / 100)
+        return prevDiscount + sum
+      }, 0)
     }, 0)
   }
 
@@ -104,6 +107,7 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
     $scope.totalPrice = 0
     $scope.totalPriceFees = 0
     $scope.totalDiscount = 0
+    $scope.totalDiscountFees = 0
     $scope.totalPaid = 0
     $scope.totalPaidFees = 0
     $scope.totalRemaining = 0
@@ -115,6 +119,7 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
         $scope.totalPrice = $scope.getSubTotal(result.body)
         $scope.totalPriceFees = $scope.getSubTotal(result.body, 'sumPrice')
         $scope.totalDiscount = $scope.getSubTotalDiscount(result.body)
+        $scope.totalDiscountFees = $scope.getSubTotalDiscount(result.body, 'price')
         $scope.totalPaid = $scope.getSubTotalPaid(result.body)
         $scope.totalPaidFees = $scope.getSubTotalPaid(result.body, 'price')
         $scope.totalRemaining = $scope.getSubTotalRemaining(result.body)

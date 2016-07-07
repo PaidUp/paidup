@@ -67,8 +67,11 @@
                   <td class="tot" ng-show="chkFilter">
                     <span class="green-font">$</span> {{totalPriceFees | currency:""}}
                   </td>
-                  <td class="discount">
+                  <td class="discount" ng-show="!chkFilter">
                     <span class="green-font">$</span> {{totalDiscount | currency:""}}
+                  </td>
+                  <td class="discount" ng-show="chkFilter">
+                    <span class="green-font">$</span> {{totalDiscountFees | currency:""}}
                   </td>
                   <!--<td class="paid" ng-show="!chkFilter">
                     <span class="green-font">$</span> {{totalPaid | currency:""}}
@@ -98,8 +101,11 @@
                     <td class="tot" ng-show="chkFilter">
                       <span class="green-font">$</span> {{getSubTotal(productInfo, 'sumPrice') | currency:""}}
                     </td>
-                    <td class="discount">
+                    <td class="discount" ng-show="!chkFilter">
                       <span class="green-font">$</span> {{getSubTotalDiscount(productInfo) | currency:""}}
+                    </td>
+                    <td class="discount" ng-show="chkFilter">
+                      <span class="green-font">$</span> {{getSubTotalDiscount(productInfo, 'price') | currency:""}}
                     </td>
                     <!--<td class="paid" ng-show="!chkFilter">
                       <span class="green-font">$</span> {{getSubTotalPaid(productInfo) | currency:""}}
