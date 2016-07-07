@@ -10,7 +10,7 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
   $scope.getSubTotalDiscount = function getSubTotalDiscount (orders, key) {
     return orders.reduce(function (result, order) {
       return order.paymentsPlan.reduce(function (prevDiscount, pp) {
-        var sum = pp[(!key || key !== 'price') ? 'basePrice' : key] * (pp.discount / 100)
+        var sum = pp[(!key || key !== 'price') ? 'originalPrice' : key] * (pp.discount / 100)
         return prevDiscount + sum
       }, 0)
     }, 0)
