@@ -219,7 +219,7 @@
                                       <span class="green-font">$</span> {{pp.price | currency:""}}
                                     </td>
                                     <td>
-                                      <span class="green-font">$</span> {{(pp.price - pp.totalFee) | currency:""}}
+                                      <span class="green-font">$</span> {{(pp.price - pp.totalFee) - 0.30 | currency:""}}
                                     </td>
                                   </tr>
                                 </tbody>
