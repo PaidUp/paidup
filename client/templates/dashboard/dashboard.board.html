@@ -67,10 +67,10 @@
                   <td class="tot" ng-show="chkFilter">
                     <span class="green-font">$</span> {{totalPriceFees | currency:""}}
                   </td>
-                  <td class="discount" ng-show="!chkFilter">
+                  <!--<td class="discount" ng-show="!chkFilter">
                     <span class="green-font">$</span> {{totalDiscount | currency:""}}
-                  </td>
-                  <td class="discount" ng-show="chkFilter">
+                  </td>-->
+                  <td class="discount">
                     <span class="green-font">$</span> {{totalDiscountFees | currency:""}}
                   </td>
                   <!--<td class="paid"  ng-show="!chkFilter">
@@ -101,10 +101,10 @@
                     <td class="tot" ng-show="chkFilter">
                       <span class="green-font">$</span> {{getSubTotal(productInfo, 'sumPrice') | currency:""}}
                     </td>
-                    <td class="discount" ng-show="!chkFilter">
+                    <!--<td class="discount" ng-show="!chkFilter">
                       <span class="green-font">$</span> {{getSubTotalDiscount(productInfo) | currency:""}}
-                    </td>
-                    <td class="discount" ng-show="chkFilter">
+                    </td>-->
+                    <td class="discount">
                       <span class="green-font">$</span> {{getSubTotalDiscount(productInfo, 'price') | currency:""}}
                     </td>
                     <!--<td class="paid" ng-show="!chkFilter">
@@ -148,10 +148,10 @@
                       <td class="tot" ng-show="chkFilter">
                         <span class="green-font">$</span> {{orders.sumPrice | currency:""}}
                       </td>
-                      <td class="discount" ng-show="!chkFilter">
+                      <!--<td class="discount" ng-show="!chkFilter">
                         <span class="green-font">$</span> {{getSubTotalDiscount([orders]) | currency:""}}
-                      </td>
-                      <td class="discount" ng-show="chkFilter">
+                      </td>-->
+                      <td class="discount">
                         <span class="green-font">$</span> {{getSubTotalDiscount([orders], 'price') | currency:""}}
                       </td>
                       <!--<td class="paid" ng-show="!chkFilter">
