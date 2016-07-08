@@ -88,13 +88,12 @@
                 </tr>
               </tbody>
             </table>
-
             <!-- CATEGORY 1 -->
-            <div ng-repeat="productInfo in groupProducts">
+            <div ng-repeat="(key, productInfo) in groupProducts">
               <table class="header-table">
                 <tbody>
                   <tr ng-click="expandCategory1 = !expandCategory1">
-                    <td colspan="2" class="name"> {{productInfo[0].allProductName[0]}} {{productInfo.productName}}</td>
+                    <td colspan="2" class="name">{{key}}</td>
                     <td class="tot" ng-show="!chkFilter">
                       <span class="green-font">$</span> {{getSubTotal(productInfo) | currency:""}}
                     </td>

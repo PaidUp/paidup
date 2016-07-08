@@ -128,7 +128,12 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
         var finalResult = R.groupBy(function (order) {
           return order.allProductName[0]
         })
-        $scope.groupProducts = finalResult(result.body)
+        var fn = finalResult(result.body)
+        var gp = {}
+        Object.keys(fn).sort().forEach(function (v, i) {
+          gp[v] = fn[v]
+        })
+        $scope.groupProducts = gp
       }).catch(function (err) {
         console.log('err', err)
       })
