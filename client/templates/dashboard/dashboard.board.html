@@ -126,7 +126,7 @@
               <div ng-class="expandCategory1 ? 'category-table active' : 'category-table'">
                 <table class="transactions-table board-table">
                   <tbody>
-                    <tr ng-click="expandSection11 = !expandSection11" ng-class="expandSection11 ? 'user-row active' : 'user-row'" ng-repeat-start="orders in productInfo">
+                    <tr ng-click="expandSection11 = !expandSection11" ng-class="expandSection11 ? 'user-row active' : 'user-row'" ng-repeat-start="orders in productInfo | orderBy:'-createAt'">
                       <td class="date">
                         <div class="month">{{(orders.createAt | date : 'MMM') | uppercase}}</div>
                         <div class="day">{{orders.createAt | date: 'dd'}}</div>
@@ -206,7 +206,7 @@
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  <tr ng-repeat="pp in orders.paymentsPlan | filter:getPaymentsPending">
+                                  <tr ng-repeat="pp in orders.paymentsPlan | filter:getPaymentsPending | orderBy:'dateCharge'">
                                     <td class="date">
                                       <div class="month">{{(pp.dateCharge | date : 'MMM') | uppercase}}</div>
                                       <div class="day">{{pp.dateCharge | date: 'dd'}}</div>
@@ -252,8 +252,9 @@
                                     <th>Deposit</th>
                                   </tr>
                                 </thead>
+                                      <div class="month">{{(at.dateAttemp | date : 'MMM') | uppercase}}</div>
                                 <tbody ng-repeat="pp in orders.paymentsPlan | filter:getPaymentsHistory">
-                                  <tr ng-repeat="at in pp.attempts">
+                                  <tr ng-repeat="at in pp.attempts | orderBy:'-dateAttemp'">
                                     <td class="date">
                                       <div class="month">{{(at.dateAttemp | date : 'MMM') | uppercase}}</div>
                                       <div class="day">{{at.dateAttemp | date: 'dd'}}</div>
