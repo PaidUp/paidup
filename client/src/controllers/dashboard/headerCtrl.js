@@ -17,10 +17,10 @@ module.exports = [ '$scope', '$rootScope', '$window', '$location', 'SessionServi
       adminUrl = 'https://admin.getpaidup.com/token/'+token;
     }
     else if(host.indexOf('stg') === 0){
-      adminUrl = 'https://adminstg.getpaidup.com/token/'+token;
+      adminUrl = 'https://admstg.getpaidup.com/token/'+token;
     }
     else if(host.indexOf('dev') === 0){
-      adminUrl = 'https://admindev.getpaidup.com/token/'+token;
+      adminUrl = 'https://admdev.getpaidup.com/token/'+token;
     }
     else {
       adminUrl = 'http://localhost:4000/access?token='+token;
