@@ -25,8 +25,8 @@ var OrderService = {
         params.push({
           version: ele.version,
           originalPrice: ele.amount,
-          stripePercent: dataProduct.processingFees.cardFeeActual,
-          stripeFlat: dataProduct.processingFees.cardFeeFlatActual,
+          stripePercent: dataProduct.processingFees.cardFeeDisplay,
+          stripeFlat: dataProduct.processingFees.cardFeeFlatDisplay,
           paidUpFee: dataProduct.collectionsFee.fee,
           discount: ele.applyDiscount ? ele.discount : 0,
           payProcessing: dataProduct.paysFees.processing,
@@ -471,22 +471,27 @@ function getPaymentPlan(orderId, paymentPlanId, cb){
 
 function editAllPaymentsPlan(orderId, oldPaymentsPlan, cb){
 
-  let paramsForCalculations = [];
+  orderGetByorderId(orderId, 1, 1, function(){
+    
+  })
+
+  cb(null, {body: true});
+  // let paramsForCalculations = [];
   
-  oldPaymentsPlan.forEach(function (pp, idx, arr) {
-    paramsForCalculations.push({
-      version: pp.version,
-      description : pp._id,
-      dateCharge : pp.dateCharge,
-      originalPrice : pp.originalPrice,
-      stripePercent : pp.processingFees.cardFeeDisplay,
-      stripeFlat : pp.processingFees.cardFeeFlatDisplay,
-      paidUpFee : 5,
-      discount : 10,
-      payProcessing : false,
-      payCollecting : true
-    })
-  });
+  // oldPaymentsPlan.forEach(function (pp, idx, arr) {
+  //   paramsForCalculations.push({
+  //     version: pp.version,
+  //     description : pp._id,
+  //     dateCharge : pp.dateCharge,
+  //     originalPrice : pp.originalPrice,
+  //     stripePercent : pp.processingFees.cardFeeDisplay,
+  //     stripeFlat : pp.processingFees.cardFeeFlatDisplay,
+  //     paidUpFee : 5,
+  //     discount : 10,
+  //     payProcessing : false,
+  //     payCollecting : true
+  //   })
+  // });
 
 }
 
@@ -500,5 +505,6 @@ module.exports = {
   orderGetByorderId: orderGetByorderId,
   orderSearch: orderSearch,
   addPaymentPlan: addPaymentPlan,
-  editOrder: editOrder
+  editOrder: editOrder,
+  editAllPaymentsPlan: editAllPaymentsPlan
 }
