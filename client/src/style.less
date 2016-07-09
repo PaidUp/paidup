@@ -2282,3 +2282,48 @@ ul.uib-datepicker-popup{
 #habla_window_div button{
   color: #000 !important;
 }
+
+.two-columns-wrapper{
+  margin: 30px 0px;
+  .left-side{
+    float:left;
+    width: 100%;
+    @media @medium-up{
+      width: 20%;
+    }
+    .teams{
+      text-align: center;
+      margin-right: auto;
+      @media @medium-up{
+        text-align: right;
+        margin-right: 60px;
+      }
+      .team{
+        text-align: center;
+        margin: 0;
+      }
+    }
+  }
+  .right-side{
+    float:left;
+    width: 100%;
+    margin-top: 30px;
+    @media @medium-up{
+      margin-top: 0px;
+      width: 80%;
+    }
+    .order-details-table{
+      .field{
+        // font-family: @family-medium;
+        color:@c-green-font;
+        padding:5px;
+        width:20%;
+      }
+      .value{
+        padding:5px;
+        color:@c-gray-dark-font;
+        width:80%;
+      }
+    }
+  }
+}
