@@ -4,10 +4,10 @@
 
 'use strict'
 const fs = require('fs')
-const config = require('./config/environment')
+let config = require('./config/environment')
 const errors = require('./components/errors')
-const pmx = require('pmx')
-const cors = require('cors')
+let pmx = require('pmx')
+let cors = require('cors')
 
 module.exports = function (app) {
   app.use(function (req, res, next) {
