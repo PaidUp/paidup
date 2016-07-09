@@ -203,4 +203,8 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
     if (pp.status === 'failed' || pp.status === 'pending') return true
     return false
   }
+
+  $scope.setDataCustomInfo = function setDataCustomInfo (customInfo) {
+    return CommerceService.setDataCustomInfo(customInfo)
+  }
 }]

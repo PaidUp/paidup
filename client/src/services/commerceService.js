@@ -42,4 +42,13 @@ module.exports = ['$resource', function ($resource) {
     }, '')
     return ret
   }
+
+  this.setDataCustomInfo = function setDataCustomInfo (customInfo) {
+    for (var param in customInfo) {
+      if (!isNaN(Date.parse(customInfo[param]))) {
+        customInfo[param] = new Date(customInfo[param])
+      }
+    }
+    return customInfo
+  }
 }]
