@@ -27,17 +27,12 @@ module.exports = function (app) {
     const whitelist = config.cors.corsWhitelist;
     let corsOptions = {
       origin: function (origin, callback) {
-
-        console.log('Origin', origin)
-
         var originIsWhitelisted = whitelist.indexOf (origin) !== -1;
         callback (null, originIsWhitelisted);
       }
     }
     app.use(cors(corsOptions));
   }
-
-
 
   // Insert routes below
   app.use('/api/v1/auth', require('./api/auth'))
