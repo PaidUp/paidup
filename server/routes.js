@@ -23,7 +23,7 @@ module.exports = function (app) {
     })
   })
 
-  if(config.cors.enable){
+  if(process.env.NODE_ENV === 'development'){
     const whitelist = config.cors.corsWhitelist;
     let corsOptions = {
       origin: function (origin, callback) {
