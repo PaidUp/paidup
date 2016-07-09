@@ -95,7 +95,7 @@ exports.editOrder = function(req , res){
 exports.editAllPaymentsPlanByOrder = function(req , res){
 
   let user = req.user;
-  if (!req.body._id) {
+  if (!req.body.orderId) {
     return handleError(res, {name : 'ValidationError' , message : 'order _id is required' });
   }
   if (!req.body.paymentsPlan) {
@@ -103,7 +103,7 @@ exports.editAllPaymentsPlanByOrder = function(req , res){
   }
   
   req.body.userSysId = user._id;
-  OrderService.editOrder(req.body, function(err, data){
+  OrderService.editAllPaymentsPlan(req.body, function(err, data){
 
     if (err) {
       return res.status(500).json({code : 'commerceService.editOrder', message : JSON.stringify(err)});
