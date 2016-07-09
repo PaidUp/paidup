@@ -34,7 +34,7 @@ module.exports = function (app) {
     }
   }
 
-  //app.use(cors(corsOptions));
+  app.use(cors(corsOptions));
 
   // Insert routes below
   app.use('/api/v1/auth', require('./api/auth'))
