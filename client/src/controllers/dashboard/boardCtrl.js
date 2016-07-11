@@ -29,7 +29,8 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
   $scope.getSubTotalRemaining = function getSubTotalRemaining (subTotals, key) {
     return subTotals.reduce(function (result, sTotals) {
       return result + sTotals.paymentsPlan.reduce(function (previousPrice, pp) {
-        var sum = (pp.status === 'failed' || pp.status === 'pending') ? (pp[(!key || key !== 'price') ? 'basePrice' : key] - pp.totalFee) : 0
+        var sum = (pp.status === 'failed' || pp.status === 'pending') ? (pp[(!key || key !== 'price') ? 'originalPrice' : key]) : 0
+        // var sum = (pp.status === 'failed' || pp.status === 'pending') ? (pp[(!key || key !== 'price') ? 'basePrice' : key] - pp.totalFee) : 0
         return previousPrice + sum
       }, 0)
     }, 0)
@@ -117,14 +118,14 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
     AuthService.getCurrentUserPromise().then(function (user) {
       var organizationId = (user.meta.productRelated[0]) ? user.meta.productRelated[0] : 'Does not have organization'
       CommerceService.orderGetOrganization(organizationId, 200, -1).then(function (result) {
-        $scope.totalPrice = $scope.getSubTotal(result.body)
+        // $scope.totalPrice = $scope.getSubTotal(result.body)
         $scope.totalPriceFees = $scope.getSubTotal(result.body, 'sumPrice')
-        $scope.totalDiscount = $scope.getSubTotalDiscount(result.body)
+        // $scope.totalDiscount = $scope.getSubTotalDiscount(result.body)
         $scope.totalDiscountFees = $scope.getSubTotalDiscount(result.body, 'originalPrice')
-        $scope.totalPaid = $scope.getSubTotalPaid(result.body)
+        // $scope.totalPaid = $scope.getSubTotalPaid(result.body)
         $scope.totalPaidFees = $scope.getSubTotalPaid(result.body, 'price')
         $scope.totalRemaining = $scope.getSubTotalRemaining(result.body)
-        $scope.totalRemainingFees = $scope.getSubTotalRemaining(result.body, 'price')
+        $scope.totalRemainingFees = $scope.getSubTotalRemaining(result.body, 'originalPrice')
         var finalResult = R.groupBy(function (order) {
           return order.allProductName[0]
         })
