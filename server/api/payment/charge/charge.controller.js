@@ -21,11 +21,9 @@ exports.getChargesList = function (req, res) {
         let bycreated = R.groupBy(function (charge) {
           return charge.created.substring(0, 10)
         })
-        let ordersId = R.uniq(data.data.map(c => {
-          return c.metadata._id
-        }))
-        console.log('------------------')
-        console.log('ordersId', ordersId)
+        // let ordersId = R.uniq(data.data.map(c => {
+          // return c.metadata._id
+        // }))
         let result = bycreated(data.data)
         let total = data.data.reduce((t, c) => {
           // return t + (c.amount / 100)

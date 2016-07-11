@@ -31,4 +31,24 @@ module.exports = ['$resource', function ($resource) {
   this.createOrder = function (params) {
     return CreateOrder.post(params).$promise
   }
+
+  this.getVisibleBeneficiaryData = function getVisibleBeneficiaryData (info) {
+    var ret = info.formTemplate.reduce(function (actual, obj) {
+      if (obj.displayed) {
+        return actual + ' ' + info.formData[obj.model]
+      } else {
+        return actual
+      }
+    }, '')
+    return ret
+  }
+
+  this.setDataCustomInfo = function setDataCustomInfo (customInfo) {
+    for (var param in customInfo) {
+      if (!isNaN(Date.parse(customInfo[param]))) {
+        customInfo[param] = new Date(customInfo[param])
+      }
+    }
+    return customInfo
+  }
 }]

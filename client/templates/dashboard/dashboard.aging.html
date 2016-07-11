@@ -50,7 +50,7 @@
               </thead>
               <tbody>
                 <tr>
-                  <td colspan="2" class="name">TOTAL (for time period selected)</td>
+                  <td colspan="2" class="name">TOTAL <!--(for time period selected)--></td>
                   <td class="aging-value">
                     <span class="green-font">$</span> {{overDue0130 | currency:""}}
                   </td>
@@ -110,7 +110,7 @@
                         </div>
                         <div class="team">
                           <div class="team-name">{{order.paymentsPlan[0].userInfo.userName}}</div>
-                          <div class="team-contact">{{getBeneficiaryInfo(order.paymentsPlan[0].customInfo.formData)}}</div>
+                          <div class="team-contact">{{getBeneficiaryInfo(order.paymentsPlan[0].customInfo)}}</div>
                         </div>
                         <div class="clearfix"></div>
                       </td>

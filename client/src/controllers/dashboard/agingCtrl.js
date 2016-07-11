@@ -2,6 +2,7 @@
 
 module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'TrackerService', function ($scope, AuthService, $state, CommerceService, TrackerService) {
   $scope.expandSection1 = true
+  $scope.expandSection11 = true
   $scope.expandSection2 = true
   $scope.overDue0130 = 0
   $scope.overDue3160 = 0
@@ -50,12 +51,8 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
     }, 0)
   }
 
-  $scope.getBeneficiaryInfo = function getBeneficiaryInfo (formData) {
-    var ret = ''
-    for (var prop in formData) {
-      ret = ret + ' ' + formData[prop]
-    }
-    return ret
+  $scope.getBeneficiaryInfo = function getBeneficiaryInfo (customInfo) {
+    return CommerceService.getVisibleBeneficiaryData(customInfo)
   }
 
   $scope.init = function () {

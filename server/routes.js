@@ -4,9 +4,10 @@
 
 'use strict'
 const fs = require('fs')
-const config = require('./config/environment')
+let config = require('./config/environment')
 const errors = require('./components/errors')
-const pmx = require('pmx')
+let pmx = require('pmx')
+let cors = require('cors')
 
 module.exports = function (app) {
   app.use(function (req, res, next) {
@@ -21,6 +22,17 @@ module.exports = function (app) {
       }
     })
   })
+
+  if(process.env.NODE_ENV === 'development'){
+    const whitelist = config.cors.corsWhitelist;
+    let corsOptions = {
+      origin: function (origin, callback) {
+        var originIsWhitelisted = whitelist.indexOf (origin) !== -1;
+        callback (null, originIsWhitelisted);
+      }
+    }
+    app.use(cors(corsOptions));
+  }
 
   // Insert routes below
   app.use('/api/v1/auth', require('./api/auth'))
