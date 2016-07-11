@@ -936,10 +936,6 @@ DASHBOARD PAGES
     }
     tbody{
       tr{
-        border-top: 1px solid @c-blue-font;
-        border-left: 1px solid @c-blue-font;
-        border-right: 1px solid @c-blue-font;
-        border-bottom: 1px solid @c-blue-font;
         background-color: @c-blue-light-back;
         cursor: pointer;
         td.name{
@@ -978,7 +974,7 @@ DASHBOARD PAGES
   }
 
   div.main-tables-container{
-    overflow: scroll;
+    overflow: auto;
   }
 
   div.category-table{
@@ -995,10 +991,6 @@ DASHBOARD PAGES
   // BOARD TABLE
   .board-table{
     color: @c-gray-dark-font;
-    border-top: none;
-    border-left: 1px solid @c-blue-font;
-    border-bottom: 1px solid @c-blue-font;
-    border-right: 1px solid @c-blue-font;
     font-size: 12px;
     @media @medium-up{
       font-size: 14px;
@@ -1087,10 +1079,6 @@ DASHBOARD PAGES
   // AGING TABLE
   .aging-table{
     color: @c-gray-dark-font;
-    border-top: none;
-    border-left: 1px solid @c-blue-font;
-    border-bottom: 1px solid @c-blue-font;
-    border-right: 1px solid @c-blue-font;
     font-size: 12px;
     @media @medium-up{
       font-size: 14px;
@@ -1137,7 +1125,6 @@ DASHBOARD PAGES
   .deposits-table{
     color: @c-gray-dark-font;
     margin-top: 20px;
-    border: 1px solid @c-blue-font;
     font-size: 12px;
     @media @medium-up{
       font-size: 14px;
@@ -2294,4 +2281,49 @@ ul.uib-datepicker-popup{
 // Olark CSS Fix
 #habla_window_div button{
   color: #000 !important;
+}
+
+.two-columns-wrapper{
+  margin: 30px 0px;
+  .left-side{
+    float:left;
+    width: 100%;
+    @media @medium-up{
+      width: 20%;
+    }
+    .teams{
+      text-align: center;
+      margin-right: auto;
+      @media @medium-up{
+        text-align: right;
+        margin-right: 60px;
+      }
+      .team{
+        text-align: center;
+        margin: 0;
+      }
+    }
+  }
+  .right-side{
+    float:left;
+    width: 100%;
+    margin-top: 30px;
+    @media @medium-up{
+      margin-top: 0px;
+      width: 80%;
+    }
+    .order-details-table{
+      .field{
+        // font-family: @family-medium;
+        color:@c-green-font;
+        padding:5px;
+        width:30%;
+      }
+      .value{
+        padding:5px;
+        color:@c-gray-dark-font;
+        width:70%;
+      }
+    }
+  }
 }

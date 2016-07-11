@@ -2,8 +2,8 @@
 
 module.exports = ['$scope', 'AuthService', '$state', 'CommerceService', 'TrackerService',
   function ($scope, AuthService, $state, CommerceService, TrackerService) {
-    $scope.expandSection1 = true
-    $scope.expandSection2 = true
+    $scope.expandSection1 = false
+    $scope.expandSection2 = false
     $scope.allOrders = []
     $scope.init = function () {
       TrackerService.track('View Orders')

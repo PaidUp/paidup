@@ -101,8 +101,8 @@ exports.couponAdd = function (req, res) {
 
   cartService.cartCouponAdd(req.body.productId, req.body.coupon, function (err, resp) {
     if (err) {
-      res.status(err.status).json(err.message)
+      return res.status(err.status).json(err.message)
     }
-    res.status(200).json(resp.body)
+    return res.status(200).json(resp.body)
   })
 }

@@ -3,22 +3,24 @@
 module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'TrackerService', function ($scope, AuthService, $state, CommerceService, TrackerService) {
   $scope.getSubTotal = function getSubTotals (orders, key) {
     return orders.reduce(function (result, order) {
-      return result + order[(!key || key !== 'sumPrice') ? 'sumoriginalPrice' : key]
-    // return result + order.sumoriginalPrice
+      return result + order[(!key || key !== 'sumPrice') ? 'sumbasePrice' : key]
     }, 0)
   }
 
-  $scope.getSubTotalDiscount = function getSubTotalDiscount (orders) {
+  $scope.getSubTotalDiscount = function getSubTotalDiscount (orders, key) {
     return orders.reduce(function (result, order) {
-      return result + order.sumDiscount
+      return result + order.paymentsPlan.reduce(function (prevDiscount, pp) {
+        var sum = pp[(!key || key !== 'price') ? 'originalPrice' : key] * (pp.discount / 100)
+        return prevDiscount + sum
+      }, 0)
     }, 0)
   }
 
   $scope.getSubTotalPaid = function getSubTotalPaid (orders, key) {
     return orders.reduce(function (result, order) {
       return result + order.paymentsPlan.reduce(function (previousPrice, pp) {
-        var sum = (pp.status === 'succeeded') ? pp[(!key || key !== 'price') ? 'originalPrice' : key] : 0
-        // var sum = (pp.status === 'succeeded') ? pp.originalPrice : 0
+        // var sum = (pp.status === 'succeeded') ? (pp[(!key || key !== 'price') ? 'basePrice' : key] - pp.totalFee) : 0
+        var sum = (pp.status === 'succeeded') ? (pp[(!key || key !== 'price') ? 'basePrice' : key]) : 0
         return previousPrice + sum
       }, 0)
     }, 0)
@@ -27,7 +29,8 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
   $scope.getSubTotalRemaining = function getSubTotalRemaining (subTotals, key) {
     return subTotals.reduce(function (result, sTotals) {
       return result + sTotals.paymentsPlan.reduce(function (previousPrice, pp) {
-        var sum = (pp.status === 'failed' || pp.status === 'pending') ? pp[(!key || key !== 'price') ? 'originalPrice' : key] : 0
+        // var sum = (pp.status === 'failed' || pp.status === 'pending') ? (pp[(!key || key !== 'price') ? 'originalPrice' : key]) : 0
+        var sum = (pp.status === 'failed' || pp.status === 'pending') ? (pp[(!key || key !== 'price') ? 'basePrice' : key] - pp.totalFee) : 0
         return previousPrice + sum
       }, 0)
     }, 0)
@@ -59,13 +62,9 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
     result = ''
     result += keys.join(columnDelimiter)
     result += lineDelimiter
-    console.log('keys', keys)
     data.forEach(function (item) {
-      console.log('item', item)
       ctr = 0
       keys.forEach(function (key) {
-        console.log('key', key)
-        console.log('key', key.length)
         if (ctr > 0) result += columnDelimiter
 
         result += item[key]
@@ -73,7 +72,6 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
       })
       result += lineDelimiter
     })
-    console.log('result', result)
     return result
   }
 
@@ -106,11 +104,12 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
 
   $scope.init = function () {
     TrackerService.track('View Dashboard')
-    $scope.expandCategory1 = true
+    $scope.expandCategory1 = false
     $scope.expandSection11 = false
     $scope.totalPrice = 0
     $scope.totalPriceFees = 0
     $scope.totalDiscount = 0
+    $scope.totalDiscountFees = 0
     $scope.totalPaid = 0
     $scope.totalPaidFees = 0
     $scope.totalRemaining = 0
@@ -119,17 +118,23 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
     AuthService.getCurrentUserPromise().then(function (user) {
       var organizationId = (user.meta.productRelated[0]) ? user.meta.productRelated[0] : 'Does not have organization'
       CommerceService.orderGetOrganization(organizationId, 200, -1).then(function (result) {
-        $scope.totalPrice = $scope.getSubTotal(result.body)
+        // $scope.totalPrice = $scope.getSubTotal(result.body)
         $scope.totalPriceFees = $scope.getSubTotal(result.body, 'sumPrice')
-        $scope.totalDiscount = $scope.getSubTotalDiscount(result.body)
-        $scope.totalPaid = $scope.getSubTotalPaid(result.body)
+        // $scope.totalDiscount = $scope.getSubTotalDiscount(result.body)
+        $scope.totalDiscountFees = $scope.getSubTotalDiscount(result.body, 'originalPrice')
+        // $scope.totalPaid = $scope.getSubTotalPaid(result.body)
         $scope.totalPaidFees = $scope.getSubTotalPaid(result.body, 'price')
         $scope.totalRemaining = $scope.getSubTotalRemaining(result.body)
         $scope.totalRemainingFees = $scope.getSubTotalRemaining(result.body, 'price')
         var finalResult = R.groupBy(function (order) {
           return order.allProductName[0]
         })
-        $scope.groupProducts = finalResult(result.body)
+        var fn = finalResult(result.body)
+        var gp = {}
+        Object.keys(fn).sort().forEach(function (v, i) {
+          gp[v] = fn[v]
+        })
+        $scope.groupProducts = gp
       }).catch(function (err) {
         console.log('err', err)
       })
@@ -181,11 +186,26 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
     }
   }
 
-  $scope.getBeneficiaryInfo = function getBeneficiaryInfo (formData) {
-    var ret = ''
-    for (var prop in formData) {
-      ret = ret + ' ' + formData[prop]
-    }
-    return ret
+  $scope.getBeneficiaryInfo = function getBeneficiaryInfo (customInfo) {
+    return CommerceService.getVisibleBeneficiaryData(customInfo)
+  }
+
+  $scope.showPayments = function showPayments (pps, filter) {
+    // return true
+    return pps.filter(function (pp) { return (pp.status === filter || pp.status === 'failed') }).length
+  }
+
+  $scope.getPaymentsHistory = function getPaymentsHistory (pp) {
+    if (pp.status === 'pending') return false
+    return true
+  }
+
+  $scope.getPaymentsPending = function getPaymentsPending (pp) {
+    if (pp.status === 'failed' || pp.status === 'pending') return true
+    return false
+  }
+
+  $scope.setDataCustomInfo = function setDataCustomInfo (customInfo) {
+    return CommerceService.setDataCustomInfo(customInfo)
   }
 }]

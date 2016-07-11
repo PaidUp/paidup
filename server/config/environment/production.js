@@ -7,5 +7,9 @@ module.exports = {
   mongo: {
     uri: 'mongodb://localhost/paidUp-prod'
   },
-  seedDB: false
+  seedDB: false,
+  cors : {
+    enable : false,
+    corsWhitelist : ['http://localhost:4000', 'https://admin.getpaidup.com', 'https://admstg.getpaidup.com', 'https://admdev.getpaidup.com']
+  }
 }

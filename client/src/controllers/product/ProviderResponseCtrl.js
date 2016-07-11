@@ -2,7 +2,6 @@
 
 module.exports = ['$scope', '$state', 'OrganizationService', function ($scope, $state, OrganizationService) {
   OrganizationService.providerResponse($state.params.id).then(function (data) {
-    console.log('data.body', data.body)
   }).catch(function (err) {
     console.log('ERROR', err)
     $scope.error = err
