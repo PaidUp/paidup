@@ -29,8 +29,8 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
   $scope.getSubTotalRemaining = function getSubTotalRemaining (subTotals, key) {
     return subTotals.reduce(function (result, sTotals) {
       return result + sTotals.paymentsPlan.reduce(function (previousPrice, pp) {
-        var sum = (pp.status === 'failed' || pp.status === 'pending') ? (pp[(!key || key !== 'price') ? 'originalPrice' : key]) : 0
-        // var sum = (pp.status === 'failed' || pp.status === 'pending') ? (pp[(!key || key !== 'price') ? 'basePrice' : key] - pp.totalFee) : 0
+        // var sum = (pp.status === 'failed' || pp.status === 'pending') ? (pp[(!key || key !== 'price') ? 'originalPrice' : key]) : 0
+        var sum = (pp.status === 'failed' || pp.status === 'pending') ? (pp[(!key || key !== 'price') ? 'basePrice' : key] - pp.totalFee) : 0
         return previousPrice + sum
       }, 0)
     }, 0)
@@ -125,7 +125,7 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
         // $scope.totalPaid = $scope.getSubTotalPaid(result.body)
         $scope.totalPaidFees = $scope.getSubTotalPaid(result.body, 'price')
         $scope.totalRemaining = $scope.getSubTotalRemaining(result.body)
-        $scope.totalRemainingFees = $scope.getSubTotalRemaining(result.body, 'originalPrice')
+        $scope.totalRemainingFees = $scope.getSubTotalRemaining(result.body, 'price')
         var finalResult = R.groupBy(function (order) {
           return order.allProductName[0]
         })
