@@ -10,3 +10,19 @@ var mobilecheck = function() {
   return check;
 }
 olark.configure('features.attention_grabber', !mobilecheck() );
+
+//change the following for your office's timezone offset!!!
+var myTimeZoneOffset = 300;
+
+var GMTAdjust = (new Date().getTime() -myTimeZoneOffset*60000);
+var GMTAdjustedDate = new Date(GMTAdjust);
+
+//use dayOfWeek if we want to force offline to enjoy our weekends
+var dayOfWeek = GMTAdjustedDate.getDay();
+var hourOfDay = GMTAdjustedDate.getUTCHours();
+
+// Force Olark to show as unavailable in the evening after 9pm
+// and in the morning before 7am as well as Sundays, even if we have operators available.
+if (dayOfWeek == 0 || dayOfWeek == 6 || hourOfDay > 17 || hourOfDay <= 9) {
+  olark.configure("system.force_offline", true);
+}
