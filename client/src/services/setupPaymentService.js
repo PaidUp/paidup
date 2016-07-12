@@ -1,7 +1,7 @@
 'use strict'
 // var angular = require('angular')
 
-module.exports = [ '$q', 'localStorageService', function ( $q, localStorageService) {
+module.exports = [function () {
 
   var service = this;
 
