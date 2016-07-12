@@ -6,6 +6,7 @@ const logger = require('../../config/logger')
 const paymentEmailService = require('./payment.email.service')
 const tdPaymentService = require('TDCore').paymentService
 const CommerceConnect = require('paidup-commerce-connect')
+const MAX_SIZE_META_STRIPE = config.stripe.maxSizeMeta;
 
 function createCustomer (user, cb) {
   tdPaymentService.init(config.connections.payment)
@@ -123,23 +124,27 @@ function getVisibleBeneficiaryData (info) {
       return actual
     }
   }, '')
-  return ret
+  return cleanString(ret);
+}
+
+function cleanString (str) {
+  return str.replace(/[^a-zA-Z0-9 \-]/g, "_").substring(0, MAX_SIZE_META_STRIPE);
 }
 
 function capture (order, cb) {
   let newmeta = {
     organizationId: order.paymentsPlan[0].productInfo.organizationId,
-    organizationName: order.paymentsPlan[0].productInfo.organizationName,
+    organizationName: cleanString(order.paymentsPlan[0].productInfo.organizationName),
     productId: order.paymentsPlan[0].productInfo.productId,
-    productName: order.paymentsPlan[0].productInfo.productName,
-    beneficiaryInfo: getVisibleBeneficiaryData(order.paymentsPlan[0].customInfo) ? getVisibleBeneficiaryData(order.paymentsPlan[0].customInfo) : order.paymentsPlan[0].beneficiaryInfo.beneficiaryName,
+    productName: cleanString(order.paymentsPlan[0].productInfo.productName),
+    beneficiaryInfo: order.paymentsPlan[0].customInfo ? getVisibleBeneficiaryData(order.paymentsPlan[0].customInfo) : cleanString(order.paymentsPlan[0].beneficiaryInfo.beneficiaryName),
     totalFee: order.paymentsPlan[0].totalFee,
     feePaidUp: order.paymentsPlan[0].feePaidUp,
     feeStripe: order.paymentsPlan[0].feeStripe,
     _id: order._id,
     orderId: order.orderId,
     scheduleId: order.paymentsPlan[0]._id,
-    buyerName: order.paymentsPlan[0].userInfo.userName
+    buyerName: cleanString(order.paymentsPlan[0].userInfo.userName)
   }
 
   debitCardv2(order.paymentsPlan[0].account, order.paymentsPlan[0].price, order.paymentsPlan[0].productInfo.organizationName, order.paymentsPlan[0]._id, order.paymentsPlan[0].paymentId, order.paymentsPlan[0].destinationId, order.paymentsPlan[0].totalFee, newmeta, function (debitErr, data) {
