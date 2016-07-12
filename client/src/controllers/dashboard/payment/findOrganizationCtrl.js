@@ -44,10 +44,10 @@ module.exports = ['$scope', '$rootScope', '$state', 'ProductService', 'SetupPaym
         cb (err);
       });
     }
-    
 
     $scope.selectCategory = function (category) {
       SetupPaymentService.categorySelected = category;
+      $state.go('dashboard.payment.plan');
       TrackerService.track ('Select Organization', {Org: category.name});
     }
 
