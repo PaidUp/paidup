@@ -8,24 +8,44 @@ module.exports = ['$location', 'ApplicationConfigService', function ($location, 
 
 
   ApplicationConfigService.getConfig().then(function (data){
-    mixpanel.init(data.mixpanelApiKey);
+    try{
+      mixpanel.init(data.mixpanelApiKey);
+    }catch (e){
+      console.log(e)
+    }
   });
 
   var TrackerService = this
 
   TrackerService.track = function (msg, data){
-    mixpanel.track(msg, data);
+    try{
+      mixpanel.track(msg, data);
+    }catch (e){
+      console.log(e)
+    }
   }
 
   TrackerService.identify = function (id){
-    mixpanel.identify(id);
+    try{
+      mixpanel.identify(id);
+    }catch (e){
+      console.log(e)
+    }
   }
 
   TrackerService.peopleSet = function (obj){
-    mixpanel.people.set(obj);
+    try{
+      mixpanel.people.set(obj);
+    }catch (e){
+      console.log(e)
+    }
   }
 
   TrackerService.register = function (obj){
-    mixpanel.register(obj);
+    try{
+      mixpanel.register(obj);
+    }catch (e){
+      console.log(e)
+    }
   }
 }]
