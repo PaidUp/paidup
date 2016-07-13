@@ -233,5 +233,13 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
         requireLogin: false
       }
     })
+    .state('auth-password-reset', {
+      url: '/auth/password/reset?token',
+      // templateUrl: '../templates/login.html',
+      controller: 'ResetPasswordCtrl',
+      data: {
+        requireLogin: false
+      }
+    })
 }
 ]

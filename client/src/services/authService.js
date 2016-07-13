@@ -19,24 +19,33 @@ module.exports = [ '$rootScope', '$http', 'UserService', 'SessionService', 'Face
 
   var dest = 'signup'
   var isParent = true
+  var resetPass = false
 
-  function getRoleForTracking(){
+  function getRoleForTracking () {
     var role = $rootScope.currentUser.roles[$rootScope.currentUser.roles.length -1]
-    var resp = 'unknown';
-    switch(role) {
+    var resp = 'unknown'
+    switch (role) {
       case "user":
         resp = "Personal"
-        break;
+        break
       case "coach":
         resp = "Business"
-        break;
+        break
       default:
         resp = role
     }
-    return resp;
+    return resp
   }
 
   return {
+    getresetPass: function () {
+      return resetPass
+    },
+
+    setresetPass: function (value) {
+      resetPass = value
+    },
+
     getDest: function () {
       return dest
     },
@@ -361,12 +370,12 @@ module.exports = [ '$rootScope', '$http', 'UserService', 'SessionService', 'Face
       return SessionService.getCurrentSession()
     },
 
-    getRoleForTrack: function(){
-      return getRoleForTracking();
+    getRoleForTrack: function () {
+      return getRoleForTracking()
     },
 
-    trackerLogin: function (event, type, phone){
-      TrackerService.identify($rootScope.currentUser._id);
+    trackerLogin: function (event, type, phone) {
+      TrackerService.identify($rootScope.currentUser._id)
 
       TrackerService.peopleSet({
         "$first_name": $rootScope.currentUser.firstName,
@@ -390,6 +399,5 @@ module.exports = [ '$rootScope', '$http', 'UserService', 'SessionService', 'Face
         "Roles": getRoleForTracking()
       });
     }
-
   }
 }]

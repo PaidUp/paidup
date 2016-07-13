@@ -1,4 +1,5 @@
 'use strict'
+var angular = require('angular')
 
 module.exports = ['$scope', '$state', 'AuthService', 'TrackerService', '$translate', '$location', '$window', 'SessionService', '$rootScope',
   function ($scope, $state, AuthService, TrackerService, $translate, $location, $window, SessionService, $rootScope) {
@@ -11,11 +12,15 @@ module.exports = ['$scope', '$state', 'AuthService', 'TrackerService', '$transla
     }
     $scope.error = ''
     $scope.infoMessage = ''
+    $scope.messageReset = ''
     $scope.facebookLoginTemplate = '<i class="fa fa-lg fa-facebook" aria-hidden="true"></i> Login with Facebook'
     $scope.loader = '<i class="fa fa-circle-o-notch fa-spin"></i>'
     $scope.loading = !$rootScope.isCoookieSupported
 
     $scope.init = function () {
+      if (AuthService.getresetPass()) {
+        $scope.showResetModal = true
+      }
       TrackerService.track('Page Viewed')
     }
 
@@ -60,7 +65,6 @@ module.exports = ['$scope', '$state', 'AuthService', 'TrackerService', '$transla
           $scope.infoMessage = ''
           $scope.error = err.message
         }
-
         AuthService.forgotPassword(emailValue, successFn, errorFn)
       }
     }
@@ -112,6 +116,37 @@ module.exports = ['$scope', '$state', 'AuthService', 'TrackerService', '$transla
         return 'dashboard.board'
       } else {
         return 'dashboard.summary.components'
+      }
+    }
+
+    $scope.submitResetPassword = function (f) {
+      f.uresetPassword.$setTouched()
+      f.uresetPassword.$validate()
+      var passValue = f.uresetPassword.$viewValue
+      if (f.$valid) {
+        $scope.loading = true
+
+        var successFn = function (data) {
+          $scope.messageReset = 'password updated successfully.'
+          $scope.loading = false
+          $scope.showResetModal = false
+          AuthService.setresetPass(false)
+        }
+        var errorFn = function (err) {
+          $scope.loading = false
+          $scope.showResetModal = false
+          $scope.messageReset = err.message
+          AuthService.setresetPass(false)
+        }
+        AuthService.resetPassword(AuthService.getresetPass(), passValue, successFn, errorFn)
+      }
+    }
+
+    $scope.validatePassword = function (f) {
+      if (!angular.equals(f.uresetPassword.$viewValue, f.uresetPasswordMatch.$viewValue) || (f.uresetPassword.$viewValue === undefined && f.uresetPasswordMatch.$viewValue === undefined)) {
+        f.uresetPasswordMatch.$setValidity('match', false)
+      } else {
+        f.uresetPasswordMatch.$setValidity('match', true)
       }
     }
   }]
