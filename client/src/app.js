@@ -43,6 +43,6 @@ require('./controllers')
 require('./directives')
 require('./filters')
 
-// This OVerrides the templates for Bootstrap UI Plugins.--
+// This OVerrides the templates for Bootstrap UI Plugins.
 // They basically adds the bootstrap-styles  Class and Replace the Glyphicons with Font Awesome icons
 require('./bootstrap-template-overrides')
