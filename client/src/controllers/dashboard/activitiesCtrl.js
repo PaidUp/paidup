@@ -5,7 +5,7 @@ module.exports = ['$scope', 'AuthService', '$state', 'CommerceService', 'Tracker
     $scope.expandSection1 = false
     $scope.recentOrders = []
     $scope.init = function () {
-      //TrackerService.track('View Activity')
+      TrackerService.track('View Activity')
     }
 
     AuthService.getCurrentUserPromise().then(function (user) {
