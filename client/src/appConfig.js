@@ -69,7 +69,7 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
       templateUrl: '../templates/dashboard/dashboard.summary.html'
     })
     .state('dashboard.summary.components', {
-      url: '^/dashboard/summary',
+      url: '/dashboard/summary',
       views: {
         'accounts': {
           templateUrl: '../templates/dashboard/dashboard.accounts.box.html',
@@ -96,17 +96,17 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
       controller: 'PaymentLayoutCtrl'
     })
     .state('dashboard.payment.findOrg', {
-      url: '^/payment/findOrg',
+      url: '/payment/findOrg',
       templateUrl: '../templates/dashboard/payment/find.organization.html',
       controller: 'FindOrganizationCtrl'
     })
     .state('dashboard.payment.plan', {
-      url: '^/payment/plan',
+      url: '/payment/plan',
       templateUrl: '../templates/dashboard/payment/payment.plan.html',
       controller: 'PaymentPlanCtrl'
     })
     .state('dashboard.payment.done', {
-      url: '^/payment/thankyou',
+      url: '/payment/thankyou',
       templateUrl: '../templates/dashboard/payment/payment.done.html',
       controller: 'PaymentDoneCtrl'
     })
@@ -136,7 +136,7 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
       controller: 'AgingCtrl'
     })
     .state('dashboard.profile', {
-      url: '^/profile',
+      url: '/profile',
       templateUrl: '../templates/dashboard/dashboard.profile.html',
       controller: 'ProfileCtrl'
     })
