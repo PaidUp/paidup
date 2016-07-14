@@ -61,16 +61,22 @@ angular.module('analytics.mixpanel', [])
      */
     function callMixpanelFn(name) {
       return function () {
-        var fn = window.mixpanel,
-          parts = name.split('.'),
-          scope, i;
+        if(window.mixpanel){
+          var fn = window.mixpanel,
+            parts = name.split('.'),
+            scope, i;
 
-        for (i = 0; i < parts.length; i++) {
-          scope = fn;
-          fn = fn[parts[i]];
+          for (i = 0; i < parts.length; i++) {
+            scope = fn;
+            fn = fn[parts[i]];
+          }
+
+          return fn.apply(scope, arguments);
+        } else {
+          console.log('cant call function')
+          return false;
         }
-
-        return fn.apply(scope, arguments);
+        
       }
     }
 
