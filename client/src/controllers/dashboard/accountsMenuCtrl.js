@@ -42,7 +42,12 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
     }
 
     $rootScope.$on('openAccountsMenu', function (event, data) {
-      $scope.activeAccountMenu = true
+      $scope.activeAccountMenu = true;
+      $scope.isCheckout = false;
+    })
+    $rootScope.$on('openAccountsMenuCheckout', function (event, data) {
+      $scope.activeAccountMenu = true;
+      $scope.isCheckout = true;
     })
 
     $rootScope.$on('accountMenuReset', function (event, data) {
