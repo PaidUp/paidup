@@ -12,7 +12,8 @@ require('./vendor/dynamic-forms')
 require('./vendor/olark-config')
 require('./vendor/adroll')
 // require('./vendor/alert.min')
-// require('./vendor/mixpanel')
+//require('./vendor/mixpanel')
+require('./vendor/angular-mixpanel')
 require('angular-ui-bootstrap')
 require('angulartics')
 require('angulartics-google-analytics')
@@ -32,7 +33,9 @@ var paidUpApp = angular.module('paidUpApp', [
   'ui.mask',
   'LocalStorageModule',
   'ui.bootstrap',
-  'dynform' ])
+  'dynform',
+  'analytics.mixpanel'
+])
 
 paidUpApp.config(require('./appConfig'))
 paidUpApp.run(require('./appRun'))
