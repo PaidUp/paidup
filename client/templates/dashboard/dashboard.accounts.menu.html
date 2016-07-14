@@ -1,20 +1,35 @@
 <div ng-controller="AccountsMenuCtrl" ng-init="init()">
   <div ng-class="activeAccountMenu ? 'accounts-menu active' : 'accounts-menu'">
     <div class="header">
-      <div class="title">Payment Accounts</div>
       <div class="close" ng-click="activeAccountMenu = false"><i class="fa fa-times"></i></div>
+      <div class="title">Payment Accounts</div>
       <div class="clearfix"></div>
-    </div>  
-    <ul class="accounts-list">
-      <li ng-repeat="account in accounts" ng-class="account.selected ? 'clearfix selected' : 'clearfix'" ng-click="showAccount(account)">
-        <div class="icon-container"><i class="fa fa-{{getBrandCardClass(account.brand)}}"></i></div>
-        <div class="account-name">
-          <div ng-bind="account.name"></div> 
-          <div class="card-number" ng-bind="account.last4">{{account.last4}}</div>
-        </div>
-      </li>   
-    </ul>
-    <div class="add-new" ng-click="openSelectAccountType()">Add a new account</div>
+    </div>
+
+    <p class="content-msg" ng-show="isCheckout && accounts.length === 0">
+      No accounts present: Please add a payment account
+    </p>
+    <p class="content-msg" ng-show="isCheckout && accounts.length !== 0">
+      Please select the account you would like to pay with
+    </p>
+
+    <div class="">
+      <ul class="accounts-list">
+        <li ng-repeat="account in accounts" ng-class="account.selected ? 'clearfix selected' : 'clearfix'" ng-click="showAccount(account)">
+          <div class="icon-container"><i class="fa fa-{{getBrandCardClass(account.brand)}}"></i></div>
+          <div class="account-name">
+            <div ng-bind="account.name"></div>
+            <div class="card-number" ng-bind="account.last4">{{account.last4}}</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+
+    <div class="add-new">
+      <button class="button-green" ng-click="openSelectAccountType()">Add a new account</button>
+    </div>
+
   </div>
   
   <modal-window show="showAccountModal" modal-title="accountModalTitle">

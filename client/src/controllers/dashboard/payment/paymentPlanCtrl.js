@@ -14,7 +14,7 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
     })
 
     $scope.clickAccount = function () {
-      $rootScope.$emit ('openAccountsMenu')
+      $rootScope.$emit ('openAccountsMenuCheckout')
     }
 
     var steps = {
