@@ -1,7 +1,7 @@
 'use strict'
 
-module.exports = ['$scope', '$rootScope', '$state', 'ProductService', 'SetupPaymentService', 'TrackerService', 'AuthService', 'CommerceService',
-  function ($scope, $rootScope, $state, ProductService, SetupPaymentService, TrackerService, AuthService, CommerceService) {
+module.exports = ['$scope', '$rootScope', '$state', 'ProductService', 'SetupPaymentService', 'TrackerService', 'AuthService', 'CommerceService','$location',
+  function ($scope, $rootScope, $state, ProductService, SetupPaymentService, TrackerService, AuthService, CommerceService, $location) {
     $scope.clickAccount = function () {
       $rootScope.$emit ('openAccountsMenu')
     }
@@ -47,7 +47,8 @@ module.exports = ['$scope', '$rootScope', '$state', 'ProductService', 'SetupPaym
 
     $scope.selectCategory = function (category) {
       SetupPaymentService.categorySelected = category;
-      $state.go('dashboard.payment.plan');
+      $location.path('/payment/plan');
+      //$state.go('dashboard.payment.plan');
       TrackerService.track ('Select Organization', {Org: category.name});
     }
 
