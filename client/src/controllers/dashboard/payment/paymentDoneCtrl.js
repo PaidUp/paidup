@@ -1,6 +1,7 @@
 'use strict'
 
-module.exports = [ '$scope', '$rootScope', '$state', 'SetupPaymentService', 'ProductService', function ($scope, $rootScope, $state, SetupPaymentService, ProductService) {
+module.exports = [ '$scope', '$rootScope', '$state', 'SetupPaymentService', 'ProductService', '$location', '$anchorScroll',
+  function ($scope, $rootScope, $state, SetupPaymentService, ProductService, $location, $anchorScroll) {
   $scope.clickAccount = function () {
     $rootScope.$emit('openAccountsMenu')
   }
@@ -24,6 +25,9 @@ module.exports = [ '$scope', '$rootScope', '$state', 'SetupPaymentService', 'Pro
     });
 
     removePnProduct();
+
+    $location.hash('thanksDone')
+    $anchorScroll()
   }
 
   function removePnProduct(){

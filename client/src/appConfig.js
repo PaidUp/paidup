@@ -2,10 +2,27 @@
 var englishTranslations = require('./translations/en')
 var spanishTranslations = require('./translations/es')
 
-module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$locationProvider', '$translateProvider', '$httpProvider', 'uiMask.ConfigProvider', '$provide', 'localStorageServiceProvider', function ($stateProvider, $urlRouterProvider, FacebookProvider, $locationProvider, $translateProvider, $httpProvider, uiMaskConfigProvider, $provide, localStorageServiceProvider) {
+module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$locationProvider', '$translateProvider', '$httpProvider', 'uiMask.ConfigProvider', '$provide', 'localStorageServiceProvider', '$mixpanelProvider',
+  function ($stateProvider, $urlRouterProvider, FacebookProvider, $locationProvider, $translateProvider, $httpProvider, uiMaskConfigProvider, $provide, localStorageServiceProvider, $mixpanelProvider) {
   // UI MAsk
   uiMaskConfigProvider.clearOnBlur(false)
   uiMaskConfigProvider.maskDefinitions({'D': /^[0-9]*$/})
+
+    var host = window.location.host
+    var apiKey = '';
+
+    switch(host) {
+      case 'stg.getpaidup.com':
+        apiKey = "ac2b71322da41ab43180b37c1e989a23";
+        break;
+      case 'app.getpaidup.com':
+        apiKey = "954553009e71bc9e613d504b0844eb4d";
+        break;
+      default:
+        apiKey = "f97659afce9c44283fbd59ad718803dc";
+    }
+
+    $mixpanelProvider.apiKey(apiKey);
 
   // Remove initial Hash in URL
   $locationProvider.html5Mode({
@@ -52,7 +69,7 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
       templateUrl: '../templates/dashboard/dashboard.summary.html'
     })
     .state('dashboard.summary.components', {
-      url: '^/dashboard/summary',
+      url: '/dashboard/summary',
       views: {
         'accounts': {
           templateUrl: '../templates/dashboard/dashboard.accounts.box.html',
@@ -79,17 +96,17 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
       controller: 'PaymentLayoutCtrl'
     })
     .state('dashboard.payment.findOrg', {
-      url: '^/payment/findOrg',
+      url: '/payment/findOrg',
       templateUrl: '../templates/dashboard/payment/find.organization.html',
       controller: 'FindOrganizationCtrl'
     })
     .state('dashboard.payment.plan', {
-      url: '^/payment/plan',
+      url: '/payment/plan',
       templateUrl: '../templates/dashboard/payment/payment.plan.html',
       controller: 'PaymentPlanCtrl'
     })
     .state('dashboard.payment.done', {
-      url: '^/payment/thankyou',
+      url: '/payment/thankyou',
       templateUrl: '../templates/dashboard/payment/payment.done.html',
       controller: 'PaymentDoneCtrl'
     })
@@ -119,7 +136,7 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
       controller: 'AgingCtrl'
     })
     .state('dashboard.profile', {
-      url: '^/profile',
+      url: '/profile',
       templateUrl: '../templates/dashboard/dashboard.profile.html',
       controller: 'ProfileCtrl'
     })
@@ -229,6 +246,14 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
       url: '/clean',
       templateUrl: '../templates/login.html',
       controller: 'CustomLinkCtrl',
+      data: {
+        requireLogin: false
+      }
+    })
+    .state('auth-password-reset', {
+      url: '/auth/password/reset?token',
+      // templateUrl: '../templates/login.html',
+      controller: 'ResetPasswordCtrl',
       data: {
         requireLogin: false
       }

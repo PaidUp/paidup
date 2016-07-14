@@ -45,6 +45,7 @@
     "q": "^1.4.1",
     "ramda": "^0.21.0",
     "serve-favicon": "2.3.0",
+    "stripe": "^4.7.0",
     "winston": "^2.2.0"
   },
   "devDependencies": {
@@ -81,7 +82,7 @@
     "build:client": "npm run front:browserify:prod && npm run front:less && mkdir -p dist && mkdir -p dist/public && cp -R client/* dist/public && rm -rf dist/public/src",
     "build": "npm run clean:dist && npm run create:dist && npm run build:server && npm run build:client",
     "production": "NODE_ENV=production node dist/server/app.js",
-    "front:browserify:dev": "browserify client/src/app.js --verbose --debug --outfile client/js/bundle.js",
+    "front:browserify:dev": "browserify client/src/app.js --verbose --debug --outfile client/js/bundle.js && touch client/index.html",
     "front:browserify:prod": "mkdir -p client/js && browserify client/src/app.js -p [minifyify --no-map] > client/js/bundle.js",
     "front:less": "lessc client/src/style.less client/css/style.min.css --autoprefix='> 1%, last 2 versions, Firefox ESR'  --clean-css='--s1 --compatibility=ie8'",
     "front:livereload": "browser-sync start --proxy localhost:9000 --reload-delay 900 --files client !client/src",

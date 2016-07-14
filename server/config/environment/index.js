@@ -192,7 +192,8 @@ var all = {
     product: 'auth'
   },
   stripe: {
-    apiPublic: 'pk_test_y86FeOIMDzHKLvR5xkylpKrg'
+    apiPublic: 'pk_test_y86FeOIMDzHKLvR5xkylpKrg',
+    maxSizeMeta: 49
   },
   mixpanel: {
     apiKey: 'f97659afce9c44283fbd59ad718803dc'
