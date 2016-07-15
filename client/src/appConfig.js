@@ -2,32 +2,18 @@
 var englishTranslations = require('./translations/en')
 var spanishTranslations = require('./translations/es')
 
-module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$locationProvider', '$translateProvider', '$httpProvider', 'uiMask.ConfigProvider', '$provide', 'localStorageServiceProvider', '$mixpanelProvider',
-  function ($stateProvider, $urlRouterProvider, FacebookProvider, $locationProvider, $translateProvider, $httpProvider, uiMaskConfigProvider, $provide, localStorageServiceProvider, $mixpanelProvider) {
+module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$locationProvider', '$translateProvider', '$httpProvider', 'uiMask.ConfigProvider', '$provide', 'localStorageServiceProvider', '$analyticsProvider',
+  function ($stateProvider, $urlRouterProvider, FacebookProvider, $locationProvider, $translateProvider, $httpProvider, uiMaskConfigProvider, $provide, localStorageServiceProvider, $analyticsProvider) {
   // UI MAsk
   uiMaskConfigProvider.clearOnBlur(false)
   uiMaskConfigProvider.maskDefinitions({'D': /^[0-9]*$/})
-
-    var host = window.location.host
-    var apiKey = '';
-
-    switch(host) {
-      case 'stg.getpaidup.com':
-        apiKey = "ac2b71322da41ab43180b37c1e989a23";
-        break;
-      case 'app.getpaidup.com':
-        apiKey = "954553009e71bc9e613d504b0844eb4d";
-        break;
-      default:
-        apiKey = "f97659afce9c44283fbd59ad718803dc";
-    }
-
-    $mixpanelProvider.apiKey(apiKey);
 
   // Remove initial Hash in URL
   $locationProvider.html5Mode({
     enabled: true
   })
+
+    $analyticsProvider.virtualPageviews(false);
 
   localStorageServiceProvider
       .setPrefix('PaidUp')
