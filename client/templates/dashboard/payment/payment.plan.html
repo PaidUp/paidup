@@ -129,6 +129,9 @@
       <div>You will be paying with:</div>
       <div class="account-name">{{card.brand || card.bankName}} x-{{card.last4}}</div>
     </div>
+    <div class="account-policy" ng-show="card">
+      <b>By clicking “Submit Payment,” I authorize PaidUp, Inc. to electronically debit my account and, if necessary, electronically credit my account to correct erroneous debits</b>
+    </div>
 
     <div class="buttons-container">
       <button class="button-green" ng-show="step===4 && !card" ng-hide="loading" ng-click="clickAccount()">Select Payment Account</button>

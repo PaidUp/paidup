@@ -151,6 +151,10 @@ module.exports = [ '$rootScope', '$http', 'UserService', 'SessionService', 'Face
           error('User authorization denied')
           return
         }
+        if(!user.authResponse){
+          error('user.authResponse undefined')
+          return
+        }
         $http.post('/api/v1/auth/facebook', {facebookToken: user.authResponse.accessToken, isParent: isParent}).success(function (data) {
           $rootScope.currentUser = UserService.get(data.token, function (user) {
             SessionService.addSession(data)
