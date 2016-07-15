@@ -11,7 +11,16 @@ module.exports = [ '$scope', '$rootScope', '$state', 'PaymentService', 'AuthServ
   $scope.init = function () {
     AuthService.getCurrentUserPromise().then(function (user) {
       PaymentService.listCards(user._id).then(function (cards) {
-        $scope.payments = cards.data
+        cards.data.map(function (card) {
+          $scope.payments.push(card)
+        })
+      }).catch(function (err) {
+        console.log('ERR', err)
+      })
+      PaymentService.listBankAccounts(user._id).then(function (banks) {
+        banks.data.map(function (bank) {
+          $scope.payments.push(bank)
+        })
       }).catch(function (err) {
         console.log('ERR', err)
       })

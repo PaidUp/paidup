@@ -43,5 +43,6 @@ var/logs/*
 #Frontend
 client/js/bundle.js
 client/css/style.min.css
+client/js/bundle.min.js
 
 .vscode
