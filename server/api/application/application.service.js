@@ -19,6 +19,10 @@ function configView (cb) {
   data.marketplace = config.balanced.marketplace
   data.stripeApiPublic = config.stripe.apiPublic
   data.mixpanelApiKey = config.mixpanel.apiKey
+  data.plaidEnv = config.plaid.env
+  data.plaidClientName = config.plaid.clientName
+  data.plaidKey = config.plaid.key
+  data.plaidProduct = config.plaid.product
   return cb(null, data)
 }
 

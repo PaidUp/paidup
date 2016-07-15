@@ -6,7 +6,7 @@ const logger = require('../../config/logger')
 const paymentEmailService = require('./payment.email.service')
 const tdPaymentService = require('TDCore').paymentService
 const CommerceConnect = require('paidup-commerce-connect')
-const MAX_SIZE_META_STRIPE = config.stripe.maxSizeMeta;
+const MAX_SIZE_META_STRIPE = config.stripe.maxSizeMeta
 
 function createCustomer (user, cb) {
   tdPaymentService.init(config.connections.payment)
@@ -116,6 +116,21 @@ function fetchCard (customerId, cardId, cb) {
   })
 }
 
+function fetchAccount (customerId, tokenId, cb) {
+  tdPaymentService.init(config.connections.payment)
+  if (tokenId.indexOf('ba') >= 0) {
+    tdPaymentService.fetchBank(customerId, tokenId, function (err, bankAccount) {
+      if (err) return cb(err)
+      return cb(null, bankAccount)
+    })
+  } else {
+    tdPaymentService.fetchCard(customerId, tokenId, function (err, creditCard) {
+      if (err) return cb(err)
+      return cb(null, creditCard)
+    })
+  }
+}
+
 function getVisibleBeneficiaryData (info) {
   let ret = info.formTemplate.reduce(function (actual, obj) {
     if (obj.displayed) {
@@ -124,11 +139,11 @@ function getVisibleBeneficiaryData (info) {
       return actual
     }
   }, '')
-  return cleanString(ret);
+  return cleanString(ret)
 }
 
 function cleanString (str) {
-  return str.replace(/[^a-zA-Z0-9 \-]/g, "_").substring(0, MAX_SIZE_META_STRIPE);
+  return str.replace(/[^a-zA-Z0-9 \-]/g, '_').substring(0, MAX_SIZE_META_STRIPE)
 }
 
 function capture (order, cb) {
@@ -283,6 +298,22 @@ function retrieveAccount (stripeId, cb) {
   })
 }
 
+function plaidAuthenticate (plaidData, cb) {
+  tdPaymentService.init(config.connections.payment)
+  tdPaymentService.plaidAuthenticate(plaidData, function (err, data) {
+    if (err) return cb(err)
+    return cb(null, data)
+  })
+}
+
+function listBanks (customerId, cb) {
+  tdPaymentService.init(config.connections.payment)
+  tdPaymentService.listCustomerBanks(customerId, function (err, data) {
+    if (err) return cb(err)
+    return cb(null, data)
+  })
+}
+
 exports.createCustomer = createCustomer
 exports.associateCard = associateCard
 exports.createCard = createCard
@@ -307,3 +338,8 @@ exports.getBalance = getBalance
 exports.getChargesList = getChargesList
 exports.listCustomerBanks = listCustomerBanks
 exports.retrieveAccount = retrieveAccount
+
+exports.plaidAuthenticate = plaidAuthenticate
+
+exports.listBanks = listBanks
+exports.fetchAccount = fetchAccount
