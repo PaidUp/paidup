@@ -14,17 +14,17 @@
         ng-model="search.name" />
         <small class="error" ng-show="form.uOrganization.$error.required && form.uOrganization.$touched">Please enter an Organization name</small>
       </div>
-      <button class="button-green btn-find" ng-if="false" ng-click="findOrg()">find</button>
+      <button class="button-green btn-find" ng-show="false" ng-click="findOrg()">find</button>
 
       <div class="buttons-container">
-        <button class="button-green" ng-if="loading" ng-disabled="loading" ng-bind-html="loading ? loader : 'Find'"></button>
+        <button class="button-green" ng-show="loading" ng-disabled="loading" ng-bind-html="loading ? loader : 'Find'"></button>
       </div>
 
       <div class="clearfix"></div>
     </form>
   </div>
 
-  <div class="teams" ng-if="!search.name.length" >
+  <div class="teams" ng-show="!search.name.length" >
     <p ng-show="filteredCategories.length > 0">Do these look familiar? Setup a payment with them again.</p>
     <div class="team" ng-repeat="category in filteredCategories">
       <img src="{{category.image}}" ng-click="selectCategory(category)" class="team-img" alt="">
@@ -33,7 +33,7 @@
     </div>
   </div>
 
-  <div class="teams" ng-if="search.name.length">
+  <div class="teams" ng-show="search.name.length">
     <p ng-show="(allCategories|filter:search).length > 0">Do these look familiar? Setup a payment with them again.</p>
     <div class="team" ng-repeat="category in allCategories | filter:search">
     <img src="{{category.image}}" ng-click="selectCategory(category)" class="team-img" alt="">
