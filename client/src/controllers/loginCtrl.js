@@ -1,8 +1,8 @@
 'use strict'
 var angular = require('angular')
 
-module.exports = ['$scope', '$state', 'AuthService', 'TrackerService', '$translate', '$location', '$window', 'SessionService', '$rootScope',
-  function ($scope, $state, AuthService, TrackerService, $translate, $location, $window, SessionService, $rootScope) {
+module.exports = ['$scope', 'AuthService', 'TrackerService', '$translate', '$location', '$window', 'SessionService', '$rootScope',
+  function ($scope, AuthService, TrackerService, $translate, $location, $window, SessionService, $rootScope) {
     // Initialization
 
     $scope.PageOptions.pageClass = 'login-page'
@@ -88,8 +88,8 @@ module.exports = ['$scope', '$state', 'AuthService', 'TrackerService', '$transla
         password: u.password
       }
       var success = function (user) {
+        $location.path(getRedirectPageLogin(user))
         AuthService.trackerLogin('Login', 'Email')
-        $state.go(getRedirectPageLogin(user))
       }
       var error = function (err) {
         $scope.loading = false
@@ -101,10 +101,11 @@ module.exports = ['$scope', '$state', 'AuthService', 'TrackerService', '$transla
     $scope.facebookLogin = function () {
       $scope.loading = true
       var success = function (user) {
+        $location.path(getRedirectPageLogin(user))
         AuthService.trackerLogin('Login', 'Facebook')
-        $state.go(getRedirectPageLogin(user))
       }
       var error = function (err) {
+        console.log("facebookLogin error")
         console.log(err)
         $scope.loading = false
       }
@@ -113,9 +114,9 @@ module.exports = ['$scope', '$state', 'AuthService', 'TrackerService', '$transla
 
     function getRedirectPageLogin (user) {
       if (user.roles.indexOf('coach') !== -1) {
-        return 'dashboard.board'
+        return '/board'
       } else {
-        return 'dashboard.summary.components'
+        return '/dashboard/summary'
       }
     }
 
