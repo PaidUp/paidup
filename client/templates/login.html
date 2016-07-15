@@ -51,3 +51,34 @@
   <button ng-click="closeModal()" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Cancel'"></button>
 </div>
 </modal-window>
+
+<modal-window show="showResetModal" modal-title="'To reset your password, enter your new password below'">
+  <div class="error red-text text-darken-2" ng-bind="messageReset"></div>
+  <div class="inputs">
+    <form name="form" novalidate>
+      <input type="password" 
+      name="uresetPassword" 
+      placeholder="Password" 
+      required 
+      ng-minlength="6"
+      ng-model="resetPassword" 
+      ng-model-options="{ updateOn: 'blur' }" />
+      <small class="error" ng-show="form.uresetPassword.$error.required && form.uresetPassword.$touched">Password is required</small>      
+      <small class="error" ng-show="form.uresetPassword.$touched && (form.uresetPassword.$error.minlength || form.uresetPassword.$error.required)">Min 6 Characters</small>
+      <input type="password" 
+      name="uresetPasswordMatch" 
+      placeholder="Re-enter Password" 
+      required
+      ng-minlength="6"
+      ng-model="resetPasswordMatch" 
+      ng-model-options="{ updateOn: 'blur' }"
+      ng-blur="validatePassword(form)" />
+    <small class="error" ng-show="form.uresetPasswordMatch.$touched && (form.uresetPasswordMatch.$error.minlength || form.uresetPasswordMatch.$error.required)">Min 6 Characters</small>
+    <small class="error" ng-show="form.uresetPasswordMatch.$error.match">Passwords do not match</small>
+    </form>
+  </div>
+  <div class="center">
+    <button ng-click="submitResetPassword(form)" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Submit'"></button>
+    <button ng-click="closeModal()" class="button-green save-cancel" ng-disabled="loading" ng-bind-html="loading ? loader : 'Cancel'"></button>
+  </div>
+</modal-window>

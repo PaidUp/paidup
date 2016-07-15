@@ -2,7 +2,8 @@
 var englishTranslations = require('./translations/en')
 var spanishTranslations = require('./translations/es')
 
-module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$locationProvider', '$translateProvider', '$httpProvider', 'uiMask.ConfigProvider', '$provide', 'localStorageServiceProvider', function ($stateProvider, $urlRouterProvider, FacebookProvider, $locationProvider, $translateProvider, $httpProvider, uiMaskConfigProvider, $provide, localStorageServiceProvider) {
+module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$locationProvider', '$translateProvider', '$httpProvider', 'uiMask.ConfigProvider', '$provide', 'localStorageServiceProvider', '$analyticsProvider',
+  function ($stateProvider, $urlRouterProvider, FacebookProvider, $locationProvider, $translateProvider, $httpProvider, uiMaskConfigProvider, $provide, localStorageServiceProvider, $analyticsProvider) {
   // UI MAsk
   uiMaskConfigProvider.clearOnBlur(false)
   uiMaskConfigProvider.maskDefinitions({'D': /^[0-9]*$/})
@@ -11,6 +12,8 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
   $locationProvider.html5Mode({
     enabled: true
   })
+
+    $analyticsProvider.virtualPageviews(false);
 
   localStorageServiceProvider
       .setPrefix('PaidUp')
@@ -229,6 +232,14 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
       url: '/clean',
       templateUrl: '../templates/login.html',
       controller: 'CustomLinkCtrl',
+      data: {
+        requireLogin: false
+      }
+    })
+    .state('auth-password-reset', {
+      url: '/auth/password/reset?token',
+      // templateUrl: '../templates/login.html',
+      controller: 'ResetPasswordCtrl',
       data: {
         requireLogin: false
       }

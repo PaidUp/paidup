@@ -109,8 +109,8 @@
                           <div>{{order.allProductName[0] | limitTo:2}}</div>
                         </div>
                         <div class="team">
-                          <div class="team-name">{{order.paymentsPlan[0].userInfo.userName}}</div>
-                          <div class="team-contact">{{getBeneficiaryInfo(order.paymentsPlan[0].customInfo)}}</div>
+                          <div class="team-name">{{getBeneficiaryInfo(order.paymentsPlan[0].customInfo)}}</div>
+                          <div class="team-contact">{{order.paymentsPlan[0].userInfo.userName}}</div>
                         </div>
                         <div class="clearfix"></div>
                       </td>

@@ -1,7 +1,7 @@
 'use strict'
 
-module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location', '$q', 'SetupPaymentService', 'PaymentService', 'CommerceService', 'ProductService', 'TrackerService', '$compile',
-  function ($scope, $rootScope, $state, $anchorScroll, $location, $q, SetupPaymentService, PaymentService, CommerceService, ProductService, TrackerService, $compile) {
+module.exports = ['$scope', '$rootScope', '$anchorScroll', '$location', '$q', 'SetupPaymentService', 'PaymentService', 'CommerceService', 'ProductService', 'TrackerService', '$compile',
+  function ($scope, $rootScope, $anchorScroll, $location, $q, SetupPaymentService, PaymentService, CommerceService, ProductService, TrackerService, $compile) {
 
     $rootScope.$on ('loadCardSelected', function (event, data) {
       $scope.card = data;
@@ -14,7 +14,7 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
     })
 
     $scope.clickAccount = function () {
-      $rootScope.$emit ('openAccountsMenu')
+      $rootScope.$emit ('openAccountsMenuCheckout')
     }
 
     var steps = {
@@ -30,7 +30,7 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
     $scope.init = function () {
       $scope.categorySelected = SetupPaymentService.categorySelected;
       if (!$scope.categorySelected._id) {
-        return $state.go ('dashboard.payment.findOrg');
+        return $location.path ('/payment/findOrg');
       }
 
       $rootScope.$emit ('changePaymentStep', steps.select)
@@ -243,8 +243,8 @@ module.exports = ['$scope', '$rootScope', '$state', '$anchorScroll', '$location'
 
       CommerceService.createOrder (params).then (function (res) {
         $rootScope.$emit ('accountMenuReset')
-        $state.go ('dashboard.payment.done');
         SetupPaymentService.resumeOrder = res.body
+        $location.path ('/payment/thankyou');
         TrackerService.track('Place Order', {'Payment Type': params.typeAccount})
       }).catch (function (err) {
         $rootScope.GlobalAlertSystemAlerts.push ({
