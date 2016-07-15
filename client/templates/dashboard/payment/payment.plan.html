@@ -127,7 +127,7 @@
     <div ng-show="step===4 && card" class="green-link" ng-hide="loading" ng-click="clickAccount()" >Change payment account</div>
     <div ng-show="card" class="account-selected">
       <div>You will be paying with:</div>
-      <div class="account-name">{{card.brand}} x-{{card.last4}}</div>
+      <div class="account-name">{{card.brand || card.bankName}} x-{{card.last4}}</div>
     </div>
 
 

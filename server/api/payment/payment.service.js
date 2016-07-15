@@ -6,7 +6,7 @@ const logger = require('../../config/logger')
 const paymentEmailService = require('./payment.email.service')
 const tdPaymentService = require('TDCore').paymentService
 const CommerceConnect = require('paidup-commerce-connect')
-const MAX_SIZE_META_STRIPE = config.stripe.maxSizeMeta;
+const MAX_SIZE_META_STRIPE = config.stripe.maxSizeMeta
 
 function createCustomer (user, cb) {
   tdPaymentService.init(config.connections.payment)
@@ -114,6 +114,21 @@ function fetchCard (customerId, cardId, cb) {
     if (err) return cb(err)
     return cb(null, creditCard)
   })
+}
+
+function fetchAccount (customerId, tokenId, cb) {
+  tdPaymentService.init(config.connections.payment)
+  if (tokenId.indexOf('ba') >= 0) {
+    tdPaymentService.fetchBank(customerId, tokenId, function (err, bankAccount) {
+      if (err) return cb(err)
+      return cb(null, bankAccount)
+    })
+  } else {
+    tdPaymentService.fetchCard(customerId, tokenId, function (err, creditCard) {
+      if (err) return cb(err)
+      return cb(null, creditCard)
+    })
+  }
 }
 
 function getVisibleBeneficiaryData (info) {
@@ -291,6 +306,14 @@ function plaidAuthenticate (plaidData, cb) {
   })
 }
 
+function listBanks (customerId, cb) {
+  tdPaymentService.init(config.connections.payment)
+  tdPaymentService.listCustomerBanks(customerId, function (err, data) {
+    if (err) return cb(err)
+    return cb(null, data)
+  })
+}
+
 exports.createCustomer = createCustomer
 exports.associateCard = associateCard
 exports.createCard = createCard
@@ -318,3 +341,5 @@ exports.retrieveAccount = retrieveAccount
 
 exports.plaidAuthenticate = plaidAuthenticate
 
+exports.listBanks = listBanks
+exports.fetchAccount = fetchAccount

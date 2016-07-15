@@ -16,9 +16,9 @@
     <div class="">
       <ul class="accounts-list">
         <li ng-repeat="account in accounts" ng-class="account.selected ? 'clearfix selected' : 'clearfix'" ng-click="showAccount(account)">
-          <div class="icon-container"><i class="fa fa-{{getBrandCardClass(account.brand)}}"></i></div>
+          <div class="icon-container"><i class="fa fa-{{getBrandCardClass(account.brand || account.object)}}"></i></div>
           <div class="account-name">
-            <div ng-bind="account.name"></div>
+            <div ng-bind="account.name || account.bankName"></div>
             <div class="card-number" ng-bind="account.last4">{{account.last4}}</div>
           </div>
         </li>
@@ -37,11 +37,11 @@
 
     <!-- ACCOUNT VIEW -->
     <div ng-if="!editingAccount">
-      <i class="fa fa-{{getBrandCardClass(modalAccount.brand)}}"></i>
-      <div ng-bind="modalAccount.name"></div> 
+      <i class="fa fa-{{getBrandCardClass(modalAccount.brand || modalAccount.object)}}"></i>
+      <div ng-bind="modalAccount.name || modalAccount.bankName"></div> 
       <div class="card-info">ending in: <span  ng-bind="modalAccount.last4"></span></div>
-      <div class="card-info">expiry date: <span  ng-bind="modalAccount.expMonth + '/' + modalAccount.expYear"></span></div>
-      <div class="card-info">name on card: <span ng-bind="modalAccount.name"></span></div>
+      <div class="card-info"  ng-show="modalAccount.expMonth">expiry date: <span  ng-bind="modalAccount.expMonth + '/' + modalAccount.expYear"></span></div>
+      <div class="card-info">name on card: <span ng-bind="modalAccount.name || modalAccount.accountHolderName"></span></div>
       <div class="clearfix"></div>
       <div class="billing-title" ng-if="modalAccount.addressLine1">Billing Address</div>
       <div class="account-address">

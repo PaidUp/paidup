@@ -3,7 +3,6 @@
 module.exports = ['$resource', function ($resource) {
   var Payment = $resource('/api/v1/commerce/checkout/place', {}, {})
   var BankPayment = $resource('/api/v1/payment/bank/:action', {}, {})
-  var ListBanks = $resource('/api/v1/payment/bank/list/user/:userId', {}, {})
   var DeleteBank = $resource('/api/v1/payment/bank/delete/:customerId/:bankId', {}, {})
   var CardPayment = $resource('/api/v1/payment/card/:action', {}, {})
   var ListCards = $resource('/api/v1/payment/card/list/user/:userId', {}, {})
@@ -13,6 +12,7 @@ module.exports = ['$resource', function ($resource) {
   var balance = $resource('/api/v1/payment/balance/:organizationId', {}, {})
   var charge = $resource('/api/v1/payment/charge/:organizationId', {}, {})
   var plaidServices = $resource('/api/v1/payment/plaid/:action', {}, {})
+  // var ListBanks = $resource('/api/v1/payment/bank/list/user/:userId', {}, {})
 
   var discount = $resource('/api/v1/commerce/cart/coupon/add', {}, {
     apply: {
@@ -28,11 +28,11 @@ module.exports = ['$resource', function ($resource) {
     'Discover': 'cc-discover',
     'Diners Club': 'cc-diners-club',
     'JCB': 'cc-jcb',
-    'bank': 'university'
+    'bank_account': 'university'
   }
 
   this.getBrandCardClass = function (stripeBrand) {
-    return brands[stripeBrand] || 'fa-credit-card'
+    return brands[stripeBrand] || 'credit-card'
   }
 
   this.sendPayment = function (payment) {
@@ -44,11 +44,7 @@ module.exports = ['$resource', function ($resource) {
   }
 
   this.listBankAccounts = function (userId) {
-    if (userId) {
-      return ListBanks.get({ userId: userId }).$promise
-    }
-
-    return BankPayment.get({ action: 'list' }).$promise
+    return plaidServices.get({ action: 'listBanks' }).$promise
   }
 
   this.hasBankAccountsWihtoutVerify = function (cb) {

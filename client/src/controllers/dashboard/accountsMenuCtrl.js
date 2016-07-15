@@ -32,7 +32,16 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
     function init () {
       AuthService.getCurrentUserPromise().then(function (user) {
         PaymentService.listCards(user._id).then(function (accounts) {
-          $scope.accounts = accounts.data
+          accounts.data.map(function (card) {
+            $scope.accounts.push(card)
+          })
+        }).catch(function (err) {
+          console.log('ERR', err)
+        })
+        PaymentService.listBankAccounts(user._id).then(function (banks) {
+          banks.data.map(function (bank) {
+            $scope.accounts.push(bank)
+          })
         }).catch(function (err) {
           console.log('ERR', err)
         })
@@ -42,12 +51,12 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
     }
 
     $rootScope.$on('openAccountsMenu', function (event, data) {
-      $scope.activeAccountMenu = true;
-      $scope.isCheckout = false;
+      $scope.activeAccountMenu = true
+      $scope.isCheckout = false
     })
     $rootScope.$on('openAccountsMenuCheckout', function (event, data) {
-      $scope.activeAccountMenu = true;
-      $scope.isCheckout = true;
+      $scope.activeAccountMenu = true
+      $scope.isCheckout = true
     })
 
     $rootScope.$on('accountMenuReset', function (event, data) {
@@ -194,26 +203,22 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
         clientName: config.plaidClientName,
         key: config.plaidKey,
         product: config.plaidProduct,
+        selectAccount: true,
         onLoad: function () {
         // The Link module finished loading.
           console.log('onLoad...')
         },
         onSuccess: function (publicToken, metadata) {
-          // AuthService.getCurrentUserPromise().then(function (user) {
-          PaymentService.plaidServices({publicToken: publicToken, metadata: metadata}).then(function (accounts) {
-            accounts.accounts.map(function (bankAccount) {
-              // console.log('bankAccount', bankAccount)
-              $scope.accounts.push({brand: 'bank', name: metadata.institution.name, last4: bankAccount.meta.number})
-            })
+          PaymentService.plaidServices({publicToken: publicToken, metadata: metadata}).then(function (data) {
+            console.log('data', data)
+            // accounts.accounts.map(function (bankAccount) {
+              // $scope.accounts.push({brand: 'bank', name: metadata.institution.name, last4: bankAccount.meta.number})
+          // })
             $scope.bank_name = metadata.institution.name
             $scope.showSuccessBankModal = true
-            // $scope.$apply()
           }).catch(function (err) {
             console.log('ERR', err)
           })
-          // }).catch(function (err) {
-            // console.log('err', err)
-          // })
         },
         onExit: function () {
         // The user exited the Link flow.

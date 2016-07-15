@@ -188,7 +188,7 @@ var all = {
   plaid: {
     env: 'tartan',
     clientName: 'Paidup dev.',
-    key: 'test_key',
+    key: 'e84244e3e19c760db516f6e4a1afff',
     product: 'auth'
   },
   stripe: {
