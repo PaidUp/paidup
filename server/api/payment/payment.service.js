@@ -139,11 +139,11 @@ function getVisibleBeneficiaryData (info) {
       return actual
     }
   }, '')
-  return cleanString(ret);
+  return cleanString(ret)
 }
 
 function cleanString (str) {
-  return str.replace(/[^a-zA-Z0-9 \-]/g, "_").substring(0, MAX_SIZE_META_STRIPE);
+  return str.replace(/[^a-zA-Z0-9 \-]/g, '_').substring(0, MAX_SIZE_META_STRIPE)
 }
 
 function capture (order, cb) {
