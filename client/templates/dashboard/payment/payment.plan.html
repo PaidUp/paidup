@@ -130,10 +130,6 @@
       <div class="account-name">{{card.brand || card.bankName}} x-{{card.last4}}</div>
     </div>
 
-
-
-
-
     <div class="buttons-container">
       <button class="button-green" ng-show="step===4 && !card" ng-hide="loading" ng-click="clickAccount()">Select Payment Account</button>
       <button id="btnCreateOrder" ng-click="createOrder()" ng-show="step===4 && card" class="button-green btn-setup-payment" ng-disabled="loading" ng-bind-html="loading ? loader : 'Submit Payment'"></button>
