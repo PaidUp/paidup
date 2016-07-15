@@ -32,7 +32,16 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
     function init () {
       AuthService.getCurrentUserPromise().then(function (user) {
         PaymentService.listCards(user._id).then(function (accounts) {
-          $scope.accounts = accounts.data
+          accounts.data.map(function (card) {
+            $scope.accounts.push(card)
+          })
+        }).catch(function (err) {
+          console.log('ERR', err)
+        })
+        PaymentService.listBankAccounts(user._id).then(function (banks) {
+          banks.data.map(function (bank) {
+            $scope.accounts.push(bank)
+          })
         }).catch(function (err) {
           console.log('ERR', err)
         })
@@ -42,12 +51,12 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
     }
 
     $rootScope.$on('openAccountsMenu', function (event, data) {
-      $scope.activeAccountMenu = true;
-      $scope.isCheckout = false;
+      $scope.activeAccountMenu = true
+      $scope.isCheckout = false
     })
     $rootScope.$on('openAccountsMenuCheckout', function (event, data) {
-      $scope.activeAccountMenu = true;
-      $scope.isCheckout = true;
+      $scope.activeAccountMenu = true
+      $scope.isCheckout = true
     })
 
     $rootScope.$on('accountMenuReset', function (event, data) {
@@ -110,7 +119,7 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
       })
       $scope.showAccountModal = false
       $scope.activeAccountMenu = false
-      $rootScope.$emit ('focusBtnCreateOrder')
+      $rootScope.$emit('focusBtnCreateOrder')
     }
 
     $scope.saveAccount = function (form) {
@@ -142,10 +151,10 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
                 TrackerService.track('Add Payment Account', {Type: source.object})
                 var promise = SignUpService.createBillingAddress($scope.modalAccount.billingAddress)
                 promise.then(function (message) {
-                  f.$setPristine();
-                  f.$setUntouched();
+                  f.$setPristine()
+                  f.$setUntouched()
                   $rootScope.GlobalAlertSystemAlerts.push({msg: 'Card was created successfully', type: 'success', dismissOnTimeout: 5000})
-                  if($location.path() === '/payment/plan'){
+                  if ($location.path() === '/payment/plan') {
                     $rootScope.GlobalAlertSystemAlerts.push({msg: 'Please select the account you would like to pay with.', type: 'warning', dismissOnTimeout: 10000})
                   }
                   $scope.show = false
@@ -188,20 +197,40 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
       }
     }
 
-    // var plaidHandler = Plaid.create({
-    //   env: 'tartan',
-    //   clientName: 'Client Name',
-    //   key: 'test_key',
-    //   product: 'auth',
-    //   onSuccess: function (public_token, metadata) {
-    //     $scope.bank_name = metadata.institution.name
-    //     $scope.showSuccessBankModal = true
-    //     $scope.$apply()
-    //   }
-    // })
+    var plaidHandler = function (config) {
+      return Plaid.create({
+        env: config.plaidEnv,
+        clientName: config.plaidClientName,
+        key: config.plaidKey,
+        product: config.plaidProduct,
+        selectAccount: true,
+        onLoad: function () {
+        // The Link module finished loading.
+          console.log('onLoad...')
+        },
+        onSuccess: function (publicToken, metadata) {
+          PaymentService.plaidServices({publicToken: publicToken, metadata: metadata}).then(function (data) {
+            console.log('data', data)
+            // accounts.accounts.map(function (bankAccount) {
+              // $scope.accounts.push({brand: 'bank', name: metadata.institution.name, last4: bankAccount.meta.number})
+          // })
+            $scope.bank_name = metadata.institution.name
+            $scope.showSuccessBankModal = true
+          }).catch(function (err) {
+            console.log('ERR', err)
+          })
+        },
+        onExit: function () {
+        // The user exited the Link flow.
+          console.log('onExit...')
+        }
+      })
+    }
 
-    // $scope.openPlaidModal = function () {
-    //   plaidHandler.open()
-    //   $scope.showSelectAccountTypeModal = false
-    // }
+    $scope.openPlaidModal = function () {
+      ApplicationConfigService.getConfig().then(function (config) {
+        plaidHandler(config).open()
+        $scope.showSelectAccountTypeModal = false
+      })
+    }
   }]

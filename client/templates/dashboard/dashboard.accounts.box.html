@@ -14,8 +14,8 @@
     <!-- <p>Orders with remaining payments (Click to see payment schedule):</p> -->
     <ul class="accounts-list">
       <li class="clearfix" ng-repeat="payment in payments">
-        <div class="icon-container"><i class="fa fa-{{getBrandCardClass(payment.brand)}}"></i></div>
-        <div class="account-name">{{payment.name}} <span class="card-number">x-{{payment.last4}}</span></div>
+        <div class="icon-container"><i class="fa fa-{{getBrandCardClass(payment.brand || payment.object)}}"></i></div>
+        <div class="account-name">{{payment.name || payment.bankName}} <span class="card-number">x-{{payment.last4}}</span></div>
       </li>
     </ul>
     <div class="bottom-link" ng-click="updateAccounts()">Update</div>

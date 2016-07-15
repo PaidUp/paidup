@@ -9,5 +9,6 @@ router.use('/webhook', require('./webhook/index'))
 router.use('/transfer', require('./transfer/index'))
 router.use('/balance', require('./balance/index'))
 router.use('/charge', require('./charge/index'))
+router.use('/plaid', require('./plaid/index'))
 
 module.exports = router
