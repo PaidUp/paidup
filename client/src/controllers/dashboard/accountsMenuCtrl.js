@@ -202,7 +202,7 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
         onSuccess: function (publicToken, metadata) {
           PaymentService.plaidServices({publicToken: publicToken, metadata: metadata}).then(function (data) {
             $scope.bank_name = metadata.institution.name
-            // $scope.showSuccessBankModal = true
+            $scope.showSuccessBankModal = true
 
             // $rootScope.GlobalAlertSystemAlerts.push({msg: 'Bank was created successfully', type: 'success', dismissOnTimeout: 5000})
             // $scope.show = false
