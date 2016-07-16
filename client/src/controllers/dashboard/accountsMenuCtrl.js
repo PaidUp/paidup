@@ -212,7 +212,7 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
             // $scope.showSuccessBankModal = false
             // $scope.loading = false
             $rootScope.$emit('reloadAccountsBox')
-            init()
+            // init()
           }).catch(function (err) {
             console.log('ERR', err)
           })
