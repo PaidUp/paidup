@@ -205,14 +205,11 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
             // $scope.showSuccessBankModal = true
 
             $rootScope.GlobalAlertSystemAlerts.push({msg: 'Bank was created successfully', type: 'success', dismissOnTimeout: 5000})
-            if ($location.path() === '/payment/plan') {
-              $rootScope.GlobalAlertSystemAlerts.push({msg: 'Please select the account you would like to pay with.', type: 'warning', dismissOnTimeout: 10000})
-            }
             // $scope.show = false
             // $scope.showSuccessBankModal = false
             // $scope.loading = false
             $rootScope.$emit('reloadAccountsBox')
-            // init()
+            init()
           }).catch(function (err) {
             console.log('ERR', err)
           })
