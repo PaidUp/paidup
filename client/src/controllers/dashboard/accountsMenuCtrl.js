@@ -204,7 +204,7 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
             $scope.bank_name = metadata.institution.name
             // $scope.showSuccessBankModal = true
 
-            $rootScope.GlobalAlertSystemAlerts.push({msg: 'Bank was created successfully', type: 'success', dismissOnTimeout: 5000})
+            // $rootScope.GlobalAlertSystemAlerts.push({msg: 'Bank was created successfully', type: 'success', dismissOnTimeout: 5000})
             // $scope.show = false
             // $scope.showSuccessBankModal = false
             // $scope.loading = false
