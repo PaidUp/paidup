@@ -201,7 +201,6 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
         },
         onSuccess: function (publicToken, metadata) {
           PaymentService.plaidServices({publicToken: publicToken, metadata: metadata}).then(function (data) {
-            console.log('data', data)
             $scope.bank_name = metadata.institution.name
             // $scope.showSuccessBankModal = true
 
@@ -209,9 +208,9 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
             if ($location.path() === '/payment/plan') {
               $rootScope.GlobalAlertSystemAlerts.push({msg: 'Please select the account you would like to pay with.', type: 'warning', dismissOnTimeout: 10000})
             }
-            $scope.show = false
-            $scope.showSuccessBankModal = false
-            $scope.loading = false
+            // $scope.show = false
+            // $scope.showSuccessBankModal = false
+            // $scope.loading = false
             $rootScope.$emit('reloadAccountsBox')
             init()
           }).catch(function (err) {

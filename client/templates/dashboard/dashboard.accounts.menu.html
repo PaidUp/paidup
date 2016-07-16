@@ -39,7 +39,7 @@
     <div ng-if="!editingAccount">
       <i class="fa fa-{{getBrandCardClass(modalAccount.brand || modalAccount.object)}}"></i>
       <div ng-bind="modalAccount.name || modalAccount.accountHolderName"></div>
-      <div class="card-info"><span ng-bind="modalAccount.name || modalAccount.bankName"></span></div>
+      <div class="card-info"><span ng-bind="modalAccount.bankName"></span></div>
       <div class="card-info" ng-show="modalAccount.expMonth">expiry date: <span  ng-bind="modalAccount.expMonth + '/' + modalAccount.expYear"></span></div>
       <div class="card-info">ending in: <span  ng-bind="modalAccount.last4"></span></div>
       <div class="clearfix"></div>
