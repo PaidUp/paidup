@@ -48,9 +48,7 @@ exports.listBanks = function listBanks (req, res) {
     }
     if (dataUser[0].meta.TDPaymentId !== '') {
       paymentService.listBanks(dataUser[0].meta.TDPaymentId, function (errCard, dataBanks) {
-        console.log('dataBanks', dataBanks)
         paymentService.fetchCustomer(dataUser[0].meta.TDPaymentId, function (errCustomer, dataCustomer) {
-          console.log('dataCustomer', dataCustomer)
           if (errCard || errCustomer) {
             return res.status(400).json({
               'code': 'ValidationError',
