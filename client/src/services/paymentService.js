@@ -13,6 +13,7 @@ module.exports = ['$resource', function ($resource) {
   var charge = $resource('/api/v1/payment/charge/:organizationId', {}, {})
   var plaidServices = $resource('/api/v1/payment/plaid/:action', {}, {})
   // var ListBanks = $resource('/api/v1/payment/bank/list/user/:userId', {}, {})
+  var accountServices = $resource('/api/v1/payment/account/:action', {}, {})
 
   var discount = $resource('/api/v1/commerce/cart/coupon/add', {}, {
     apply: {
@@ -129,5 +130,9 @@ module.exports = ['$resource', function ($resource) {
 
   this.plaidServices = function (data) {
     return plaidServices.save({ action: 'authenticate' }, data).$promise
+  }
+
+  this.listAccounts = function (userId) {
+    return accountServices.get({ action: 'list' }).$promise
   }
 }]
