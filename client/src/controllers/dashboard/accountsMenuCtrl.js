@@ -30,6 +30,8 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
     }
 
     function init () {
+      $scope.cardIsVisible = PaymentService.getPaymentMethod('card')
+      $scope.bankIsVisible = PaymentService.getPaymentMethod('bank')
       AuthService.getCurrentUserPromise().then(function (user) {
         PaymentService.listAccounts(user._id).then(function (Accounts) {
           $scope.accounts = Accounts.data
@@ -46,6 +48,8 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
       $scope.isCheckout = false
     })
     $rootScope.$on('openAccountsMenuCheckout', function (event, data) {
+      $scope.cardIsVisible = PaymentService.getPaymentMethod('card')
+      $scope.bankIsVisible = PaymentService.getPaymentMethod('bank')
       $scope.activeAccountMenu = true
       $scope.isCheckout = true
     })
