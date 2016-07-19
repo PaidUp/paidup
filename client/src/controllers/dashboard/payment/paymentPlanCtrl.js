@@ -70,13 +70,13 @@ module.exports = ['$scope', '$rootScope', '$anchorScroll', '$location', '$q', 'S
       $scope.total = 0
       TrackerService.track('Select Payment Plan', {'PaymentPlanSelected': $scope.models.paymentPlanSelected})
       SetupPaymentService.paymentPlanSelected = $scope.models.productSelected.paymentPlans[$scope.models.paymentPlanSelected]
+      setPaymentMethods($scope.models.productSelected.paymentPlans[$scope.models.paymentPlanSelected].paymentMethods)
       var params = $scope.models.productSelected.paymentPlans[$scope.models.paymentPlanSelected].dues.map(function (ele) {
         if ($scope.coupon.precent) {
           ele.applyDiscount = true
           ele.discount = $scope.coupon.precent
           ele.couponId = $scope.coupon.code
         }
-
         return {
           version: ele.version,
           originalPrice: ele.amount,
@@ -90,7 +90,6 @@ module.exports = ['$scope', '$rootScope', '$anchorScroll', '$location', '$q', 'S
           dateCharge: ele.dateCharge
         }
       })
-
       PaymentService.calculateDues(params, function (err, data) {
         if (err) {
           console.log(err)
@@ -137,6 +136,19 @@ module.exports = ['$scope', '$rootScope', '$anchorScroll', '$location', '$q', 'S
         type: 'warning',
         dismissOnTimeout: 5000
       })
+    }
+
+    function setPaymentMethods (pm) {
+      PaymentService.setDefaultPaymentMethod()
+      if (pm && pm.length > 0) {
+        if (pm.indexOf('card') === -1) PaymentService.setPaymentMethod('card', false)
+        pm.map(function (value) {
+          PaymentService.setPaymentMethod(value, true)
+        })
+      } else {
+        PaymentService.setDefaultPaymentMethod()
+      }
+      return true
     }
 
     $scope.goStep3 = function () {

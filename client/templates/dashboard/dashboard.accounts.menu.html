@@ -155,14 +155,14 @@
 
 <modal-window show="showSelectAccountTypeModal" modal-title="'What type of account would you like to add?'">
   <div class="account-modal">
-    <div class="account_type_box" ng-click="linkNewCard()">
+    <div class="account_type_box" ng-click="linkNewCard()" ng-show="cardIsVisible">
       <i class="fa fa-cc-mastercard"></i>
       <i class="fa fa-cc-amex"></i>
       <i class="fa fa-cc-discover"></i>
       <i class="fa fa-cc-visa"></i>
       <div>Add Debit/Credit Card</div>
     </div>  
-    <div class="account_type_box" ng-click="openPlaidModal()">
+    <div class="account_type_box" ng-click="openPlaidModal()" ng-show="bankIsVisible">
       <i class="fa fa-bank"></i>
       <div>Add Bank Account</div>
     </div>

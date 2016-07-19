@@ -32,8 +32,27 @@ module.exports = ['$resource', function ($resource) {
     'bank_account': 'university'
   }
 
+  var paymentMethod = {
+    'card': true,
+    'bank': false,
+    'bitcoin': false
+  }
+
   this.getBrandCardClass = function (stripeBrand) {
     return brands[stripeBrand] || 'credit-card'
+  }
+
+  this.getPaymentMethod = function (key) {
+    return paymentMethod[key]
+  }
+
+  this.setPaymentMethod = function (key, value) {
+    paymentMethod[key] = value
+  }
+
+  this.setDefaultPaymentMethod = function () {
+    paymentMethod.card = true
+    paymentMethod.bank = false
   }
 
   this.sendPayment = function (payment) {
