@@ -31,17 +31,8 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
 
     function init () {
       AuthService.getCurrentUserPromise().then(function (user) {
-        PaymentService.listCards(user._id).then(function (accounts) {
-          accounts.data.map(function (card) {
-            $scope.accounts.push(card)
-          })
-        }).catch(function (err) {
-          console.log('ERR', err)
-        })
-        PaymentService.listBankAccounts(user._id).then(function (banks) {
-          banks.data.map(function (bank) {
-            $scope.accounts.push(bank)
-          })
+        PaymentService.listAccounts(user._id).then(function (Accounts) {
+          $scope.accounts = Accounts.data
         }).catch(function (err) {
           console.log('ERR', err)
         })
@@ -210,12 +201,15 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
         },
         onSuccess: function (publicToken, metadata) {
           PaymentService.plaidServices({publicToken: publicToken, metadata: metadata}).then(function (data) {
-            console.log('data', data)
-            // accounts.accounts.map(function (bankAccount) {
-              // $scope.accounts.push({brand: 'bank', name: metadata.institution.name, last4: bankAccount.meta.number})
-          // })
             $scope.bank_name = metadata.institution.name
             $scope.showSuccessBankModal = true
+
+            // $rootScope.GlobalAlertSystemAlerts.push({msg: 'Bank was created successfully', type: 'success', dismissOnTimeout: 5000})
+            // $scope.show = false
+            // $scope.showSuccessBankModal = false
+            // $scope.loading = false
+            $rootScope.$emit('reloadAccountsBox')
+            init()
           }).catch(function (err) {
             console.log('ERR', err)
           })

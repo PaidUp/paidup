@@ -38,10 +38,10 @@
     <!-- ACCOUNT VIEW -->
     <div ng-if="!editingAccount">
       <i class="fa fa-{{getBrandCardClass(modalAccount.brand || modalAccount.object)}}"></i>
-      <div ng-bind="modalAccount.name || modalAccount.bankName"></div> 
+      <div ng-bind="modalAccount.name || modalAccount.accountHolderName || bank_name"></div>
+      <div class="card-info"><span ng-bind="modalAccount.bankName"></span></div>
+      <div class="card-info" ng-show="modalAccount.expMonth">expiry date: <span  ng-bind="modalAccount.expMonth + '/' + modalAccount.expYear"></span></div>
       <div class="card-info">ending in: <span  ng-bind="modalAccount.last4"></span></div>
-      <div class="card-info"  ng-show="modalAccount.expMonth">expiry date: <span  ng-bind="modalAccount.expMonth + '/' + modalAccount.expYear"></span></div>
-      <div class="card-info">name on card: <span ng-bind="modalAccount.name || modalAccount.accountHolderName"></span></div>
       <div class="clearfix"></div>
       <div class="billing-title" ng-if="modalAccount.addressLine1">Billing Address</div>
       <div class="account-address">

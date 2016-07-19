@@ -1,7 +1,6 @@
 'use strict'
 
 module.exports = [ '$scope', '$rootScope', '$state', 'PaymentService', 'AuthService', function ($scope, $rootScope, $state, PaymentService, AuthService) {
-
   $rootScope.$on('reloadAccountsBox', function (event, data) {
     $scope.init()
   })
@@ -10,17 +9,8 @@ module.exports = [ '$scope', '$rootScope', '$state', 'PaymentService', 'AuthServ
 
   $scope.init = function () {
     AuthService.getCurrentUserPromise().then(function (user) {
-      PaymentService.listCards(user._id).then(function (cards) {
-        cards.data.map(function (card) {
-          $scope.payments.push(card)
-        })
-      }).catch(function (err) {
-        console.log('ERR', err)
-      })
-      PaymentService.listBankAccounts(user._id).then(function (banks) {
-        banks.data.map(function (bank) {
-          $scope.payments.push(bank)
-        })
+      PaymentService.listAccounts(user._id).then(function (Accounts) {
+        $scope.payments = Accounts.data
       }).catch(function (err) {
         console.log('ERR', err)
       })
