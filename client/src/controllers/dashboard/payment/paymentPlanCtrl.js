@@ -79,6 +79,8 @@ module.exports = ['$scope', '$rootScope', '$anchorScroll', '$location', '$q', 'S
         }
         return {
           version: ele.version,
+          type: 'card',
+          capAmount: 0,
           originalPrice: ele.amount,
           stripePercent: $scope.models.productSelected.processingFees.cardFeeDisplay,
           stripeFlat: $scope.models.productSelected.processingFees.cardFeeFlatDisplay,

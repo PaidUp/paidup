@@ -193,7 +193,8 @@ var all = {
   },
   stripe: {
     apiPublic: 'pk_test_y86FeOIMDzHKLvR5xkylpKrg',
-    maxSizeMeta: 49
+    maxSizeMeta: 49,
+    capAmount: 625
   },
   mixpanel: {
     apiKey: 'f97659afce9c44283fbd59ad718803dc'
