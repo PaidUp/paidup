@@ -24,6 +24,7 @@ module.exports = [ '$scope', '$rootScope', '$state', 'PaymentService', 'AuthServ
   }
 
   $scope.updateAccounts = function () {
+    PaymentService.setAllPaymentMethodTrue()
     $rootScope.$emit('openAccountsMenu')
   }
 }]
