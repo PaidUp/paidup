@@ -44,6 +44,8 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
     }
 
     $rootScope.$on('openAccountsMenu', function (event, data) {
+      $scope.cardIsVisible = PaymentService.getPaymentMethod('card')
+      $scope.bankIsVisible = PaymentService.getPaymentMethod('bank')
       $scope.activeAccountMenu = true
       $scope.isCheckout = false
     })
