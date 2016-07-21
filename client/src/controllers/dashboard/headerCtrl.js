@@ -1,7 +1,8 @@
 'use strict'
 
-module.exports = [ '$scope', '$rootScope', '$window', '$location', 'SessionService', function ($scope, $rootScope, $window, $location, SessionService) {
+module.exports = [ '$scope', '$rootScope', '$window', '$location', 'SessionService', 'PaymentService', function ($scope, $rootScope, $window, $location, SessionService, PaymentService) {
   $scope.clickAccounts = function () {
+    PaymentService.setAllPaymentMethodTrue()
     $rootScope.$emit('openAccountsMenu')
   }
   $scope.clickMobileMenu = function () {
