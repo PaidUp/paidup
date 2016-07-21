@@ -34,7 +34,7 @@ var OrderService = {
           capAmount: config.stripe.capAmount          
         }
 
-        if (body.typeAccount === 'bank') {
+        if (body.typeAccount === 'bank_account') {
           param.stripePercent = dataProduct.processingFees.achFeeDisplay;
           param.stripeFlat = dataProduct.processingFees.achFeeFlatDisplay;
         }
