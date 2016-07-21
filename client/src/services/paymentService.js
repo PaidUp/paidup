@@ -55,6 +55,11 @@ module.exports = ['$resource', function ($resource) {
     paymentMethod.bank = false
   }
 
+  this.setAllPaymentMethodTrue = function () {
+    paymentMethod.card = true
+    paymentMethod.bank = true
+  }
+
   this.sendPayment = function (payment) {
     return Payment.save(payment).$promise
   }
