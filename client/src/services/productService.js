@@ -10,6 +10,8 @@ module.exports = ['$resource', '$q', '$cookies', function ($resource, $q, $cooki
     return pn
   }
 
+  this.categories = [];
+
   this.setPnProducts = function(pnProds){
     $cookies.put('pnProds', JSON.stringify(pnProds))
   }
