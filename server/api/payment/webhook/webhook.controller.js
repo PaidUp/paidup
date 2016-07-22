@@ -41,7 +41,12 @@ exports.refunded = function (req, res) {
 
 exports.succeeded = function (req, res) {
   console.log('succeeded')
-  console.log('req.body', req.body)
+  console.log('req.body id', req.body.data.object.id)
+  console.log('req.body customer', req.body.data.object.customer)
+  console.log('req.body destination', req.body.data.object.destination)
+  console.log('req.body source', req.body.data.object.source)
+  console.log('req.body status', req.body.data.object.status)
+  console.log('req.body transfer', req.body.data.object.transfer)
   return res.status(200).json({webhook: 'succeeded'})
 }
 

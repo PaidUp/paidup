@@ -1,8 +1,8 @@
 'use strict'
 var angular = require('angular')
 
-module.exports = ['$scope', '$rootScope', '$anchorScroll', '$location', '$q', 'SetupPaymentService', 'PaymentService', 'CommerceService', 'ProductService', 'TrackerService', '$compile',
-  function ($scope, $rootScope, $anchorScroll, $location, $q, SetupPaymentService, PaymentService, CommerceService, ProductService, TrackerService, $compile) {
+module.exports = ['$scope', '$rootScope', '$anchorScroll', '$location', '$q', 'SetupPaymentService', 'PaymentService', 'CommerceService', 'ProductService', 'TrackerService', '$compile', '$stateParams',
+  function ($scope, $rootScope, $anchorScroll, $location, $q, SetupPaymentService, PaymentService, CommerceService, ProductService, TrackerService, $compile, $stateParams) {
     $rootScope.$on('loadCardSelected', function (event, data) {
       $scope.card = data
       SetupPaymentService.card = data
@@ -28,8 +28,15 @@ module.exports = ['$scope', '$rootScope', '$anchorScroll', '$location', '$q', 'S
     var pnProducts = ProductService.getPnProducts()
 
     $scope.init = function () {
-      $scope.categorySelected = SetupPaymentService.categorySelected
-      if (!$scope.categorySelected._id) {
+      if (!ProductService.categories) {
+        return $location.path('/payment/findOrg')
+      }
+      ProductService.categories.map(function(category){
+        if(category._id === $stateParams.categoryId){
+          $scope.categorySelected = category
+        }
+      });
+      if (!$scope.categorySelected || !$scope.categorySelected._id) {
         return $location.path('/payment/findOrg')
       }
 
