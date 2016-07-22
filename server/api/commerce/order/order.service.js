@@ -505,8 +505,7 @@ function orderUpdateWebhook (data, cb) {
     // OK.
     success: function (result) {
       console.log('result service', result)
-      result.body = JSON.parse(result.body)
-      return cb(null, result)
+      return cb(null, result.body)
     }
   })
 }
