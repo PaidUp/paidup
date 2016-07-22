@@ -87,7 +87,7 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
       controller: 'FindOrganizationCtrl'
     })
     .state('dashboard.payment.plan', {
-      url: '^/payment/plan',
+      url: '^/payment/plan/:categoryId',
       templateUrl: '../templates/dashboard/payment/payment.plan.html',
       controller: 'PaymentPlanCtrl'
     })
