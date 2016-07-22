@@ -17,6 +17,7 @@ module.exports = ['$scope', '$rootScope', '$state', 'ProductService', 'SetupPaym
         $scope.allCategories = resp.categories.filter (function (product) {
           return product.isActive
         });
+        ProductService.categories = $scope.allCategories;
 
         if(Object.keys (ProductService.getPnProducts()).length > 0){
           $scope.filteredCategories = $scope.allCategories.filter(function (product) {
@@ -46,9 +47,8 @@ module.exports = ['$scope', '$rootScope', '$state', 'ProductService', 'SetupPaym
     }
 
     $scope.selectCategory = function (category) {
-      SetupPaymentService.categorySelected = category;
-      $location.path('/payment/plan');
-      //$state.go('dashboard.payment.plan');
+      $scope.hideCategories = true;
+      $scope.loading = true;
       TrackerService.track ('Select Organization', {Org: category.name});
     }
 
@@ -77,6 +77,7 @@ module.exports = ['$scope', '$rootScope', '$state', 'ProductService', 'SetupPaym
 
 
     $scope.init = function () {
+      $scope.hideCategories = false;
       $rootScope.$emit ('accountMenuReset')
       $scope.loader = '<i class="fa fa-circle-o-notch fa-spin"></i>'
       $scope.loading = true;

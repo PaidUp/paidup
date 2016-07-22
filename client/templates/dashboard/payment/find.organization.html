@@ -24,19 +24,19 @@
     </form>
   </div>
 
-  <div class="teams" ng-show="!search.name.length" >
+  <div class="teams" ng-show="hideCategories || !search.name.length" >
     <p ng-show="filteredCategories.length > 0">Do these look familiar? Setup a payment with them again.</p>
     <div class="team" ng-repeat="category in filteredCategories">
-      <img src="{{category.image}}" ng-click="selectCategory(category)" class="team-img" alt="">
+      <img src="{{category.image}}" ui-sref="dashboard.payment.plan({categoryId: category._id})" ng-click="selectCategory(category)" class="team-img" alt="">
       <div class="name">{{category.name}}</div>
       <div class="loc">{{category.location ? category.location : 'N/A'}}</div>
     </div>
   </div>
 
-  <div class="teams" ng-show="search.name.length">
+  <div class="teams" ng-show="hideCategories || search.name.length">
     <p ng-show="(allCategories|filter:search).length > 0">Do these look familiar? Setup a payment with them again.</p>
     <div class="team" ng-repeat="category in allCategories | filter:search">
-    <img src="{{category.image}}" ng-click="selectCategory(category)" class="team-img" alt="">
+    <img src="{{category.image}}" ui-sref="dashboard.payment.plan({categoryId: category._id})" ng-click="selectCategory(category)" class="team-img" alt="">
       <div class="name">{{category.name}}</div>
       <div class="loc">{{category.location ? category.location : 'N/A'}}</div>
     </div>
