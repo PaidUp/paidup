@@ -32,13 +32,12 @@ exports.failed = function (req, res) {
 
 exports.succeeded = function (req, res) {
   console.log('succeeded')
-  console.log('req.body', req.body)
+  console.log('req.body', req.body.object.source.object)
   orderService.orderUpdateWebhook(req.body.data, function (err, result) {
     console.log(err, err)
     console.log('result', result)
     return res.status(200).json({webhook: 'charge'})
   })
-  return res.status(200).json({webhook: 'succeeded'})
 }
 
 exports.updated = function (req, res) {
