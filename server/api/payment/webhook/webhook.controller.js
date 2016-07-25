@@ -32,12 +32,16 @@ exports.failed = function (req, res) {
 
 exports.succeeded = function (req, res) {
   console.log('succeeded')
-  console.log('req.body', req.body.data.object.source.object)
-  orderService.orderUpdateWebhook(req.body.data, function (err, result) {
-    console.log(err, err)
-    console.log('result', result)
-    return res.status(200).json({webhook: 'charge'})
-  })
+  console.log('req.body.data.object.source.object', req.body.data.object.source.object)
+  if (req.body.data && req.body.data.object && req.body.data.object.source && req.body.data.object.source.object === 'bank_account'){
+    orderService.orderUpdateWebhook(req.body.data, function (err, result) {
+      console.log(err, err)
+      console.log('result', result)
+      return res.status(200).json({webhook: 'charge'})
+    })
+  } else {
+    return res.status(200).json({webhook: 'not bank_account'})
+  }
 }
 
 exports.updated = function (req, res) {
