@@ -25,12 +25,12 @@ exports.webgetpaymentcharge = function (req, res) {
 }
 
 exports.chargeAccount = function (req, res) {
-  console.log('succeeded and failed')
-  console.log('req.body.data.object.source.object', req.body.data.object.source.object)
+  // console.log('succeeded and failed')
+  // console.log('req.body.data.object.source.object', req.body.data.object.source.object)
   if (req.body.data && req.body.data.object && req.body.data.object.source && req.body.data.object.source.object === 'bank_account'){
     orderService.orderUpdateWebhook(req.body.data, function (err, result) {
       console.log(err, err)
-      console.log('result', result)
+      // console.log('result', result)
       return res.status(200).json({webhook: 'charge'})
     })
   } else {
