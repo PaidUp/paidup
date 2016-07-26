@@ -38,6 +38,7 @@ client/e2eNW/reports/
 #directories
 bin
 dist
+build
 var/logs/*
 
 #Frontend
