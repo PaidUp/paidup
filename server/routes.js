@@ -33,10 +33,6 @@ module.exports = function (app) {
     }
     app.use(cors(corsOptions))
   }
-  app.use(function (req, res, next) {
-    res.setHeader('Cache-Control', 'private, max-age=86400') // HTTP 1.1.
-    return next()
-  })
 
   // Insert routes below
   app.use('/api/v1/auth', require('./api/auth'))

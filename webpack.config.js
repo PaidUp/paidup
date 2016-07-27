@@ -31,7 +31,7 @@ module.exports = {
 
       {
         test: /\.html$/,
-        loader: "html"
+        loader: 'ngtemplate?relativeTo=' + (path.resolve(__dirname, './client')) + '/!html'
       }
 
       ,
@@ -83,8 +83,8 @@ module.exports = {
 
     new TransferWebpackPlugin([
       { from: './ico' },
-      { from: './img/email', to: 'img/email' },
-      //{ from: './templates', to: 'templates' },
+      { from: './img', to: 'img' },
+      { from: './templates', to: 'templates' },
       { from: './fonts', to: 'fonts' },
       { from: './css', to: 'css' },
       { from: '../server', to: '../server' }
