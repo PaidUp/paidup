@@ -34,8 +34,8 @@ module.exports = ['$resource', function ($resource) {
 
   var paymentMethod = {
     'card': true,
-    'bank': false,
-    'bitcoin': false
+    'bank': true,
+    'bitcoin': true
   }
 
   this.getBrandCardClass = function (stripeBrand) {

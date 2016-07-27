@@ -31,11 +31,11 @@ module.exports = ['$scope', '$rootScope', '$anchorScroll', '$location', '$q', 'S
       if (!ProductService.categories) {
         return $location.path('/payment/findOrg')
       }
-      ProductService.categories.map(function(category){
-        if(category._id === $stateParams.categoryId){
+      ProductService.categories.map(function (category) {
+        if (category._id === $stateParams.categoryId) {
           $scope.categorySelected = category
         }
-      });
+      })
       if (!$scope.categorySelected || !$scope.categorySelected._id) {
         return $location.path('/payment/findOrg')
       }
