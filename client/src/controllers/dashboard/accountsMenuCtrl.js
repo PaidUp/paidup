@@ -9,6 +9,7 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
     })
 
     $scope.accounts = []
+    $scope.allAccounts = []
     $scope.loading = false
     $scope.loader = '<i class="fa fa-circle-o-notch fa-spin"></i>'
     $scope.states = UserService.getStates()
@@ -34,6 +35,7 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
       $scope.bankIsVisible = PaymentService.getPaymentMethod('bank')
       AuthService.getCurrentUserPromise().then(function (user) {
         PaymentService.listAccounts(user._id).then(function (Accounts) {
+          $scope.allAccounts = Accounts.data
           $scope.accounts = Accounts.data
         }).catch(function (err) {
           console.log('ERR', err)
@@ -48,12 +50,16 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
       $scope.bankIsVisible = PaymentService.getPaymentMethod('bank')
       $scope.activeAccountMenu = true
       $scope.isCheckout = false
+      $scope.accounts = $scope.allAccounts
     })
     $rootScope.$on('openAccountsMenuCheckout', function (event, data) {
       $scope.cardIsVisible = PaymentService.getPaymentMethod('card')
       $scope.bankIsVisible = PaymentService.getPaymentMethod('bank')
       $scope.activeAccountMenu = true
       $scope.isCheckout = true
+      $scope.accounts = $scope.allAccounts.filter(function (acc) {
+        return ($scope.bankIsVisible && acc.object === 'bank_account' || $scope.cardIsVisible && acc.object === 'card')
+      })
     })
 
     $rootScope.$on('accountMenuReset', function (event, data) {
