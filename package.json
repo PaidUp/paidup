@@ -71,6 +71,7 @@
     "nightwatch": "0.8.18",
     "npm-watch": "^0.1.4",
     "proxyquire": "^1.7.4",
+    "raw-loader": "^0.5.1",
     "sinon": "^1.17.3",
     "style-loader": "^0.13.1",
     "supertest": "1.2.0",
@@ -86,7 +87,8 @@
   "watch": {
     "build": {
       "patterns": [
-        "client","server"
+        "client",
+        "server"
       ],
       "extensions": "html,css,js,less,hbs",
       "ignore": "build",
