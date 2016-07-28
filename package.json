@@ -84,14 +84,20 @@
     "node": "4.4.2"
   },
   "watch": {
-    "front:less": "client/src/style.less",
-    "front:browserify:dev": "client/src/**/*.js"
+    "build": {
+      "patterns": [
+        "client","server"
+      ],
+      "extensions": "html,css,js,less,hbs",
+      "ignore": "build",
+      "quiet": "false"
+    }
   },
   "scripts": {
     "start": "npm run build && node server/app.js",
     "test": "NODE_ENV=test ./node_modules/tape/bin/tape server/**/*.spec.js",
-    "build": "webpack --watch",
-    "build:prod": "rm -rf build && webpack --optimize-minimize",
+    "build": "webpack",
+    "build:prod": "rm -rf build && webpack -p",
     "watch": "npm-watch"
   },
   "config": {
