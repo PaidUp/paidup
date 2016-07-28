@@ -114,7 +114,7 @@ module.exports = ['$scope', 'AuthService', 'TrackerService', '$translate', '$loc
 
     function getRedirectPageLogin (user) {
       if (user.roles.indexOf('coach') !== -1) {
-        return '/board'
+        return '/dashboard/board'
       } else {
         return '/dashboard/summary'
       }
