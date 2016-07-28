@@ -28,16 +28,26 @@ module.exports = function (app) {
   app.use(methodOverride())
   app.use(cookieParser())
   if (env === 'production') {
-    app.use(favicon(path.join(config.root, 'public', 'favicon.ico')))
-    app.use(express.static(path.join(config.root, 'public'), { maxAge: oneDay * 8 }))
-    app.set('appPath', config.root + '/public')
+    app.use(favicon(path.join(config.root, 'client', 'favicon.ico')))
+    app.use(express.static(path.join(config.root, 'client'), { 
+      dotfile: 'ignore',
+        etag: true,
+        index: false,
+        lastModified: true
+    }))
+    app.set('appPath', config.root + '/client')
     app.use(morgan('dev'))
   }
 
   if (env === 'development' || env === 'test') {
     // app.use(require('connect-livereload')())
     app.use(express.static(path.join(config.root, '.tmp')))
-    app.use(express.static(path.join(config.root, 'client'), { maxAge: (oneDay * 8) }))
+    app.use(express.static(path.join(config.root, 'client'), { 
+      dotfile: 'ignore',
+        etag: true,
+        index: false,
+        lastModified: true
+      }))
     app.set('appPath', config.root + '/client')
     app.use(errorHandler()) // Error handler - has to be last
   }
