@@ -21,14 +21,14 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, 'build/client'),
-    filename: '[name].[chunkhash].js',
+    filename: '[name].[hash].js',
     chunkFilename: '[name].[chunkhash].js'
   },
   module: {
     loaders: [
       {
         test: /\.html$/,
-        loader: 'ngtemplate?relativeTo=' + (path.resolve(__dirname, './client')) + '/!html'
+        loader: 'ngtemplate?relativeTo=' + (path.resolve(__dirname, './client')) + '/!raw'
       },
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
