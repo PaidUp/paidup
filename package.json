@@ -88,21 +88,10 @@
     "front:browserify:dev": "client/src/**/*.js"
   },
   "scripts": {
-    "start": "node server/app.js",
+    "start": "npm run build && node server/app.js",
     "test": "NODE_ENV=test ./node_modules/tape/bin/tape server/**/*.spec.js",
-    "clean:dist": "rm -rf dist",
-    "clean:build": "rm -rf build",
-    "create:dist": "mkdir dist",
-    "create:build": "mkdir build",
-    "jenkins": "npm run clean:build && npm run create:build && npm test",
-    "build:server": "cp -R server/ dist/server",
-    "build:client": "npm run front:browserify:prod && npm run front:less && mkdir -p dist && mkdir -p dist/public && cp -R client/* dist/public && rm -rf dist/public/src",
-    "build": "npm run clean:dist && npm run create:dist && npm run build:server && npm run build:client",
-    "production": "NODE_ENV=production node dist/server/app.js",
-    "front:browserify:dev": "browserify client/src/app.js --verbose --debug --outfile client/js/bundle.min.js && touch client/index.html",
-    "front:browserify:prod": "mkdir -p client/js && browserify client/src/app.js -p [minifyify --no-map] > client/js/bundle.min.js",
-    "front:less": "lessc client/src/style.less client/css/style.min.css --autoprefix='> 1%, last 2 versions, Firefox ESR'  --clean-css='--s1 --compatibility=ie8'",
-    "front:livereload": "browser-sync start --proxy localhost:9000 --reload-delay 900 --files client !client/src",
+    "build": "webpack --watch",
+    "build:prod": "rm -rf build && webpack --optimize-minimize",
     "watch": "npm-watch"
   },
   "config": {

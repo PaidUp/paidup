@@ -25,26 +25,18 @@ module.exports = {
     chunkFilename: '[name].[chunkhash].js'
   },
   module: {
-
-
     loaders: [
-
       {
         test: /\.html$/,
         loader: 'ngtemplate?relativeTo=' + (path.resolve(__dirname, './client')) + '/!html'
-      }
-
-      ,
-
+      },
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
         loaders: [
           'file?hash=sha512&digest=hex&name=[hash].[ext]',
           'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false'
         ]
-
       },
-
       {
         test: /\.css$/,
         loader: ExtractTextPlugin.extract("style-loader", "css-loader")
@@ -54,13 +46,10 @@ module.exports = {
         loader: ExtractTextPlugin.extract("style-loader", "css-loader!less-loader")
 
       },
-
       { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader" },
       { test: /\.(ttf|eot|otf|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader" }
-
     ]
   },
-
   plugins: [
     new webpack.optimize.CommonsChunkPlugin({
       name: "vendor",
@@ -88,11 +77,6 @@ module.exports = {
       { from: './fonts', to: 'fonts' },
       { from: './css', to: 'css' },
       { from: '../server', to: '../server' }
-
     ])
-
   ],
-
-
-
 };
