@@ -22,11 +22,11 @@
                   <input type="text" placeholder="To" uib-datepicker-popup="MM/dd/yyyy" ng-model="dt2" is-open="popup2.opened" ng-required="true"
                     close-text="Close" datepicker-options="dateOptions2" ng-change="change2()" alt-input-formats="['M!/d!/yyyy', 'M!/d!/yy']"
                     on-open-focus="false" />-->
-                </div>
-              </form>
             </div>
-            <div class="right-filters">
-              <!--<div class="price-toggle">
+            </form>
+          </div>
+          <div class="right-filters">
+            <!--<div class="price-toggle">
                 <div class="switch">
                   <label>
                     Base Price
@@ -37,12 +37,12 @@
                   </label>
                 </div>
               </div>-->
-              <!--<div class="download-cvs" ng-click="getCVS()">
+            <!--<div class="download-cvs" ng-click="getCVS()">
                 Download as CVS
               </div>-->
-            </div>
-            <div class="clearfix"></div>
-          
+          </div>
+          <div class="clearfix"></div>
+
 
           <div class="main-tables-container">
 
@@ -111,7 +111,8 @@
                           <div>{{orders.allProductName[0] | limitTo:2}}</div>
                         </div>
                         <div class="team">
-                          <div class="team-name">{{getBeneficiaryInfo(orders.paymentsPlan[0].customInfo || orders.paymentsPlan[0].userInfo.userName)}}</div>
+                          <div class="team-name">{{getBeneficiaryInfo(orders.paymentsPlan[0].customInfo)}}</div>
+                          <div ng-if="order.paymentsPlan.beneficiaryInfo.beneficiaryName" class="team-contact">{{order.paymentsPlan.beneficiaryInfo.beneficiaryName}}</div>
                           <div class="team-contact">{{orders.paymentsPlan[0].userInfo.userName}}</div>
                         </div>
                         <div class="clearfix"></div>
@@ -156,7 +157,7 @@
                                   Order Info
                                 </span>
                                 </div>
-                                <table class="order-details-table" >
+                                <table class="order-details-table">
                                   <tbody order-details-table template="orders.paymentsPlan[0].customInfo.formTemplate" data="setDataCustomInfo(orders.paymentsPlan[0].customInfo.formData)"></tbody>
                                 </table>
                               </div>
@@ -225,7 +226,7 @@
                                     <th>Deposit</th>
                                   </tr>
                                 </thead>
-                                      <div class="month">{{(at.dateAttemp | date : 'MMM') | uppercase}}</div>
+                                <div class="month">{{(at.dateAttemp | date : 'MMM') | uppercase}}</div>
                                 <tbody ng-repeat="pp in orders.paymentsPlan | filter:getPaymentsHistory">
                                   <tr ng-repeat="at in pp.attempts | orderBy:'-dateAttemp'">
                                     <td class="date">
