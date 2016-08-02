@@ -145,33 +145,32 @@ var all = {
     testing: {
       teamId: 2
     },
-    defaultAddress:
-      [
-        {
-          mode: 'billing',
-          firstName: 'cs firstName',
-          lastName: 'cs lastName',
-          address1: '801 east 11th st',
-          address2: '801 east 11th st',
-          city: 'Austin',
-          state: 'TX',
-          zipCode: '78702',
-          country: 'US',
-          telephone: '+1 320123245'
-        },
-        {
-          mode: 'shipping',
-          firstName: 'firstName cs',
-          lastName: 'lastName cs',
-          address1: '801 east 11th st',
-          address2: '801 east 11th st',
-          city: 'Austin',
-          state: 'TX',
-          zipCode: '78702',
-          country: 'US',
-          telephone: '+1 320123245'
-        }
-      ],
+    defaultAddress: [
+      {
+        mode: 'billing',
+        firstName: 'cs firstName',
+        lastName: 'cs lastName',
+        address1: '801 east 11th st',
+        address2: '801 east 11th st',
+        city: 'Austin',
+        state: 'TX',
+        zipCode: '78702',
+        country: 'US',
+        telephone: '+1 320123245'
+      },
+      {
+        mode: 'shipping',
+        firstName: 'firstName cs',
+        lastName: 'lastName cs',
+        address1: '801 east 11th st',
+        address2: '801 east 11th st',
+        city: 'Austin',
+        state: 'TX',
+        zipCode: '78702',
+        country: 'US',
+        telephone: '+1 320123245'
+      }
+    ],
     shippingMethod: 'freeshipping_freeshipping',
     paymentMethod: 'purchaseorder'
   },
