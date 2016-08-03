@@ -35,7 +35,7 @@ var OrderService = {
           description: ele.description,
           dateCharge: ele.dateCharge,
           type: body.typeAccount,
-          capAmount: dataProduct.processingFees.achFeeCapDisplay
+          capAmount: dataProduct.processingFees.achFeeCapDisplay || 0
         }
 
         if (isBank) {
@@ -82,6 +82,13 @@ var OrderService = {
         paymentsPlan: []
       }
       prices.forEach(function (ele, idx, arr) {
+        if(!dataProduct.processingFees.achFeeCapDisplay){
+          dataProduct.processingFees.achFeeCapDisplay = 0;
+        }
+        if(!dataProduct.processingFees.achFeeCapActual){
+          dataProduct.processingFees.achFeeCapActual = 0;
+        }
+
         orderReq.paymentsPlan.push({
           version: ele.version,
           email: body.email,

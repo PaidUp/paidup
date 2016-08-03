@@ -91,7 +91,7 @@ module.exports = ['$scope', '$rootScope', '$anchorScroll', '$location', '$q', 'S
         return {
           version: ele.version,
           type: isBank ? 'bank_account' : 'card',
-          capAmount: $scope.models.productSelected.processingFees.achFeeCapDisplay,
+          capAmount: $scope.models.productSelected.processingFees.achFeeCapDisplay || 0,
           originalPrice: ele.amount,
           stripePercent: isBank ? $scope.models.productSelected.processingFees.achFeeDisplay : $scope.models.productSelected.processingFees.cardFeeDisplay,
           stripeFlat: isBank ? $scope.models.productSelected.processingFees.achFeeFlatDisplay : $scope.models.productSelected.processingFees.cardFeeFlatDisplay,
