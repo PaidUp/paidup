@@ -78,6 +78,10 @@ module.exports = ['$scope', '$rootScope', '$anchorScroll', '$location', '$q', 'S
       TrackerService.track('Select Payment Plan', {'PaymentPlanSelected': $scope.models.paymentPlanSelected})
       SetupPaymentService.paymentPlanSelected = $scope.models.productSelected.paymentPlans[$scope.models.paymentPlanSelected]
       setPaymentMethods($scope.models.productSelected.paymentPlans[$scope.models.paymentPlanSelected].paymentMethods)
+
+      var paymentMethods = $scope.models.productSelected.paymentPlans[$scope.models.paymentPlanSelected].paymentMethods
+      var isBank = (paymentMethods && paymentMethods.length === 1 && paymentMethods[0] === 'bank')
+      
       var params = $scope.models.productSelected.paymentPlans[$scope.models.paymentPlanSelected].dues.map(function (ele) {
         if ($scope.coupon.precent) {
           ele.applyDiscount = true
@@ -86,11 +90,11 @@ module.exports = ['$scope', '$rootScope', '$anchorScroll', '$location', '$q', 'S
         }
         return {
           version: ele.version,
-          type: 'card',
-          capAmount: 0,
+          type: isBank ? 'bank_account' : 'card',
+          capAmount: $scope.models.productSelected.processingFees.achFeeCapDisplay,
           originalPrice: ele.amount,
-          stripePercent: $scope.models.productSelected.processingFees.cardFeeDisplay,
-          stripeFlat: $scope.models.productSelected.processingFees.cardFeeFlatDisplay,
+          stripePercent: isBank ? $scope.models.productSelected.processingFees.achFeeDisplay : $scope.models.productSelected.processingFees.cardFeeDisplay,
+          stripeFlat: isBank ? $scope.models.productSelected.processingFees.achFeeFlatDisplay : $scope.models.productSelected.processingFees.cardFeeFlatDisplay,
           paidUpFee: $scope.models.productSelected.collectionsFee.fee,
           discount: ele.applyDiscount ? ele.discount : 0,
           payProcessing: $scope.models.productSelected.paysFees.processing,
