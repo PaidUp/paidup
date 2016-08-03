@@ -15,7 +15,7 @@ var OrderService = {
         return cb(errProduct)
       }
 
-      let paymentMethods = $scope.models.productSelected.paymentPlans[$scope.models.paymentPlanSelected].paymentMethods
+      let paymentMethods = dataProduct.paymentPlans[body.paymentPlanSelected].paymentMethods
       let isBank = (paymentMethods && paymentMethods.length === 1 && paymentMethods[0] === 'bank')
 
       let dues = dataProduct.paymentPlans[body.paymentPlanSelected].dues
