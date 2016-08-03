@@ -14,6 +14,10 @@ var OrderService = {
       if (errProduct) {
         return cb(errProduct)
       }
+
+      let paymentMethods = $scope.models.productSelected.paymentPlans[$scope.models.paymentPlanSelected].paymentMethods
+      let isBank = (paymentMethods && paymentMethods.length === 1 && paymentMethods[0] === 'bank')
+
       let dues = dataProduct.paymentPlans[body.paymentPlanSelected].dues
       let params = []
 
@@ -31,10 +35,10 @@ var OrderService = {
           description: ele.description,
           dateCharge: ele.dateCharge,
           type: body.typeAccount,
-          capAmount: config.stripe.capAmount
+          capAmount: dataProduct.processingFees.achFeeCapDisplay
         }
 
-        if (body.typeAccount === 'bank_account') {
+        if (isBank) {
           param.stripePercent = dataProduct.processingFees.achFeeDisplay
           param.stripeFlat = dataProduct.processingFees.achFeeFlatDisplay
         } else {
