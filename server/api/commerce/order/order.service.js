@@ -9,7 +9,7 @@ const paymentService = require('../../payment/payment.service')
 const logger = require('../../../config/logger')
 
 var OrderService = {
-  calculatePrices: function calculatePrices (body, cb) {
+  calculatePrices: function calculatePrices(body, cb) {
     CatalogService.getProduct(body.productId, function (errProduct, dataProduct) {
       if (errProduct) {
         return cb(errProduct)
@@ -22,9 +22,12 @@ var OrderService = {
       let params = []
 
       dues.forEach(function (ele, idx, arr) {
-        ele.applyDiscount = body.discount > 0
-        ele.discount = body.discount
-        ele.couponId = body.couponId
+        if (body.discount > 0) {
+          ele.applyDiscount = body.discount > 0
+          ele.discount = body.discount
+          ele.couponId = body.couponId
+        }
+
         var param = {
           version: ele.version,
           originalPrice: ele.amount,
@@ -68,7 +71,7 @@ var OrderService = {
     })
   },
 
-  newOrder: function newOrder (body, prices, dataProduct, cb) {
+  newOrder: function newOrder(body, prices, dataProduct, cb) {
     paymentService.fetchAccount(body.paymentId, body.account, function (err, account) {
       if (err) {
         return cb(err)
@@ -81,6 +84,16 @@ var OrderService = {
         description: dataProduct.details.description,
         paymentsPlan: []
       }
+
+      if (!dataProduct.processingFees.achFeeCapActual) {
+        dataProduct.processingFees.achFeeCapActual = 0
+      }
+
+      if (!dataProduct.processingFees.achFeeCapDisplay) {
+        dataProduct.processingFees.achFeeCapDisplay = 0
+      }
+
+
       prices.forEach(function (ele, idx, arr) {
         if(!dataProduct.processingFees.achFeeCapDisplay){
           dataProduct.processingFees.achFeeCapDisplay = 0;
@@ -100,7 +113,7 @@ var OrderService = {
           feeStripe: ele.feeStripe,
           price: ele.owedPrice,
           basePrice: ele.basePrice,
-          discount: body.discount,
+          discount: (ele.discount / ele.originalPrice) * 100,
           discountCode: body.couponId,
           paymentId: body.paymentId,
           wasProcessed: false,
@@ -141,7 +154,7 @@ var OrderService = {
       })
     })
   },
-  sendEmail: function sendEmail (last4, body, dataProduct, orderResult) {
+  sendEmail: function sendEmail(last4, body, dataProduct, orderResult) {
     // body.email
     let emailParams = {
       orderId: orderResult.body.orderId,
@@ -169,7 +182,7 @@ var OrderService = {
   }
 }
 
-function createOrder (body, cb) {
+function createOrder(body, cb) {
   logger.debug('Create Order: Params', body)
   OrderService.calculatePrices(body, function (errPrices, prices, dataProduct) {
     if (errPrices) {
@@ -193,7 +206,7 @@ function createOrder (body, cb) {
   })
 }
 
-function orderPaymentRecent (userId, limit, cb) {
+function orderPaymentRecent(userId, limit, cb) {
   CommerceConnector.orderPaymentRecent({
     baseUrl: config.connections.commerce.baseUrl,
     token: config.connections.commerce.token,
@@ -211,7 +224,7 @@ function orderPaymentRecent (userId, limit, cb) {
   })
 }
 
-function orderPaymentNext (userId, limit, cb) {
+function orderPaymentNext(userId, limit, cb) {
   CommerceConnector.orderPaymentNext({
     baseUrl: config.connections.commerce.baseUrl,
     token: config.connections.commerce.token,
@@ -229,7 +242,7 @@ function orderPaymentNext (userId, limit, cb) {
   })
 }
 
-function orderPaymentActive (userId, limit, cb) {
+function orderPaymentActive(userId, limit, cb) {
   CommerceConnector.orderActive({
     baseUrl: config.connections.commerce.baseUrl,
     token: config.connections.commerce.token,
@@ -247,7 +260,7 @@ function orderPaymentActive (userId, limit, cb) {
   })
 }
 
-function orderGet (userId, limit, sort, cb) {
+function orderGet(userId, limit, sort, cb) {
   CommerceConnector.orderGetStr({
     baseUrl: config.connections.commerce.baseUrl,
     token: config.connections.commerce.token,
@@ -267,7 +280,7 @@ function orderGet (userId, limit, sort, cb) {
   })
 }
 
-function orderGetByorderId (orderId, limit, sort, cb) {
+function orderGetByorderId(orderId, limit, sort, cb) {
   CommerceConnector.orderGetStr({
     baseUrl: config.connections.commerce.baseUrl,
     token: config.connections.commerce.token,
@@ -287,7 +300,7 @@ function orderGetByorderId (orderId, limit, sort, cb) {
   })
 }
 // machinepack exec order-get-organization --organizationId='acct_18AQWDGKajSrnujf' --token='TDCommerceToken-CHANGE-ME!' --baseUrl='http://localhost:9002' --limit='1000' --sort='1'
-function orderGetOrganization (organizationId, limit, sort, cb) {
+function orderGetOrganization(organizationId, limit, sort, cb) {
   CommerceConnector.orderGetOrganization({
     baseUrl: config.connections.commerce.baseUrl,
     token: config.connections.commerce.token,
@@ -307,7 +320,7 @@ function orderGetOrganization (organizationId, limit, sort, cb) {
   })
 }
 
-function orderSearch (params, cb) {
+function orderSearch(params, cb) {
   CommerceConnector.orderSearch({
     baseUrl: config.connections.commerce.baseUrl,
     token: config.connections.commerce.token,
@@ -324,7 +337,7 @@ function orderSearch (params, cb) {
   })
 }
 
-function addPaymentPlan (params, cb) {
+function addPaymentPlan(params, cb) {
   getPaymentPlan(params.orderId, null, function (err, pp) {
     if (err) {
       return cb(err)
@@ -365,7 +378,7 @@ function addPaymentPlan (params, cb) {
   })
 }
 
-function editOrder (params, cb) {
+function editOrder(params, cb) {
   getPaymentPlan(params.orderId, params.paymentPlanId, function (err, pp) {
     if (err) {
       console.log('throw ee', err)
@@ -404,7 +417,7 @@ function editOrder (params, cb) {
   })
 }
 
-function editPaymentPlan (pp, params, cb) {
+function editPaymentPlan(pp, params, cb) {
   let originalPrice = params.originalPrice
   let description = params.description
   let dateCharge = params.dateCharge
@@ -450,7 +463,7 @@ function editPaymentPlan (pp, params, cb) {
   })
 }
 
-function getPaymentPlan (orderId, paymentPlanId, cb) {
+function getPaymentPlan(orderId, paymentPlanId, cb) {
   CommerceConnector.orderGet({
     baseUrl: config.connections.commerce.baseUrl,
     token: config.connections.commerce.token,
@@ -481,29 +494,29 @@ function getPaymentPlan (orderId, paymentPlanId, cb) {
   })
 }
 
-function editAllPaymentsPlan (orderId, oldPaymentsPlan, cb) {
-  orderGetByorderId(orderId, 1, 1, function () {})
+function editAllPaymentsPlan(orderId, oldPaymentsPlan, cb) {
+  orderGetByorderId(orderId, 1, 1, function () { })
 
   cb(null, { body: true })
   // let paramsForCalculations = []
 
-// oldPaymentsPlan.forEach(function (pp, idx, arr) {
-//   paramsForCalculations.push({
-//     version: pp.version,
-//     description : pp._id,
-//     dateCharge : pp.dateCharge,
-//     originalPrice : pp.originalPrice,
-//     stripePercent : pp.processingFees.cardFeeDisplay,
-//     stripeFlat : pp.processingFees.cardFeeFlatDisplay,
-//     paidUpFee : 5,
-//     discount : 10,
-//     payProcessing : false,
-//     payCollecting : true
-//   })
-// })
+  // oldPaymentsPlan.forEach(function (pp, idx, arr) {
+  //   paramsForCalculations.push({
+  //     version: pp.version,
+  //     description : pp._id,
+  //     dateCharge : pp.dateCharge,
+  //     originalPrice : pp.originalPrice,
+  //     stripePercent : pp.processingFees.cardFeeDisplay,
+  //     stripeFlat : pp.processingFees.cardFeeFlatDisplay,
+  //     paidUpFee : 5,
+  //     discount : 10,
+  //     payProcessing : false,
+  //     payCollecting : true
+  //   })
+  // })
 }
 
-function orderUpdateWebhook (data, cb) {
+function orderUpdateWebhook(data, cb) {
   CommerceConnector.orderUpdateWebhook({
     baseUrl: config.connections.commerce.baseUrl,
     token: config.connections.commerce.token,
