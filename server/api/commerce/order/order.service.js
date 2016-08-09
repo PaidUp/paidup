@@ -95,10 +95,10 @@ var OrderService = {
 
 
       prices.forEach(function (ele, idx, arr) {
-        if(!dataProduct.processingFees.achFeeCapDisplay){
+        if (!dataProduct.processingFees.achFeeCapDisplay) {
           dataProduct.processingFees.achFeeCapDisplay = 0;
         }
-        if(!dataProduct.processingFees.achFeeCapActual){
+        if (!dataProduct.processingFees.achFeeCapActual) {
           dataProduct.processingFees.achFeeCapActual = 0;
         }
 
@@ -120,6 +120,7 @@ var OrderService = {
           status: 'pending',
           processingFees: dataProduct.processingFees,
           collectionsFee: dataProduct.collectionsFee,
+          paymentMethods: dataProduct.paymentPlans[body.paymentPlanSelected].paymentMethods || ['card'],
           paysFees: dataProduct.paysFees,
           typeAccount: body.typeAccount,
           account: body.account,
@@ -384,6 +385,7 @@ function editOrder(params, cb) {
       console.log('throw ee', err)
       return cb(err)
     } else {
+
       editPaymentPlan(pp, params, function (err2, pp2) {
         if (err2) {
           console.log('throw err2 ', err2)
@@ -403,7 +405,6 @@ function editOrder(params, cb) {
             // An unexpected error occurred.
             error: function (err) {
               console.log('throw err3 ', err)
-
               return cb(err)
             },
             // OK.
@@ -424,18 +425,31 @@ function editPaymentPlan(pp, params, cb) {
   let status = params.status
   let wasProcessed = params.wasProcessed || false
 
-  ScheduleConnector.calculatePrices({
+  let paymentMethods = pp.paymentMethods;
+  let isBank = (paymentMethods && paymentMethods.length === 1 && paymentMethods[0] === 'bank')
+
+  let paramsCalculation = {
     version: params.version,
     baseUrl: config.connections.schedule.baseUrl,
     token: config.connections.schedule.token,
     originalPrice: originalPrice,
-    stripePercent: pp.processingFees.cardFeeDisplay,
-    stripeFlat: pp.processingFees.cardFeeFlatDisplay,
     paidUpFee: pp.collectionsFee.fee,
     discount: pp.discount,
     payProcessing: pp.paysFees.processing,
-    payCollecting: pp.paysFees.collections
-  }).exec({
+    payCollecting: pp.paysFees.collections,
+    type: pp.typeAccount || 'card',
+    capAmount: pp.processingFees.achFeeCapDisplay || 0
+  }
+
+  if (isBank) {
+    paramsCalculation.stripePercent = pp.processingFees.achFeeDisplay
+    paramsCalculation.stripeFlat = pp.processingFees.achFeeFlatDisplay
+  } else {
+    paramsCalculation.stripePercent = pp.processingFees.cardFeeDisplay
+    paramsCalculation.stripeFlat = pp.processingFees.cardFeeFlatDisplay
+  }
+
+  ScheduleConnector.calculatePrice(paramsCalculation).exec({
     // An unexpected error occurred.
     error: function (err) {
       return cb(err)
@@ -528,7 +542,6 @@ function orderUpdateWebhook(data, cb) {
     },
     // OK.
     success: function (result) {
-      console.log('result service', result)
       return cb(null, result.body)
     }
   })
