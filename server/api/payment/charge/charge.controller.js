@@ -2,7 +2,7 @@
 
 const paymentService = require('../payment.service')
 const organizationService = require('../../organization/organization.service')
-var R = require('ramda')
+const R = require('ramda')
 
 exports.getChargesList = function (req, res) {
   organizationService.getOrganization(req.params.destinationId, function (err, org) {
@@ -19,11 +19,13 @@ exports.getChargesList = function (req, res) {
           return handleError(res, err)
         }
         let bycreated = R.groupBy(function (charge) {
+          // console.log('charge', charge)
           return charge.created.substring(0, 10)
         })
         // let ordersId = R.uniq(data.data.map(c => {
           // return c.metadata._id
         // }))
+        // console.log('data.data.length', data.data.length)
         let result = bycreated(data.data)
         let total = data.data.reduce((t, c) => {
           // return t + (c.amount / 100)
