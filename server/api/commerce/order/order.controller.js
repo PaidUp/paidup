@@ -108,7 +108,7 @@ exports.editAllPaymentsPlanByOrder = function (req, res) {
 
 exports.addPaymentPlan = function (req, res) {
   let user = req.user
-  if (!req.body.orderId || !req.body.description || !req.body.dateCharge || !req.body.originalPrice ||
+  if (!req.body.orderId || !req.body.description || !req.body.dateCharge || !req.body.price ||
     !req.body.account) {
     return handleError(res, { name: 'ValidationError', message: 'These params are required: description, dateCharge, originalPrice, account' })
   }
