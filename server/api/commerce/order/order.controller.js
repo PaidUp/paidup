@@ -82,7 +82,7 @@ exports.editOrder = function (req, res) {
   req.body.userSysId = user._id
   OrderService.editOrder(req.body, function (err, data) {
     if (err) {
-      return res.status(500).json({code: 'commerceService.editOrder', message: JSON.stringify(err)})
+      return res.status(500).json({code: 'OrderService.editOrder', message: JSON.stringify(err)})
     }
     return res.status(200).json(data.body)
   })
