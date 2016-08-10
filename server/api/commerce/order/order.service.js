@@ -425,8 +425,8 @@ function editPaymentPlan(pp, params, cb) {
   let status = params.status
   let wasProcessed = params.wasProcessed || false
 
-  let paymentMethods = pp.paymentMethods;
-  let isBank = (paymentMethods && paymentMethods.length === 1 && paymentMethods[0] === 'bank')
+  let paymentMethods = pp.paymentMethods || ['card'];
+  let isBank = (paymentMethods.length === 1 && paymentMethods[0] === 'bank')
 
   let paramsCalculation = {
     version: params.version,
