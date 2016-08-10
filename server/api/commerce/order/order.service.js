@@ -492,7 +492,7 @@ function getPaymentPlan(orderId, paymentPlanId, cb) {
       if (!paymentPlanId) {
         res = JSON.parse(result.body).orders[0].paymentsPlan[0]
       } else {
-        result.body.orders[0].paymentsPlan.map(function (pp) {
+        JSON.parse(result.body).orders[0].paymentsPlan.map(function (pp) {
           if (pp._id === paymentPlanId) {
             res = pp
           }
