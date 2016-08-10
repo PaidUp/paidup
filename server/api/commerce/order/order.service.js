@@ -359,7 +359,6 @@ function addPaymentPlan(params, cb) {
             orderId: params.orderId,
             paymentsPlan: [pp2]
           }
-
           CommerceConnector.orderAddPayments(ppe).exec({
             // An unexpected error occurred.
             error: function (err) {
@@ -369,7 +368,6 @@ function addPaymentPlan(params, cb) {
             },
             // OK.
             success: function (orderResult) {
-              console.log('ORDER Result: ', JSON.stringify(orderResult))
               return cb(null, orderResult)
             }
           })
@@ -478,7 +476,7 @@ function editPaymentPlan(pp, params, cb) {
 }
 
 function getPaymentPlan(orderId, paymentPlanId, cb) {
-  CommerceConnector.orderGet({
+  CommerceConnector.orderGetStr({
     baseUrl: config.connections.commerce.baseUrl,
     token: config.connections.commerce.token,
     orderId: orderId,
@@ -492,7 +490,7 @@ function getPaymentPlan(orderId, paymentPlanId, cb) {
     success: function (result) {
       let res = null
       if (!paymentPlanId) {
-        res = result.body.orders[0].paymentsPlan[0]
+        res = JSON.parse(result.body).orders[0].paymentsPlan[0]
       } else {
         result.body.orders[0].paymentsPlan.map(function (pp) {
           if (pp._id === paymentPlanId) {
