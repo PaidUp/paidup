@@ -470,6 +470,9 @@ function editPaymentPlan(pp, params, cb) {
       pp.feeStripe = result.body.feeStripe
       pp.feePaidUp = result.body.feePaidUp
       pp.status = status
+      pp.processingFees.achFeeCapActual = pp.processingFees.achFeeCapActual || 0;
+      pp.processingFees.achFeeCapDisplay = pp.processingFees.achFeeCapDisplay || 0;
+      pp.paymentMethods = pp.paymentMethods || ['card']
       return cb(null, pp)
     }
   })
