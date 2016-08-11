@@ -14,6 +14,7 @@ router.get('/organization/:organizationId/:limit/:sort', authService.isAuthentic
 router.get('/:userId/:limit/:sort', authService.isAuthenticated(), controller.orderGet)
 
 router.post('/search', authService.isAuthenticated(), controller.orderSearch);
+router.post('/history', authService.isAuthenticated(), controller.orderHistory);
 router.post('/edit', authService.isAuthenticated(), controller.editOrder);
 router.post('/edit-all', authService.isAuthenticated(), controller.editAllPaymentsPlanByOrder);
 router.post('/add', authService.isAuthenticated(), controller.addPaymentPlan);

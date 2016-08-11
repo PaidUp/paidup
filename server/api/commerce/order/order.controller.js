@@ -71,6 +71,19 @@ exports.orderSearch = function (req, res) {
   })
 }
 
+exports.orderHistory = function (req, res) {
+  if (!req.body.orderId) {
+    return handleError(res, { name: 'ValidationError', message: 'orderId is required' })
+  }
+
+  OrderService.orderHistory(req.body, function (err, data) {
+    if (err) {
+      return res.status(500).json({code: 'commerceService.orderHistory', message: JSON.stringify(err)})
+    }
+    return res.status(200).json(data)
+  })
+}
+
 exports.editOrder = function (req, res) {
   let user = req.user
   if (!req.body.orderId) {
