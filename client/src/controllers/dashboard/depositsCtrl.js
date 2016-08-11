@@ -8,24 +8,24 @@ module.exports = [ '$scope', 'PaymentService', 'AuthService', '$state', 'Tracker
     TrackerService.track('View Deposits')
     AuthService.getCurrentUserPromise().then(function (user) {
       var organizationId = (user.meta.productRelated[0]) ? user.meta.productRelated[0] : 'Does not have organization'
-      // PaymentService.getChargesList(organizationId).then(function (result) {
-        // console.log('result charge', result.data)
-        // $scope.totalAmount = result.total
-        // $scope.bankName = result.bankName
-        // $scope.listChargesGrouped = result.data
-      // }).catch(function (err) {
-        // console.log('err', err)
-      // })
-      // PaymentService.getBalance(organizationId).then(function (result) {
-        // console.log('result balance', result.balance.data)
-      // }).catch(function (err) {
-        // console.log('err', err)
-      // })
       PaymentService.getTransfers(organizationId).then(function (result) {
-        // console.log('result transfer', result)
         $scope.totalAmount = result.total
         $scope.bankName = result.bankName
         $scope.listChargesGrouped = result.data
+      }).catch(function (err) {
+        console.log('err', err)
+      })
+    }).catch(function (err) {
+      console.log('err', err)
+    })
+  }
+
+  $scope.getChargeDetails = function getChargeDetails (transferId) {
+    AuthService.getCurrentUserPromise().then(function (user) {
+      var organizationId = (user.meta.productRelated[0]) ? user.meta.productRelated[0] : 'Does not have organization'
+      PaymentService.getBalance(organizationId, transferId).then(function (result) {
+        console.log('result balance', result.data)
+        $scope.listCharges = result.data.filter(function (charge) { return charge.amount > 0 })
       }).catch(function (err) {
         console.log('err', err)
       })
