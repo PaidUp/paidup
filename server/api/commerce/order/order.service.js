@@ -336,7 +336,24 @@ function orderSearch(params, cb) {
       return cb(null, orderResult)
     }
   })
-}
+};
+
+function orderHistory(params, cb) {
+  CommerceConnector.orderHistory({
+    baseUrl: config.connections.commerce.baseUrl,
+    token: config.connections.commerce.token,
+    orderId: params.orderId
+  }).exec({
+    // An unexpected error occurred.
+    error: function (err) {
+      return cb(err)
+    },
+    // OK.
+    success: function (orderResult) {
+      return cb(null, orderResult)
+    }
+  })
+};
 
 function addPaymentPlan(params, cb) {
   getPaymentPlan(params.orderId, null, function (err, pp) {
@@ -560,5 +577,6 @@ module.exports = {
   addPaymentPlan: addPaymentPlan,
   editOrder: editOrder,
   editAllPaymentsPlan: editAllPaymentsPlan,
-  orderUpdateWebhook: orderUpdateWebhook
+  orderUpdateWebhook: orderUpdateWebhook,
+  orderHistory: orderHistory
 }
