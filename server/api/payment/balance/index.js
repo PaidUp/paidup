@@ -5,5 +5,5 @@ var router = express.Router()
 var authService = require('../../auth/auth.service')
 var controller = require('./balance.controller')
 
-router.get('/:destinationId', authService.isAuthenticated(), controller.getBalance)
+router.get('/:destinationId/:transferId', authService.isAuthenticated(), controller.getBalance)
 module.exports = router

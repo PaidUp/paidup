@@ -19,19 +19,13 @@ exports.getTransfers = function (req, res) {
           return handleError(res, err)
         }
         let bycreated = R.groupBy(function (charge) {
-          // console.log('charge', charge)
           return charge.created.substring(0, 10)
         })
-        // let ordersId = R.uniq(data.data.map(c => {
-          // return c.metadata._id
-        // }))
         console.log('data.data.length', data.data.length)
         let result = bycreated(data.data)
         let total = data.data.reduce((t, c) => {
           return t + (c.amount / 100)
-          // return t + ((c.amount / 100) - c.metadata.totalFee)
         }, 0)
-        // return res.status(200).json({transfers: data})
         return res.status(200).json({data: result, total: total, bankName: listbanks.external_accounts.data[0].bank_name})
       })
     })

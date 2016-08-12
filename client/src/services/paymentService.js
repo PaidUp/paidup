@@ -9,7 +9,7 @@ module.exports = ['$resource', function ($resource) {
   var CustomerPayment = $resource('/api/v1/payment/customer/:action', {}, {})
   var calculateDuesPost = $resource('/api/v1/commerce/dues/calculate', {}, {})
   var transfer = $resource('/api/v1/payment/transfer/:organizationId', {}, {})
-  var balance = $resource('/api/v1/payment/balance/:organizationId', {}, {})
+  var balance = $resource('/api/v1/payment/balance/:organizationId/:transferId', {}, {})
   var charge = $resource('/api/v1/payment/charge/:organizationId', {}, {})
   var plaidServices = $resource('/api/v1/payment/plaid/:action', {}, {})
   // var ListBanks = $resource('/api/v1/payment/bank/list/user/:userId', {}, {})
@@ -144,8 +144,8 @@ module.exports = ['$resource', function ($resource) {
     return transfer.get({ organizationId: organizationId }).$promise
   }
 
-  this.getBalance = function (organizationId) {
-    return balance.get({ organizationId: organizationId }).$promise
+  this.getBalance = function (organizationId, transferId) {
+    return balance.get({ organizationId: organizationId, transferId: transferId }).$promise
   }
 
   this.getChargesList = function (organizationId) {

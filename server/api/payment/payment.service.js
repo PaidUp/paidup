@@ -266,9 +266,9 @@ function getTransfers (stripeId, cb) {
   })
 }
 
-function getBalance (stripeId, cb) {
+function getBalance (stripeId, transferId, cb) {
   tdPaymentService.init(config.connections.payment)
-  tdPaymentService.getBalance(stripeId, function (err, data) {
+  tdPaymentService.getBalance(stripeId, transferId, function (err, data) {
     if (err) return cb(err)
     return cb(null, data)
   })
