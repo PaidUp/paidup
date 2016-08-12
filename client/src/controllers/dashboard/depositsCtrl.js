@@ -20,12 +20,12 @@ module.exports = [ '$scope', 'PaymentService', 'AuthService', '$state', 'Tracker
     })
   }
 
-  $scope.getChargeDetails = function getChargeDetails (transferId) {
+  $scope.getChargeDetails = function getChargeDetails (transfer) {
     AuthService.getCurrentUserPromise().then(function (user) {
       var organizationId = (user.meta.productRelated[0]) ? user.meta.productRelated[0] : 'Does not have organization'
-      PaymentService.getBalance(organizationId, transferId).then(function (result) {
-        console.log('result balance', result.data)
-        $scope.listCharges = result.data.filter(function (charge) { return charge.amount > 0 })
+      PaymentService.getBalance(organizationId, transfer.id).then(function (result) {
+        transfer.details = result.data.filter(function (charge) { return charge.type === 'payment' || charge.type === 'payment_refund' || charge.type === 'adjustment' })
+        // $scope.listCharges = result.data.filter(function (charge) { return charge.type === 'payment' || charge.type === 'payment_refund' || charge.type === 'adjustment' })
       }).catch(function (err) {
         console.log('err', err)
       })
