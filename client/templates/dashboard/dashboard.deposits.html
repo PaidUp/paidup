@@ -58,10 +58,10 @@
             <table class="transactions-table deposits-table">
               <tbody>
 
-                <tr ng-click="expandSection1 = !expandSection1" ng-class="expandSection1 ? 'user-row active' : 'user-row'" ng-repeat-start="charges in listChargesGrouped">
+                <tr ng-click="expandSection1 = !expandSection1; getChargeDetails(charges[0])" ng-class="expandSection1 ? 'user-row active' : 'user-row'" ng-repeat-start="charges in listChargesGrouped">
                   <td class="date">
                     <div class="month">{{(charges[0].date | date : 'MMM') | uppercase}}</div>
-                    <div class="day">{{(charges[0].date | date : 'dd') | uppercase}}</div>
+                    <div class="day">{{(charges[0].date | date : 'dd': 'UTC') | uppercase}}</div>
                   </td>
                   <td class="account">
                     {{getBankName(charges)}}
@@ -84,13 +84,13 @@
                                 <th>Person</th>
                                 <th>Product</th>
                                 <th>Paid</th>
-                                <th>PaidUp Fee</th>
-                                <th>Card Fee</th>
+                                <th>Application Fee</th>
+                                <th>Type</th>
                                 <th>Deposit</th>
                               </tr>
                             </thead>
                             <tbody>
-                              <tr ng-repeat="charge in charges">
+                              <tr ng-repeat="charge in charges[0].details">
                                 <td class="date">
                                   <div class="month">{{(charge.created | date : 'MMM') | uppercase}}</div>
                                   <div class="day">{{(charge.created | date : 'dd') | uppercase}}</div>
@@ -107,19 +107,19 @@
                                   <div class="clearfix"></div>
                                 </td>
                                 <td>
-                                  {{charge.metadata.productName}}
+                                  {{charge.metadata.productName}} - {{charge.test}}
                                 </td>
                                 <td>
                                   <span class="green-font">$</span> {{charge.amount / 100 | currency:""}}
                                 </td>
                                 <td>
-                                  <span class="green-font">$</span> {{charge.metadata.feePaidUp | currency:""}}
+                                  <span class="green-font">$</span> {{charge.fee / 100 | currency:""}}
                                 </td>
                                 <td>
-                                  <span class="green-font">$</span> {{charge.metadata.feeStripe | currency:""}}
+                                  <span class="green-font"></span> {{charge.type}}
                                 </td>
                                 <td>
-                                  <span class="green-font">$</span> {{(charge.amount / 100) - charge.metadata.totalFee | currency:""}}
+                                  <span class="green-font">$</span> {{((charge.amount - charge.fee) / 100) - charge.metadata.totalFee | currency:""}}
                                 </td>
                               </tr>
                             </tbody>
