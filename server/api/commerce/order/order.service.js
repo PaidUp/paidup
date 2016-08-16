@@ -16,8 +16,6 @@ var OrderService = {
       }
 
       let paymentMethods = dataProduct.paymentPlans[body.paymentPlanSelected].paymentMethods
-      let isBank = (paymentMethods && paymentMethods.length === 1 && paymentMethods[0] === 'bank')
-
       let dues = dataProduct.paymentPlans[body.paymentPlanSelected].dues
       let params = []
 
@@ -41,14 +39,17 @@ var OrderService = {
           capAmount: dataProduct.processingFees.achFeeCapDisplay || 0
         }
 
-        if (isBank) {
-          param.stripePercent = dataProduct.processingFees.achFeeDisplay
-          param.stripeFlat = dataProduct.processingFees.achFeeFlatDisplay
-        } else {
+        if (body.typeAccount === 'card') {
           param.stripePercent = dataProduct.processingFees.cardFeeDisplay
           param.stripeFlat = dataProduct.processingFees.cardFeeFlatDisplay
+        } else {
+          param.stripePercent = dataProduct.processingFees.achFeeDisplay
+          param.stripeFlat = dataProduct.processingFees.achFeeFlatDisplay
         }
 
+        console.log('@@Param: ', param)
+        console.log('@@processingFees: ', dataProduct.processingFees)
+        
         params.push(param)
       })
 
@@ -439,9 +440,7 @@ function editPaymentPlan(pp, params, cb) {
   let dateCharge = params.dateCharge
   let status = params.status
   let wasProcessed = params.wasProcessed || false
-
   let paymentMethods = pp.paymentMethods || ['card'];
-  let isBank = (paymentMethods.length === 1 && paymentMethods[0] === 'bank')
 
   let paramsCalculation = {
     version: params.version,
@@ -456,12 +455,12 @@ function editPaymentPlan(pp, params, cb) {
     capAmount: pp.processingFees.achFeeCapDisplay || 0
   }
 
-  if (isBank) {
-    paramsCalculation.stripePercent = pp.processingFees.achFeeDisplay
-    paramsCalculation.stripeFlat = pp.processingFees.achFeeFlatDisplay
-  } else {
+  if (paramsCalculation.type === 'card') {
     paramsCalculation.stripePercent = pp.processingFees.cardFeeDisplay
     paramsCalculation.stripeFlat = pp.processingFees.cardFeeFlatDisplay
+  } else {
+    paramsCalculation.stripePercent = pp.processingFees.achFeeDisplay
+    paramsCalculation.stripeFlat = pp.processingFees.achFeeFlatDisplay
   }
 
   ScheduleConnector.calculatePrice(paramsCalculation).exec({
