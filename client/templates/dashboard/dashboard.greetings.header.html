@@ -12,14 +12,13 @@
       </div>      
       <div class="col s12 m5 l4">
         <div class="action-buttons">
-        <ul ng-if="!isCoach">
+        <ul ng-if="false">
           <li ui-sref="dashboard.summary.components" ng-if="false">
             <i class="fa fa-dashboard"></i>
             <span>Summary</span>
           </li>
           <li ui-sref="dashboard.payment.findOrg">
-            <img src="/img/make-payment.svg">
-            <div>Make a Payment</div>
+            
           </li>
            <li ui-sref="dashboard.activities" ng-if="false">
             <i class="fa fa-line-chart"></i>
@@ -40,12 +39,10 @@
             <span>Aging</span>
           </li>
         </ul>
-        <!--   <div class="dashboard-button" ui-sref="dashboard.summary.components">
-            <img src="../img/dashboard-icon.png" alt="">
-          </div>
-          <div class="payment-button" ui-sref="dashboard.payment.findOrg">      
-            <img src="../img/payment-icon.png" alt="">
-          </div> -->
+         <span ui-sref="dashboard.payment.findOrg" class="make-payment" ng-if="!isCoach">
+           <img src="/img/make-payment.svg">
+            <div>Make a Payment</div>
+          </span>        
         </div>
       </div>
     </div>
