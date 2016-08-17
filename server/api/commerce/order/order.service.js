@@ -36,20 +36,12 @@ var OrderService = {
           description: ele.description,
           dateCharge: ele.dateCharge,
           type: body.typeAccount,
-          capAmount: dataProduct.processingFees.achFeeCapDisplay || 0
+          capAmount: dataProduct.processingFees.achFeeCapDisplay || 0,
+          stripePercent: dataProduct.processingFees.cardFeeDisplay,
+          stripeFlat: dataProduct.processingFees.cardFeeFlatDisplay,
+          stripeAchPercent: dataProduct.processingFees.achFeeDisplay,
+          stripeAchFlat: dataProduct.processingFees.achFeeFlatDisplay
         }
-
-        if (body.typeAccount === 'card') {
-          param.stripePercent = dataProduct.processingFees.cardFeeDisplay
-          param.stripeFlat = dataProduct.processingFees.cardFeeFlatDisplay
-        } else {
-          param.stripePercent = dataProduct.processingFees.achFeeDisplay
-          param.stripeFlat = dataProduct.processingFees.achFeeFlatDisplay
-        }
-
-        console.log('@@Param: ', param)
-        console.log('@@processingFees: ', dataProduct.processingFees)
-        
         params.push(param)
       })
 
@@ -452,15 +444,11 @@ function editPaymentPlan(pp, params, cb) {
     payProcessing: pp.paysFees.processing,
     payCollecting: pp.paysFees.collections,
     type: pp.typeAccount || 'card',
-    capAmount: pp.processingFees.achFeeCapDisplay || 0
-  }
-
-  if (paramsCalculation.type === 'card') {
-    paramsCalculation.stripePercent = pp.processingFees.cardFeeDisplay
-    paramsCalculation.stripeFlat = pp.processingFees.cardFeeFlatDisplay
-  } else {
-    paramsCalculation.stripePercent = pp.processingFees.achFeeDisplay
-    paramsCalculation.stripeFlat = pp.processingFees.achFeeFlatDisplay
+    capAmount: pp.processingFees.achFeeCapDisplay || 0,
+    stripePercent: pp.processingFees.cardFeeDisplay,
+    stripeFlat: pp.processingFees.cardFeeFlatDisplay,
+    stripeAchPercent: pp.processingFees.achFeeDisplay,
+    stripeAchFlat: pp.processingFees.achFeeFlatDisplay
   }
 
   ScheduleConnector.calculatePrice(paramsCalculation).exec({
