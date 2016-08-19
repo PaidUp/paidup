@@ -1,7 +1,7 @@
 'use strict'
 
-module.exports = ['$rootScope', 'AuthService', '$state', '$timeout', 'localStorageService', 'TrackerService',
-  function ($rootScope, AuthService, $state, $timeout, localStorageService, TrackerService) {
+module.exports = ['$rootScope', 'AuthService', '$state', '$timeout', 'localStorageService',
+  function ($rootScope, AuthService, $state, $timeout, localStorageService) {
     $rootScope.$on ('$stateChangeStart', function (event, toState, toParams) {
       var requireLogin = toState.data.requireLogin
 
@@ -29,6 +29,10 @@ module.exports = ['$rootScope', 'AuthService', '$state', '$timeout', 'localStora
     } else {
       $rootScope.isCoookieSupported = true;
     }
+
+    //$rootScope.$on('$viewContentLoaded', function() {
+    //  $templateCache.removeAll();
+    //});
 
     // This is how to set alerts programatically uncmoment to test
     // $rootScope.GlobalAlertSystemAlerts.push({msg: 'Wont close', type: 'info'})

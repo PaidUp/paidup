@@ -5,11 +5,15 @@
     <div class="clearfix"></div>
   </div>  
   <ul class="mobile-list">
+    <li class="clearfix" ng-click="goAdminSite()" ng-if="isAdmin">
+      <div class="icon-container"><i class="fa fa-gear"></i></div>
+      <div>Admin</div> 
+    </li> 
     <li class="clearfix" ui-sref="dashboard.summary.components" ng-click="hideMenu()" ng-if="!isCoach">
       <div class="icon-container"><i class="fa fa-dashboard"></i></div>
       <div>Summary</div> 
     </li> 
-    <<li class="clearfix" ui-sref="dashboard.activities" ng-click="hideMenu()" ng-if="!isCoach">
+    <li class="clearfix" ui-sref="dashboard.activities" ng-click="hideMenu()" ng-if="!isCoach">
       <div class="icon-container"><i class="fa fa-line-chart"></i></div>
       <div>Activity</div> 
     </li>
@@ -25,7 +29,7 @@
       <div class="icon-container"><i class="fa fa-dashboard"></i></div>
       <div>Dashboard</div>
     </li>
-    <li class="clearfix" ng-if="isCoach" ng-click="hideMenu()" ui-sref="dashboard.deposits">
+    <li ng-if="false" class="clearfix" ng-if="isCoach" ng-click="hideMenu()" ui-sref="dashboard.deposits">
       <div class="icon-container"><i class="fa fa-bank"></i></div>
       <div>Deposits</div> 
     </li> 

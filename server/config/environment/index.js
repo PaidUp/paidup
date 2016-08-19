@@ -55,7 +55,7 @@ var all = {
     service: 'gmail',
     auth: {
       user: 'convenieceselect@gmail.com',
-      pass: 'Test4echo'
+      pass: 'N6hCa3unqTsP&w'
     }
   },
 
@@ -145,33 +145,32 @@ var all = {
     testing: {
       teamId: 2
     },
-    defaultAddress:
-      [
-        {
-          mode: 'billing',
-          firstName: 'cs firstName',
-          lastName: 'cs lastName',
-          address1: '801 east 11th st',
-          address2: '801 east 11th st',
-          city: 'Austin',
-          state: 'TX',
-          zipCode: '78702',
-          country: 'US',
-          telephone: '+1 320123245'
-        },
-        {
-          mode: 'shipping',
-          firstName: 'firstName cs',
-          lastName: 'lastName cs',
-          address1: '801 east 11th st',
-          address2: '801 east 11th st',
-          city: 'Austin',
-          state: 'TX',
-          zipCode: '78702',
-          country: 'US',
-          telephone: '+1 320123245'
-        }
-      ],
+    defaultAddress: [
+      {
+        mode: 'billing',
+        firstName: 'cs firstName',
+        lastName: 'cs lastName',
+        address1: '801 east 11th st',
+        address2: '801 east 11th st',
+        city: 'Austin',
+        state: 'TX',
+        zipCode: '78702',
+        country: 'US',
+        telephone: '+1 320123245'
+      },
+      {
+        mode: 'shipping',
+        firstName: 'firstName cs',
+        lastName: 'lastName cs',
+        address1: '801 east 11th st',
+        address2: '801 east 11th st',
+        city: 'Austin',
+        state: 'TX',
+        zipCode: '78702',
+        country: 'US',
+        telephone: '+1 320123245'
+      }
+    ],
     shippingMethod: 'freeshipping_freeshipping',
     paymentMethod: 'purchaseorder'
   },
@@ -185,9 +184,16 @@ var all = {
     marketplace: 'TEST-MP2OaM2stYkoWBlGFd0M8YV7',
     appearsOnStatementAs: 'Conv. Select'
   },
+  plaid: {
+    env: 'tartan',
+    clientName: 'Paidup dev.',
+    key: 'e84244e3e19c760db516f6e4a1afff',
+    product: 'auth'
+  },
   stripe: {
     apiPublic: 'pk_test_y86FeOIMDzHKLvR5xkylpKrg',
-    maxSizeMeta: 49
+    maxSizeMeta: 49,
+    capAmount: 625
   },
   mixpanel: {
     apiKey: 'f97659afce9c44283fbd59ad718803dc'

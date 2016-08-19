@@ -9,11 +9,11 @@ exports.getBalance = function (req, res) {
       return handleError(res, err)
     }
     // TODO !org.paymentId
-    paymentService.getBalance(org.paymentId, function (err, data) {
+    paymentService.getBalance(org.paymentId, req.params.transferId, function (err, data) {
       if (err) {
         return handleError(res, err)
       }
-      return res.status(200).json({balance: data})
+      return res.status(200).json(data)
     })
   })
 }

@@ -3,7 +3,7 @@
   <div ng-if="!payments.length">
     <!-- No accounts START -->
     <div class="center">
-      <img src="../img/credit-cards.png" alt="credit-cards">
+      <img src="../../img/credit-cards.png" alt="credit-cards">
     </div>
     <p><a href="" ng-click="updateAccounts()" class="green-link">Add your debit / credit card</a> to your account so you're ready to make a payment.</p>
   </div>
@@ -14,8 +14,8 @@
     <!-- <p>Orders with remaining payments (Click to see payment schedule):</p> -->
     <ul class="accounts-list">
       <li class="clearfix" ng-repeat="payment in payments">
-        <div class="icon-container"><i class="fa fa-{{getBrandCardClass(payment.brand)}}"></i></div>
-        <div class="account-name">{{payment.name}} <span class="card-number">x-{{payment.last4}}</span></div>
+        <div class="icon-container"><i class="fa fa-{{getBrandCardClass(payment.brand || payment.object)}}"></i></div>
+        <div class="account-name">{{payment.name || payment.bankName}} <span class="card-number">x-{{payment.last4}}</span></div>
       </li>
     </ul>
     <div class="bottom-link" ng-click="updateAccounts()">Update</div>

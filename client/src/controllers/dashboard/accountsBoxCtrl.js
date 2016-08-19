@@ -1,7 +1,6 @@
 'use strict'
 
 module.exports = [ '$scope', '$rootScope', '$state', 'PaymentService', 'AuthService', function ($scope, $rootScope, $state, PaymentService, AuthService) {
-
   $rootScope.$on('reloadAccountsBox', function (event, data) {
     $scope.init()
   })
@@ -10,8 +9,8 @@ module.exports = [ '$scope', '$rootScope', '$state', 'PaymentService', 'AuthServ
 
   $scope.init = function () {
     AuthService.getCurrentUserPromise().then(function (user) {
-      PaymentService.listCards(user._id).then(function (cards) {
-        $scope.payments = cards.data
+      PaymentService.listAccounts(user._id).then(function (Accounts) {
+        $scope.payments = Accounts.data
       }).catch(function (err) {
         console.log('ERR', err)
       })
@@ -25,6 +24,7 @@ module.exports = [ '$scope', '$rootScope', '$state', 'PaymentService', 'AuthServ
   }
 
   $scope.updateAccounts = function () {
+    PaymentService.setAllPaymentMethodTrue()
     $rootScope.$emit('openAccountsMenu')
   }
 }]

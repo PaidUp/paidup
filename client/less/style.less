@@ -1408,6 +1408,13 @@ DASHBOARD PAGES
             background-color: @c-green-back;
             height: 90px;            
             text-align: center;
+            .make-payment{
+              padding-top: 2px;
+              font-weight: bold;
+              color:@c-gray-light-back;
+                text-align: center;
+                cursor: pointer;
+            }
             ul{
               margin: 0px;
               li{
@@ -1420,7 +1427,7 @@ DASHBOARD PAGES
                 &:last-child{
                   margin-right: 0px;
                 }
-                span{
+                div{
                   font-size: 14px;
                   font-family: @family-medium;
                 }
@@ -1842,6 +1849,19 @@ DASHBOARD PAGES
             margin-top: 10px;
           }
         }
+        .account-policy{
+          margin: 30px 0px;
+          @media @medium-up{
+            margin: 30px 10px;
+          }
+          @media @large-up{
+            margin: 30px 80px;
+          }
+          @media @xlarge-up{
+            margin: 30px 150px;
+          }
+        }
+
         .btn-setup-payment{
           margin: 20px auto;          
         }
@@ -1867,7 +1887,7 @@ DASHBOARD PAGES
           .btn-find{
             display: inline-block;
             margin: 10px 0px 0px 0px;
-            font-size: 14px;
+            font-size: 12px;
             @media @large-up{
               margin: 0px;
             }

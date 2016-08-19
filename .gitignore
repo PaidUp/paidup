@@ -38,10 +38,14 @@ client/e2eNW/reports/
 #directories
 bin
 dist
+build
 var/logs/*
 
 #Frontend
 client/js/bundle.js
 client/css/style.min.css
-
+client/js/bundle.min.js
 .vscode
+
+#test
+test/unit/result.*
