@@ -314,6 +314,14 @@ function listBanks (customerId, cb) {
   })
 }
 
+function getDepositCharge (paymentId, accountId, cb) {
+  tdPaymentService.init(config.connections.payment)
+  tdPaymentService.getDepositCharge(paymentId, accountId, function (err, data) {
+    if (err) return cb(err)
+    return cb(null, data)
+  })
+}
+
 exports.createCustomer = createCustomer
 exports.associateCard = associateCard
 exports.createCard = createCard
@@ -343,3 +351,4 @@ exports.plaidAuthenticate = plaidAuthenticate
 
 exports.listBanks = listBanks
 exports.fetchAccount = fetchAccount
+exports.getDepositCharge = getDepositCharge

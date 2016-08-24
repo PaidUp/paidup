@@ -73,7 +73,7 @@
 
                 <tr class="expandable" ng-repeat-end>
                   <td class="expand" colspan="3">
-                    <div ng-class="expandSection1 ? 'expandable-section active' : 'expandable-section'">
+                    <div style="overflow: scroll" ng-class="expandSection1 ? 'expandable-section active' : 'expandable-section'">
                       <div class="expanded-section contains-table">
 
                         <div class="charges-container">
@@ -90,24 +90,20 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr ng-repeat="charge in charges[0].details">
+                              <tr ng-repeat="charge in charges[0].details" >
                                 <td class="date">
                                   <div class="month">{{(charge.created | date : 'MMM') | uppercase}}</div>
                                   <div class="day">{{(charge.created | date : 'dd') | uppercase}}</div>
                                 </td>
-                                <td class="organization">
-                                  <div class="team-icon">
-                                    <div class="fa fa-user"></div>
-                                  </div>
-                                  <div class="team">
-                                    <div class="team-name">{{charge.metadata.beneficiaryInfo}}</div>
-                                    <div class="team-contact">{{charge.metadata.buyerName}}</div>
-                                    
-                                  </div>
-                                  <div class="clearfix"></div>
+                                <td ng-if="!charge.details" colspan="2" style="text-align: center;">
+                                  <a href="#" ng-hide="loading" ng-click="loadTransactionDetails(charge); loading = true">Show details</a>
+                                  <i ng-show="loading" class="fa fa-circle-o-notch fa-spin"></i>
                                 </td>
-                                <td>
-                                  {{charge.metadata.productName}} - {{charge.test}}
+                                <td ng-if="charge.details">
+                                  {{charge.details.metadata.buyerName}}
+                                </td>
+                                <td ng-if="charge.details">
+                                  {{charge.details.metadata.productName}}
                                 </td>
                                 <td>
                                   <span class="green-font">$</span> {{charge.amount / 100 | currency:""}}

@@ -7,7 +7,8 @@ module.exports = [ '$scope', 'PaymentService', 'AuthService', '$state', 'Tracker
   $scope.init = function () {
     TrackerService.track('View Deposits')
     AuthService.getCurrentUserPromise().then(function (user) {
-      var organizationId = (user.meta.productRelated[0]) ? user.meta.productRelated[0] : 'Does not have organization'
+      var organizationId = (user.meta.productRelated[0]) ? user.meta.productRelated[0] : 'Does not have organization';
+      $scope.organizationId = organizationId;
       PaymentService.getTransfers(organizationId).then(function (result) {
         $scope.totalAmount = result.total
         $scope.bankName = result.bankName
@@ -31,6 +32,14 @@ module.exports = [ '$scope', 'PaymentService', 'AuthService', '$state', 'Tracker
       })
     }).catch(function (err) {
       console.log('err', err)
+    })
+  }
+
+  $scope.loadTransactionDetails = function(transaction){
+    PaymentService.getDepositDetils(transaction.source, $scope.organizationId).then(function(data){
+      transaction.details = data;
+    }).catch(function(err){
+      console.error(err)
     })
   }
 
