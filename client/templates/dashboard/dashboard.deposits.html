@@ -108,16 +108,16 @@
                                 <td ng-if="charge.details">
                                   {{charge.details.metadata.productName}}
                                 </td>
-                                <td>
+                                <td class="currency">
                                   <span class="green-font">$</span> {{charge.amount / 100 | currency:""}}
                                 </td>
-                                <td>
+                                <td class="currency">
                                   <span class="green-font">$</span> {{charge.fee / 100 | currency:""}}
                                 </td>
                                 <td>
                                   <span class="green-font"></span> {{charge.type}}
                                 </td>
-                                <td>
+                                <td class="currency">
                                   <span class="green-font">$</span> {{((charge.amount - charge.fee) / 100) - charge.metadata.totalFee | currency:""}}
                                 </td>
                               </tr>
