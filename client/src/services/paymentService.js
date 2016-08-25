@@ -15,6 +15,7 @@ module.exports = ['$resource', function ($resource) {
   // var ListBanks = $resource('/api/v1/payment/bank/list/user/:userId', {}, {})
   var accountServices = $resource('/api/v1/payment/account/:action', {}, {})
   var paymentServices = $resource('/api/v1/payment/:paymentId/account/:organizationId', {}, {})
+  var paymentServicesRefund = $resource('/api/v1/payment/:paymentId/account/:organizationId/refund', {}, {})
 
   var discount = $resource('/api/v1/commerce/cart/coupon/add', {}, {
     apply: {
@@ -163,5 +164,9 @@ module.exports = ['$resource', function ($resource) {
 
   this.getDepositDetils = function (paymentId, organizationId) {
     return paymentServices.get({ paymentId: paymentId, organizationId: organizationId}).$promise
+  }
+
+  this.getDepositDetilsRefund = function (paymentId, organizationId) {
+    return paymentServicesRefund.get({ paymentId: paymentId, organizationId: organizationId}).$promise
   }
 }]

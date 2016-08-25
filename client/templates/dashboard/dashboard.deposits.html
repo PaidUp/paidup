@@ -96,11 +96,14 @@
                                   <div class="day">{{(charge.created | date : 'dd') | uppercase}}</div>
                                 </td>
                                 <td ng-if="!charge.details" colspan="2" style="text-align: center;">
-                                  <a href="#" ng-hide="loading" ng-click="loadTransactionDetails(charge); loading = true">Show details</a>
-                                  <i ng-show="loading" class="fa fa-circle-o-notch fa-spin"></i>
+                                  <i class="fa fa-circle-o-notch fa-spin"></i>
                                 </td>
-                                <td ng-if="charge.details">
-                                  {{charge.details.metadata.buyerName}}
+                                <td ng-if="charge.details" class="organization">
+                                  <div class="team">
+                                    <div class="team-name">{{charge.details.metadata.buyerName}}</div>
+                                    <div class="team-contact">{{charge.details.metadata.beneficiaryInfo}}</div>
+                                  </div>
+                                  
                                 </td>
                                 <td ng-if="charge.details">
                                   {{charge.details.metadata.productName}}

@@ -17,6 +17,20 @@ exports.getDepositDetils = function (req, res) {
   })
 }
 
+exports.getDepositDetilsRefund = function (req, res) {
+  organizationService.getOrganization(req.params.organizationId, function (err, org) {
+    if (err) {
+      return handleError(res, err)
+    }
+    paymentService.getDepositChargeRefund(req.params.paymentId, org.paymentId, function (err, data) {
+      if (err) {
+        return handleError(res, err);
+      }
+      return res.status(200).json(data)
+    })
+  })
+}
+
 function handleError(res, err) {
   let httpErrorCode = 500
 
