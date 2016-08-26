@@ -73,7 +73,7 @@
 
                 <tr class="expandable" ng-repeat-end>
                   <td class="expand" colspan="3">
-                    <div ng-class="expandSection1 ? 'expandable-section active' : 'expandable-section'">
+                    <div style="overflow: scroll" ng-class="expandSection1 ? 'expandable-section active' : 'expandable-section'">
                       <div class="expanded-section contains-table">
 
                         <div class="charges-container">
@@ -90,35 +90,34 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr ng-repeat="charge in charges[0].details">
+                              <tr ng-repeat="charge in charges[0].details" >
                                 <td class="date">
                                   <div class="month">{{(charge.created | date : 'MMM') | uppercase}}</div>
                                   <div class="day">{{(charge.created | date : 'dd') | uppercase}}</div>
                                 </td>
-                                <td class="organization">
-                                  <div class="team-icon">
-                                    <div class="fa fa-user"></div>
-                                  </div>
+                                <td ng-if="!charge.details" colspan="2" style="text-align: center;">
+                                  <i class="fa fa-circle-o-notch fa-spin"></i>
+                                </td>
+                                <td ng-if="charge.details" class="organization">
                                   <div class="team">
-                                    <div class="team-name">{{charge.metadata.beneficiaryInfo}}</div>
-                                    <div class="team-contact">{{charge.metadata.buyerName}}</div>
-                                    
+                                    <div class="team-name">{{charge.details.metadata.buyerName}}</div>
+                                    <div class="team-contact">{{charge.details.metadata.beneficiaryInfo}}</div>
                                   </div>
-                                  <div class="clearfix"></div>
+                                  
                                 </td>
-                                <td>
-                                  {{charge.metadata.productName}} - {{charge.test}}
+                                <td ng-if="charge.details">
+                                  {{charge.details.metadata.productName}}
                                 </td>
-                                <td>
+                                <td class="currency">
                                   <span class="green-font">$</span> {{charge.amount / 100 | currency:""}}
                                 </td>
-                                <td>
+                                <td class="currency">
                                   <span class="green-font">$</span> {{charge.fee / 100 | currency:""}}
                                 </td>
                                 <td>
                                   <span class="green-font"></span> {{charge.type}}
                                 </td>
-                                <td>
+                                <td class="currency">
                                   <span class="green-font">$</span> {{((charge.amount - charge.fee) / 100) - charge.metadata.totalFee | currency:""}}
                                 </td>
                               </tr>

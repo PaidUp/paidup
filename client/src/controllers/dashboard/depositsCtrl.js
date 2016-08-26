@@ -1,13 +1,14 @@
 'use strict'
 
-module.exports = [ '$scope', 'PaymentService', 'AuthService', '$state', 'TrackerService', function ($scope, PaymentService, AuthService, $state, TrackerService) {
+module.exports = ['$scope', 'PaymentService', 'AuthService', '$state', 'TrackerService', function ($scope, PaymentService, AuthService, $state, TrackerService) {
   $scope.expandSection1 = false
   $scope.expandSection2 = false
   $scope.listCharges = []
   $scope.init = function () {
     TrackerService.track('View Deposits')
     AuthService.getCurrentUserPromise().then(function (user) {
-      var organizationId = (user.meta.productRelated[0]) ? user.meta.productRelated[0] : 'Does not have organization'
+      var organizationId = (user.meta.productRelated[0]) ? user.meta.productRelated[0] : 'Does not have organization';
+      $scope.organizationId = organizationId;
       PaymentService.getTransfers(organizationId).then(function (result) {
         $scope.totalAmount = result.total
         $scope.bankName = result.bankName
@@ -20,28 +21,51 @@ module.exports = [ '$scope', 'PaymentService', 'AuthService', '$state', 'Tracker
     })
   }
 
-  $scope.getChargeDetails = function getChargeDetails (transfer) {
-    AuthService.getCurrentUserPromise().then(function (user) {
-      var organizationId = (user.meta.productRelated[0]) ? user.meta.productRelated[0] : 'Does not have organization'
-      PaymentService.getBalance(organizationId, transfer.id).then(function (result) {
-        transfer.details = result.data.filter(function (charge) { return charge.type === 'payment' || charge.type === 'payment_refund' || charge.type === 'adjustment' })
-        // $scope.listCharges = result.data.filter(function (charge) { return charge.type === 'payment' || charge.type === 'payment_refund' || charge.type === 'adjustment' })
+  $scope.getChargeDetails = function getChargeDetails(transfer) {
+    if (!transfer.details) {
+      AuthService.getCurrentUserPromise().then(function (user) {
+        var organizationId = (user.meta.productRelated[0]) ? user.meta.productRelated[0] : 'Does not have organization'
+        PaymentService.getBalance(organizationId, transfer.id).then(function (result) {
+          transfer.details = result.data.filter(function (charge) { return charge.type === 'payment' || charge.type === 'payment_refund' || charge.type === 'adjustment' })
+          // $scope.listCharges = result.data.filter(function (charge) { return charge.type === 'payment' || charge.type === 'payment_refund' || charge.type === 'adjustment' })
+          transfer.details.forEach(function (tr, idx, arr) {
+            loadTransactionDetails(tr);
+          });
+        }).catch(function (err) {
+          console.log('err', err)
+        })
       }).catch(function (err) {
         console.log('err', err)
       })
+    }
+  }
+
+  function loadTransactionDetails(transaction) {
+    if (transaction.type === 'payment_refund') {
+      return PaymentService.getDepositDetilsRefund(transaction.source, $scope.organizationId).then(function (data) {
+        transaction.details = data;
+      }).catch(function (err) {
+        console.error(err)
+      })
+    }
+
+    return PaymentService.getDepositDetils(transaction.source, $scope.organizationId).then(function (data) {
+      transaction.details = data;
     }).catch(function (err) {
-      console.log('err', err)
+      console.error(err)
     })
   }
 
-  $scope.getSubtotal = function getSubtotal (charges) {
+  $scope.loadTransactionDetails = loadTransactionDetails;
+
+  $scope.getSubtotal = function getSubtotal(charges) {
     return charges.reduce(function (t, c) {
       // return t + ((c.amount / 100) - c.metadata.totalFee)
       return t + (c.amount / 100)
     }, 0)
   }
 
-  $scope.getBankName = function getBankName (charges) {
+  $scope.getBankName = function getBankName(charges) {
     return charges.reduce(function (t, c) {
       // return t + ((c.amount / 100) - c.metadata.totalFee)
       return c.bank_account.bank_name
@@ -49,7 +73,7 @@ module.exports = [ '$scope', 'PaymentService', 'AuthService', '$state', 'Tracker
   }
 
   $scope.downloadAsCSV = function () {
-    TrackerService.track('Download as CSV', {Report: 'Deposits'})
+    TrackerService.track('Download as CSV', { Report: 'Deposits' })
   }
 
   // DATE PICKER

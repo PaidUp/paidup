@@ -11,5 +11,6 @@ router.use('/balance', require('./balance/index'))
 router.use('/charge', require('./charge/index'))
 router.use('/plaid', require('./plaid/index'))
 router.use('/account', require('./account/index'))
+router.use('/', require('./payment/index'))
 
 module.exports = router
