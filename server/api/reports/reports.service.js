@@ -22,6 +22,24 @@ function revenueProjection(filter, cb){
     
 };
 
+function revenue(filter, cb){
+    let req = {
+    baseUrl: config.connections.commerce.baseUrl,
+    token: config.connections.commerce.token,
+    filter: filter
+  }
+
+  commerceConnector.reportRevenue(req).exec({
+    error: function(err){
+      return cb(err);
+    },
+    success: function result(result){
+      return cb(null, result.body);
+    }
+  });
+    
+};
+
 module.exports = function (conf) {
   if (conf) {
     logger.debug('set new configuration', conf)
@@ -29,6 +47,7 @@ module.exports = function (conf) {
   }
 
   return {
-    revenueProjection: revenueProjection
+    revenueProjection: revenueProjection,
+    revenue: revenue
   }
 }
