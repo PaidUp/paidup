@@ -330,6 +330,22 @@ function getDepositChargeRefund (paymentId, accountId, cb) {
   })
 }
 
+function refund (chargeId, reason, cb) {
+  tdPaymentService.init(config.connections.payment)
+  tdPaymentService.refund(chargeId, reason, function (err, data) {
+    if (err) return cb(err)
+    return cb(null, data)
+  })
+}
+
+function retrieveTransfer (transferId, cb) {
+  tdPaymentService.init(config.connections.payment)
+  tdPaymentService.retrieveTransfer(transferId, function (err, data) {
+    if (err) return cb(err)
+    return cb(null, data)
+  })
+}
+
 exports.createCustomer = createCustomer
 exports.associateCard = associateCard
 exports.createCard = createCard
@@ -361,4 +377,6 @@ exports.listBanks = listBanks
 exports.fetchAccount = fetchAccount
 exports.getDepositCharge = getDepositCharge
 exports.getDepositChargeRefund = getDepositChargeRefund
+exports.retrieveTransfer = retrieveTransfer
+exports.refund = refund
 

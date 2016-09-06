@@ -31,6 +31,15 @@ exports.getDepositDetilsRefund = function (req, res) {
   })
 }
 
+exports.refund = function (req, res) {
+  paymentService.refund(req.body.chargeId, req.body.reason, function (err, data) {
+      if (err) {
+        return handleError(res, err);
+      }
+      return res.status(200).json(data)
+    })
+}
+
 function handleError(res, err) {
   let httpErrorCode = 500
 
