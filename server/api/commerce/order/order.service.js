@@ -433,6 +433,7 @@ function editPaymentPlan(pp, params, cb) {
   let status = params.status
   let wasProcessed = params.wasProcessed || false
   let paymentMethods = pp.paymentMethods || ['card'];
+  let attempts = params.attempts;
 
   let paramsCalculation = {
     version: params.version,
@@ -477,6 +478,7 @@ function editPaymentPlan(pp, params, cb) {
       pp.processingFees.achFeeCapActual = pp.processingFees.achFeeCapActual || 0;
       pp.processingFees.achFeeCapDisplay = pp.processingFees.achFeeCapDisplay || 0;
       pp.paymentMethods = pp.paymentMethods || ['card']
+      pp.attempts = attempts
       return cb(null, pp)
     }
   })

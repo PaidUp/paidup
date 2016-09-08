@@ -227,7 +227,7 @@
                                 </thead>
                                 <div class="month">{{(at.dateAttemp | date : 'MMM') | uppercase}}</div>
                                 <tbody ng-repeat="pp in orders.paymentsPlan | filter:getPaymentsHistory">
-                                  <tr ng-repeat="at in pp.attempts | orderBy:'-dateAttemp'">
+                                  <tr ng-repeat="at in pp.attempts | orderBy:'dateAttemp'">
                                     <td class="date">
                                       <div class="month">{{(at.dateAttemp | date : 'MMM') | uppercase}}</div>
                                       <div class="day">{{at.dateAttemp | date: 'dd'}}</div>
@@ -246,10 +246,10 @@
                                       <span class="green-font">$</span> {{pp.basePrice | currency:""}}
                                     </td>-->
                                     <td>
-                                      <span class="green-font">$</span> {{pp.price | currency:""}}
+                                      <span class="green-font">$</span>{{at.status === 'refunded' ? '-' : ''}} {{pp.price | currency:""}}
                                     </td>
                                     <td>
-                                      <span class="green-font">$</span> {{(pp.price - pp.totalFee) | currency:""}}
+                                      <span class="green-font">$</span>{{at.status === 'refunded' ? '-' : ''}} {{(pp.price - pp.totalFee) | currency:""}}
                                     </td>
                                   </tr>
                                 </tbody>
