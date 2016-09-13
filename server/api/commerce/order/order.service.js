@@ -348,6 +348,23 @@ function orderHistory(params, cb) {
   })
 };
 
+function orderTransactions(params, cb) {
+  CommerceConnector.orderTransactions({
+    baseUrl: config.connections.commerce.baseUrl,
+    token: config.connections.commerce.token,
+    organizationId: params.organizationId
+  }).exec({
+    // An unexpected error occurred.
+    error: function (err) {
+      return cb(err)
+    },
+    // OK.
+    success: function (transactions) {
+      return cb(null, transactions)
+    }
+  })
+};
+
 function addPaymentPlan(params, cb) {
   getPaymentPlan(params.orderId, null, function (err, pp) {
     if (err) {
@@ -567,5 +584,6 @@ module.exports = {
   editOrder: editOrder,
   editAllPaymentsPlan: editAllPaymentsPlan,
   orderUpdateWebhook: orderUpdateWebhook,
-  orderHistory: orderHistory
+  orderHistory: orderHistory,
+  orderTransactions: orderTransactions
 }
