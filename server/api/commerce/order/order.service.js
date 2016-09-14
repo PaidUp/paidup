@@ -360,10 +360,51 @@ function orderTransactions(params, cb) {
     },
     // OK.
     success: function (transactions) {
+      let header = ['transactionId', 'created', 'organizationId', 'organization', 'location', 'productId', 'product',
+                    'amount', 'status', 'totalFee', 'depositAmount', 'depositId', 'orderId', 'customerId', 'customerName',
+                    'accounType', 'last4Digits'];
+
+      let res = transactions.body.map(function(transaction){
+        return {
+          transactionId : transaction.paymentsPlan.attempts._id,
+          created : transaction.paymentsPlan.attempts.dateAttemp,
+          organizationId: transaction.paymentsPlan.productInfo.organizationId,
+          organization: transaction.paymentsPlan.productInfo.organizationName,
+          location: transaction.paymentsPlan.productInfo.organizationLocation,
+          productId: transaction.paymentsPlan.productInfo.productId,
+          product: transaction.paymentsPlan.productInfo.productName,
+          amount: transaction.paymentsPlan.price,
+          status: transaction.paymentsPlan.attempts.status,
+          totalFee: transaction.paymentsPlan.totalFee,
+          depositAmount: getDepositAmount(transaction.paymentsPlan.price, 
+                          transaction.paymentsPlan.totalFee, 
+                          transaction.paymentsPlan.attempts.status),
+          depositId: transaction.paymentsPlan.attempts.transferId,
+          orderId: transaction.orderId,
+          customerId: transaction.paymentsPlan.userInfo.userId,
+          customerName: transaction.paymentsPlan.userInfo.userName,
+          accounType: transaction.paymentsPlan.attempts.accountBrand || '',
+          last4: transaction.paymentsPlan.attempts.last4 ? transaction.paymentsPlan.attempts.last4 :  '',
+        }
+      })
+      res.unshift(header);
+      transactions.body = res;
       return cb(null, transactions)
     }
   })
 };
+
+function getDepositAmount(price, totalFee, status){
+  if(status === 'failed'){
+    return 0;
+  } else if(status === 'succeeded'){
+    return price - totalFee;
+  } else if(status === 'refunded'){
+    return (price - totalFee) * -1;
+  } else {
+    return '';
+  }
+}
 
 function addPaymentPlan(params, cb) {
   getPaymentPlan(params.orderId, null, function (err, pp) {
