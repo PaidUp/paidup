@@ -7,6 +7,7 @@ const CatalogService = require('../catalog/catalog.service')
 const paymentEmailService = require('../../payment/payment.email.service')
 const paymentService = require('../../payment/payment.service')
 const logger = require('../../../config/logger')
+const moment = require('moment')
 
 var OrderService = {
   calculatePrices: function calculatePrices(body, cb) {
@@ -378,7 +379,7 @@ function orderTransactions(params, cb) {
       let res = transactions.body.map(function (transaction) {
         let ele = {
           transactionId: transaction.paymentsPlan.attempts._id || "",
-          created: transaction.paymentsPlan.attempts.dateAttemp || "",
+          created: moment(transaction.paymentsPlan.attempts.dateAttemp).format('MM/DD/YYYY hh:mm')|| "",
           organizationId: transaction.paymentsPlan.productInfo.organizationId || "",
           organization: transaction.paymentsPlan.productInfo.organizationName || "",
           location: transaction.paymentsPlan.productInfo.organizationLocation || "",
