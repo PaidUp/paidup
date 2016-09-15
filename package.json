@@ -38,6 +38,7 @@
     "method-override": "^2.3.6",
     "moment": "^2.13.0",
     "morgan": "^1.7.0",
+    "ng-csv": "^0.3.6",
     "nodemailer": "^2.3.2",
     "paidup-commerce-connect": "^0.14.11",
     "paidup-product-connect": "^0.5.0",
