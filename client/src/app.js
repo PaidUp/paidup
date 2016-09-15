@@ -20,6 +20,7 @@ require('angulartics-google-analytics')
 require('angular-ui-mask')
 require('angular-local-storage')
 require('angulartics-mixpanel')
+require('ng-csv')
 
 var paidUpApp = angular.module('paidUpApp', [
   'ui.router',
@@ -35,7 +36,8 @@ var paidUpApp = angular.module('paidUpApp', [
   'LocalStorageModule',
   'ui.bootstrap',
   'dynform',
-  'angulartics.mixpanel'
+  'angulartics.mixpanel',
+  'ngCsv'
 ])
 
 paidUpApp.config(require('./appConfig'))

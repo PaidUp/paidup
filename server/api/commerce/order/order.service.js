@@ -348,6 +348,91 @@ function orderHistory(params, cb) {
   })
 };
 
+function orderTransactions(params, cb) {
+  CommerceConnector.orderTransactions({
+    baseUrl: config.connections.commerce.baseUrl,
+    token: config.connections.commerce.token,
+    organizationId: params.organizationId
+  }).exec({
+    // An unexpected error occurred.
+    error: function (err) {
+      return cb(err)
+    },
+    // OK.
+    success: function (transactions) {
+      let header = ['transactionId', 'created', 'organizationId', 'organization', 'location', 'productId', 'product',
+        'amount', 'status', 'totalFee', 'depositAmount', 'depositId', 'orderId', 'customerId', 'customerName',
+        'accounType', 'last4Digits'];
+      let headerMeta = [];
+
+      transactions.body.forEach(function (tr, idx, arr) {
+        if (tr.paymentsPlan.customInfo) {
+          for (var key in tr.paymentsPlan.customInfo.formData) {
+            if (headerMeta.indexOf(key) < 0) {
+              headerMeta.push(key);
+            }
+          }
+        }
+      });
+
+      let res = transactions.body.map(function (transaction) {
+        let ele = {
+          transactionId: transaction.paymentsPlan.attempts._id || "",
+          created: transaction.paymentsPlan.attempts.dateAttemp || "",
+          organizationId: transaction.paymentsPlan.productInfo.organizationId || "",
+          organization: transaction.paymentsPlan.productInfo.organizationName || "",
+          location: transaction.paymentsPlan.productInfo.organizationLocation || "",
+          productId: transaction.paymentsPlan.productInfo.productId || "",
+          product: transaction.paymentsPlan.productInfo.productName || "",
+          amount: transaction.paymentsPlan.price || "",
+          status: transaction.paymentsPlan.attempts.status || "",
+          totalFee: transaction.paymentsPlan.totalFee || "",
+          depositAmount: getDepositAmount(transaction.paymentsPlan.price || "",
+            transaction.paymentsPlan.totalFee || "",
+            transaction.paymentsPlan.attempts.status) || "",
+          depositId: transaction.paymentsPlan.attempts.transferId || "",
+          orderId: transaction.orderId || "",
+          customerId: transaction.paymentsPlan.userInfo.userId || "",
+          customerName: transaction.paymentsPlan.userInfo.userName || "",
+          accounType: transaction.paymentsPlan.attempts.accountBrand || "",
+          last4: transaction.paymentsPlan.attempts.last4 ? transaction.paymentsPlan.attempts.last4 : "",
+        }
+
+        headerMeta.forEach(function (trh, idx, arr) {
+          if (transaction.paymentsPlan.customInfo) {
+            ele[trh] = transaction.paymentsPlan.customInfo.formData[trh] || "";
+          } else {
+            ele[trh] = '';
+          }
+        });
+        return ele;
+      })
+
+      headerMeta.forEach(function (trh, idx, arr) {
+        header.push(trh + " (metadata)")
+      })
+
+      transactions.body = res;
+      return cb(null, {
+        header: header,
+        content: res
+      })
+    }
+  })
+};
+
+function getDepositAmount(price, totalFee, status) {
+  if (status === 'failed') {
+    return 0;
+  } else if (status === 'succeeded') {
+    return price - totalFee;
+  } else if (status === 'refunded') {
+    return (price - totalFee) * -1;
+  } else {
+    return '';
+  }
+}
+
 function addPaymentPlan(params, cb) {
   getPaymentPlan(params.orderId, null, function (err, pp) {
     if (err) {
@@ -567,5 +652,6 @@ module.exports = {
   editOrder: editOrder,
   editAllPaymentsPlan: editAllPaymentsPlan,
   orderUpdateWebhook: orderUpdateWebhook,
-  orderHistory: orderHistory
+  orderHistory: orderHistory,
+  orderTransactions: orderTransactions
 }

@@ -1,13 +1,13 @@
 'use strict'
 
-module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'TrackerService', function ($scope, AuthService, $state, CommerceService, TrackerService) {
-  $scope.getSubTotal = function getSubTotals (orders, key) {
+module.exports = ['$scope', 'AuthService', '$state', 'CommerceService', 'TrackerService', function ($scope, AuthService, $state, CommerceService, TrackerService) {
+  $scope.getSubTotal = function getSubTotals(orders, key) {
     return orders.reduce(function (result, order) {
       return result + order[(!key || key !== 'sumPrice') ? 'sumbasePrice' : key]
     }, 0)
   }
 
-  $scope.getSubTotalDiscount = function getSubTotalDiscount (orders, key) {
+  $scope.getSubTotalDiscount = function getSubTotalDiscount(orders, key) {
     return orders.reduce(function (result, order) {
       return result + order.paymentsPlan.reduce(function (prevDiscount, pp) {
         var sum = pp[(!key || key !== 'price') ? 'originalPrice' : key] * (pp.discount / 100)
@@ -16,7 +16,7 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
     }, 0)
   }
 
-  $scope.getSubTotalPaid = function getSubTotalPaid (orders, key) {
+  $scope.getSubTotalPaid = function getSubTotalPaid(orders, key) {
     return orders.reduce(function (result, order) {
       return result + order.paymentsPlan.reduce(function (previousPrice, pp) {
         // var sum = (pp.status === 'succeeded') ? (pp[(!key || key !== 'price') ? 'basePrice' : key] - pp.totalFee) : 0
@@ -26,7 +26,7 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
     }, 0)
   }
 
-  $scope.getSubTotalRemaining = function getSubTotalRemaining (subTotals, key) {
+  $scope.getSubTotalRemaining = function getSubTotalRemaining(subTotals, key) {
     return subTotals.reduce(function (result, sTotals) {
       return result + sTotals.paymentsPlan.reduce(function (previousPrice, pp) {
         // var sum = (pp.status === 'failed' || pp.status === 'pending') ? (pp[(!key || key !== 'price') ? 'originalPrice' : key]) : 0
@@ -36,11 +36,11 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
     }, 0)
   }
 
-  $scope.getCVS = function getCVS () {
+  $scope.getCVS = function getCVS() {
     downloadCSV({})
   }
 
-  function convertArrayOfObjectsToCSV (args) {
+  function convertArrayOfObjectsToCSV(args) {
     // http://halistechnology.com/2015/05/28/use-javascript-to-export-your-data-as-csv/
     // http://csv.adaltas.com/generate/
     // https://github.com/voodootikigod/node-csv
@@ -75,7 +75,7 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
     return result
   }
 
-  function downloadCSV (args) {
+  function downloadCSV(args) {
     var data
     var filename
     var link
@@ -92,14 +92,14 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
     }
     data = encodeURI(csv)
 
-  // link = document.createElement('a')
-  // link.setAttribute('href', data)
-  // link.setAttribute('download', filename)
-  // link.click()
+    // link = document.createElement('a')
+    // link.setAttribute('href', data)
+    // link.setAttribute('download', filename)
+    // link.click()
   }
 
   $scope.downloadAsCSV = function () {
-    TrackerService.track('Download as CSV', {Report: 'Dashboard'})
+    TrackerService.track('Download as CSV', { Report: 'Dashboard' })
   }
 
   $scope.init = function () {
@@ -138,7 +138,19 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
       }).catch(function (err) {
         console.log('err', err)
       })
+
+      CommerceService.getTransactions(organizationId).then(function (resp) {
+        $scope.contentCsv = resp.content;
+        $scope.headerCsv = resp.header;
+        console.log("RESP: ", resp)
+      }).catch(function (err) {
+        console.log("ERR: ", err)
+
+      })
+
     })
+
+
   }
 
   // DATE PICKER
@@ -186,26 +198,31 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
     }
   }
 
-  $scope.getBeneficiaryInfo = function getBeneficiaryInfo (customInfo) {
+  $scope.getBeneficiaryInfo = function getBeneficiaryInfo(customInfo) {
     return CommerceService.getVisibleBeneficiaryData(customInfo)
   }
 
-  $scope.showPayments = function showPayments (pps, filter) {
+  $scope.showPayments = function showPayments(pps, filter) {
     // return true
     return pps.filter(function (pp) { return (pp.status === filter || pp.status === 'failed') }).length
   }
 
-  $scope.getPaymentsHistory = function getPaymentsHistory (pp) {
+  $scope.getPaymentsHistory = function getPaymentsHistory(pp) {
     if (pp.status === 'pending') return false
     return true
   }
 
-  $scope.getPaymentsPending = function getPaymentsPending (pp) {
+  $scope.getPaymentsPending = function getPaymentsPending(pp) {
     if (pp.status === 'failed' || pp.status === 'pending') return true
     return false
   }
 
-  $scope.setDataCustomInfo = function setDataCustomInfo (customInfo) {
+  $scope.setDataCustomInfo = function setDataCustomInfo(customInfo) {
     return CommerceService.setDataCustomInfo(customInfo)
   }
+
+  $scope.export = function () {
+    console.log('export .....');
+  }
+
 }]
