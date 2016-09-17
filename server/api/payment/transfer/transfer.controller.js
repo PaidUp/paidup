@@ -32,6 +32,15 @@ exports.getTransfers = function (req, res) {
   })
 }
 
+exports.retrieveTransfer = function (req, res) {
+  paymentService.retrieveTransfer(req.params.transferId, function (err, data) {
+      if (err) {
+        return handleError(res, err);
+      }
+      return res.status(200).json(data)
+    })
+}
+
 function handleError (res, err) {
   let httpErrorCode = 500
 

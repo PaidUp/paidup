@@ -8,6 +8,14 @@ module.exports = ['$resource', function ($resource) {
     post: { method: 'POST', isArray: false }
   })
 
+  var Transactions = $resource('/api/v1/commerce/order/transactions', {}, {
+    post: { method: 'POST', isArray: false }
+  })
+
+  this.getTransactions = function (organizationId) {
+    return Transactions.post({organizationId:organizationId}).$promise
+  }
+
   this.getRecentOrders = function (userId, limit) {
     return Orders.get({ action: 'recent', userId: userId, limit: limit }).$promise
   }

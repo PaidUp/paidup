@@ -3,6 +3,7 @@
 const logger = require('../../../config/logger')
 const OrderService = require('./order.service')
 const OrganizationService = require('../../organization/organization.service')
+var csv = require('express-csv')
 
 exports.createOrder = function (req, res) {
   let user = req.user
@@ -82,6 +83,38 @@ exports.orderHistory = function (req, res) {
     }
     return res.status(200).json(data)
   })
+}
+
+exports.orderHistory = function (req, res) {
+  if (!req.body.orderId) {
+    return handleError(res, { name: 'ValidationError', message: 'orderId is required' })
+  }
+
+  OrderService.orderHistory(req.body, function (err, data) {
+    if (err) {
+      return res.status(500).json({code: 'commerceService.orderHistory', message: JSON.stringify(err)})
+    }
+    return res.status(200).json(data)
+  })
+}
+
+exports.orderTransactions = function (req, res) {
+  OrganizationService.getOrganization(req.body.organizationId, function (err, organizationData) {
+    if (err) return res.status(400).json(err)
+    if (!organizationData.paymentId) return res.status(400).json({message: 'Organization does not activated', status: '400'})
+    
+    OrderService.orderTransactions(organizationData.paymentId, function (err, data) {
+    if (err) {
+      return res.status(500).json({code: 'commerceService.orderTransactions', message: JSON.stringify(err)})
+    }
+    return res.status(200).json(data)
+  })
+
+  })
+
+
+
+  
 }
 
 exports.editOrder = function (req, res) {

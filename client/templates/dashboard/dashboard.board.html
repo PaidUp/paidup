@@ -1,4 +1,40 @@
-<div ng-include="'/templates/dashboard/dashboard.greetings.header.html'"></div>
+<!--div ng-include="'/templates/dashboard/dashboard.greetings.header.html'"></div-->
+<!-- start header -->
+<div class="summary-header">
+  <div class="summary-header-container">
+    <div class="row">
+      <div class="col s12 m7 l8">
+        <div class="user">
+          <div class="valign-wrapper">
+            <!-- <img src="../img/user-icon.png" alt=""> -->
+            <i class="fa fa-user"></i>
+            <span class="user-name">Hi, <span ng-bind="user.firstName"></span></span>
+          </div>
+        </div>
+      </div>      
+      <div class="col s12 m5 l4">
+        <div class="action-buttons">
+        <ul>
+          <li ng-csv="contentCsv" csv-header="headerCsv" filename="dashboard.csv" >
+            <i class="fa fa-download"></i>
+            <span>Export CSV</span>
+          </li>
+          <!--li ui-sref="dashboard.deposits">
+            <i class="fa fa-bank"></i>
+            <span>Deposits</span>
+          </li>
+           <li ui-sref="dashboard.aging">
+            <i class="fa fa-line-chart"></i>
+            <span>Aging</span>
+          </li-->
+        </ul>    
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end header -->
+
 <div class="orders-container" ng-init="init()">
   <div class="row">
     <div class="col s12 l8 offset-l2">
@@ -227,7 +263,7 @@
                                 </thead>
                                 <div class="month">{{(at.dateAttemp | date : 'MMM') | uppercase}}</div>
                                 <tbody ng-repeat="pp in orders.paymentsPlan | filter:getPaymentsHistory">
-                                  <tr ng-repeat="at in pp.attempts | orderBy:'-dateAttemp'">
+                                  <tr ng-repeat="at in pp.attempts | orderBy:'dateAttemp'">
                                     <td class="date">
                                       <div class="month">{{(at.dateAttemp | date : 'MMM') | uppercase}}</div>
                                       <div class="day">{{at.dateAttemp | date: 'dd'}}</div>
@@ -246,10 +282,10 @@
                                       <span class="green-font">$</span> {{pp.basePrice | currency:""}}
                                     </td>-->
                                     <td>
-                                      <span class="green-font">$</span> {{pp.price | currency:""}}
+                                      <span class="green-font">$</span>{{at.status === 'refunded' ? '-' : ''}} {{pp.price | currency:""}}
                                     </td>
                                     <td>
-                                      <span class="green-font">$</span> {{(pp.price - pp.totalFee) | currency:""}}
+                                      <span class="green-font">$</span>{{at.status === 'refunded' ? '-' : ''}} {{(pp.price - pp.totalFee) | currency:""}}
                                     </td>
                                   </tr>
                                 </tbody>
@@ -267,6 +303,6 @@
           <!--<div class="bottom-link">Next 20</div>-->
         </div>
       </div>
-    </div>
+    </div>  
   </div>
 </div>
