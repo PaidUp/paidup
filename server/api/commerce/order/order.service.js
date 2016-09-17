@@ -349,11 +349,11 @@ function orderHistory(params, cb) {
   })
 };
 
-function orderTransactions(params, cb) {
-  CommerceConnector.orderTransactions({
+function orderTransactions(organizationId, cb) {
+  CommerceConnector.orderTransactionsOrganization({
     baseUrl: config.connections.commerce.baseUrl,
     token: config.connections.commerce.token,
-    organizationId: params.organizationId
+    organizationId: organizationId
   }).exec({
     // An unexpected error occurred.
     error: function (err) {
