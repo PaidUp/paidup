@@ -39,7 +39,7 @@ var all = {
       db: {
         safe: true
       },
-      prefix: 'TDcsApp_'
+      prefix: 'paidup_'
     }
 
   },

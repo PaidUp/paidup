@@ -4,11 +4,15 @@ var tdAuthService = require('TDCore').authService
 var config = require('../../config/environment')
 var compose = require('composable-middleware')
 var tdUserService = require('TDCore').userService
+
+const connector = require('../../db/connector');
+const collectionName =  config.mongo.options.prefix + 'third_party_client';
+
 /**
  * Attaches the user object to the request if authenticated
  * Otherwise returns 403
  */
-function isAuthenticated () {
+function isAuthenticated() {
   return compose()
     .use(function (req, res, next) {
       let token = getTokenFromRequest(req)
@@ -26,12 +30,40 @@ function isAuthenticated () {
     })
 }
 
+function isValidWsClient() {
+  return compose()
+    .use(function (req, res, next) {
+      connector.db(function(err, db){
+        if(err){
+          return res.sendStatus(500);
+        }
+
+        let tpClient = req.params.thirdparty
+        let token = req.headers.token
+
+        console.log('tpClient', tpClient)
+        console.log('token', token)
+        
+        
+        let collection = db.collection(collectionName);
+        collection.find({name: tpClient, token: token}).toArray(function (err, docs) {
+        if (docs.length === 0) {
+          return res.sendStatus(401);
+        }
+        return next()
+      });
+
+      });
+      
+    })
+}
+
 /**
  * Get the token from HTTP Request
  * @param req
  * @returns {*}
  */
-function getTokenFromRequest (req) {
+function getTokenFromRequest(req) {
   let token = null
   // allow access_token to be passed through query parameter as well
   if (req.query && req.query.hasOwnProperty('token')) {
@@ -46,7 +78,7 @@ function getTokenFromRequest (req) {
   return token
 }
 
-function logout (token, cb) {
+function logout(token, cb) {
   tdAuthService.init(config.connections.user)
   tdAuthService.logout(token, function (err, data) {
     if (err) return cb(err)
@@ -54,7 +86,7 @@ function logout (token, cb) {
   })
 }
 
-function verifyRequest (userId, cb) {
+function verifyRequest(userId, cb) {
   tdAuthService.init(config.connections.user)
   tdAuthService.verifyRequest(userId, function (err, data) {
     if (err) return cb(err)
@@ -62,7 +94,7 @@ function verifyRequest (userId, cb) {
   })
 }
 
-function verify (data, cb) {
+function verify(data, cb) {
   tdAuthService.init(config.connections.user)
   tdAuthService.verify(data, function (err, data) {
     if (err) return cb(err)
@@ -70,7 +102,7 @@ function verify (data, cb) {
   })
 }
 
-function passwordResetRequest (data, cb) {
+function passwordResetRequest(data, cb) {
   tdAuthService.init(config.connections.user)
   tdAuthService.passwordResetRequest(data, function (err, data) {
     if (err) return cb(err)
@@ -78,7 +110,7 @@ function passwordResetRequest (data, cb) {
   })
 }
 
-function passwordReset (data, cb) {
+function passwordReset(data, cb) {
   tdAuthService.init(config.connections.user)
   tdAuthService.passwordReset(data, function (err, dat) {
     if (err) return cb(err)
@@ -86,7 +118,7 @@ function passwordReset (data, cb) {
   })
 }
 
-function emailUpdate (data, userId, cb) {
+function emailUpdate(data, userId, cb) {
   tdAuthService.init(config.connections.user)
   tdAuthService.emailUpdate(data, userId, function (err, data) {
     if (err) return cb(err)
@@ -94,7 +126,7 @@ function emailUpdate (data, userId, cb) {
   })
 }
 
-function passwordUpdate (data, userId, cb) {
+function passwordUpdate(data, userId, cb) {
   tdAuthService.init(config.connections.user)
   tdAuthService.passwordUpdate(data, userId, function (err, data) {
     if (err) return cb(err)
@@ -102,7 +134,7 @@ function passwordUpdate (data, userId, cb) {
   })
 }
 
-function getSessionSalt (token, cb) {
+function getSessionSalt(token, cb) {
   tdAuthService.init(config.connections.user)
   tdAuthService.getSessionSalt(token, function (err, data) {
     if (err) return cb(err)
@@ -119,3 +151,4 @@ exports.emailUpdate = emailUpdate
 exports.passwordUpdate = passwordUpdate
 exports.isAuthenticated = isAuthenticated
 exports.getSessionSalt = getSessionSalt
+exports.isValidWsClient = isValidWsClient
