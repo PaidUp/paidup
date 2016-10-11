@@ -41,10 +41,6 @@ function isValidWsClient() {
         let tpClient = req.params.thirdparty
         let token = req.headers.token
 
-        console.log('tpClient', tpClient)
-        console.log('token', token)
-        
-        
         let collection = db.collection(collectionName);
         collection.find({name: tpClient, token: token}).toArray(function (err, docs) {
         if (docs.length === 0) {
