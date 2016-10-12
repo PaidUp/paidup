@@ -18,7 +18,9 @@ router.post('/:thirdparty/login', authService.isValidWsClient(), function (req, 
 })
 
 router.post('/:thirdparty/user', authService.isValidWsClient(), function (req, res, next) {
-  userService.createAll(req.body, function (err, data) {
+  var body = req.body;
+  body.getFrom = req.params.thirdparty;
+  userService.createAll(body, function (err, data) {
     if (err) return res.status(402).json(err)
     res.status(200).json(data)
   })
