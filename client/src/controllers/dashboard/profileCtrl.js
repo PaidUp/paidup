@@ -1,7 +1,7 @@
 'use strict'
 var angular = require('angular')
 
-module.exports = [ '$scope', 'UserService', 'TrackerService', 'AuthService', function ($scope, UserService, TrackerService, AuthService) {
+module.exports = [ '$scope', 'UserService', 'TrackerService', 'AuthService', '$state', function ($scope, UserService, TrackerService, AuthService, $state) {
   $scope.editName = false
   $scope.loading = false
   $scope.editPhone = false
@@ -11,6 +11,11 @@ module.exports = [ '$scope', 'UserService', 'TrackerService', 'AuthService', fun
   $scope.init = function () {
     TrackerService.track('View Profile', {Role: AuthService.getRoleForTrack()})
     AuthService.getCurrentUserPromise().then(function (user) {
+      if(user.meta.getFrom){
+        $state.go('dashboard.summary.components');
+        return;
+      }
+
       $scope.addresses = user.addresses
       $scope.contacts = user.contacts
       $scope.email = user.email
