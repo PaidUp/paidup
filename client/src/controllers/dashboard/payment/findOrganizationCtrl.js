@@ -18,7 +18,6 @@ module.exports = ['$scope', '$rootScope', '$state', 'ProductService', 'SetupPaym
           return product.isActive
         });
         ProductService.categories = $scope.allCategories;
-
         if(Object.keys (ProductService.getPnProducts()).length > 0){
           $scope.filteredCategories = $scope.allCategories.filter(function (product) {
             var match = false;

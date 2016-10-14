@@ -204,9 +204,15 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
         requireLogin: false
       }
     })
+    .state('token-category', {
+      url: '/token/:token/cat/:category',
+      controller: 'CustomLinkCtrl',
+      data: {
+        requireLogin: false
+      }
+    })
     .state('category', {
       url: '/cat/:category',
-      templateUrl: require('../templates/login.html'),
       controller: 'CustomLinkCtrl',
       data: {
         requireLogin: false

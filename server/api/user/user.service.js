@@ -14,6 +14,14 @@ function create (data, cb) {
   })
 }
 
+function createAll (data, cb) {
+  tdUserService.init(config.connections.user)
+  tdUserService.createAll(data, function (err, data) {
+    if (err) return cb(err)
+    return cb(null, data)
+  })
+}
+
 function current (data, cb) {
   tdUserService.init(config.connections.user)
   tdUserService.current(data.token, function (err, data) {
@@ -97,6 +105,7 @@ function sendEmailResetPassword (data, cb) {
 }
 
 exports.create = create
+exports.createAll = createAll
 exports.current = current
 exports.update = update
 exports.find = find

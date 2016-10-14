@@ -1,7 +1,7 @@
 'use strict'
 var angular = require('angular')
 
-module.exports = [ '$rootScope', '$http', 'UserService', 'SessionService', 'Facebook', '$q', 'TrackerService', function ($rootScope, $http, UserService, SessionService, Facebook, $q, TrackerService) {
+module.exports = ['$rootScope', '$http', 'UserService', 'SessionService', 'Facebook', '$q', 'TrackerService', function ($rootScope, $http, UserService, SessionService, Facebook, $q, TrackerService) {
   var ROLES_ROUTES = {
     USER: 'athletes',
     COACH: 'provider-request',
@@ -21,8 +21,8 @@ module.exports = [ '$rootScope', '$http', 'UserService', 'SessionService', 'Face
   var isParent = true
   var resetPass = false
 
-  function getRoleForTracking () {
-    var role = $rootScope.currentUser.roles[$rootScope.currentUser.roles.length -1]
+  function getRoleForTracking() {
+    var role = $rootScope.currentUser.roles[$rootScope.currentUser.roles.length - 1]
     var resp = 'unknown'
     switch (role) {
       case "user":
@@ -151,11 +151,11 @@ module.exports = [ '$rootScope', '$http', 'UserService', 'SessionService', 'Face
           error('User authorization denied')
           return
         }
-        if(!user.authResponse){
+        if (!user.authResponse) {
           error('user.authResponse undefined')
           return
         }
-        $http.post('/api/v1/auth/facebook', {facebookToken: user.authResponse.accessToken, isParent: isParent}).success(function (data) {
+        $http.post('/api/v1/auth/facebook', { facebookToken: user.authResponse.accessToken, isParent: isParent }).success(function (data) {
           $rootScope.currentUser = UserService.get(data.token, function (user) {
             SessionService.addSession(data)
             success(user)
@@ -164,7 +164,7 @@ module.exports = [ '$rootScope', '$http', 'UserService', 'SessionService', 'Face
           error(data)
         })
       }
-      Facebook.login(loginSuccess, {scope: 'email'})
+      Facebook.login(loginSuccess, { scope: 'email' })
     },
 
     /**
@@ -214,8 +214,8 @@ module.exports = [ '$rootScope', '$http', 'UserService', 'SessionService', 'Face
       $http.post('/api/v1/auth/password/reset-request', {
         email: email
       }, {
-        withCredentials: false
-      }).success(success).error(error)
+          withCredentials: false
+        }).success(success).error(error)
     },
 
     resetPassword: function (token, password, successFn, errorFn) {
@@ -225,8 +225,8 @@ module.exports = [ '$rootScope', '$http', 'UserService', 'SessionService', 'Face
         verifyToken: token,
         password: password
       }, {
-        withCredentials: false
-      }).success(success).error(error)
+          withCredentials: false
+        }).success(success).error(error)
     },
 
     updatePassword: function (oldPassword, newPassword, userId) {
@@ -257,8 +257,8 @@ module.exports = [ '$rootScope', '$http', 'UserService', 'SessionService', 'Face
       $http.post('/api/v1/auth/verify', {
         verifyToken: token
       }, {
-        withCredentials: false
-      }).success(success).error(error)
+          withCredentials: false
+        }).success(success).error(error)
     },
 
     resendEmail: function (userId, successFn, errorFn) {
@@ -387,7 +387,7 @@ module.exports = [ '$rootScope', '$http', 'UserService', 'SessionService', 'Face
         "$email": $rootScope.currentUser.email
       });
 
-      if(event === "Sign Up"){
+      if (event === "Sign Up") {
         TrackerService.peopleSet({
           "$created": new Date(),
           "$phone": phone
@@ -398,7 +398,7 @@ module.exports = [ '$rootScope', '$http', 'UserService', 'SessionService', 'Face
         "Email": $rootScope.currentUser.email
       });
 
-      TrackerService.track (event, {
+      TrackerService.track(event, {
         "Type": type,
         "Roles": getRoleForTracking()
       });
