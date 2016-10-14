@@ -9,7 +9,7 @@ const userService = require('../../user/user.service')
 
 const router = express.Router()
 
-router.post('/:thirdparty/login', authService.isValidWsClient(), function (req, res, next) {
+router.post('/login', authService.isValidWsClient(), function (req, res, next) {
   tdAuthService.init(config.connections.user)
   tdAuthService.login(req.body, function (err, data) {
     if (err) return res.status(402).json(err)
@@ -17,7 +17,7 @@ router.post('/:thirdparty/login', authService.isValidWsClient(), function (req, 
   })
 })
 
-router.post('/:thirdparty/user', authService.isValidWsClient(), function (req, res, next) {
+router.post('/user', authService.isValidWsClient(), function (req, res, next) {
   var body = req.body;
   body.getFrom = req.params.thirdparty;
   userService.createAll(body, function (err, data) {

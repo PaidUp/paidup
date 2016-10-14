@@ -38,7 +38,7 @@ function isValidWsClient() {
           return res.sendStatus(500);
         }
 
-        let tpClient = req.params.thirdparty
+        let tpClient = req.headers.origin
         let token = req.headers.token
 
         let collection = db.collection(collectionName);
