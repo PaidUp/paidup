@@ -9,6 +9,18 @@ module.exports = [ '$resource', function ($resource) {
     post: { method: 'POST', isArray: true }
   })
 
+  var UpdateProductsSuggested = $resource('/api/v1/user/:userId/update/products', {
+    userId: ''
+  }, {
+    post: { method: 'POST', isArray: true }
+  })
+
+  this.updateProductsSuggested = function (userId, productsSuggested) {
+    return UpdateProductsSuggested.post({
+      userId: userId
+    }, productsSuggested).$promise
+  }
+
   this.save = function (user, successFn, errorFn) {
     var success = successFn || angular.noop
     var error = errorFn || angular.noop

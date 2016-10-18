@@ -9,6 +9,7 @@ const router = express.Router()
 router.post('/create', controller.create)
 router.get('/current', authService.isAuthenticated(), controller.current)
 router.post('/update', authService.isAuthenticated(), controller.update)
+router.post('/:userId/update/products', authService.isAuthenticated(), controller.updateProductsSuggested)
 router.post('/email/sendWelcome', controller.sendWelcome)
 router.post('/email/sendResetPassword', controller.sendResetPassword)
 
