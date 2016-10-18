@@ -204,8 +204,8 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
         requireLogin: false
       }
     })
-    .state('token-category', {
-      url: '/token/:token/cat/:category',
+    .state('referring', {
+      url: '/token/:token/cat/:category/referring/:domain/logo/:image',
       controller: 'CustomLinkCtrl',
       data: {
         requireLogin: false

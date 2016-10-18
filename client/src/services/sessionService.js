@@ -1,20 +1,36 @@
 'use strict'
 
-module.exports = [ '$rootScope', '$cookieStore', function ($rootScope, $cookieStore) {
+module.exports = [ '$rootScope', '$cookies', function ($rootScope, $cookies) {
   var SessionService = this
   $rootScope.$on('logout', function () {
     SessionService.removeCurrentSession()
   })
 
   this.addSession = function (data) {
-    $cookieStore.put('token', data.token)
+    $cookies.put('token', data.token)
   }
 
   this.removeCurrentSession = function () {
-    $cookieStore.remove('token')
+    $cookies.remove('token')
   }
 
   this.getCurrentSession = function () {
-    return $cookieStore.get('token')
+    return $cookies.get('token')
+  }
+
+  this.setReferringDomain = function(url){
+    $cookies.put('referring_domain', url)
+  }
+
+  this.getReferringDomain = function(){
+    $cookies.get('referring_domain')
+  }
+
+  this.setReferringLogo = function(url){
+    $cookies.put('referring_logo', url)
+  }
+
+  this.getReferringLogo = function(){
+    $cookies.get('referring_logo')
   }
 }]

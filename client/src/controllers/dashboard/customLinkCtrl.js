@@ -29,6 +29,14 @@ module.exports = ['$scope', '$state', '$rootScope', '$stateParams', 'ProductServ
     };
 
     if ($rootScope.isCoookieSupported) {
+      if($stateParams.domain){
+        SessionService.setReferringDomain(stateParams.domain);
+      }
+
+      if($stateParams.image){
+        SessionService.setReferringLogo($stateParams.image)
+      }
+
       if ($stateParams.token) {
         SessionService.addSession({ token: $stateParams.token });
         UserService.get($stateParams.token, function (user) {
