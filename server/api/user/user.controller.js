@@ -9,6 +9,15 @@ exports.create = function (req, res) {
   })
 }
 
+exports.createAll = function (req, res, next) {
+  var body = req.body;
+  body.getFrom = req.headers.name;
+  userService.createAll(body, function (err, data) {
+    if (err) return res.status(402).json(err)
+    res.status(200).json(data)
+  })
+}
+
 exports.current = function (req, res, next) {
   userService.current(req.query, function (err, data) {
     if (err) res.status(402).json(err)

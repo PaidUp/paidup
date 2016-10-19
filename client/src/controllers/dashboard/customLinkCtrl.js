@@ -30,7 +30,7 @@ module.exports = ['$scope', '$state', '$rootScope', '$stateParams', 'ProductServ
 
     if ($rootScope.isCoookieSupported) {
       if($stateParams.domain){
-        SessionService.setReferringDomain(stateParams.domain);
+        SessionService.setReferringDomain($stateParams.domain);
       }
 
       if($stateParams.image){
