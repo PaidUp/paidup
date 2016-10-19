@@ -29,4 +29,6 @@ module.exports = [ '$scope', '$rootScope', '$window', '$location', 'SessionServi
     $window.location.href = adminUrl;
 
   }
+
+  $scope.renderProfileIcon = $rootScope.currentUser.meta.getFrom;
 }]

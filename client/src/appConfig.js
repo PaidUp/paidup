@@ -204,9 +204,9 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
         requireLogin: false
       }
     })
+    
     .state('category', {
       url: '/cat/:category',
-      templateUrl: require('../templates/login.html'),
       controller: 'CustomLinkCtrl',
       data: {
         requireLogin: false
@@ -240,6 +240,12 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
       url: '/auth/password/reset?token',
       // templateUrl: '../templates/login.html',
       controller: 'ResetPasswordCtrl',
+      data: {
+        requireLogin: false
+      }
+    }).state('referring', {
+      url: '/token/:token/cat/:category/referring/*domain/logo/*image',
+      controller: 'CustomLinkCtrl',
       data: {
         requireLogin: false
       }

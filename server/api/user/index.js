@@ -7,6 +7,7 @@ const authService = require('../auth/auth.service')
 const router = express.Router()
 
 router.post('/create', controller.create)
+router.post('/new', authService.isValidWsClient(), controller.createAll)
 router.get('/current', authService.isAuthenticated(), controller.current)
 router.post('/update', authService.isAuthenticated(), controller.update)
 router.post('/email/sendWelcome', controller.sendWelcome)
