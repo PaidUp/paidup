@@ -6,7 +6,7 @@ var compose = require('composable-middleware')
 var tdUserService = require('TDCore').userService
 
 const connector = require('../../db/connector');
-const collectionName =  config.mongo.options.prefix + 'third_party_client';
+const collectionName = config.mongo.options.prefix + 'third_party_client';
 
 /**
  * Attaches the user object to the request if authenticated
@@ -33,23 +33,24 @@ function isAuthenticated() {
 function isValidWsClient() {
   return compose()
     .use(function (req, res, next) {
-      connector.db(function(err, db){
-        if(err){
+      connector.db(function (err, db) {
+        if (err) {
           return res.sendStatus(500);
         }
 
         let tpClient = req.headers.name
         let token = req.headers.token
         let collection = db.collection(collectionName);
-        collection.find({name: tpClient, token: token}).toArray(function (err, docs) {
-        if (docs.length === 0) {
-          return res.sendStatus(401);
-        }
-        return next()
-      });
+        collection.findOne({ token: token }, function (err, doc) {
+          if (err || !doc || !doc.isActive) {
+            return res.sendStatus(401);
+          }
+          req.headers.name = doc.name
+          return next()
+        });
 
       });
-      
+
     })
 }
 
