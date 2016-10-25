@@ -6,15 +6,17 @@ module.exports = ['$resource', '$q', '$cookies', '$rootScope', 'UserService', 'S
   var getCategories = $resource('/api/v1/commerce/catalog/categories', {}, {})
 
 
-  var currentUser = $rootScope.currentUser;
+  var currentUser ={};
   
   ProductService.getPnProducts = function (cb) {
+    currentUser = UserService.currentUser;
     if ($cookies.get('pnProds')) {
       var pn = $cookies.get('pnProds') ? JSON.parse($cookies.get('pnProds')) : {};
       var pSuggested = currentUser.meta.productsSuggested ? JSON.parse(currentUser.meta.productsSuggested) : {};
       var merge = JSON.stringify(Object.assign(pSuggested, pn));
       UserService.updateProductsSuggested(currentUser._id, { value: merge }).then(function (newUser) {
-        $rootScope.currentUser = newUser;
+        UserService.currentUser = newUser;
+        currentUser = newUser;
         ProductService.removePnProducts();
         console.log('newUser.meta.productSuggested: ', newUser.meta.productsSuggested)
         console.log('JSON.parse(newUser.meta.productSuggested)): ', JSON.parse(newUser.meta.productsSuggested))

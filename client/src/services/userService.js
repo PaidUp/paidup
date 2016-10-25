@@ -2,6 +2,9 @@
 var angular = require('angular')
 
 module.exports = [ '$resource', function ($resource) {
+
+  var currentUser = {};
+
   // ============= User Service =============
   var User = $resource('/api/v1/user/:action/:userId', {
     userId: ''

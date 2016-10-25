@@ -100,6 +100,7 @@ module.exports = ['$rootScope', '$http', 'UserService', 'SessionService', 'Faceb
         .success(function (data) {
           SessionService.addSession(data)
           UserService.get(data.token, function (user) {
+            UserService.currentUser = user;
             $rootScope.currentUser = user
             success(user)
           })
