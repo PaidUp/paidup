@@ -38,8 +38,8 @@ function isValidWsClient() {
           return res.sendStatus(500);
         }
 
-        let tpClient = req.headers.name
-        let token = req.headers.token
+        let token = req.headers.authorization
+        console.log('Authorization', token)
         let collection = db.collection(collectionName);
         collection.findOne({ token: token }, function (err, doc) {
           if (err || !doc || !doc.isActive) {
