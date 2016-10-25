@@ -12,7 +12,7 @@ module.exports = [ '$resource', function ($resource) {
   var UpdateProductsSuggested = $resource('/api/v1/user/:userId/update/products', {
     userId: ''
   }, {
-    post: { method: 'POST', isArray: true }
+    post: { method: 'POST', isArray: false }
   })
 
   this.updateProductsSuggested = function (userId, productsSuggested) {

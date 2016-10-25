@@ -25,7 +25,10 @@ module.exports = ['$scope', '$rootScope', '$anchorScroll', '$location', '$q', 'S
       done: 5
     }
 
-    var pnProducts = ProductService.getPnProducts()
+    var pnProducts = {}
+    ProductService.getPnProducts(function(err, _pnProducts){
+      pnProducts = _pnProducts
+    })
 
     $scope.init = function () {
       if (!ProductService.categories) {

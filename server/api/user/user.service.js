@@ -120,3 +120,4 @@ exports.find = find
 exports.save = save
 exports.sendEmailWelcome = sendEmailWelcome
 exports.sendEmailResetPassword = sendEmailResetPassword
+exports.updateProductsSuggested = updateProductsSuggested
