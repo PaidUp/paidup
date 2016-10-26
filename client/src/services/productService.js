@@ -7,10 +7,14 @@ module.exports = ['$resource', '$q', '$cookies', '$rootScope', 'UserService', 'S
 
   ProductService.getPnProducts = function (cb) {
     UserService.get(SessionService.getCurrentSession(), function (currentUser) {
+      
       if ($cookies.get('pnProds')) {
         var pn = $cookies.get('pnProds') ? JSON.parse($cookies.get('pnProds')) : {};
+        var pSuggested = {};
+        if(currentUser.meta.productsSuggested){
+          pSuggested = JSON.parse(currentUser.meta.productsSuggested) 
+        }
         var pSuggested = currentUser.meta.productsSuggested ? JSON.parse(currentUser.meta.productsSuggested) : {};
-        //var merge = JSON.stringify(Object.assign(pSuggested, pn));
 
         for (var key in pn) {
           if(!pSuggested[key]){
