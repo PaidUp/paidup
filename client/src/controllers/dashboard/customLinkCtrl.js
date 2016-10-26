@@ -5,7 +5,7 @@ module.exports = ['$scope', '$state', '$rootScope', '$stateParams', 'ProductServ
     // Initialization
 
     function managePnProducts(dest) {
-      var pnProds = {} // ProductService.getPnProducts();
+      var pnProds = {}
 
       if ($stateParams.category) {
         if (!pnProds[$stateParams.category]) {

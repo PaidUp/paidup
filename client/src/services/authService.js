@@ -267,7 +267,6 @@ module.exports = ['$rootScope', '$http', 'UserService', 'SessionService', 'Faceb
       var error = errorFn || angular.noop
       $http.get('/api/v1/auth/verify-request/userId/' + userId)
         .success(function (data) {
-          // console.log(data)
           success()
         })
         .error(error)
