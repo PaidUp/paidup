@@ -2,12 +2,27 @@
 var angular = require('angular')
 
 module.exports = [ '$resource', function ($resource) {
+
+  var currentUser = {};
+
   // ============= User Service =============
   var User = $resource('/api/v1/user/:action/:userId', {
     userId: ''
   }, {
     post: { method: 'POST', isArray: true }
   })
+
+  var UpdateProductsSuggested = $resource('/api/v1/user/:userId/update/products', {
+    userId: ''
+  }, {
+    post: { method: 'POST', isArray: false }
+  })
+
+  this.updateProductsSuggested = function (userId, productsSuggested) {
+    return UpdateProductsSuggested.post({
+      userId: userId
+    }, productsSuggested).$promise
+  }
 
   this.save = function (user, successFn, errorFn) {
     var success = successFn || angular.noop

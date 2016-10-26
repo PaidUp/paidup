@@ -25,38 +25,42 @@ module.exports = ['$scope', '$rootScope', '$anchorScroll', '$location', '$q', 'S
       done: 5
     }
 
-    var pnProducts = ProductService.getPnProducts()
+    var pnProducts = {}
 
     $scope.init = function () {
-      if (!ProductService.categories) {
-        return $location.path('/payment/findOrg')
-      }
-      ProductService.categories.map(function (category) {
-        if (category._id === $stateParams.categoryId) {
-          $scope.categorySelected = category
+      ProductService.getPnProducts(function (err, _pnProducts) {
+        pnProducts = _pnProducts;
+        if (!ProductService.categories) {
+          return $location.path('/payment/findOrg')
         }
+        ProductService.categories.map(function (category) {
+          if (category._id === $stateParams.categoryId) {
+            $scope.categorySelected = category
+          }
+        })
+        if (!$scope.categorySelected || !$scope.categorySelected._id) {
+          return $location.path('/payment/findOrg')
+        }
+
+        $rootScope.$emit('changePaymentStep', steps.select)
+        $scope.step = steps.select
+        $scope.loader = '<i class="fa fa-circle-o-notch fa-spin"></i>'
+        $scope.loading = false
+
+        $scope.orderDetails = {}
+        $scope.models = {}
+        $scope.coupon = {}
+        $scope.total = 0
+
+        gotoAnchor(steps.select)
+
+        // define products
+        $scope.products = $scope.categorySelected.products.filter(filterProd).sort(compare)
       })
-      if (!$scope.categorySelected || !$scope.categorySelected._id) {
-        return $location.path('/payment/findOrg')
-      }
 
-      $rootScope.$emit('changePaymentStep', steps.select)
-      $scope.step = steps.select
-      $scope.loader = '<i class="fa fa-circle-o-notch fa-spin"></i>'
-      $scope.loading = false
-
-      $scope.orderDetails = {}
-      $scope.models = {}
-      $scope.coupon = {}
-      $scope.total = 0
-
-      gotoAnchor(steps.select)
-
-      // define products
-      $scope.products = $scope.categorySelected.products.filter(filterProd).sort(compare)
     }
 
-    function compare (a, b) {
+    function compare(a, b) {
       if (a.details.name < b.details.name) return -1
       if (a.details.name > b.details.name) return 1
       return 0
@@ -75,13 +79,13 @@ module.exports = ['$scope', '$rootScope', '$anchorScroll', '$location', '$q', 'S
     $scope.onChangePaymentPlan = function () {
       $scope.loading = true
       $scope.total = 0
-      TrackerService.track('Select Payment Plan', {'PaymentPlanSelected': $scope.models.paymentPlanSelected})
+      TrackerService.track('Select Payment Plan', { 'PaymentPlanSelected': $scope.models.paymentPlanSelected })
       SetupPaymentService.paymentPlanSelected = $scope.models.productSelected.paymentPlans[$scope.models.paymentPlanSelected]
       setPaymentMethods($scope.models.productSelected.paymentPlans[$scope.models.paymentPlanSelected].paymentMethods)
 
       var paymentMethods = $scope.models.productSelected.paymentPlans[$scope.models.paymentPlanSelected].paymentMethods
       var isBank = (paymentMethods && paymentMethods.length === 1 && paymentMethods[0] === 'bank')
-      
+
       var params = $scope.models.productSelected.paymentPlans[$scope.models.paymentPlanSelected].dues.map(function (ele) {
         if ($scope.coupon.precent) {
           ele.applyDiscount = true
@@ -95,7 +99,7 @@ module.exports = ['$scope', '$rootScope', '$anchorScroll', '$location', '$q', 'S
           originalPrice: ele.amount,
           stripePercent: $scope.models.productSelected.processingFees.cardFeeDisplay,
           stripeFlat: $scope.models.productSelected.processingFees.cardFeeFlatDisplay,
-          stripeAchPercent: $scope.models.productSelected.processingFees.achFeeDisplay ,
+          stripeAchPercent: $scope.models.productSelected.processingFees.achFeeDisplay,
           stripeAchFlat: $scope.models.productSelected.processingFees.achFeeFlatDisplay,
           paidUpFee: $scope.models.productSelected.collectionsFee.fee,
           discount: ele.applyDiscount ? ele.discount : 0,
@@ -127,7 +131,7 @@ module.exports = ['$scope', '$rootScope', '$anchorScroll', '$location', '$q', 'S
       buildDynamicForm()
     }
 
-    function buildDynamicForm () {
+    function buildDynamicForm() {
       $scope.renderCustomForm = true
       // var count = 0
       var interval = setInterval(function () {
@@ -140,7 +144,7 @@ module.exports = ['$scope', '$rootScope', '$anchorScroll', '$location', '$q', 'S
       }, 500)
     }
 
-    function setFormFieldsTouched (form) {
+    function setFormFieldsTouched(form) {
       angular.forEach(form.$error, function (field) {
         angular.forEach(field, function (errorField) {
           errorField.$setTouched()
@@ -153,7 +157,7 @@ module.exports = ['$scope', '$rootScope', '$anchorScroll', '$location', '$q', 'S
       })
     }
 
-    function setPaymentMethods (pm) {
+    function setPaymentMethods(pm) {
       PaymentService.setDefaultPaymentMethod()
       if (pm && pm.length > 0) {
         if (pm.indexOf('card') === -1) PaymentService.setPaymentMethod('card', false)
@@ -265,7 +269,7 @@ module.exports = ['$scope', '$rootScope', '$anchorScroll', '$location', '$q', 'S
         $rootScope.$emit('accountMenuReset')
         SetupPaymentService.resumeOrder = res.body
         $location.path('/payment/thankyou')
-        TrackerService.track('Place Order', {'Payment Type': params.typeAccount})
+        TrackerService.track('Place Order', { 'Payment Type': params.typeAccount })
       }).catch(function (err) {
         console.log(err)
         $rootScope.GlobalAlertSystemAlerts.push({
@@ -277,7 +281,7 @@ module.exports = ['$scope', '$rootScope', '$anchorScroll', '$location', '$q', 'S
       })
     }
 
-    function gotoAnchor (step) {
+    function gotoAnchor(step) {
       var newHash = 'step' + step
       if ($location.hash() !== newHash) {
         $location.hash(newHash)
@@ -324,7 +328,7 @@ module.exports = ['$scope', '$rootScope', '$anchorScroll', '$location', '$q', 'S
       }
     }
 
-    function filterProd (prod) {
+    function filterProd(prod) {
       if (pnProducts !== null && typeof pnProducts === 'object' && pnProducts[$scope.categorySelected._id] && Object.keys(pnProducts[$scope.categorySelected._id]).length > 0) {
         return filterMethods.product(prod)
       } else {

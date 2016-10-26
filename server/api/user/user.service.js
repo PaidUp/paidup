@@ -39,6 +39,14 @@ function update (data, cb) {
   })
 }
 
+function updateProductsSuggested (userId, productsSuggested, cb) {
+  tdUserService.init(config.connections.user)
+  tdUserService.updateProductsSuggested(userId, productsSuggested, function (err, data) {
+    if (err) return cb(err)
+    return cb(null, data)
+  })
+}
+
 function find (filter, cb) {
   tdUserService.init(config.connections.user)
   tdUserService.find(filter, function (err, data) {
@@ -112,3 +120,4 @@ exports.find = find
 exports.save = save
 exports.sendEmailWelcome = sendEmailWelcome
 exports.sendEmailResetPassword = sendEmailResetPassword
+exports.updateProductsSuggested = updateProductsSuggested
