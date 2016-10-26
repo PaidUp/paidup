@@ -42,18 +42,7 @@ module.exports = ['$scope', '$rootScope', '$state', 'ProductService', 'SetupPaym
               cb(null, true);
             })
           }
-
-
-
-
-
         });
-
-
-
-
-
-
       }).catch(function (err) {
         $rootScope.GlobalAlertSystemAlerts.push({ msg: 'No search results', type: 'warn', dismissOnTimeout: 5000 })
         console.log('findOrg err', err)
@@ -89,7 +78,6 @@ module.exports = ['$scope', '$rootScope', '$state', 'ProductService', 'SetupPaym
         console.log('err', err)
       })
     }
-
 
     $scope.init = function () {
       $scope.hideCategories = false;
