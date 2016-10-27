@@ -37,15 +37,13 @@ function isValidWsClient() {
         if (err) {
           return res.sendStatus(500);
         }
-
         let token = req.headers.authorization
-        console.log('Authorization', token)
         let collection = db.collection(collectionName);
         collection.findOne({ token: token }, function (err, doc) {
           if (err || !doc || !doc.isActive) {
             return res.sendStatus(401);
           }
-          req.headers.name = doc.name
+          req.body.referrer = doc.name
           return next()
         });
 

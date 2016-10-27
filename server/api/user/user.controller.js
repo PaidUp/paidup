@@ -10,9 +10,7 @@ exports.create = function (req, res) {
 }
 
 exports.createAll = function (req, res, next) {
-  var body = req.body;
-  body.getFrom = req.headers.name;
-  userService.createAll(body, function (err, data) {
+  userService.createAll(req.body, function (err, data) {
     if (err) return res.status(402).json(err)
     res.status(200).json(data)
   })
