@@ -23,7 +23,7 @@ module.exports = [ '$rootScope', '$cookies', function ($rootScope, $cookies) {
   }
 
   this.getReferringDomain = function(){
-    $cookies.get('referring_domain')
+    return $cookies.get('referring_domain')
   }
 
   this.setReferringLogo = function(url){
@@ -31,6 +31,6 @@ module.exports = [ '$rootScope', '$cookies', function ($rootScope, $cookies) {
   }
 
   this.getReferringLogo = function(){
-    $cookies.get('referring_logo')
+    return $cookies.get('referring_logo')
   }
 }]
