@@ -12,7 +12,7 @@ const router = express.Router()
 router.post('/login', authService.isValidWsClient(), function (req, res, next) {
   tdAuthService.init(config.connections.user)
   tdAuthService.login(req.body, function (err, data) {
-    if (err) return res.status(402).json(err)
+    if (err) return res.status(400).json(err)
     res.status(200).json(data)
   })
 })

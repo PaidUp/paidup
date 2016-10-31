@@ -1,35 +1,40 @@
 <header class="dashboard-header" ng-controller="HeaderCtrl">
-    <div class="header-container">
-        <div class="hamburguer-menu hide-on-large-only" ng-click="clickMobileMenu()">
-            <i class="fa fa-bars"></i>
-        </div>
-        <div class="img-logo left" style="cursor: pointer; cursor: hand;">
-            <img ng-if="!isCoach" ui-sref="dashboard.summary.components" src="../img/PaidUpLogoPrimary.svg" alt="logo">
-            <img ng-if="isCoach" ui-sref="dashboard.board" src="../img/PaidUpLogoPrimary.svg" alt="logo">
-        </div>
-        <div class="navigation-items left hide-on-med-and-down">
-            <ul ng-if="!isCoach">
-                <li ng-if="isAdmin" ng-click="goAdminSite()">Admin</li>
-                <li ui-sref="dashboard.summary.components">Summary</li>
-                <li ui-sref="dashboard.activities">Activity</li>
-                <li ui-sref="dashboard.orders">Orders</li>
-                <li ng-click="clickAccounts()">Accounts</li>
-            </ul>
-            <ul ng-if="isCoach">
-                <!-- <li ui-sref="dashboard.summary.components">Summary</li> -->
-                <li ng-if="isAdmin" ng-click="goAdminSite()">Admin</li>
-                <li ui-sref="dashboard.board">Dashboard</li>
-                <li ui-sref="dashboard.deposits">Deposits</li>
-                <li ui-sref="dashboard.aging">Aging</li>
-            </ul>
+	<div class="header-container">
+		<div class="hamburguer-menu hide-on-large-only" ng-click="clickMobileMenu()">
+			<i class="fa fa-bars"></i>
+		</div>
 
+        <div class="frame-refer left" ng-if="isReferring">
+            <span class="helper-refer"></span> <a href="{{refDomain}}" > <img class="img-refer-arrow" src="../img/Arrow_LeftBlack.png" height="30px" /></a> 
+            <span class="helper-refer"></span> <a href={{refDomain}} > <img class="img-refer" src="{{refLogo}}"  /> </a>
+            
         </div>
-        <div class="right">
-            <div class="help">Need Help? Call <a class="phone" href="tel:8557643232">(855) 764 3232</a></div>
-            <div class="setting" ui-sref="dashboard.profile" ng-hide="renderProfileIcon"><i class="fa fa-cog fa-2x" aria-hidden="true"></i></div>
-            <div class="logout-button hide-on-med-and-down"><a class="button-green" href=""
-                                                               ng-click="logout()">logout</a></div>
-        </div>
-        <div class="clearfix"></div>
-    </div>
+		<div class="img-logo left" style="cursor: pointer; cursor: hand;">
+			<img ng-if="!isCoach" ui-sref="dashboard.summary.components" src="../img/PaidUpLogoPrimary.svg" alt="logo">
+			<img ng-if="isCoach" ui-sref="dashboard.board" src="../img/PaidUpLogoPrimary.svg" alt="logo">
+		</div>
+		<div class="navigation-items left hide-on-med-and-down">
+			<ul ng-if="!isCoach">
+				<li ng-if="isAdmin" ng-click="goAdminSite()">Admin</li>
+				<li ui-sref="dashboard.summary.components">Summary</li>
+				<li ui-sref="dashboard.activities">Activity</li>
+				<li ui-sref="dashboard.orders">Orders</li>
+				<li ng-click="clickAccounts()">Accounts</li>
+			</ul>
+			<ul ng-if="isCoach">
+				<!-- <li ui-sref="dashboard.summary.components">Summary</li> -->
+				<li ng-if="isAdmin" ng-click="goAdminSite()">Admin</li>
+				<li ui-sref="dashboard.board">Dashboard</li>
+				<li ui-sref="dashboard.deposits">Deposits</li>
+				<li ui-sref="dashboard.aging">Aging</li>
+			</ul>
+
+		</div>
+		<div class="right">
+			<div class="help">Need Help? Call <a class="phone" href="tel:8557643232">(855) 764 3232</a></div>
+			<div class="setting" ui-sref="dashboard.profile" ng-hide="renderProfileIcon"><i class="fa fa-cog fa-2x" aria-hidden="true"></i></div>
+			<div class="logout-button hide-on-med-and-down"><a class="button-green" href="" ng-click="logout()">logout</a></div>
+		</div>
+		<div class="clearfix"></div>
+	</div>
 </header>

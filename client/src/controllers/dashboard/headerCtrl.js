@@ -30,5 +30,5 @@ module.exports = [ '$scope', '$rootScope', '$window', '$location', 'SessionServi
 
   }
 
-  $scope.renderProfileIcon = $rootScope.currentUser.meta.getFrom;
+  $scope.renderProfileIcon = $rootScope.currentUser.meta.referrer && $rootScope.currentUser.meta.referrer.length > 0;
 }]
