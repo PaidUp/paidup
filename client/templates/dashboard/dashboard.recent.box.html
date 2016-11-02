@@ -29,7 +29,7 @@
         </td>
         <td class="status">
           <div class="{{order.paymentsPlan.status === 'succeeded' ? 'green-font' : 'red-font' }}">
-            <i class="{{order.paymentsPlan.status === 'succeeded' ? 'fa fa-check' : 'fa fa-times' }}"></i> <span>{{order.paymentsPlan.status}}</span>
+            <i class="{{order.paymentsPlan.status === 'succeeded' ? 'fa fa-check' : 'fa fa-times' }}"></i> <span>{{order.paymentsPlan.status.startsWith('disable-') ? 'disable' : order.paymentsPlan.status}}</span>
           </div>
         </td>
         <td class="total">
