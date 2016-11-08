@@ -1,7 +1,7 @@
 'use strict'
 var angular = require('angular')
 
-module.exports = [ '$scope', 'UserService', 'TrackerService', 'AuthService', '$state', function ($scope, UserService, TrackerService, AuthService, $state) {
+module.exports = [ '$scope', 'UserService', 'TrackerService', 'AuthService', '$state', 'ProductService', '$rootScope', function ($scope, UserService, TrackerService, AuthService, $state, ProductService, $rootScope) {
   $scope.editName = false
   $scope.loading = false
   $scope.editPhone = false
@@ -108,5 +108,14 @@ module.exports = [ '$scope', 'UserService', 'TrackerService', 'AuthService', '$s
       console.log('err', err)
       $scope.loading = false
     })
+  }
+
+  $scope.cleanPnProducts = function(){
+    ProductService.cleanPnProducts(function(err, result){
+      if(err){
+        return $rootScope.GlobalAlertSystemAlerts.push({ msg: 'Oh no, there’s a problem.  Please call us at 855.764.3232 or email us at support@getpaidup.com so we can resolve it.', type: 'warn', dismissOnTimeout: 5000 })
+      }
+      $rootScope.GlobalAlertSystemAlerts.push({ msg: 'Your account was cleaned successfully.', type: 'info', dismissOnTimeout: 5000 })
+    });
   }
 }]
