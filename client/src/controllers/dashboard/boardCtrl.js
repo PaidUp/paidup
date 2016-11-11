@@ -204,7 +204,7 @@ module.exports = ['$scope', 'AuthService', '$state', 'CommerceService', 'Tracker
 
   $scope.showPayments = function showPayments(pps, filter) {
     // return true
-    return pps.filter(function (pp) { return (pp.status === filter || pp.status === 'failed') }).length
+    return pps.filter(function (pp) { return (pp.status === filter || pp.status === 'failed' || pp.status.startsWith('disable')) }).length
   }
 
   $scope.getPaymentsHistory = function getPaymentsHistory(pp) {
@@ -213,7 +213,7 @@ module.exports = ['$scope', 'AuthService', '$state', 'CommerceService', 'Tracker
   }
 
   $scope.getPaymentsPending = function getPaymentsPending(pp) {
-    if (pp.status === 'failed' || pp.status === 'pending') return true
+    if (pp.status === 'failed' || pp.status === 'pending' || pp.status.startsWith('disable') ) return true
     return false
   }
 

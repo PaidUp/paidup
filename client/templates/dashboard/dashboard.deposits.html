@@ -60,7 +60,7 @@
 
                 <tr ng-click="expandSection1 = !expandSection1; getChargeDetails(charges[0])" ng-class="expandSection1 ? 'user-row active' : 'user-row'" ng-repeat-start="charges in listChargesGrouped">
                   <td class="date">
-                    <div class="month">{{(charges[0].date | date : 'MMM') | uppercase}}</div>
+                    <div class="month">{{(charges[0].date | date : 'MMM' : 'UTC') | uppercase}}</div>
                     <div class="day">{{(charges[0].date | date : 'dd': 'UTC') | uppercase}}</div>
                   </td>
                   <td class="account">

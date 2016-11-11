@@ -77,7 +77,7 @@
                 </td>
                 <td class="status">
                   <div class="{{recentOrder.paymentsPlan.status === 'succeeded' ? 'green-font' : 'red-font' }}">
-                    <i class="{{recentOrder.paymentsPlan.status === 'succeeded' ? 'fa fa-check' : 'fa fa-times' }}"></i> <span>{{recentOrder.paymentsPlan.status}}</span>
+                    <i class="{{recentOrder.paymentsPlan.status === 'succeeded' ? 'fa fa-check' : 'fa fa-times' }}"></i> <span>{{recentOrder.paymentsPlan.status.startsWith('disable-') ? 'disabled' : recentOrder.paymentsPlan.status}}</span>
                   </div>
                 </td>
                 <td class="total">

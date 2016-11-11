@@ -228,7 +228,7 @@
                                       <a href="" class="green-link">x-{{pp.last4}}</a>
                                     </td>
                                     <td class="status">
-                                      <span>pending</span>
+                                      <span>{{pp.status.startsWith('disable') ? 'disabled' : pp.status}}</span>
                                     </td>
                                     <!--<td>
                                       <span class="green-font">$</span> {{pp.basePrice | currency:""}}
