@@ -102,6 +102,7 @@ module.exports = ['$scope', '$rootScope', '$anchorScroll', '$location', '$q', 'S
           stripeAchPercent: $scope.models.productSelected.processingFees.achFeeDisplay,
           stripeAchFlat: $scope.models.productSelected.processingFees.achFeeFlatDisplay,
           paidUpFee: $scope.models.productSelected.collectionsFee.fee,
+          paidUpFlat: $scope.models.productSelected.collectionsFee.feeFlat || 0,
           discount: ele.applyDiscount ? ele.discount : 0,
           payProcessing: $scope.models.productSelected.paysFees.processing,
           payCollecting: $scope.models.productSelected.paysFees.collections,

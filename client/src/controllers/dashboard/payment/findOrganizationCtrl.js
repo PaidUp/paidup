@@ -51,6 +51,7 @@ module.exports = ['$scope', '$rootScope', '$state', 'ProductService', 'SetupPaym
     }
 
     $scope.selectCategory = function (category) {
+      SetupPaymentService.categorySelected = category;
       $scope.hideCategories = true;
       $scope.loading = true;
       TrackerService.track('Select Organization', { Org: category.name });
