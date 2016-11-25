@@ -31,6 +31,7 @@ var OrderService = {
           version: ele.version,
           originalPrice: ele.amount,
           paidUpFee: dataProduct.collectionsFee.fee,
+          paidUpFlat: dataProduct.collectionsFee.feeFlat || 0,
           discount: ele.applyDiscount ? ele.discount : 0,
           payProcessing: dataProduct.paysFees.processing,
           payCollecting: dataProduct.paysFees.collections,
