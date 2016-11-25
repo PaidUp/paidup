@@ -528,6 +528,7 @@ function editPaymentPlan(pp, params, cb) {
     token: config.connections.schedule.token,
     originalPrice: originalPrice,
     paidUpFee: pp.collectionsFee.fee,
+    paidUpFlat: pp.collectionsFee.feeFlat || 0,
     discount: pp.discount,
     payProcessing: pp.paysFees.processing,
     payCollecting: pp.paysFees.collections,
