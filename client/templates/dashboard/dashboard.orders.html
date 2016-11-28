@@ -43,13 +43,15 @@
                   on-open-focus="false" 
                   />
                 </div>
+                
               </form>
             </div>
 
             <div class="clearfix"></div>
           </div>
 
-          <table class="transactions-table striped even-rows-gray">
+          <table ng-hide="loading" class="transactions-table striped even-rows-gray">
+            
             <thead>
               <tr>
                 <th>Date</th>
@@ -60,7 +62,7 @@
             </thead>
             <tbody>
 
-              <tr ng-click="expandSection1 = !expandSection1" ng-repeat-start="order in allOrders">
+              <tr ng-click="selectOrder(order)" ng-repeat-start="order in allOrders">
                 <td class="date">
                   <div class="month">{{(order.createAt | date : 'MMM') | uppercase}}</div>
                   <div class="day">{{order.createAt | date: 'dd'}}</div>
@@ -89,7 +91,7 @@
 
               <tr class="expandable" ng-repeat-end>
                 <td class="expand" colspan="4">
-                  <div ng-class="expandSection1 ? 'expandable-section active' : 'expandable-section'">
+                  <div ng-class="orderSelected._id === order._id ? 'expandable-section active' : 'expandable-section'">
                     <div class="expanded-section contains-table">
 
                       <div class="info-box order-id">
@@ -111,7 +113,7 @@
                             <tr>
                               <th>Date</th>
                               <th>Details</th>
-                              <th class="centered">Account</th>
+                              <th>Account</th>
                               <th class="centered">Status</th>
                               <th>Owed</th>
                             </tr>
@@ -125,9 +127,12 @@
                               <td class="details">
                                 {{pp.description}}
                               </td>
-                              <td class="account centered">
-                                <i class="fa fa{{pp.brand ? ('cc-'+pp.brand | lowercase) : 'credit-card-alt'}}"></i> 
-                                <a href="" class="green-link">x-{{pp.last4}}</a>
+                              <td>
+                                <div ng-show="pp.status !== 'pending' && pp.status !== 'failed'"> X-{{pp.last4}}</div>
+                                
+                                <select ng-if="pp.status === 'pending' || pp.status === 'failed'"  ng-change="updateAccount(order._id, pp)"  ng-options="'X-'+ acc for acc in pp.accounts"
+                                          ng-model="pp.last4"
+                                </select>
                               </td>
                               <td class="status">
                                 <span>{{pp.status.startsWith('disable-') ? 'disabled' : pp.status}}</span>
@@ -149,8 +154,11 @@
             <tr>
               <td class="empty-section" colspan="4"></td>                
             </tr>
+          
           </tbody>
         </table>
+          <div ng-bind-html="loading ? loader : '' " /> 
+        
 
         <!--<div class="bottom-link">Next 30</div>-->
 
