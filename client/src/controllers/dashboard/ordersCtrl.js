@@ -8,11 +8,19 @@ module.exports = ['$rootScope', '$scope', 'AuthService', '$state', 'CommerceServ
     $scope.loading = true;
     $scope.loader =  "<i ng-show='loading' class='fa fa-circle-o-notch fa-spin'></i>"
 
-    $scope.init = function () {
+    $rootScope.$on('reloadAccountsOrder', function (event, data) {
+      $scope.loading = true;
+      $scope.init($scope.selectOrder)
+    })
+
+    $scope.init = function (cb) {
       AuthService.getCurrentUserPromise().then(function (user) {
         PaymentService.listAccounts(user._id).then(function (Accounts) {
           $scope.payments = Accounts.data
           $scope.loading = false;
+          if(cb){
+            cb($scope.orderSelected, true);
+          }
         }).catch(function (err) {
           console.log('ERR', err)
         })
@@ -32,18 +40,18 @@ module.exports = ['$rootScope', '$scope', 'AuthService', '$state', 'CommerceServ
       console.log('err', err)
     })
 
-    $scope.selectOrder = function (order) {
-      if (!$scope.orderSelected || $scope.orderSelected._id !== order._id) {
+    $scope.selectOrder = function (order, reload) {
+      if (reload || !$scope.orderSelected || $scope.orderSelected._id !== order._id) {
         $scope.orderSelected = order;
         order.paymentsPlan.forEach(function (pp, idx, arr) {
           if (!pp.paymentMethods || pp.paymentMethods.length === 0) {
            pp.paymentMethods = ['card'];
           }
-          pp.accounts = [];
+          pp.accounts = [{brand: 'Add new payment method', last4: 'new' }];
           $scope.payments.forEach(function (acc) {
             for (var pm in pp.paymentMethods) {
               if (acc.object.startsWith(pp.paymentMethods[pm])) { 
-                pp.accounts.push(acc.last4)
+                pp.accounts.push(acc)
                 break 
               };
             }
@@ -54,6 +62,13 @@ module.exports = ['$rootScope', '$scope', 'AuthService', '$state', 'CommerceServ
 
     $scope.updateAccount = function(orderId, pp){
       var objAccount;
+
+      if(pp.last4 === 'new'){
+        $rootScope.$emit('openAccountsMenuOrder', pp);
+        pp.last4 = '';
+        return
+      }
+
       $scope.payments.forEach(function (ele) {
         if (pp.last4 == ele.last4) {
           objAccount = ele
@@ -77,7 +92,7 @@ module.exports = ['$rootScope', '$scope', 'AuthService', '$state', 'CommerceServ
         paymentPlanId: pp._id,
         originalPrice: pp.originalPrice,
         description: pp.description,
-        dateCharge: pp.dateCharge.substring(0, 10) + " 10:00",
+        dateCharge: pp.dateCharge, //.substring(0, 10) + " 10:00",
         wasProcessed: pp.wasProcessed,
         account: pp.account,
         accountBrand: pp.accountBrand,
