@@ -514,13 +514,13 @@ function editOrder(params, cb) {
 }
 
 function editPaymentPlan(pp, params, cb) {
-  let originalPrice = params.originalPrice
-  let description = params.description
-  let dateCharge = params.dateCharge
-  let status = params.status
+  let originalPrice = params.originalPrice || pp.originalPrice
+  let description = params.description || pp.description
+  let dateCharge = params.dateCharge || pp.dateCharge
+  let status = params.status || pp.status
   let wasProcessed = params.wasProcessed || false
   let paymentMethods = pp.paymentMethods || ['card'];
-  let attempts = params.attempts;
+  let attempts = params.attempts || pp.attempts;
 
   let paramsCalculation = {
     version: params.version,

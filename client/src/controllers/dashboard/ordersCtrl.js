@@ -90,22 +90,22 @@ module.exports = ['$rootScope', '$scope', 'AuthService', '$state', 'CommerceServ
         version: pp.version || 'v1',
         orderId: orderId,
         paymentPlanId: pp._id,
-        originalPrice: pp.originalPrice,
-        description: pp.description,
-        dateCharge: pp.dateCharge, //.substring(0, 10) + " 10:00",
+        //originalPrice: pp.originalPrice,
+        //description: pp.description,
+        //dateCharge: pp.dateCharge, //.substring(0, 10) + " 10:00",
         wasProcessed: pp.wasProcessed,
         account: pp.account,
         accountBrand: pp.accountBrand,
         last4: pp.last4,
         typeAccount: pp.typeAccount,
-        status: pp.status,
-        attempts: pp.attempts
+        //status: pp.status,
+        //attempts: pp.attempts
       }
 
       CommerceService.paymentPlanEdit(params).then(function (res) {
         $rootScope.GlobalAlertSystemAlerts.push({ msg: 'Payment method was updated successfully', type: 'success', dismissOnTimeout: 5000 })
       }).catch(function (err) {
-        $rootScope.GlobalAlertSystemAlerts.danger({ msg: 'Payment method cannot be updated, please contact us', type: 'danger', dismissOnTimeout: 5000 })
+        $rootScope.GlobalAlertSystemAlerts.push({ msg: 'Payment method cannot be updated, please contact us', type: 'danger', dismissOnTimeout: 5000 })
         console.log('ERR: ', err)
       })
 
