@@ -6,7 +6,7 @@ module.exports = ['$rootScope', '$scope', 'AuthService', '$state', 'CommerceServ
     $scope.expandSection2 = false
     $scope.allOrders = [];
     $scope.loading = true;
-    $scope.loader =  "<i ng-show='loading' class='fa fa-circle-o-notch fa-spin'></i>"
+    $scope.loader = "<i ng-show='loading' class='fa fa-circle-o-notch fa-spin'></i>"
 
     $rootScope.$on('reloadAccountsOrder', function (event, data) {
       $scope.loading = true;
@@ -18,7 +18,7 @@ module.exports = ['$rootScope', '$scope', 'AuthService', '$state', 'CommerceServ
         PaymentService.listAccounts(user._id).then(function (Accounts) {
           $scope.payments = Accounts.data
           $scope.loading = false;
-          if(cb){
+          if (cb) {
             cb($scope.orderSelected, true);
           }
         }).catch(function (err) {
@@ -45,14 +45,14 @@ module.exports = ['$rootScope', '$scope', 'AuthService', '$state', 'CommerceServ
         $scope.orderSelected = order;
         order.paymentsPlan.forEach(function (pp, idx, arr) {
           if (!pp.paymentMethods || pp.paymentMethods.length === 0) {
-           pp.paymentMethods = ['card'];
+            pp.paymentMethods = ['card'];
           }
-          pp.accounts = [{brand: 'Add new payment method', last4: 'new' }];
+          pp.accounts = [{ brand: 'Add new payment method', last4: 'new' }];
           $scope.payments.forEach(function (acc) {
             for (var pm in pp.paymentMethods) {
-              if (acc.object.startsWith(pp.paymentMethods[pm])) { 
+              if (acc.object.startsWith(pp.paymentMethods[pm])) {
                 pp.accounts.push(acc)
-                break 
+                break
               };
             }
           });
@@ -60,10 +60,28 @@ module.exports = ['$rootScope', '$scope', 'AuthService', '$state', 'CommerceServ
       }
     }
 
-    $scope.updateAccount = function(orderId, pp){
+    $scope.retryTransaction = function (orderId, pp) {
+      var params = {
+        version: pp.version || 'v1',
+        orderId: orderId,
+        paymentPlanId: pp._id,
+        status: 'pending',
+      }
+
+      CommerceService.paymentPlanEdit(params).then(function (res) {
+        console.log(res)
+        pp.status = 'pending',
+        $rootScope.GlobalAlertSystemAlerts.push({ msg: 'Thank you for resubmitting your payment. It may take a few minutes to retry your transaction and you will be notified via email on the status of the transaction.', type: 'success', dismissOnTimeout: 5000 })
+      }).catch(function (err) {
+        $rootScope.GlobalAlertSystemAlerts.push({ msg: 'Payment method cannot be updated, please contact us', type: 'danger', dismissOnTimeout: 5000 })
+        console.log('ERR: ', err)
+      })
+    }
+
+    $scope.updateAccount = function (orderId, pp) {
       var objAccount;
 
-      if(pp.last4 === 'new'){
+      if (pp.last4 === 'new') {
         $rootScope.$emit('openAccountsMenuOrder', pp);
         pp.last4 = '';
         return

@@ -231,6 +231,39 @@ textarea{
   }
 }
 
+.retry-transaction{
+  .status{
+     @media @small-only{
+        display: none;
+      }
+  }
+    
+  .label{
+      color: @c-error;
+      text-decoration: underline;
+      @media @small-only{
+        display: none;
+      }
+    }
+  .icon{ 
+    @media @medium-up{
+    display: none;
+  }       
+      background-color: @c-error;
+      color: #fff;
+      text-align: center;
+      margin: 0 auto;
+      width:40px;
+      height:40px;
+      border-radius: 20px;
+      line-height: 40px;
+      font-size: 8px;   
+      border: 0px;           
+  }
+  
+}
+  
+
 /*
 FOOTER
 */

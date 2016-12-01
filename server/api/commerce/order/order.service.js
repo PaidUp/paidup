@@ -555,10 +555,10 @@ function editPaymentPlan(pp, params, cb) {
       pp.description = description
       pp.dateCharge = dateCharge
       pp.wasProcessed = wasProcessed
-      pp.account = params.account
-      pp.accountBrand = params.accountBrand
-      pp.last4 = params.last4
-      pp.typeAccount = params.typeAccount
+      pp.account = params.account || pp.account
+      pp.accountBrand = params.accountBrand || pp.accountBrand
+      pp.last4 = params.last4 || pp.last4 
+      pp.typeAccount = params.typeAccount || pp.typeAccount
       pp.totalFee = result.body.totalFee
       pp.feeStripe = result.body.feeStripe
       pp.feePaidUp = result.body.feePaidUp

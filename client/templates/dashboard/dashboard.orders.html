@@ -138,8 +138,15 @@
                                   <option value="">  </option>
                                 </select>
                               </td>
-                              <td class="status">
+                              <td class="retry-transaction">
                                 <span>{{pp.status.startsWith('disable-') ? 'disabled' : pp.status}}</span>
+                                <span ng-click="retryTransaction(order._id, pp)" ng-if="pp.status === 'failed'">
+
+                                  <span class="label">Retry Transaction</span>
+                                  <button class="icon" type="button">Retry</button>
+                                  
+                                </span>
+                                
                               </td>
                               <td class="total">
                                 <span class="green-font">$</span> 
