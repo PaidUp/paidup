@@ -131,7 +131,7 @@
                               <td>
                                 <div class="account" style="padding-left: 9px;" ng-show="pp.status !== 'pending' && pp.status !== 'failed'">{{pp.accountBrand}} X-{{pp.last4}}</div>
                                 
-                                <select class="account" style="margin-left: 0px; width: 220px;" ng-if="pp.status === 'pending' || pp.status === 'failed'"  required="true"
+                                <select class="select-account" ng-if="pp.status === 'pending' || pp.status === 'failed'"  required="true"
                                 ng-change="updateAccount(order._id, pp)"  
                                 ng-options="acc.last4 as acc.last4==='new' ? acc.brand : acc.brand + acc.bankName + ' X-'+ acc.last4 for acc in pp.accounts"
                                 ng-model="pp.last4">
