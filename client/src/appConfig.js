@@ -106,6 +106,11 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
       templateUrl: require('../templates/dashboard/dashboard.orders.html'),
       controller: 'OrdersCtrl'
     })
+    .state('dashboard.order', {
+      url: '/order/:orderId',
+      templateUrl: require('../templates/dashboard/dashboard.orders.html'),
+      controller: 'OrdersCtrl'
+    })
     .state('dashboard.board', {
       url: '/board',
       templateUrl: require('../templates/dashboard/dashboard.board.html'),
