@@ -1,7 +1,7 @@
 'use strict'
 
-module.exports = ['$rootScope', '$scope', 'AuthService', '$state', 'CommerceService', 'TrackerService', 'PaymentService',
-  function ($rootScope, $scope, AuthService, $state, CommerceService, TrackerService, PaymentService) {
+module.exports = ['$rootScope', '$scope', 'AuthService', '$state', 'CommerceService', 'TrackerService', 'PaymentService', '$stateParams',
+  function ($rootScope, $scope, AuthService, $state, CommerceService, TrackerService, PaymentService, $stateParams) {
     $scope.expandSection1 = false
     $scope.expandSection2 = false
     $scope.allOrders = [];
@@ -16,11 +16,28 @@ module.exports = ['$rootScope', '$scope', 'AuthService', '$state', 'CommerceServ
     $scope.init = function (cb) {
       AuthService.getCurrentUserPromise().then(function (user) {
         PaymentService.listAccounts(user._id).then(function (Accounts) {
+
           $scope.payments = Accounts.data
-          $scope.loading = false;
           if (cb) {
             cb($scope.orderSelected, true);
           }
+          CommerceService.orderGet(user._id, 20, -1).then(function (result) {
+            if ($stateParams.orderId) {
+              $scope.allOrders = result.body.orders.filter(function (order) {
+                var res = order.orderId === $stateParams.orderId;
+                if(res){
+                  $scope.selectOrder(order, true);
+                }
+                return res
+              })
+            } else {
+              $scope.allOrders = result.body.orders
+            }
+          }).catch(function (err) {
+            console.log('err', err)
+          })
+
+          $scope.loading = false;
         }).catch(function (err) {
           console.log('ERR', err)
         })
@@ -29,16 +46,6 @@ module.exports = ['$rootScope', '$scope', 'AuthService', '$state', 'CommerceServ
       })
       TrackerService.track('View Orders')
     }
-
-    AuthService.getCurrentUserPromise().then(function (user) {
-      CommerceService.orderGet(user._id, 20, -1).then(function (result) {
-        $scope.allOrders = result.body.orders
-      }).catch(function (err) {
-        console.log('err', err)
-      })
-    }).catch(function (err) {
-      console.log('err', err)
-    })
 
     $scope.selectOrder = function (order, reload) {
       if (reload || !$scope.orderSelected || $scope.orderSelected._id !== order._id) {
@@ -71,7 +78,7 @@ module.exports = ['$rootScope', '$scope', 'AuthService', '$state', 'CommerceServ
       CommerceService.paymentPlanEdit(params).then(function (res) {
         console.log(res)
         pp.status = 'pending',
-        $rootScope.GlobalAlertSystemAlerts.push({ msg: 'Thank you for resubmitting your payment. It may take a few minutes to retry your transaction and you will be notified via email on the status of the transaction.', type: 'success', dismissOnTimeout: 5000 })
+          $rootScope.GlobalAlertSystemAlerts.push({ msg: 'Thank you for resubmitting your payment. It may take a few minutes to retry your transaction and you will be notified via email on the status of the transaction.', type: 'success', dismissOnTimeout: 5000 })
       }).catch(function (err) {
         $rootScope.GlobalAlertSystemAlerts.push({ msg: 'Payment method cannot be updated, please contact us', type: 'danger', dismissOnTimeout: 5000 })
         console.log('ERR: ', err)
