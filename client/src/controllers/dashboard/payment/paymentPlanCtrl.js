@@ -125,6 +125,18 @@ module.exports = ['$scope', '$rootScope', '$anchorScroll', '$location', '$q', 'S
           $scope.total = $scope.total + price.owedPrice
           return price
         })
+
+        var tomorrow = new Date (new Date().setUTCHours(0,0,0,0)+86400000); 
+
+        $scope.todayCharges = $scope.schedules.filter(function(due){
+          return new Date(due.dateCharge) < tomorrow
+        });
+
+        $scope.comingCharges = $scope.schedules.filter(function(due){
+          return new Date(due.dateCharge) >= tomorrow
+        });
+
+        
         SetupPaymentService.schedules = $scope.schedules
         $scope.loading = false
       })
