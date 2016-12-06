@@ -12,6 +12,14 @@ module.exports = ['$resource', function ($resource) {
     post: { method: 'POST', isArray: false }
   })
 
+  var PaymentPlanEdit = $resource('/api/v1/commerce/order/edit', {}, {
+    post: { method: 'POST', isArray: false }
+  })
+
+  this.paymentPlanEdit = function (params) {
+    return PaymentPlanEdit.post(params).$promise
+  }
+
   this.getTransactions = function (organizationId) {
     return Transactions.post({organizationId:organizationId}).$promise
   }

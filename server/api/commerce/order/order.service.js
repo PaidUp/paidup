@@ -514,13 +514,13 @@ function editOrder(params, cb) {
 }
 
 function editPaymentPlan(pp, params, cb) {
-  let originalPrice = params.originalPrice
-  let description = params.description
-  let dateCharge = params.dateCharge
-  let status = params.status
+  let originalPrice = params.originalPrice || pp.originalPrice
+  let description = params.description || pp.description
+  let dateCharge = params.dateCharge || pp.dateCharge
+  let status = params.status || pp.status
   let wasProcessed = params.wasProcessed || false
   let paymentMethods = pp.paymentMethods || ['card'];
-  let attempts = params.attempts;
+  let attempts = params.attempts || pp.attempts;
 
   let paramsCalculation = {
     version: params.version,
@@ -555,10 +555,10 @@ function editPaymentPlan(pp, params, cb) {
       pp.description = description
       pp.dateCharge = dateCharge
       pp.wasProcessed = wasProcessed
-      pp.account = params.account
-      pp.accountBrand = params.accountBrand
-      pp.last4 = params.last4
-      pp.typeAccount = params.typeAccount
+      pp.account = params.account || pp.account
+      pp.accountBrand = params.accountBrand || pp.accountBrand
+      pp.last4 = params.last4 || pp.last4 
+      pp.typeAccount = params.typeAccount || pp.typeAccount
       pp.totalFee = result.body.totalFee
       pp.feeStripe = result.body.feeStripe
       pp.feePaidUp = result.body.feePaidUp

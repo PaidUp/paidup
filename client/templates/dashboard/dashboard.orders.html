@@ -43,13 +43,15 @@
                   on-open-focus="false" 
                   />
                 </div>
+                
               </form>
             </div>
 
             <div class="clearfix"></div>
           </div>
 
-          <table class="transactions-table striped even-rows-gray">
+          <table ng-hide="loading" class="transactions-table striped even-rows-gray">
+            
             <thead>
               <tr>
                 <th>Date</th>
@@ -60,7 +62,7 @@
             </thead>
             <tbody>
 
-              <tr ng-click="expandSection1 = !expandSection1" ng-repeat-start="order in allOrders">
+              <tr ng-click="selectOrder(order)" ng-repeat-start="order in allOrders">
                 <td class="date">
                   <div class="month">{{(order.createAt | date : 'MMM') | uppercase}}</div>
                   <div class="day">{{order.createAt | date: 'dd'}}</div>
@@ -89,7 +91,7 @@
 
               <tr class="expandable" ng-repeat-end>
                 <td class="expand" colspan="4">
-                  <div ng-class="expandSection1 ? 'expandable-section active' : 'expandable-section'">
+                  <div ng-class="orderSelected._id === order._id ? 'expandable-section active' : 'expandable-section'">
                     <div class="expanded-section contains-table">
 
                       <div class="info-box order-id">
@@ -104,7 +106,8 @@
 
                       <div class="charges-container">
                         <div class="green-font charges-title"><!--Pending--> Charges</div>
-                        <div class="gray-font">Your account will be charged automatically on the dates below.</div>
+                        <div class="gray-font">Your account will be charged automatically on the dates presented.</div>
+                        <div class="gray-font">Change the account to be charged in the drop down below (pending or failed payments only).</div>
                         
                         <table class="charges-table">
                           <thead>
@@ -125,12 +128,25 @@
                               <td class="details">
                                 {{pp.description}}
                               </td>
-                              <td class="account centered">
-                                <i class="fa fa{{pp.brand ? ('cc-'+pp.brand | lowercase) : 'credit-card-alt'}}"></i> 
-                                <a href="" class="green-link">x-{{pp.last4}}</a>
+                              <td>
+                                <div class="account" style="padding-left: 9px;" ng-show="pp.status !== 'pending' && pp.status !== 'failed'">{{pp.accountBrand}} X-{{pp.last4}}</div>
+                                
+                                <select class="select-account" ng-if="pp.status === 'pending' || pp.status === 'failed'"  required="true"
+                                ng-change="updateAccount(order._id, pp)"  
+                                ng-options="acc.last4 as acc.last4==='new' ? acc.brand : acc.brand + acc.bankName + ' X-'+ acc.last4 for acc in pp.accounts"
+                                ng-model="pp.last4">
+                                  <option value="">  </option>
+                                </select>
                               </td>
-                              <td class="status">
+                              <td class="retry-transaction">
                                 <span>{{pp.status.startsWith('disable-') ? 'disabled' : pp.status}}</span>
+                                <span ng-click="retryTransaction(order._id, pp)" ng-if="pp.status === 'failed'">
+
+                                  <span class="label">Retry Transaction</span>
+                                  <button class="icon" type="button">Retry</button>
+                                  
+                                </span>
+                                
                               </td>
                               <td class="total">
                                 <span class="green-font">$</span> 
@@ -149,8 +165,11 @@
             <tr>
               <td class="empty-section" colspan="4"></td>                
             </tr>
+          
           </tbody>
         </table>
+          <div ng-bind-html="loading ? loader : '' " /> 
+        
 
         <!--<div class="bottom-link">Next 30</div>-->
 

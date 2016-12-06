@@ -1,8 +1,9 @@
-<div class="white-container" ng-if="activePayments.length">
+<div class="white-container">
   <div class="title-blue">Active Orders</div>
 
-  <!--<p>Orders with remaining payments (click to see payment schedule):</p>-->
+  <p>Change Card/Bank to be Charged by Selecting an Order Below</p>
   <div ng-repeat="activePayment in activePayments | limitTo:5">
+    <a ui-sref="dashboard.order({orderId: activePayment.orderId})">
     <div class="single-row-table" >
       <div class="team-icon">
         <div>{{activePayment.allProductName[0] | limitTo:2 }}</div>
@@ -13,6 +14,8 @@
         <div class="team-contact" custom-fields-displayable custominfo="activePayment.paymentsPlan[0].customInfo"></div>
       </div>
     </div>
+    </a>
+
     <br/>
   </div>
 

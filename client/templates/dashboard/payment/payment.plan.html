@@ -57,10 +57,12 @@
       Review Payment Plan
     </div>
     <p>Verify the dates and amounts below. If not correct, change your selection above or call us at <a class="phone" href="tel:8557643232">855.764.3232</a></p>
-    <p class="bold red-font">Once you submit your payment, your account will be charged automatically on this schedule.</p>
-
+    
     <table class="transactions-table striped">
       <thead>
+        <tr ng-show="todayCharges.length">
+          <td colspan="4" class="bold red-font" style="text-align: center; vertical-align: middle;">Payments to be charged TODAY</td>
+        </tr>
       <tr>
         <th>#</th>
         <th>Date</th>
@@ -69,7 +71,29 @@
       </tr>
       </thead>
       <tbody>
-      <tr ng-repeat="schedule in schedules">
+      <tr ng-repeat="schedule in todayCharges">
+        <td class="number">
+          {{$index+1}}
+        </td>
+        <td class="date">
+          <div class="month">{{schedule.dateCharge | date : 'MMM' }}</div>
+          <div class="day">
+            {{schedule.dateCharge | date : 'd' }}
+          </div>
+        </td>
+        <td class="details">
+          {{schedule.description}}
+        </td>
+        <td class="total">
+          <span class="green-font">$</span>
+          {{schedule.owedPrice | number:2}}
+        </td>
+      </tr>
+
+      <tr>
+        <td ng-show="comingCharges.length" colspan="4" style="text-align: center; vertical-align: middle;" class="bold red-font">Payments to be AUTO-DRAFTED on dates below</td>
+      </tr>
+      <tr ng-repeat="schedule in comingCharges">
         <td class="number">
           {{$index+1}}
         </td>
@@ -89,7 +113,7 @@
       </tr>
       </tbody>
     </table>
-
+ 
     <div class="inputs">
       <form name="form" novalidate>
         <div class="input-container">

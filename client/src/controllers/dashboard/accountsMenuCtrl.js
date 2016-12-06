@@ -2,7 +2,7 @@
 var angular = require('angular')
 /* global Plaid, Stripe */
 
-module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthService', 'PaymentService', 'TrackerService', 'SignUpService', 'ApplicationConfigService', '$location',
+module.exports = ['$scope', 'UserService', '$timeout', '$rootScope', 'AuthService', 'PaymentService', 'TrackerService', 'SignUpService', 'ApplicationConfigService', '$location',
   function ($scope, UserService, $timeout, $rootScope, AuthService, PaymentService, TrackerService, SignUpService, ApplicationConfigService, $location) {
     ApplicationConfigService.getConfig().then(function (config) {
       Stripe.setPublishableKey(config.stripeApiPublic)
@@ -30,7 +30,7 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
       return PaymentService.getBrandCardClass(brand)
     }
 
-    function init () {
+    function init() {
       $scope.cardIsVisible = PaymentService.getPaymentMethod('card')
       $scope.bankIsVisible = PaymentService.getPaymentMethod('bank')
       AuthService.getCurrentUserPromise().then(function (user) {
@@ -57,6 +57,17 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
       $scope.bankIsVisible = PaymentService.getPaymentMethod('bank')
       $scope.activeAccountMenu = true
       $scope.isCheckout = true
+      $scope.accounts = $scope.allAccounts.filter(function (acc) {
+        return ($scope.bankIsVisible && acc.object === 'bank_account' || $scope.cardIsVisible && acc.object === 'card')
+      })
+    })
+    $rootScope.$on('openAccountsMenuOrder', function (event, data) {
+      $scope.cardIsVisible = data.paymentMethods.indexOf('card') >= 0;
+      $scope.bankIsVisible = data.paymentMethods.indexOf('bank') >= 0;
+      $scope.activeAccountMenu = true
+      $scope.showSelectAccountTypeModal = true
+      $scope.isCheckout = false
+      $scope.isOrder = true
       $scope.accounts = $scope.allAccounts.filter(function (acc) {
         return ($scope.bankIsVisible && acc.object === 'bank_account' || $scope.cardIsVisible && acc.object === 'card')
       })
@@ -143,7 +154,7 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
           address_state: $scope.modalAccount.billingAddress.state,
           address_zip: $scope.modalAccount.billingAddress.zipCode
 
-        }, function stripeResponseHandler (status, response) {
+        }, function stripeResponseHandler(status, response) {
           if (response.error) {
             $scope.loading = false
           } else {
@@ -151,14 +162,19 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
 
             PaymentService.associateCard(token).then(
               function (source) {
-                TrackerService.track('Add Payment Account', {Type: source.object})
+                TrackerService.track('Add Payment Account', { Type: source.object })
                 var promise = SignUpService.createBillingAddress($scope.modalAccount.billingAddress)
                 promise.then(function (message) {
                   f.$setPristine()
                   f.$setUntouched()
-                  $rootScope.GlobalAlertSystemAlerts.push({msg: 'Card was created successfully', type: 'success', dismissOnTimeout: 5000})
+                  $rootScope.GlobalAlertSystemAlerts.push({ msg: 'Card was created successfully', type: 'success', dismissOnTimeout: 5000 })
                   if ($location.path() === '/payment/plan') {
-                    $rootScope.GlobalAlertSystemAlerts.push({msg: 'Please select the account you would like to pay with.', type: 'warning', dismissOnTimeout: 10000})
+                    $rootScope.GlobalAlertSystemAlerts.push({ msg: 'Please select the account you would like to pay with.', type: 'warning', dismissOnTimeout: 10000 })
+                  }
+                  if ($location.path() === '/dashboard/orders') {
+                    $rootScope.GlobalAlertSystemAlerts.push({ msg: 'Please select the account you would like to pay with.', type: 'warning', dismissOnTimeout: 10000 })
+                    $scope.activeAccountMenu = false;
+                    $rootScope.$emit('reloadAccountsOrder')
                   }
                   $scope.show = false
                   $scope.showAccountModal = false
@@ -168,20 +184,20 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
                   init()
                 }, function (err) {
                   console.log('ERROR', err)
-                  $rootScope.GlobalAlertSystemAlerts.push({msg: 'Credit card can´t be crated', type: 'warning', dismissOnTimeout: 5000})
+                  $rootScope.GlobalAlertSystemAlerts.push({ msg: 'Credit card can´t be crated', type: 'warning', dismissOnTimeout: 5000 })
                   $scope.error = err
                   $scope.loading = false
                 })
               },
               function () {
                 $scope.loading = false
-                $rootScope.GlobalAlertSystemAlerts.push({msg: 'Oops. Invalid card. Please check the number and try again.', type: 'warning', dismissOnTimeout: 5000})
+                $rootScope.GlobalAlertSystemAlerts.push({ msg: 'Oops. Invalid card. Please check the number and try again.', type: 'warning', dismissOnTimeout: 5000 })
                 $scope.showAccountModal = false
               })
           }
         })
       } else {
-        $rootScope.GlobalAlertSystemAlerts.push({msg: 'All fields are required.', type: 'warning', dismissOnTimeout: 5000})
+        $rootScope.GlobalAlertSystemAlerts.push({ msg: 'All fields are required.', type: 'warning', dismissOnTimeout: 5000 })
 
         console.log('INVALID')
       }
@@ -208,11 +224,11 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
         product: config.plaidProduct,
         selectAccount: true,
         onLoad: function () {
-        // The Link module finished loading.
+          // The Link module finished loading.
           console.log('onLoad...')
         },
         onSuccess: function (publicToken, metadata) {
-          PaymentService.plaidServices({publicToken: publicToken, metadata: metadata}).then(function (data) {
+          PaymentService.plaidServices({ publicToken: publicToken, metadata: metadata }).then(function (data) {
             $scope.bank_name = metadata.institution.name
             $scope.showSuccessBankModal = true
 
@@ -220,6 +236,13 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
             // $scope.show = false
             // $scope.showSuccessBankModal = false
             // $scope.loading = false
+            if ($location.path() === '/dashboard/orders') {
+              $rootScope.GlobalAlertSystemAlerts.push({ msg: 'Please select the account you would like to pay with.', type: 'warning', dismissOnTimeout: 10000 })
+              $scope.showAccountModal = false
+              $rootScope.GlobalAlertSystemAlerts.push({ msg: 'Please select the account you would like to pay with.', type: 'warning', dismissOnTimeout: 10000 })
+              $scope.activeAccountMenu = false;
+              $rootScope.$emit('reloadAccountsOrder')
+            }
             $rootScope.$emit('reloadAccountsBox')
             init()
           }).catch(function (err) {
@@ -227,7 +250,7 @@ module.exports = [ '$scope', 'UserService', '$timeout', '$rootScope', 'AuthServi
           })
         },
         onExit: function () {
-        // The user exited the Link flow.
+          // The user exited the Link flow.
           console.log('onExit...')
         }
       })
