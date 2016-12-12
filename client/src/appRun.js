@@ -1,12 +1,14 @@
 'use strict'
 
-module.exports = ['$rootScope', 'AuthService', '$state', '$timeout', 'localStorageService',
-  function ($rootScope, AuthService, $state, $timeout, localStorageService) {
+module.exports = ['$rootScope', 'AuthService', '$state', '$timeout', 'localStorageService', '$location', 'SessionService',
+  function ($rootScope, AuthService, $state, $timeout, localStorageService, $location, SessionService) {
     $rootScope.$on ('$stateChangeStart', function (event, toState, toParams) {
+
       var requireLogin = toState.data.requireLogin
 
       if (requireLogin && !AuthService.isLoggedIn ()) {
         event.preventDefault ()
+        SessionService.setPathAfterLogin($location.path());
         $state.go ('login')
       }
     })

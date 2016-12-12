@@ -113,6 +113,11 @@ module.exports = ['$scope', 'AuthService', 'TrackerService', '$translate', '$loc
     }
 
     function getRedirectPageLogin (user) {
+      var next = SessionService.getPathAfterLogin();
+      if(next){
+        return next;
+      }
+
       if (user.roles.indexOf('coach') !== -1) {
         return '/dashboard/board'
       } else {
