@@ -117,9 +117,9 @@ function sendEmailResetPassword(data, cb) {
 
 function createZendeskUser(params, cb) {
   zendesk.userCreate({
-    username: params.username,
-    token: params.token,
-    subdomain: params.subdomain,
+    username: config.zendesk.username,
+    token: config.zendesk.token,
+    subdomain: config.zendesk.subdomain,
     email: params.email,
     fullName: params.fullName,
     phone: params.phone,
