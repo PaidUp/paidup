@@ -20,9 +20,6 @@ module.exports = ['$scope', 'SignUpService', '$state', '$timeout', '$rootScope',
   AuthService.getCurrentUserPromise().then(function (user) {
     console.log(user);
     var zendeskUserParams = {
-      username: 'ricardo@getpaidup.com', 
-      token : 'ALTnkNkK72Cu28uBK30p7e20FUYEDOVytF6Y5GtI', 
-      subdomain: 'getpaidup1478060212',
       fullName: user.firstName + ' ' + user.lastName, 
       email: user.email
     };
