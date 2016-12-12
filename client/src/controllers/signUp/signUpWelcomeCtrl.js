@@ -18,7 +18,6 @@ module.exports = ['$scope', 'SignUpService', '$state', '$timeout', '$rootScope',
   }
 
   AuthService.getCurrentUserPromise().then(function (user) {
-    console.log(user);
     var zendeskUserParams = {
       fullName: user.firstName + ' ' + user.lastName, 
       email: user.email
@@ -28,7 +27,6 @@ module.exports = ['$scope', 'SignUpService', '$state', '$timeout', '$rootScope',
     }
 
     UserService.createZendeskUser(zendeskUserParams).then(function (res) {
-      console.log(res);
     }).catch(function(err){
       console.log(err);
     });
