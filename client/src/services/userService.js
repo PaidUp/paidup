@@ -12,6 +12,10 @@ module.exports = [ '$resource', function ($resource) {
     post: { method: 'POST', isArray: true }
   })
 
+  var ZendeskUser = $resource('/api/v1/user/zendesk/create', {}, {
+    post: { method: 'POST', isArray: false }
+  })
+
   var UpdateProductsSuggested = $resource('/api/v1/user/:userId/update/products', {
     userId: ''
   }, {
@@ -22,6 +26,10 @@ module.exports = [ '$resource', function ($resource) {
     return UpdateProductsSuggested.post({
       userId: userId
     }, productsSuggested).$promise
+  }
+
+  this.createZendeskUser = function (params) {
+    return ZendeskUser.post({}, params).$promise
   }
 
   this.save = function (user, successFn, errorFn) {

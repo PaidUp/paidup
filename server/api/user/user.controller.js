@@ -61,3 +61,10 @@ exports.sendResetPassword = function (req, res, next) {
     res.status(200).json({data: 'sendResetPassword'})
   })
 }
+
+exports.createZendeskUser = function(req, res, next){
+  userService.createZendeskUser(req.body, function (err, data) {
+    if (err) return res.status(402).json(err)
+    res.status(200).json(data)
+  })
+}
