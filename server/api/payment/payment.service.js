@@ -254,9 +254,10 @@ function createTicketChargeFailed(order, cb) {
         requesterEmail: order.paymentsPlan[0].email,
         requesterName: order.paymentsPlan[0].userInfo.userName,
         assigneeEmail: config.zendesk.assigneeEmail,
-        subject: subject,
-        organization: order.paymentsPlan[0].productInfo.organizationName,
-        comment: comment
+        subject: order.paymentsPlan[0].productInfo.organizationName + ' Payment Failed for ' + subject,
+        comment: comment,
+        status: 'pending',
+        tags: ['ticket_category_payment_failed_new_card']
       }
       zendesk.ticketCreate(ticketParams).exec({
         error: function (err) {
