@@ -8,6 +8,9 @@ const tdPaymentService = require('TDCore').paymentService
 const CommerceConnect = require('paidup-commerce-connect')
 const MAX_SIZE_META_STRIPE = config.stripe.maxSizeMeta
 const zendesk = require('paidup-zendesk-connect')
+const connector = require('../../db/connector');
+const collectionName = config.mongo.options.prefix + 'properties';
+
 
 
 function createCustomer(user, cb) {
@@ -227,38 +230,44 @@ function createTicketChargeFailed(order, cb) {
     }
   });
 
-  zendesk.ticketCreate({
-    username: config.zendesk.username,
-    token: config.zendesk.token,
-    subdomain: config.zendesk.subdomain,
-    requesterEmail: order.paymentsPlan[0].email,
-    requesterName: order.paymentsPlan[0].userInfo.userName,
-    assigneeEmail: config.zendesk.assigneeEmail,
-    subject: subject,
-    organization: order.paymentsPlan[0].productInfo.organizationName,
-    comment: `
-      Hey ${order.paymentsPlan[0].userInfo.userName},
-
-      Your ${order.paymentsPlan[0].productInfo.organizationName} payment for $${order.paymentsPlan[0].price} was declined today.
-
-      If you have received a new payment account and need to update your payment information, you can do so online by following the steps outlined below. If your form of payment is still valid, please ensure that sufficient funds are available for the transaction and then retry the transaction.
-
-      IMPORTANT: You do not need to create a new order/payment. Simply login to your account, and update your payment account, if necessary, and retry the transaction.
-
-      1. Visit ${config.emailVars.baseUrl}/dashboard/order/${order.orderId} and login to your account
-      2. Add new payment account for the failed transaction and/or click on ""Retry Transaction""
-
-      If you have any questions or issues, please let me know.
-
-      Thanks.
-    `
-  }).exec({
-    error: function (err) {
+  connector.db(function (err, db) {
+    if (err) {
       cb(err);
-    },
-    success: function (result) {
-      cb(null, result);
     }
+    let collection = db.collection(collectionName);
+    collection.findOne({ key: 'zendesk' }, function (err, doc) {
+      if (err || !doc) {
+        cb(err)
+      }
+
+      var comment = doc.values.comment_ticket_payment_failed
+      comment = comment.replace('${order.paymentsPlan[0].userInfo.userName}', order.paymentsPlan[0].userInfo.userName)
+      comment = comment.replace('${order.paymentsPlan[0].productInfo.organizationName}', order.paymentsPlan[0].productInfo.organizationName)
+      comment = comment.replace('${order.paymentsPlan[0].price}', order.paymentsPlan[0].price)
+      comment = comment.replace('${config.emailVars.baseUrl}', config.emailVars.baseUrl)
+      comment = comment.replace('${order.orderId}', order.orderId)
+
+      var ticketParams = {
+        username: config.zendesk.username,
+        token: config.zendesk.token,
+        subdomain: config.zendesk.subdomain,
+        requesterEmail: order.paymentsPlan[0].email,
+        requesterName: order.paymentsPlan[0].userInfo.userName,
+        assigneeEmail: config.zendesk.assigneeEmail,
+        subject: subject,
+        organization: order.paymentsPlan[0].productInfo.organizationName,
+        comment: comment
+      }
+      zendesk.ticketCreate(ticketParams).exec({
+        error: function (err) {
+          cb(err);
+        },
+        success: function (result) {
+          cb(null, result);
+        }
+      });
+
+    });
   });
 }
 
