@@ -8,6 +8,8 @@ const paymentEmailService = require('../../payment/payment.email.service')
 const paymentService = require('../../payment/payment.service')
 const logger = require('../../../config/logger')
 const moment = require('moment')
+const zendesk = require('paidup-zendesk-connect')
+
 
 var OrderService = {
   calculatePrices: function calculatePrices(body, cb) {
@@ -194,12 +196,61 @@ function createOrder(body, cb) {
           return cb(errorOrderResult)
         } else {
           logger.debug('Create Order: New Order', dataProduct)
+          logger.debug('Create Order: New Order Result', orderResult)
+          updateTicketAfterCreateOrder(body.email, orderResult.body.orderId, function (err, res) {
+            if (err) {
+              logger.debug('update ticket err', err)
+            } else {
+              logger.debug('update ticket', res)
+            }
+          })
           OrderService.sendEmail(last4, body, dataProduct, orderResult)
           cb(null, orderResult)
         }
       })
     }
   })
+}
+
+function updateTicketAfterCreateOrder(userEmail, orderId, cb) {
+  var retrieveTicketParams = {
+    username: config.zendesk.username,
+    token: config.zendesk.token,
+    subdomain: config.zendesk.subdomain,
+    requesterEmail: userEmail
+  }
+  zendesk.ticketRetrieveByUser(retrieveTicketParams).exec({
+    error: function (err) {
+      cb(err);
+    },
+    success: function (result) {
+      if (result.length) {
+        var ticket = result[result.length - 1];
+        var addCommentParams = {
+          username: config.zendesk.username,
+          token: config.zendesk.token,
+          subdomain: config.zendesk.subdomain,
+          ticketId: ticket.id,
+          tags: ['ordercreated'],
+          comment: `User has created an order 
+            Order Id: ${orderId}
+            Order Date ${new Date().toLocaleDateString('en-US')}
+          `,
+          isPublic: false
+        }
+        zendesk.ticketAddComment(addCommentParams).exec({
+          error: function (err) {
+            cb(err);
+          },
+          success: function (result) {
+            cb(null, result);
+          }
+        });
+      } else {
+        cb(null, false)
+      }
+    }
+  });
 }
 
 function orderPaymentRecent(userId, limit, cb) {
@@ -380,7 +431,7 @@ function orderTransactions(organizationId, cb) {
       let res = transactions.body.map(function (transaction) {
         let ele = {
           transactionId: transaction.paymentsPlan.attempts._id || "",
-          created: moment(transaction.paymentsPlan.attempts.dateAttemp).format('MM/DD/YYYY hh:mm')|| "",
+          created: moment(transaction.paymentsPlan.attempts.dateAttemp).format('MM/DD/YYYY hh:mm') || "",
           organizationId: transaction.paymentsPlan.productInfo.organizationId || "",
           organization: transaction.paymentsPlan.productInfo.organizationName || "",
           location: transaction.paymentsPlan.productInfo.organizationLocation || "",
@@ -557,7 +608,7 @@ function editPaymentPlan(pp, params, cb) {
       pp.wasProcessed = wasProcessed
       pp.account = params.account || pp.account
       pp.accountBrand = params.accountBrand || pp.accountBrand
-      pp.last4 = params.last4 || pp.last4 
+      pp.last4 = params.last4 || pp.last4
       pp.typeAccount = params.typeAccount || pp.typeAccount
       pp.totalFee = result.body.totalFee
       pp.feeStripe = result.body.feeStripe
