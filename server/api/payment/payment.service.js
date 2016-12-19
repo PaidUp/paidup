@@ -225,7 +225,7 @@ function createTicketChargeFailed(order, cb) {
   var formData = order.paymentsPlan[0].customInfo.formData;
 
   formTemplate.forEach(function (field, idx, arr) {
-    if (field.required) {
+    if (field.displayed) {
       subject = subject + ' ' + formData[field.model];
     }
   });
