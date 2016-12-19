@@ -203,6 +203,13 @@ function createOrder(body, cb) {
             } else {
               logger.debug('update ticket', res)
             }
+            updateUserAfterCreateOrder(body.email, orderResult.body, function (err, res) {
+              if (err) {
+                logger.debug('update ticket err', err)
+              } else {
+                logger.debug('update ticket', res)
+              }
+            });
           })
           OrderService.sendEmail(last4, body, dataProduct, orderResult)
           cb(null, orderResult)
@@ -249,6 +256,38 @@ function updateTicketAfterCreateOrder(userEmail, orderId, cb) {
       } else {
         cb(null, false)
       }
+    }
+  });
+}
+
+function updateUserAfterCreateOrder(userEmail, order, cb) {
+  var beneficiary = '';
+  var formTemplate = order.paymentsPlan[0].customInfo.formTemplate;
+  var formData = order.paymentsPlan[0].customInfo.formData;
+
+  formTemplate.forEach(function (field, idx, arr) {
+    if (field.displayed) {
+      beneficiary = beneficiary + ' ' + formData[field.model];
+    }
+  });
+
+  var userParams = {
+    username: config.zendesk.username,
+    token: config.zendesk.token,
+    subdomain: config.zendesk.subdomain,
+    userEmail: userEmail,
+    paidupcustomer: 'paidupcustomer',
+    tags: ["ordercrated"],
+    userType: 'user_type_paidup_customer',
+    products: order.paymentsPlan[0].productInfo.productName,
+    beneficiary: beneficiary
+  }
+  zendesk.userUpdate(userParams).exec({
+    error: function (err) {
+      cb(err);
+    },
+    success: function (result) {
+      cb(null, result)
     }
   });
 }
