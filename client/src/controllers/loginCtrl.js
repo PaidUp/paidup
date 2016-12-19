@@ -112,9 +112,9 @@ module.exports = ['$scope', 'AuthService', 'TrackerService', '$translate', '$loc
       AuthService.loginFacebook(success, error)
     }
 
-    function getRedirectPageLogin (user) {
+    function getRedirectPageLogin(user) {
       var next = SessionService.getPathAfterLogin();
-      if(next){
+      if (next) {
         return next;
       }
 
