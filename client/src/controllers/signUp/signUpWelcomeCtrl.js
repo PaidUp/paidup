@@ -1,7 +1,7 @@
 'use strict'
 var angular = require('angular')
 
-module.exports = ['$scope', 'SignUpService', '$state', '$timeout', '$rootScope', 'AuthService', 'UserService', function ($scope, SignUpService, $state, $timeout, $rootScope, AuthService, UserService) {
+module.exports = ['$scope', 'SignUpService', '$state', '$timeout', '$rootScope', 'AuthService', 'UserService', 'SessionService', function ($scope, SignUpService, $state, $timeout, $rootScope, AuthService, UserService, SessionService) {
   $scope.userType = SignUpService.getType()
 
   if ($scope.userType === 'personal') {
@@ -17,20 +17,26 @@ module.exports = ['$scope', 'SignUpService', '$state', '$timeout', '$rootScope',
     }
   }
 
-  AuthService.getCurrentUserPromise().then(function (user) {
-    var zendeskUserParams = {
-      fullName: user.firstName + ' ' + user.lastName, 
-      email: user.email
-    };
-    if(user.contacts.length){
-      zendeskUserParams.phone = user.contacts[0].value;
-    }
+  function createZendDeskUser() {
+    UserService.get(SessionService.getCurrentSession(), function (user) {
+      var zendeskUserParams = {
+        fullName: user.firstName + ' ' + user.lastName,
+        email: user.email,
+        userType: 'user_type_paidup_customer'
+      };
+      if (user.contacts.length) {
+        zendeskUserParams.phone = '+1'+user.contacts[0].value;
+      }
 
-    UserService.createZendeskUser(zendeskUserParams).then(function (res) {
-    }).catch(function(err){
-      console.log(err);
-    });
-  })
+      UserService.createZendeskUser(zendeskUserParams).then(function (res) {
+      }).catch(function (err) {
+        console.log(err);
+      });
+    })
+  }
+
+  createZendDeskUser();
+  
 
   var timeoutPromise = $timeout(function () {
     $state.go(getRedirectPageLogin($scope.userType))
@@ -42,6 +48,7 @@ module.exports = ['$scope', 'SignUpService', '$state', '$timeout', '$rootScope',
   }
 
   $scope.$on('destroy', function () {
+    console.log('on destroy')
     $timeout.cancel(timeoutPromise)
   })
 
