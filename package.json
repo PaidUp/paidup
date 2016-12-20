@@ -8,7 +8,7 @@
   "main": "server/app.js",
   "dependencies": {
     "TDCore": "https://github.com/paidup/TDCore/tarball/master",
-    "paidup-zendesk-connect":"https://github.com/PaidUp/PUZendesk-connect.git#v0.6.1",
+    "paidup-zendesk-connect":"https://github.com/PaidUp/PUZendesk-connect.git#v0.6.2",
     "angular": "^1.5.7",
     "angular-animate": "^1.5.7",
     "angular-cookies": "^1.5.7",
