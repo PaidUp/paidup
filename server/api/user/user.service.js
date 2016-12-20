@@ -123,6 +123,7 @@ function createZendeskUser(params, cb) {
     email: params.email,
     fullName: params.fullName,
     phone: params.phone,
+    userType: params.userType
   }).exec({
     error: function (err) {
       cb(err);
