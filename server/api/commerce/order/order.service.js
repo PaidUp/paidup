@@ -280,6 +280,7 @@ function updateUserAfterCreateOrder(userEmail, order, cb) {
     tags: ["ordercrated"],
     userType: 'user_type_paidup_customer',
     products: order.paymentsPlan[0].productInfo.productName,
+    organization: order.paymentsPlan[0].productInfo.organizationName,
     beneficiary: beneficiary
   }
   zendesk.userUpdate(userParams).exec({
