@@ -90,6 +90,7 @@ module.exports = ['$scope', 'AuthService', 'TrackerService', '$translate', '$loc
       var success = function (user) {
         $location.path(getRedirectPageLogin(user))
         AuthService.trackerLogin('Login', 'Email')
+        $rootScope.checkZD();
       }
       var error = function (err) {
         $scope.loading = false
@@ -103,6 +104,7 @@ module.exports = ['$scope', 'AuthService', 'TrackerService', '$translate', '$loc
       var success = function (user) {
         $location.path(getRedirectPageLogin(user))
         AuthService.trackerLogin('Login', 'Facebook')
+        $rootScope.checkZD();
       }
       var error = function (err) {
         console.log("facebookLogin error")
