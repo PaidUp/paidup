@@ -14,15 +14,9 @@ module.exports = ['$rootScope', '$http', 'UserService', 'SessionService', 'Faceb
   }
 
   $rootScope.$on('logout', function () {
-    if (angular.isDefined(zE.identify)) {
-          if (angular.isDefined(zE.isLoggedIn)) {
-            zE.isLoggedIn = false;
-            zE.identify({
-              
-            });
-            zE.activateIpm();
-          }
-        }
+    if (angular.isDefined(zE)) {
+      zE.isLoggedIn = false;
+    }
     delete $rootScope.currentUser
   })
 
@@ -128,15 +122,9 @@ module.exports = ['$rootScope', '$http', 'UserService', 'SessionService', 'Faceb
      */
     logout: function () {
       SessionService.removeCurrentSession()
-      if (angular.isDefined(zE.identify)) {
-          if (angular.isDefined(zE.isLoggedIn)) {
-            zE.isLoggedIn = false;
-            zE.identify({
-              
-            });
-            zE.activateIpm();
-          }
-        }
+      if (angular.isDefined(zE)) {
+        zE.isLoggedIn = false;
+      }
       delete $rootScope.currentUser
     },
 
