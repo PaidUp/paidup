@@ -40,9 +40,6 @@ module.exports = ['$rootScope', 'AuthService', '$state', '$timeout', 'localStora
       var zd = setInterval(function () {
         if (angular.isDefined(zE.identify)) {
           if (angular.isDefined($rootScope.currentUser)) {
-            console.log('start checkZD set user')
-            console.log('start checkZD name: ', $rootScope.currentUser.firstName + ' ' + $rootScope.currentUser.lastName)
-            console.log('start checkZD email',$rootScope.currentUser.email)
             $window.zE.identify({
               name: $rootScope.currentUser.firstName + ' ' + $rootScope.currentUser.lastName, // TODO: Replace with current user's name
               email: $rootScope.currentUser.email // TODO: Replace with current user's email address
