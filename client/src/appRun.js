@@ -39,7 +39,7 @@ module.exports = ['$rootScope', 'AuthService', '$state', '$timeout', 'localStora
       console.log('start checkZD')
       var zd = setInterval(function () {
         if (angular.isDefined(zE.identify)) {
-          if (!angular.isDefined($window.zE.isLoggedIn) && angular.isDefined($rootScope.currentUser)) {
+          if (angular.isDefined($rootScope.currentUser)) {
             console.log('start checkZD set user')
             console.log('start checkZD name: ', $rootScope.currentUser.firstName + ' ' + $rootScope.currentUser.lastName)
             console.log('start checkZD email',$rootScope.currentUser.email)
@@ -48,7 +48,6 @@ module.exports = ['$rootScope', 'AuthService', '$state', '$timeout', 'localStora
               email: $rootScope.currentUser.email // TODO: Replace with current user's email address
             });
             $window.zE.activateIpm();
-            $window.zE.isLoggedIn = true;
           }
           clearInterval(zd);
         }
