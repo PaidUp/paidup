@@ -277,7 +277,7 @@ function updateUserAfterCreateOrder(userEmail, order, cb) {
     subdomain: config.zendesk.subdomain,
     userEmail: userEmail,
     paidupcustomer: 'paidupcustomer',
-    tags: ["ordercrated"],
+    tags: ["ordercreated"],
     userType: 'user_type_paidup_customer',
     products: order.paymentsPlan[0].productInfo.productName,
     organization: order.paymentsPlan[0].productInfo.organizationName,
