@@ -55,11 +55,14 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
     return CommerceService.getVisibleBeneficiaryData(customInfo)
   }
 
+  $scope.dt1 = new Date().getFullYear()+'-01-01';
+  $scope.dt2 = new Date().toISOString().substr(0,10);
+
   $scope.init = function () {
     TrackerService.track('View Aging')
     AuthService.getCurrentUserPromise().then(function (user) {
       var organizationId = (user.meta.productRelated[0]) ? user.meta.productRelated[0] : 'Does not have organization'
-      CommerceService.orderGetOrganization(organizationId, 200, -1).then(function (result) {
+      CommerceService.orderGetOrganization(organizationId, 200, -1, $scope.dt1, $scope.dt2).then(function (result) {
         var groupByProductName = R.groupBy(function (order) {
           return order.allProductName[0]
         })
