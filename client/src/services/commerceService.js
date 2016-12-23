@@ -2,7 +2,7 @@
 // .service('CommerceService', function ($cookieStore, $resource, $q, $rootScope) {
 module.exports = ['$resource', function ($resource) {
   var Orders = $resource('/api/v1/commerce/order/:action/:userId/:limit/:sort', {}, {})
-  var orderOrganization = $resource('/api/v1/commerce/order/organization/:action/:organizationId/:limit/:sort', {}, {})
+  var orderOrganization = $resource('/api/v1/commerce/order/organization/:action/:organizationId/:limit/:sort/:from/:to', {}, {})
 
   var CreateOrder = $resource('/api/v1/commerce/order/create', {}, {
     post: { method: 'POST', isArray: false }
@@ -40,8 +40,8 @@ module.exports = ['$resource', function ($resource) {
     return Orders.get({ userId: userId, limit: limit, sort: sort }).$promise
   }
 
-  this.orderGetOrganization = function (organizationId, limit, sort) {
-    return orderOrganization.get({ organizationId: organizationId, limit: limit, sort: sort }).$promise
+  this.orderGetOrganization = function (organizationId, limit, sort, from, to) {
+    return orderOrganization.get({ organizationId: organizationId, limit: limit, sort: sort, from: from, to: to }).$promise
   }
 
   this.createOrder = function (params) {

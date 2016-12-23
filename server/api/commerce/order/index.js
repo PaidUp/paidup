@@ -10,7 +10,7 @@ router.get('/recent/:userId/:limit', authService.isAuthenticated(), controller.o
 router.get('/next/:userId/:limit', authService.isAuthenticated(), controller.orderPaymentNext)
 router.get('/active/:userId/:limit', authService.isAuthenticated(), controller.orderPaymentActive)
 
-router.get('/organization/:organizationId/:limit/:sort', authService.isAuthenticated(), controller.orderGetOrganization)
+router.get('/organization/:organizationId/:limit/:sort/:from/:to', authService.isAuthenticated(), controller.orderGetOrganization)
 router.get('/:userId/:limit/:sort', authService.isAuthenticated(), controller.orderGet)
 
 router.post('/search', authService.isAuthenticated(), controller.orderSearch);

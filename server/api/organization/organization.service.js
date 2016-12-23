@@ -36,12 +36,13 @@ exports.sendContactEmail = function sendContactEmail (dataOrganization, cb) {
   })
 }
 
-exports.getOrganization = function getOrganization (organizationId, cb) {
-  PaidUpProductConnect.organizationGet({
+exports.getOrganization = function getOrganization (organizationId,  cb) {
+  var params = {
     baseUrl: config.connections.product.baseUrl,
     token: config.connections.product.token,
     organizationId: organizationId
-  }).exec({
+  };
+  PaidUpProductConnect.organizationGet(params).exec({
     error: function (err) {
       return cb(err)
     },

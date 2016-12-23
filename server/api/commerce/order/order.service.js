@@ -387,13 +387,15 @@ function orderGetByorderId(orderId, limit, sort, cb) {
   })
 }
 // machinepack exec order-get-organization --organizationId='acct_18AQWDGKajSrnujf' --token='TDCommerceToken-CHANGE-ME!' --baseUrl='http://localhost:9002' --limit='1000' --sort='1'
-function orderGetOrganization(organizationId, limit, sort, cb) {
+function orderGetOrganization(organizationId, limit, sort, from, to, cb) {
   CommerceConnector.orderGetOrganization({
     baseUrl: config.connections.commerce.baseUrl,
     token: config.connections.commerce.token,
     organizationId: organizationId,
     limit: limit,
-    sort: sort
+    sort: sort,
+    fromDate: from,
+    toDate: to
   }).exec({
     // An unexpected error occurred.
     error: function (err) {
