@@ -14,7 +14,7 @@ exports.getTransfers = function (req, res) {
       if (err) {
         return handleError(res, err)
       }
-      paymentService.getTransfers(org.paymentId, function (err, data) {
+      paymentService.getTransfers(org.paymentId, req.params.from, req.params.to, function (err, data) {
         if (err) {
           return handleError(res, err)
         }

@@ -325,9 +325,9 @@ function updateAccount(dataDetails, cb) {
   })
 }
 
-function getTransfers(stripeId, cb) {
-  tdPaymentService.init(config.connections.payment)
-  tdPaymentService.getTransfers(stripeId, function (err, data) {
+function getTransfers(stripeId, from, to, cb) {
+  tdPaymentService.init(config.connections.payment) 
+  tdPaymentService.getTransfers(stripeId, from, to, function (err, data) {
     if (err) return cb(err)
     return cb(null, data)
   })
