@@ -36,7 +36,6 @@ module.exports = ['$rootScope', 'AuthService', '$state', '$timeout', 'localStora
     }
 
     $rootScope.checkZD = function() {
-      console.log('start checkZD')
       var zd = setInterval(function () {
         if (angular.isDefined(zE.identify)) {
           if (angular.isDefined($rootScope.currentUser)) {

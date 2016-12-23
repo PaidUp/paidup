@@ -102,6 +102,9 @@ module.exports = ['$scope', 'AuthService', '$state', 'CommerceService', 'Tracker
     TrackerService.track('Download as CSV', { Report: 'Dashboard' })
   }
 
+    $scope.dt1 = new Date(new Date().getFullYear()+'-01-01T08:00:00.000Z');
+    $scope.dt2 = new Date();
+
   $scope.init = function () {
     TrackerService.track('View Dashboard')
     $scope.expandCategory1 = false
@@ -117,7 +120,7 @@ module.exports = ['$scope', 'AuthService', '$state', 'CommerceService', 'Tracker
     $scope.groupProducts = []
     AuthService.getCurrentUserPromise().then(function (user) {
       var organizationId = (user.meta.productRelated[0]) ? user.meta.productRelated[0] : 'Does not have organization'
-      CommerceService.orderGetOrganization(organizationId, 200, -1).then(function (result) {
+      CommerceService.orderGetOrganization(organizationId, 200, -1, $scope.dt1, $scope.dt2).then(function (result) {
         // $scope.totalPrice = $scope.getSubTotal(result.body)
         $scope.totalPriceFees = $scope.getSubTotal(result.body, 'sumPrice')
         // $scope.totalDiscount = $scope.getSubTotalDiscount(result.body)
@@ -142,10 +145,8 @@ module.exports = ['$scope', 'AuthService', '$state', 'CommerceService', 'Tracker
       CommerceService.getTransactions(organizationId).then(function (resp) {
         $scope.contentCsv = resp.content;
         $scope.headerCsv = resp.header;
-        console.log("RESP: ", resp)
       }).catch(function (err) {
         console.log("ERR: ", err)
-
       })
 
     })
@@ -182,20 +183,20 @@ module.exports = ['$scope', 'AuthService', '$state', 'CommerceService', 'Tracker
 
   $scope.change1 = function () {
     var formatOptions = { month: '2-digit', day: '2-digit', year: 'numeric' }
-    console.log($scope.dt1.toLocaleDateString('en-US', formatOptions))
     $scope.dateOptions2 = {
       minDate: $scope.dt1,
       showWeeks: false
     }
+    $scope.init();
   }
 
   $scope.change2 = function () {
     var formatOptions = { month: '2-digit', day: '2-digit', year: 'numeric' }
-    console.log($scope.dt2.toLocaleDateString('en-US', formatOptions))
     $scope.dateOptions1 = {
       maxDate: $scope.dt2,
       showWeeks: false
     }
+    $scope.init();
   }
 
   $scope.getBeneficiaryInfo = function getBeneficiaryInfo(customInfo) {
