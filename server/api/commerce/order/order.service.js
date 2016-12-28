@@ -386,6 +386,25 @@ function orderGetByorderId(orderId, limit, sort, cb) {
     }
   })
 }
+
+function orderCancel(orderId, cb) {
+  CommerceConnector.orderCancel({
+    baseUrl: config.connections.commerce.baseUrl,
+    token: config.connections.commerce.token,
+    orderId: orderId
+  }).exec({
+    // An unexpected error occurred.
+    error: function (err) {
+      return cb(err)
+    },
+    // OK.
+    success: function (result) {
+      console.log('@@@result: ', result)
+      return cb(null, result)
+    }
+  })
+}
+
 // machinepack exec order-get-organization --organizationId='acct_18AQWDGKajSrnujf' --token='TDCommerceToken-CHANGE-ME!' --baseUrl='http://localhost:9002' --limit='1000' --sort='1'
 function orderGetOrganization(organizationId, limit, sort, from, to, cb) {
   CommerceConnector.orderGetOrganization({
@@ -749,5 +768,6 @@ module.exports = {
   editAllPaymentsPlan: editAllPaymentsPlan,
   orderUpdateWebhook: orderUpdateWebhook,
   orderHistory: orderHistory,
-  orderTransactions: orderTransactions
+  orderTransactions: orderTransactions,
+  orderCancel: orderCancel
 }
