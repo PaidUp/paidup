@@ -136,7 +136,7 @@ exports.orderCancel = function (req, res) {
     return handleError(res, { name: 'ValidationError', message: 'order id is required' })
   }
   req.body.userSysId = user._id
-  OrderService.orderCancel(req.body.orderId, function (err, data) {
+  OrderService.orderCancel(req.body, function (err, data) {
     if (err) {
       return res.status(500).json({code: 'OrderService.canelOrder', message: JSON.stringify(err)})
     }

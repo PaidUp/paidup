@@ -387,11 +387,12 @@ function orderGetByorderId(orderId, limit, sort, cb) {
   })
 }
 
-function orderCancel(orderId, cb) {
+function orderCancel(params, cb) {
   CommerceConnector.orderCancel({
     baseUrl: config.connections.commerce.baseUrl,
     token: config.connections.commerce.token,
-    orderId: orderId
+    orderId: params.orderId,
+    userSysId: params.userSysId
   }).exec({
     // An unexpected error occurred.
     error: function (err) {
@@ -399,7 +400,6 @@ function orderCancel(orderId, cb) {
     },
     // OK.
     success: function (result) {
-      console.log('@@@result: ', result)
       return cb(null, result)
     }
   })
