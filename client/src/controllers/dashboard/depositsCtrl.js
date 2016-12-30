@@ -6,15 +6,13 @@ module.exports = ['$scope', 'PaymentService', 'AuthService', '$state', 'TrackerS
   $scope.listCharges = []
   $scope.dt1 = new Date();
   $scope.dt1.setMonth(0, 1);
-  $scope.dt1.setHours(0, 0, 0, 0);
   $scope.dt2 = new Date();
-  $scope.dt2.setHours(23, 59, 59, 0);
   $scope.init = function () {
     TrackerService.track('View Deposits')
     AuthService.getCurrentUserPromise().then(function (user) {
       var organizationId = (user.meta.productRelated[0]) ? user.meta.productRelated[0] : 'Does not have organization';
       $scope.organizationId = organizationId;
-      PaymentService.getTransfers(organizationId, $scope.dt1, $scope.dt2).then(function (result) {
+      PaymentService.getTransfers(organizationId, $scope.dt1.toLocaleDateString('en-US'), $scope.dt2.toLocaleDateString('en-US')).then(function (result) {
         $scope.totalAmount = result.total
         $scope.bankName = result.bankName
         $scope.listChargesGrouped = result.data
