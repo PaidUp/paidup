@@ -4,8 +4,11 @@ module.exports = ['$scope', 'PaymentService', 'AuthService', '$state', 'TrackerS
   $scope.expandSection1 = false
   $scope.expandSection2 = false
   $scope.listCharges = []
-  $scope.dt1 = new Date(new Date().getFullYear()+'-01-01T08:00:00.000Z');
+  $scope.dt1 = new Date();
+  $scope.dt1.setMonth(0, 1);
+  $scope.dt1.setHours(0, 0, 0, 0);
   $scope.dt2 = new Date();
+  $scope.dt2.setHours(23, 59, 59, 0);
   $scope.init = function () {
     TrackerService.track('View Deposits')
     AuthService.getCurrentUserPromise().then(function (user) {
@@ -120,6 +123,6 @@ module.exports = ['$scope', 'PaymentService', 'AuthService', '$state', 'TrackerS
       maxDate: $scope.dt2,
       showWeeks: false
     }
-    $scope.init()    
+    $scope.init()
   }
 }]
