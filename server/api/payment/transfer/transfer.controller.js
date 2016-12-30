@@ -21,7 +21,6 @@ exports.getTransfers = function (req, res) {
         let bycreated = R.groupBy(function (charge) {
           return charge.created.substring(0, 10)
         })
-        console.log('data.data.length', data.data.length)
         let result = bycreated(data.data)
         let total = data.data.reduce((t, c) => {
           return t + (c.amount / 100)
