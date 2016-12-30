@@ -102,8 +102,11 @@ module.exports = ['$scope', 'AuthService', '$state', 'CommerceService', 'Tracker
     TrackerService.track('Download as CSV', { Report: 'Dashboard' })
   }
 
-    $scope.dt1 = new Date(new Date().getFullYear()+'-01-01T08:00:00.000Z');
+    $scope.dt1 = new Date();
+    $scope.dt1.setMonth(0,1);
+    $scope.dt1.setHours(0,0,0,0);
     $scope.dt2 = new Date();
+    $scope.dt2.setHours(23,59,59,0);
 
   $scope.init = function () {
     TrackerService.track('View Dashboard')
