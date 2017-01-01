@@ -1,27 +1,32 @@
 'use strict'
 
-module.exports = ['$rootScope', 'AuthService', '$state', '$timeout', 'localStorageService',
-  function ($rootScope, AuthService, $state, $timeout, localStorageService) {
-    $rootScope.$on ('$stateChangeStart', function (event, toState, toParams) {
+module.exports = ['$rootScope', 'AuthService', '$state', '$timeout', 'localStorageService', '$location', 'SessionService', '$window',
+  function ($rootScope, AuthService, $state, $timeout, localStorageService, $location, SessionService, $window) {
+    $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
       var requireLogin = toState.data.requireLogin
 
-      if (requireLogin && !AuthService.isLoggedIn ()) {
-        event.preventDefault ()
-        $state.go ('login')
+      if (requireLogin && !AuthService.isLoggedIn()) {
+        if(angular.isDefined(zE.isLoggedIn)){
+          zE.isLoggedIn = false;
+        }
+        event.preventDefault()
+        SessionService.setPathAfterLogin($location.path());
+        $state.go('login')
       }
     })
-    $rootScope.$on ('$stateChangeSuccess', function () {
-      $timeout (function () {
-        window.scrollTo (0, 0)
+
+    $rootScope.$on('$stateChangeSuccess', function () {
+      $timeout(function () {
+        window.scrollTo(0, 0)
       }, 100)
     })
     $rootScope.GlobalAlertSystemAlerts = []
     $rootScope.GlobalAlertSystemClose = function (index) {
-      $rootScope.GlobalAlertSystemAlerts.splice (index, 1)
+      $rootScope.GlobalAlertSystemAlerts.splice(index, 1)
     }
 
     if (!localStorageService.cookie.isSupported) {
-      $rootScope.GlobalAlertSystemAlerts.push ({
+      $rootScope.GlobalAlertSystemAlerts.push({
         msg: 'For using our services, you should enable cookies.',
         type: 'danger'
       })
@@ -29,6 +34,24 @@ module.exports = ['$rootScope', 'AuthService', '$state', '$timeout', 'localStora
     } else {
       $rootScope.isCoookieSupported = true;
     }
+
+    $rootScope.checkZD = function() {
+      var zd = setInterval(function () {
+        if (angular.isDefined(zE.identify)) {
+          if (angular.isDefined($rootScope.currentUser)) {
+            $window.zE.identify({
+              name: $rootScope.currentUser.firstName + ' ' + $rootScope.currentUser.lastName, // TODO: Replace with current user's name
+              email: $rootScope.currentUser.email // TODO: Replace with current user's email address
+            });
+            $window.zE.activateIpm();
+          }
+          clearInterval(zd);
+        }
+      }, 3000);
+
+    }
+    
+    $rootScope.checkZD();
 
     //$rootScope.$on('$viewContentLoaded', function() {
     //  $templateCache.removeAll();

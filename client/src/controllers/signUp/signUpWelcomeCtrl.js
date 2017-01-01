@@ -1,7 +1,7 @@
 'use strict'
 var angular = require('angular')
 
-module.exports = [ '$scope', 'SignUpService', '$state', '$timeout', function ($scope, SignUpService, $state, $timeout) {
+module.exports = ['$scope', 'SignUpService', '$state', '$timeout', '$rootScope', 'AuthService', 'UserService', 'SessionService', function ($scope, SignUpService, $state, $timeout, $rootScope, AuthService, UserService, SessionService) {
   $scope.userType = SignUpService.getType()
 
   if ($scope.userType === 'personal') {
@@ -17,6 +17,27 @@ module.exports = [ '$scope', 'SignUpService', '$state', '$timeout', function ($s
     }
   }
 
+  function createZendDeskUser() {
+    UserService.get(SessionService.getCurrentSession(), function (user) {
+      var zendeskUserParams = {
+        fullName: user.firstName + ' ' + user.lastName,
+        email: user.email,
+        userType: 'user_type_paidup_customer'
+      };
+      if (user.contacts.length) {
+        zendeskUserParams.phone = '+1'+user.contacts[0].value;
+      }
+
+      UserService.createZendeskUser(zendeskUserParams).then(function (res) {
+      }).catch(function (err) {
+        console.log(err);
+      });
+    })
+  }
+
+  createZendDeskUser();
+  
+
   var timeoutPromise = $timeout(function () {
     $state.go(getRedirectPageLogin($scope.userType))
   }, 5000)
@@ -27,10 +48,11 @@ module.exports = [ '$scope', 'SignUpService', '$state', '$timeout', function ($s
   }
 
   $scope.$on('destroy', function () {
+    console.log('on destroy')
     $timeout.cancel(timeoutPromise)
   })
 
-  function getRedirectPageLogin (userType) {
+  function getRedirectPageLogin(userType) {
     if (userType === 'business') {
       return 'dashboard.board'
     } else {

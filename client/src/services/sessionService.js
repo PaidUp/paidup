@@ -33,4 +33,14 @@ module.exports = [ '$rootScope', '$cookies', function ($rootScope, $cookies) {
   this.getReferringLogo = function(){
     return $cookies.get('referring_logo')
   }
+
+  this.setPathAfterLogin = function(url){
+    $cookies.put('newPath', url)
+  }
+
+  this.getPathAfterLogin = function(){
+    var res = $cookies.get('newPath')
+    $cookies.remove('newPath')
+    return res;
+  }
 }]

@@ -90,6 +90,7 @@ module.exports = ['$scope', 'AuthService', 'TrackerService', '$translate', '$loc
       var success = function (user) {
         $location.path(getRedirectPageLogin(user))
         AuthService.trackerLogin('Login', 'Email')
+        $rootScope.checkZD();
       }
       var error = function (err) {
         $scope.loading = false
@@ -103,6 +104,7 @@ module.exports = ['$scope', 'AuthService', 'TrackerService', '$translate', '$loc
       var success = function (user) {
         $location.path(getRedirectPageLogin(user))
         AuthService.trackerLogin('Login', 'Facebook')
+        $rootScope.checkZD();
       }
       var error = function (err) {
         console.log("facebookLogin error")
@@ -112,7 +114,12 @@ module.exports = ['$scope', 'AuthService', 'TrackerService', '$translate', '$loc
       AuthService.loginFacebook(success, error)
     }
 
-    function getRedirectPageLogin (user) {
+    function getRedirectPageLogin(user) {
+      var next = SessionService.getPathAfterLogin();
+      if (next) {
+        return next;
+      }
+
       if (user.roles.indexOf('coach') !== -1) {
         return '/dashboard/board'
       } else {

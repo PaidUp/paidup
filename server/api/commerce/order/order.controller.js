@@ -52,7 +52,7 @@ exports.orderGetOrganization = function (req, res) {
   OrganizationService.getOrganization(req.params.organizationId, function (err, organizationData) {
     if (err) return res.status(400).json(err)
     if (!organizationData.paymentId) return res.status(400).json({message: 'Organization does not activated', status: '400'})
-    OrderService.orderGetOrganization(organizationData.paymentId, req.params.limit, req.params.sort, function (err, result) {
+    OrderService.orderGetOrganization(organizationData.paymentId, req.params.limit, req.params.sort, req.params.from, req.params.to, function (err, result) {
       if (err) return res.status(400).json(err)
       return res.status(200).json(result)
     })
@@ -111,10 +111,6 @@ exports.orderTransactions = function (req, res) {
   })
 
   })
-
-
-
-  
 }
 
 exports.editOrder = function (req, res) {
@@ -129,6 +125,20 @@ exports.editOrder = function (req, res) {
   OrderService.editOrder(req.body, function (err, data) {
     if (err) {
       return res.status(500).json({code: 'OrderService.editOrder', message: JSON.stringify(err)})
+    }
+    return res.status(200).json(data.body)
+  })
+}
+
+exports.orderCancel = function (req, res) {
+  let user = req.user
+  if (!req.body.orderId) {
+    return handleError(res, { name: 'ValidationError', message: 'order id is required' })
+  }
+  req.body.userSysId = user._id
+  OrderService.orderCancel(req.body, function (err, data) {
+    if (err) {
+      return res.status(500).json({code: 'OrderService.canelOrder', message: JSON.stringify(err)})
     }
     return res.status(200).json(data.body)
   })

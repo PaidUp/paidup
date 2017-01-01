@@ -73,6 +73,7 @@ module.exports = ['$rootScope', '$scope', 'AuthService', '$state', 'CommerceServ
         orderId: orderId,
         paymentPlanId: pp._id,
         status: 'pending',
+        wasProcessed: false
       }
 
       CommerceService.paymentPlanEdit(params).then(function (res) {
@@ -123,7 +124,7 @@ module.exports = ['$rootScope', '$scope', 'AuthService', '$state', 'CommerceServ
         accountBrand: pp.accountBrand,
         last4: pp.last4,
         typeAccount: pp.typeAccount,
-        //status: pp.status,
+        status: pp.status,
         //attempts: pp.attempts
       }
 

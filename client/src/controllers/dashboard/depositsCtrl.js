@@ -4,12 +4,15 @@ module.exports = ['$scope', 'PaymentService', 'AuthService', '$state', 'TrackerS
   $scope.expandSection1 = false
   $scope.expandSection2 = false
   $scope.listCharges = []
+  $scope.dt1 = new Date();
+  $scope.dt1.setMonth(0, 1);
+  $scope.dt2 = new Date();
   $scope.init = function () {
     TrackerService.track('View Deposits')
     AuthService.getCurrentUserPromise().then(function (user) {
       var organizationId = (user.meta.productRelated[0]) ? user.meta.productRelated[0] : 'Does not have organization';
       $scope.organizationId = organizationId;
-      PaymentService.getTransfers(organizationId).then(function (result) {
+      PaymentService.getTransfers(organizationId, $scope.dt1.toLocaleDateString('en-US'), $scope.dt2.toLocaleDateString('en-US')).then(function (result) {
         $scope.totalAmount = result.total
         $scope.bankName = result.bankName
         $scope.listChargesGrouped = result.data
@@ -105,19 +108,19 @@ module.exports = ['$scope', 'PaymentService', 'AuthService', '$state', 'TrackerS
 
   $scope.change1 = function () {
     var formatOptions = { month: '2-digit', day: '2-digit', year: 'numeric' }
-    console.log($scope.dt1.toLocaleDateString('en-US', formatOptions))
     $scope.dateOptions2 = {
       minDate: $scope.dt1,
       showWeeks: false
     }
+    $scope.init()
   }
 
   $scope.change2 = function () {
     var formatOptions = { month: '2-digit', day: '2-digit', year: 'numeric' }
-    console.log($scope.dt2.toLocaleDateString('en-US', formatOptions))
     $scope.dateOptions1 = {
       maxDate: $scope.dt2,
       showWeeks: false
     }
+    $scope.init()
   }
 }]

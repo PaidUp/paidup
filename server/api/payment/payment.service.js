@@ -7,8 +7,13 @@ const paymentEmailService = require('./payment.email.service')
 const tdPaymentService = require('TDCore').paymentService
 const CommerceConnect = require('paidup-commerce-connect')
 const MAX_SIZE_META_STRIPE = config.stripe.maxSizeMeta
+const zendesk = require('paidup-zendesk-connect')
+const connector = require('../../db/connector');
+const collectionName = config.mongo.options.prefix + 'properties';
 
-function createCustomer (user, cb) {
+
+
+function createCustomer(user, cb) {
   tdPaymentService.init(config.connections.payment)
   let customer = {
     firstName: user.firstName,
@@ -22,7 +27,7 @@ function createCustomer (user, cb) {
   })
 }
 
-function updateCustomer (dataCustomer, cb) {
+function updateCustomer(dataCustomer, cb) {
   tdPaymentService.init(config.connections.payment)
   tdPaymentService.updateCustomer(dataCustomer, function (err, data) {
     if (err) return cb(err)
@@ -30,7 +35,7 @@ function updateCustomer (dataCustomer, cb) {
   })
 }
 
-function fetchCustomer (customerId, cb) {
+function fetchCustomer(customerId, cb) {
   tdPaymentService.init(config.connections.payment)
   tdPaymentService.fetchCustomer(customerId, function (err, data) {
     if (err) return cb(err)
@@ -38,7 +43,7 @@ function fetchCustomer (customerId, cb) {
   })
 }
 
-function createCard (cardDetails, cb) {
+function createCard(cardDetails, cb) {
   tdPaymentService.init(config.connections.payment)
   tdPaymentService.createCard(cardDetails, function (err, data) {
     if (err) return cb(err)
@@ -46,33 +51,35 @@ function createCard (cardDetails, cb) {
   })
 }
 
-function associateCard (customerId, cardId, cb) {
+function associateCard(customerId, cardId, cb) {
   tdPaymentService.init(config.connections.payment)
-  tdPaymentService.associateCard({customerId: customerId, cardId: cardId}, function (err, data) {
+  tdPaymentService.associateCard({ customerId: customerId, cardId: cardId }, function (err, data) {
     if (err) return cb(err)
     return cb(null, data)
   })
 }
 
-function createOrder (providerId, description, cb) {
+function createOrder(providerId, description, cb) {
   tdPaymentService.init(config.connections.payment)
-  tdPaymentService.createOrder({merchantCustomerId: providerId, description: description}, function (err, data) {
+  tdPaymentService.createOrder({ merchantCustomerId: providerId, description: description }, function (err, data) {
     if (err) return cb(err)
     return cb(null, data)
   })
 }
 
-function debitCardv2 (cardId, amount, description, appearsOnStatementAs, customerId, providerId, fee, metaPayment, cb) {
+function debitCardv2(cardId, amount, description, appearsOnStatementAs, customerId, providerId, fee, metaPayment, cb) {
   tdPaymentService.init(config.connections.payment)
-  tdPaymentService.debitCardv2({cardId: cardId, amount: amount, description: description,
+  tdPaymentService.debitCardv2({
+    cardId: cardId, amount: amount, description: description,
     appearsOnStatementAs: appearsOnStatementAs, customerId: customerId,
-  providerId: providerId, fee: fee, meta: metaPayment}, function (err, data) {
+    providerId: providerId, fee: fee, meta: metaPayment
+  }, function (err, data) {
     if (err) return cb(err)
     return cb(null, data)
   })
 }
 
-function listCards (customerId, cb) {
+function listCards(customerId, cb) {
   tdPaymentService.init(config.connections.payment)
   tdPaymentService.listCards(customerId, function (err, data) {
     if (err) return cb(err)
@@ -80,9 +87,9 @@ function listCards (customerId, cb) {
   })
 }
 
-function updateOrderDescription (orderId, description, cb) {
+function updateOrderDescription(orderId, description, cb) {
   tdPaymentService.init(config.connections.payment)
-  tdPaymentService.updateOrderDescription({orderId: orderId, description: description}, function (err, data) {
+  tdPaymentService.updateOrderDescription({ orderId: orderId, description: description }, function (err, data) {
     if (err) return cb(err)
     return cb(null, data)
   })
@@ -93,7 +100,7 @@ function updateOrderDescription (orderId, description, cb) {
  * @param user
  * @param cb
  */
-function prepareUser (user, cb) {
+function prepareUser(user, cb) {
   if (user.meta.TDPaymentId === '') {
     createCustomer(user, function (err, data) {
       if (err) return cb(err)
@@ -108,7 +115,7 @@ function prepareUser (user, cb) {
   }
 }
 
-function fetchCard (customerId, cardId, cb) {
+function fetchCard(customerId, cardId, cb) {
   tdPaymentService.init(config.connections.payment)
   tdPaymentService.fetchCard(customerId, cardId, function (err, creditCard) {
     if (err) return cb(err)
@@ -116,7 +123,7 @@ function fetchCard (customerId, cardId, cb) {
   })
 }
 
-function fetchAccount (customerId, tokenId, cb) {
+function fetchAccount(customerId, tokenId, cb) {
   tdPaymentService.init(config.connections.payment)
   if (tokenId.indexOf('ba') >= 0) {
     tdPaymentService.fetchBank(customerId, tokenId, function (err, bankAccount) {
@@ -131,7 +138,7 @@ function fetchAccount (customerId, tokenId, cb) {
   }
 }
 
-function getVisibleBeneficiaryData (info) {
+function getVisibleBeneficiaryData(info) {
   let ret = info.formTemplate.reduce(function (actual, obj) {
     if (obj.displayed) {
       return actual + ' ' + info.formData[obj.model]
@@ -142,11 +149,11 @@ function getVisibleBeneficiaryData (info) {
   return cleanString(ret)
 }
 
-function cleanString (str) {
+function cleanString(str) {
   return str.replace(/[^a-zA-Z0-9 \-]/g, '_').substring(0, MAX_SIZE_META_STRIPE)
 }
 
-function capture (order, cb) {
+function capture(order, cb) {
   let newmeta = {
     organizationId: order.paymentsPlan[0].productInfo.organizationId,
     organizationName: cleanString(order.paymentsPlan[0].productInfo.organizationName),
@@ -164,11 +171,11 @@ function capture (order, cb) {
 
   debitCardv2(order.paymentsPlan[0].account, order.paymentsPlan[0].price, order.paymentsPlan[0].productInfo.organizationName, order.paymentsPlan[0]._id, order.paymentsPlan[0].paymentId, order.paymentsPlan[0].destinationId, order.paymentsPlan[0].totalFee, newmeta, function (debitErr, data) {
     if (debitErr) {
-      order.paymentsPlan[0].attempts.push({dateAttemp: new Date(), status: 'failed', message: debitErr.detail, last4: order.paymentsPlan[0].last4, accountBrand: order.paymentsPlan[0].accountBrand})
+      order.paymentsPlan[0].attempts.push({ dateAttemp: new Date(), status: 'failed', message: debitErr.detail, last4: order.paymentsPlan[0].last4, accountBrand: order.paymentsPlan[0].accountBrand })
       order.paymentsPlan[0].status = 'failed'
       logger.error('debitCard debitErr', debitErr)
     } else {
-      order.paymentsPlan[0].attempts.push({dateAttemp: new Date(), status: data.status, message: 'done', last4: order.paymentsPlan[0].last4, accountBrand: order.paymentsPlan[0].accountBrand, transferId: data.transfer})
+      order.paymentsPlan[0].attempts.push({ dateAttemp: new Date(), status: data.status, message: 'done', last4: order.paymentsPlan[0].last4, accountBrand: order.paymentsPlan[0].accountBrand, transferId: data.transfer })
       order.paymentsPlan[0].status = data.status
     }
     order.paymentsPlan[0].wasProcessed = true
@@ -185,11 +192,18 @@ function capture (order, cb) {
       success: function (data) {
         data.err = debitErr
         if (debitErr || data.status === 'failed') {
-          paymentEmailService.sendFinalEmailCreditCardv3(order, function (err, dataEmail) {
-            if (err) return cb(err)
-            logger.error('paymentEmailService.sendFinalEmailCreditCardv3 error', err)
-            return cb(null, data)
-          })
+
+          createTicketChargeFailed(order, function (err, data) {
+            if (err) {
+              logger.error('createTicketChargeFailed error', err)
+            }
+          });
+          return cb(null, data);
+          //paymentEmailService.sendFinalEmailCreditCardv3(order, function (err, dataEmail) {
+          // if (err) return cb(err)
+          // logger.error('paymentEmailService.sendFinalEmailCreditCardv3 error', err)
+          // return cb(null, data)
+          //})
         } else {
           paymentEmailService.sendProcessedEmailCreditCardv3(order, function (err, dataEmail) {
             if (err) return cb(err)
@@ -205,20 +219,73 @@ function capture (order, cb) {
   })
 }
 
-function getUserDefaultCardId (user, cb) {
+function createTicketChargeFailed(order, cb) {
+  var subject = '';
+  var formTemplate = order.paymentsPlan[0].customInfo.formTemplate;
+  var formData = order.paymentsPlan[0].customInfo.formData;
+
+  formTemplate.forEach(function (field, idx, arr) {
+    if (field.displayed) {
+      subject = subject + ' ' + formData[field.model];
+    }
+  });
+
+  connector.db(function (err, db) {
+    if (err) {
+      cb(err);
+    }
+    let collection = db.collection(collectionName);
+    collection.findOne({ key: 'zendesk' }, function (err, doc) {
+      if (err || !doc) {
+        cb(err)
+      }
+
+      var comment = doc.values.comment_ticket_payment_failed
+      comment = comment.replace('${order.paymentsPlan[0].userInfo.userName}', order.paymentsPlan[0].userInfo.userName)
+      comment = comment.replace('${order.paymentsPlan[0].productInfo.organizationName}', order.paymentsPlan[0].productInfo.organizationName)
+      comment = comment.replace('${order.paymentsPlan[0].price}', order.paymentsPlan[0].price)
+      comment = comment.replace('${config.emailVars.baseUrl}', config.emailVars.baseUrl)
+      comment = comment.replace('${order.orderId}', order.orderId)
+
+      var ticketParams = {
+        username: config.zendesk.username,
+        token: config.zendesk.token,
+        subdomain: config.zendesk.subdomain,
+        requesterEmail: order.paymentsPlan[0].email,
+        requesterName: order.paymentsPlan[0].userInfo.userName,
+        assigneeEmail: config.zendesk.assigneeEmail,
+        subject: order.paymentsPlan[0].productInfo.organizationName + ' Payment Failed for ' + subject,
+        comment: comment,
+        status: 'pending',
+        tags: ['ticket_category_payment_failed_new_card']
+      }
+      zendesk.ticketCreate(ticketParams).exec({
+        error: function (err) {
+          cb(err);
+        },
+        success: function (result) {
+          cb(null, result);
+        }
+      });
+
+    });
+  });
+}
+
+function getUserDefaultCardId(user, cb) {
   // Check bank accounts
   listCards(user.meta.TDPaymentId, function (err, data) {
     if (err) return cb(err)
     if (data.data.length === 0) {
       // error
-      return cb({name: 'not-available-payment'}, null)
+      return cb({ name: 'not-available-payment' }, null)
     }
     let card = data.data[0]
     return cb(null, card.id)
   })
 }
 
-function createConnectAccount (account, cb) {
+function createConnectAccount(account, cb) {
   tdPaymentService.init(config.connections.payment)
   tdPaymentService.createConnectAccount(account, function (err, data) {
     if (err) return cb(err)
@@ -226,7 +293,7 @@ function createConnectAccount (account, cb) {
   })
 }
 
-function addBankConnectAccount (bankDetails, cb) {
+function addBankConnectAccount(bankDetails, cb) {
   tdPaymentService.init(config.connections.payment)
   tdPaymentService.addBankToAccount(bankDetails, function (err, data) {
     if (err) return cb(err)
@@ -234,7 +301,7 @@ function addBankConnectAccount (bankDetails, cb) {
   })
 }
 
-function addToSCustomer (tosDetails, cb) {
+function addToSCustomer(tosDetails, cb) {
   tdPaymentService.init(config.connections.payment)
   tdPaymentService.addToSCustomer(tosDetails, function (err, data) {
     if (err) return cb(err)
@@ -242,7 +309,7 @@ function addToSCustomer (tosDetails, cb) {
   })
 }
 
-function addLegalCustomer (legalDetails, cb) {
+function addLegalCustomer(legalDetails, cb) {
   tdPaymentService.init(config.connections.payment)
   tdPaymentService.addLegalCustomer(legalDetails, function (err, data) {
     if (err) return cb(err)
@@ -250,7 +317,7 @@ function addLegalCustomer (legalDetails, cb) {
   })
 }
 
-function updateAccount (dataDetails, cb) {
+function updateAccount(dataDetails, cb) {
   tdPaymentService.init(config.connections.payment)
   tdPaymentService.updateAccount(dataDetails, function (err, data) {
     if (err) return cb(err)
@@ -258,15 +325,15 @@ function updateAccount (dataDetails, cb) {
   })
 }
 
-function getTransfers (stripeId, cb) {
-  tdPaymentService.init(config.connections.payment)
-  tdPaymentService.getTransfers(stripeId, function (err, data) {
+function getTransfers(stripeId, from, to, cb) {
+  tdPaymentService.init(config.connections.payment) 
+  tdPaymentService.getTransfers(stripeId, from, to, function (err, data) {
     if (err) return cb(err)
     return cb(null, data)
   })
 }
 
-function getBalance (stripeId, transferId, cb) {
+function getBalance(stripeId, transferId, cb) {
   tdPaymentService.init(config.connections.payment)
   tdPaymentService.getBalance(stripeId, transferId, function (err, data) {
     if (err) return cb(err)
@@ -274,7 +341,7 @@ function getBalance (stripeId, transferId, cb) {
   })
 }
 
-function getChargesList (stripeId, cb) {
+function getChargesList(stripeId, cb) {
   tdPaymentService.init(config.connections.payment)
   tdPaymentService.getChargesList(stripeId, function (err, data) {
     if (err) return cb(err)
@@ -282,7 +349,7 @@ function getChargesList (stripeId, cb) {
   })
 }
 
-function listCustomerBanks (stripeId, cb) {
+function listCustomerBanks(stripeId, cb) {
   tdPaymentService.init(config.connections.payment)
   tdPaymentService.listCustomerBanks(stripeId, function (err, data) {
     if (err) return cb(err)
@@ -290,7 +357,7 @@ function listCustomerBanks (stripeId, cb) {
   })
 }
 
-function retrieveAccount (stripeId, cb) {
+function retrieveAccount(stripeId, cb) {
   tdPaymentService.init(config.connections.payment)
   tdPaymentService.retrieveAccount(stripeId, function (err, data) {
     if (err) return cb(err)
@@ -298,7 +365,7 @@ function retrieveAccount (stripeId, cb) {
   })
 }
 
-function plaidAuthenticate (plaidData, cb) {
+function plaidAuthenticate(plaidData, cb) {
   tdPaymentService.init(config.connections.payment)
   tdPaymentService.plaidAuthenticate(plaidData, function (err, data) {
     if (err) return cb(err)
@@ -306,7 +373,7 @@ function plaidAuthenticate (plaidData, cb) {
   })
 }
 
-function listBanks (customerId, cb) {
+function listBanks(customerId, cb) {
   tdPaymentService.init(config.connections.payment)
   tdPaymentService.listCustomerBanks(customerId, function (err, data) {
     if (err) return cb(err)
@@ -314,7 +381,7 @@ function listBanks (customerId, cb) {
   })
 }
 
-function getDepositCharge (paymentId, accountId, cb) {
+function getDepositCharge(paymentId, accountId, cb) {
   tdPaymentService.init(config.connections.payment)
   tdPaymentService.getDepositCharge(paymentId, accountId, function (err, data) {
     if (err) return cb(err)
@@ -322,7 +389,7 @@ function getDepositCharge (paymentId, accountId, cb) {
   })
 }
 
-function getDepositChargeRefund (paymentId, accountId, cb) {
+function getDepositChargeRefund(paymentId, accountId, cb) {
   tdPaymentService.init(config.connections.payment)
   tdPaymentService.getDepositChargeRefund(paymentId, accountId, function (err, data) {
     if (err) return cb(err)
@@ -330,7 +397,7 @@ function getDepositChargeRefund (paymentId, accountId, cb) {
   })
 }
 
-function refund (chargeId, reason, cb) {
+function refund(chargeId, reason, cb) {
   tdPaymentService.init(config.connections.payment)
   tdPaymentService.refund(chargeId, reason, function (err, data) {
     if (err) return cb(err)
@@ -338,7 +405,7 @@ function refund (chargeId, reason, cb) {
   })
 }
 
-function retrieveTransfer (transferId, cb) {
+function retrieveTransfer(transferId, cb) {
   tdPaymentService.init(config.connections.payment)
   tdPaymentService.retrieveTransfer(transferId, function (err, data) {
     if (err) return cb(err)

@@ -8,6 +8,8 @@ const paymentEmailService = require('../../payment/payment.email.service')
 const paymentService = require('../../payment/payment.service')
 const logger = require('../../../config/logger')
 const moment = require('moment')
+const zendesk = require('paidup-zendesk-connect')
+
 
 var OrderService = {
   calculatePrices: function calculatePrices(body, cb) {
@@ -194,12 +196,101 @@ function createOrder(body, cb) {
           return cb(errorOrderResult)
         } else {
           logger.debug('Create Order: New Order', dataProduct)
+          logger.debug('Create Order: New Order Result', orderResult)
+          updateTicketAfterCreateOrder(body.email, orderResult.body.orderId, function (err, res) {
+            if (err) {
+              logger.debug('update ticket err', err)
+            } else {
+              logger.debug('update ticket', res)
+            }
+            updateUserAfterCreateOrder(body.email, orderResult.body, function (err, res) {
+              if (err) {
+                logger.debug('update ticket err', err)
+              } else {
+                logger.debug('update ticket', res)
+              }
+            });
+          })
           OrderService.sendEmail(last4, body, dataProduct, orderResult)
           cb(null, orderResult)
         }
       })
     }
   })
+}
+
+function updateTicketAfterCreateOrder(userEmail, orderId, cb) {
+  var retrieveTicketParams = {
+    username: config.zendesk.username,
+    token: config.zendesk.token,
+    subdomain: config.zendesk.subdomain,
+    requesterEmail: userEmail
+  }
+  zendesk.ticketRetrieveByUser(retrieveTicketParams).exec({
+    error: function (err) {
+      cb(err);
+    },
+    success: function (result) {
+      if (result.length) {
+        var ticket = result[result.length - 1];
+        var addCommentParams = {
+          username: config.zendesk.username,
+          token: config.zendesk.token,
+          subdomain: config.zendesk.subdomain,
+          ticketId: ticket.id,
+          tags: ['ordercreated'],
+          comment: `User has created an order 
+            Order Id: ${orderId}
+            Order Date ${new Date().toLocaleDateString('en-US')}
+          `,
+          isPublic: false
+        }
+        zendesk.ticketAddComment(addCommentParams).exec({
+          error: function (err) {
+            cb(err);
+          },
+          success: function (result) {
+            cb(null, result);
+          }
+        });
+      } else {
+        cb(null, false)
+      }
+    }
+  });
+}
+
+function updateUserAfterCreateOrder(userEmail, order, cb) {
+  var beneficiary = '';
+  var formTemplate = order.paymentsPlan[0].customInfo.formTemplate;
+  var formData = order.paymentsPlan[0].customInfo.formData;
+
+  formTemplate.forEach(function (field, idx, arr) {
+    if (field.displayed) {
+      beneficiary = beneficiary + ' ' + formData[field.model];
+    }
+  });
+
+  var userParams = {
+    username: config.zendesk.username,
+    token: config.zendesk.token,
+    subdomain: config.zendesk.subdomain,
+    userEmail: userEmail,
+    paidupcustomer: 'paidupcustomer',
+    tags: ["ordercreated"],
+    userType: 'user_type_paidup_customer',
+    products: order.paymentsPlan[0].productInfo.productName,
+    organization: order.paymentsPlan[0].productInfo.organizationName,
+    beneficiary: beneficiary
+  }
+  zendesk.userUpdate(userParams).exec({
+    error: function (err) {
+      cb(err);
+    },
+    success: function (result) {
+      cb(null, result)
+    }
+  });
 }
 
 function orderPaymentRecent(userId, limit, cb) {
@@ -295,14 +386,35 @@ function orderGetByorderId(orderId, limit, sort, cb) {
     }
   })
 }
+
+function orderCancel(params, cb) {
+  CommerceConnector.orderCancel({
+    baseUrl: config.connections.commerce.baseUrl,
+    token: config.connections.commerce.token,
+    orderId: params.orderId,
+    userSysId: params.userSysId
+  }).exec({
+    // An unexpected error occurred.
+    error: function (err) {
+      return cb(err)
+    },
+    // OK.
+    success: function (result) {
+      return cb(null, result)
+    }
+  })
+}
+
 // machinepack exec order-get-organization --organizationId='acct_18AQWDGKajSrnujf' --token='TDCommerceToken-CHANGE-ME!' --baseUrl='http://localhost:9002' --limit='1000' --sort='1'
-function orderGetOrganization(organizationId, limit, sort, cb) {
+function orderGetOrganization(organizationId, limit, sort, from, to, cb) {
   CommerceConnector.orderGetOrganization({
     baseUrl: config.connections.commerce.baseUrl,
     token: config.connections.commerce.token,
     organizationId: organizationId,
     limit: limit,
-    sort: sort
+    sort: sort,
+    fromDate: from,
+    toDate: to
   }).exec({
     // An unexpected error occurred.
     error: function (err) {
@@ -380,7 +492,7 @@ function orderTransactions(organizationId, cb) {
       let res = transactions.body.map(function (transaction) {
         let ele = {
           transactionId: transaction.paymentsPlan.attempts._id || "",
-          created: moment(transaction.paymentsPlan.attempts.dateAttemp).format('MM/DD/YYYY hh:mm')|| "",
+          created: moment(transaction.paymentsPlan.attempts.dateAttemp).format('MM/DD/YYYY hh:mm') || "",
           organizationId: transaction.paymentsPlan.productInfo.organizationId || "",
           organization: transaction.paymentsPlan.productInfo.organizationName || "",
           location: transaction.paymentsPlan.productInfo.organizationLocation || "",
@@ -557,7 +669,7 @@ function editPaymentPlan(pp, params, cb) {
       pp.wasProcessed = wasProcessed
       pp.account = params.account || pp.account
       pp.accountBrand = params.accountBrand || pp.accountBrand
-      pp.last4 = params.last4 || pp.last4 
+      pp.last4 = params.last4 || pp.last4
       pp.typeAccount = params.typeAccount || pp.typeAccount
       pp.totalFee = result.body.totalFee
       pp.feeStripe = result.body.feeStripe
@@ -656,5 +768,6 @@ module.exports = {
   editAllPaymentsPlan: editAllPaymentsPlan,
   orderUpdateWebhook: orderUpdateWebhook,
   orderHistory: orderHistory,
-  orderTransactions: orderTransactions
+  orderTransactions: orderTransactions,
+  orderCancel: orderCancel
 }

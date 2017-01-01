@@ -3,7 +3,7 @@
 const path = require('path')
 const _ = require('lodash')
 
-function requiredProcessEnv (name) {
+function requiredProcessEnv(name) {
   if (!process.env[name]) {
     throw new Error('You must set the ' + name + ' environment variable')
   }
@@ -42,6 +42,13 @@ var all = {
       prefix: 'paidup_'
     }
 
+  },
+
+  zendesk: {
+    username: 'ricardo@getpaidup.com',
+    token: 'ALTnkNkK72Cu28uBK30p7e20FUYEDOVytF6Y5GtI',
+    subdomain: 'getpaidup1478060212',
+    assigneeEmail: 'felipefernandes81@gmail.com'
   },
 
   facebook: {
@@ -309,11 +316,11 @@ var all = {
   prerender: {
     token: 'U3jxQ8zAatml2xL5LVd1'
   },
-  cors : {
-    enable : true,
-    corsWhitelist : ['http://localhost:4000', 'https://admin.getpaidup.com', 'https://admstg.getpaidup.com', 'https://admdev.getpaidup.com']
+  cors: {
+    enable: true,
+    corsWhitelist: ['http://localhost:4000', 'https://admin.getpaidup.com', 'https://admstg.getpaidup.com', 'https://admdev.getpaidup.com']
   }
-  
+
 }
 
 // Export the config object based on the NODE_ENV

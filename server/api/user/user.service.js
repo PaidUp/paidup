@@ -5,8 +5,11 @@ const config = require('../../config/environment')
 const nodemailer = require('nodemailer')
 const emailTemplates = require('email-templates')
 const transporter = nodemailer.createTransport(config.emailService)
+const zendesk = require('paidup-zendesk-connect')
 
-function create (data, cb) {
+function create(data, cb) {
+  console.log('data: ', data);
+
   tdUserService.init(config.connections.user)
   tdUserService.create(data, function (err, data) {
     if (err) return cb(err)
@@ -14,7 +17,7 @@ function create (data, cb) {
   })
 }
 
-function createAll (data, cb) {
+function createAll(data, cb) {
   tdUserService.init(config.connections.user)
   tdUserService.createAll(data, function (err, data) {
     if (err) return cb(err)
@@ -22,7 +25,7 @@ function createAll (data, cb) {
   })
 }
 
-function current (data, cb) {
+function current(data, cb) {
   tdUserService.init(config.connections.user)
   tdUserService.current(data.token, function (err, data) {
     if (err) return cb(err)
@@ -30,7 +33,7 @@ function current (data, cb) {
   })
 }
 
-function update (data, cb) {
+function update(data, cb) {
   tdUserService.init(config.connections.user)
   let userId = data.parentId ? data.parentId : data.userId
   tdUserService.update(data, userId, function (err, data) {
@@ -39,7 +42,7 @@ function update (data, cb) {
   })
 }
 
-function updateProductsSuggested (userId, productsSuggested, cb) {
+function updateProductsSuggested(userId, productsSuggested, cb) {
   tdUserService.init(config.connections.user)
   tdUserService.updateProductsSuggested(userId, productsSuggested, function (err, data) {
     if (err) return cb(err)
@@ -47,7 +50,7 @@ function updateProductsSuggested (userId, productsSuggested, cb) {
   })
 }
 
-function find (filter, cb) {
+function find(filter, cb) {
   tdUserService.init(config.connections.user)
   tdUserService.find(filter, function (err, data) {
     if (err) return cb(err)
@@ -55,7 +58,7 @@ function find (filter, cb) {
   })
 }
 
-function save (data, cb) {
+function save(data, cb) {
   tdUserService.init(config.connections.user)
   tdUserService.save(data, function (err, data) {
     if (err) return cb(err)
@@ -63,7 +66,7 @@ function save (data, cb) {
   })
 }
 
-function sendEmailWelcome (data, cb) {
+function sendEmailWelcome(data, cb) {
   emailTemplates(config.emailTemplateRoot, function (err, template) {
     if (err) return cb(err)
     let emailVars = config.emailVars
@@ -88,7 +91,7 @@ function sendEmailWelcome (data, cb) {
 }
 
 
-function sendEmailResetPassword (data, cb) {
+function sendEmailResetPassword(data, cb) {
   emailTemplates(config.emailTemplateRoot, function (err, template) {
     if (err) return cb(err)
     let emailVars = config.emailVars
@@ -112,6 +115,25 @@ function sendEmailResetPassword (data, cb) {
   })
 }
 
+function createZendeskUser(params, cb) {
+  zendesk.userCreate({
+    username: config.zendesk.username,
+    token: config.zendesk.token,
+    subdomain: config.zendesk.subdomain,
+    email: params.email,
+    fullName: params.fullName,
+    phone: params.phone,
+    userType: params.userType
+  }).exec({
+    error: function (err) {
+      cb(err);
+    },
+    success: function (result) {
+      cb(null, result);
+    },
+  });
+}
+
 exports.create = create
 exports.createAll = createAll
 exports.current = current
@@ -121,3 +143,4 @@ exports.save = save
 exports.sendEmailWelcome = sendEmailWelcome
 exports.sendEmailResetPassword = sendEmailResetPassword
 exports.updateProductsSuggested = updateProductsSuggested
+exports.createZendeskUser = createZendeskUser
