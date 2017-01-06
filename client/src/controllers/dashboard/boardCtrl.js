@@ -217,7 +217,7 @@ module.exports = ['$scope', 'AuthService', '$state', 'CommerceService', 'Tracker
   }
 
   $scope.getPaymentsPending = function getPaymentsPending(pp) {
-    if (pp.status === 'failed' || pp.status === 'pending' || pp.status.startsWith('disable') ) return true
+    if (pp.status === 'failed' || pp.status === 'pending' || pp.status === 'canceled' || pp.status.startsWith('disable') ) return true
     return false
   }
 
