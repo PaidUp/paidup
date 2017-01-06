@@ -13,6 +13,7 @@ router.get('/active/:userId/:limit', authService.isAuthenticated(), controller.o
 router.get('/organization/:organizationId/:limit/:sort/:from/:to', authService.isAuthenticated(), controller.orderGetOrganization)
 router.get('/:userId/:limit/:sort', authService.isAuthenticated(), controller.orderGet)
 router.post('/cancel', authService.isAuthenticated(), controller.orderCancel)
+router.post('/payment/remove', authService.isAuthenticated(), controller.removePaymentPlan)
 
 router.post('/search', authService.isAuthenticated(), controller.orderSearch);
 router.post('/history', authService.isAuthenticated(), controller.orderHistory);
