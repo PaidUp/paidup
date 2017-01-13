@@ -131,7 +131,7 @@ var OrderService = {
             organizationName: body.organizationName,
             organizationLocation: body.organizationLocation,
             organizationImage: body.organizationImage,
-            transactionDescription: dataProduct.details.transactionDescription
+            transactionDescription: dataProduct.details.transactionDescription || ""
           },
           userInfo: {
             userId: body.userId,
@@ -200,15 +200,15 @@ function createOrder(body, cb) {
           logger.debug('Create Order: New Order Result', orderResult)
           updateTicketAfterCreateOrder(body.email, orderResult.body.orderId, function (err, res) {
             if (err) {
-              logger.debug('update ticket err', err)
+              logger.debug('update ticket updateTicketAfterCreateOrder err', err)
             } else {
-              logger.debug('update ticket', res)
+              logger.debug('update ticket updateTicketAfterCreateOrder', res)
             }
             updateUserAfterCreateOrder(body.email, orderResult.body, function (err, res) {
               if (err) {
-                logger.debug('update ticket err', err)
+                logger.debug('update ticket updateUserAfterCreateOrder err', err)
               } else {
-                logger.debug('update ticket', res)
+                logger.debug('update ticket updateUserAfterCreateOrder', res)
               }
             });
           })
