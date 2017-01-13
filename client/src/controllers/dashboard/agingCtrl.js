@@ -55,7 +55,7 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
     return CommerceService.getVisibleBeneficiaryData(customInfo)
   }
 
-  $scope.dt1 = new Date().getFullYear()+'-01-01';
+  $scope.dt1 = '2015-01-01';
   $scope.dt2 = new Date().toISOString().substr(0,10);
 
   $scope.init = function () {
