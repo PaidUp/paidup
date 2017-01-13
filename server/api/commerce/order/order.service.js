@@ -17,7 +17,6 @@ var OrderService = {
       if (errProduct) {
         return cb(errProduct)
       }
-
       let paymentMethods = dataProduct.paymentPlans[body.paymentPlanSelected].paymentMethods
       let dues = dataProduct.paymentPlans[body.paymentPlanSelected].dues
       let params = []
@@ -131,7 +130,8 @@ var OrderService = {
             organizationId: body.organizationId,
             organizationName: body.organizationName,
             organizationLocation: body.organizationLocation,
-            organizationImage: body.organizationImage
+            organizationImage: body.organizationImage,
+            transactionDescription: dataProduct.details.transactionDescription || ""
           },
           userInfo: {
             userId: body.userId,
@@ -140,6 +140,7 @@ var OrderService = {
           customInfo: body.customInfo
         })
       })
+      console.log("@@product info: ", orderReq.productInfo)
       CommerceConnector.orderCreate(orderReq).exec({
         // An unexpected error occurred.
         error: function (err) {
@@ -199,15 +200,15 @@ function createOrder(body, cb) {
           logger.debug('Create Order: New Order Result', orderResult)
           updateTicketAfterCreateOrder(body.email, orderResult.body.orderId, function (err, res) {
             if (err) {
-              logger.debug('update ticket err', err)
+              logger.debug('update ticket updateTicketAfterCreateOrder err', err)
             } else {
-              logger.debug('update ticket', res)
+              logger.debug('update ticket updateTicketAfterCreateOrder', res)
             }
             updateUserAfterCreateOrder(body.email, orderResult.body, function (err, res) {
               if (err) {
-                logger.debug('update ticket err', err)
+                logger.debug('update ticket updateUserAfterCreateOrder err', err)
               } else {
-                logger.debug('update ticket', res)
+                logger.debug('update ticket updateUserAfterCreateOrder', res)
               }
             });
           })
