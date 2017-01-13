@@ -17,7 +17,6 @@ var OrderService = {
       if (errProduct) {
         return cb(errProduct)
       }
-
       let paymentMethods = dataProduct.paymentPlans[body.paymentPlanSelected].paymentMethods
       let dues = dataProduct.paymentPlans[body.paymentPlanSelected].dues
       let params = []
@@ -131,7 +130,8 @@ var OrderService = {
             organizationId: body.organizationId,
             organizationName: body.organizationName,
             organizationLocation: body.organizationLocation,
-            organizationImage: body.organizationImage
+            organizationImage: body.organizationImage,
+            transactionDescription: dataProduct.details.transactionDescription
           },
           userInfo: {
             userId: body.userId,
@@ -140,6 +140,7 @@ var OrderService = {
           customInfo: body.customInfo
         })
       })
+      console.log("@@product info: ", orderReq.productInfo)
       CommerceConnector.orderCreate(orderReq).exec({
         // An unexpected error occurred.
         error: function (err) {

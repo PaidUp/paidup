@@ -67,12 +67,12 @@ function createOrder(providerId, description, cb) {
   })
 }
 
-function debitCardv2(cardId, amount, description, appearsOnStatementAs, customerId, providerId, fee, metaPayment, cb) {
+function debitCardv2(cardId, amount, description, appearsOnStatementAs, customerId, providerId, fee, metaPayment, statementDescriptor, cb) {
   tdPaymentService.init(config.connections.payment)
   tdPaymentService.debitCardv2({
     cardId: cardId, amount: amount, description: description,
     appearsOnStatementAs: appearsOnStatementAs, customerId: customerId,
-    providerId: providerId, fee: fee, meta: metaPayment
+    providerId: providerId, fee: fee, meta: metaPayment, statementDescriptor: statementDescriptor
   }, function (err, data) {
     if (err) return cb(err)
     return cb(null, data)
@@ -169,7 +169,8 @@ function capture(order, cb) {
     buyerName: cleanString(order.paymentsPlan[0].userInfo.userName)
   }
 
-  debitCardv2(order.paymentsPlan[0].account, order.paymentsPlan[0].price, order.paymentsPlan[0].productInfo.organizationName, order.paymentsPlan[0]._id, order.paymentsPlan[0].paymentId, order.paymentsPlan[0].destinationId, order.paymentsPlan[0].totalFee, newmeta, function (debitErr, data) {
+  debitCardv2(order.paymentsPlan[0].account, order.paymentsPlan[0].price, order.paymentsPlan[0].productInfo.organizationName, order.paymentsPlan[0]._id, order.paymentsPlan[0].paymentId, 
+    order.paymentsPlan[0].destinationId, order.paymentsPlan[0].totalFee, newmeta, order.paymentsPlan[0].productInfo.transactionDescription, function (debitErr, data) {
     if (debitErr) {
       order.paymentsPlan[0].attempts.push({ dateAttemp: new Date(), status: 'failed', message: debitErr.detail, last4: order.paymentsPlan[0].last4, accountBrand: order.paymentsPlan[0].accountBrand })
       order.paymentsPlan[0].status = 'failed'
