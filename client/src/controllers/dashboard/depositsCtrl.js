@@ -1,11 +1,11 @@
 'use strict'
 
-module.exports = ['$scope', 'PaymentService', 'AuthService', '$state', 'TrackerService', function ($scope, PaymentService, AuthService, $state, TrackerService) {
+module.exports = ['$scope', 'PaymentService', 'AuthService', '$state', 'TrackerService', 'SessionService', 
+function ($scope, PaymentService, AuthService, $state, TrackerService, SessionService) {
   $scope.expandSection1 = false
   $scope.expandSection2 = false
   $scope.listCharges = []
-  $scope.dt1 = new Date();
-  $scope.dt1.setMonth(0, 1);
+  $scope.dt1 = SessionService.getDepositDate();
   $scope.dt2 = new Date();
   $scope.init = function () {
     TrackerService.track('View Deposits')
@@ -112,6 +112,7 @@ module.exports = ['$scope', 'PaymentService', 'AuthService', '$state', 'TrackerS
       minDate: $scope.dt1,
       showWeeks: false
     }
+    SessionService.setDepositDate($scope.dt1); 
     $scope.init()
   }
 
