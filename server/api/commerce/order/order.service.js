@@ -131,7 +131,7 @@ var OrderService = {
             organizationName: body.organizationName,
             organizationLocation: body.organizationLocation,
             organizationImage: body.organizationImage,
-            transactionDescription: dataProduct.details.transactionDescription || ""
+            statementDescriptor: dataProduct.details.statementDescriptor || ""
           },
           userInfo: {
             userId: body.userId,
