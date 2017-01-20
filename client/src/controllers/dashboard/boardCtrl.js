@@ -1,6 +1,7 @@
 'use strict'
 
-module.exports = ['$scope', 'AuthService', '$state', 'CommerceService', 'TrackerService', function ($scope, AuthService, $state, CommerceService, TrackerService) {
+module.exports = ['$scope', 'AuthService', '$state', 'CommerceService', 'TrackerService', 'SessionService', 
+function ($scope, AuthService, $state, CommerceService, TrackerService, SessionService) {
   $scope.getSubTotal = function getSubTotals(orders, key) {
     return orders.reduce(function (result, order) {
       return result + order[(!key || key !== 'sumPrice') ? 'sumbasePrice' : key]
@@ -102,9 +103,7 @@ module.exports = ['$scope', 'AuthService', '$state', 'CommerceService', 'Tracker
     TrackerService.track('Download as CSV', { Report: 'Dashboard' })
   }
 
-    $scope.dt1 = new Date();
-    $scope.dt1.setMonth(0,1);
-    $scope.dt1.setHours(0,0,0,0);
+    $scope.dt1 = SessionService.getDashboardDate();
     $scope.dt2 = new Date();
     $scope.dt2.setHours(23,59,59,0);
 
@@ -190,6 +189,7 @@ module.exports = ['$scope', 'AuthService', '$state', 'CommerceService', 'Tracker
       minDate: $scope.dt1,
       showWeeks: false
     }
+    SessionService.setDashboardDate($scope.dt1);    
     $scope.init();
   }
 
@@ -208,7 +208,7 @@ module.exports = ['$scope', 'AuthService', '$state', 'CommerceService', 'Tracker
 
   $scope.showPayments = function showPayments(pps, filter) {
     // return true
-    return pps.filter(function (pp) { return (pp.status === filter || pp.status === 'failed' || pp.status.startsWith('disable')) }).length
+    return pps.filter(function (pp) { return (pp.status === filter || pp.status === 'canceled'  || pp.status === 'failed' || pp.status.startsWith('disable')) }).length
   }
 
   $scope.getPaymentsHistory = function getPaymentsHistory(pp) {
@@ -217,7 +217,7 @@ module.exports = ['$scope', 'AuthService', '$state', 'CommerceService', 'Tracker
   }
 
   $scope.getPaymentsPending = function getPaymentsPending(pp) {
-    if (pp.status === 'failed' || pp.status === 'pending' || pp.status.startsWith('disable') ) return true
+    if (pp.status === 'failed' || pp.status === 'pending' || pp.status === 'canceled' || pp.status.startsWith('disable') ) return true
     return false
   }
 

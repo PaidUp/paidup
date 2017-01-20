@@ -13,6 +13,7 @@
 @c-black-back: #323335;
 @c-blue-font: #3d6d7f;
 @c-blue-back: #006d81;
+@c-blue-payment: #00425F;
 @c-blue-light-back: #e3f2fd;
 @c-facebook: #3b5998;
 @c-error:#e53935;
@@ -113,6 +114,38 @@ div.error{
   display: block;
   cursor: pointer;
   background: @c-green-back;
+  padding: 8px 30px;
+  font-size: 1.2em;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #FFF;
+  border-radius: 20px;
+  margin: 30px auto;
+  text-align: center;
+  border:none;
+  &:focus{
+    background: @c-green-back;
+  }
+  &.save-cancel{
+    margin: 10px 0px;
+    padding: 5px 15px;
+    width: 100px;
+    font-size: 14px;
+    display:inline-block;
+  }
+}
+
+.button-blue-payment {
+  width: 100%;
+  @media @medium-up{
+    width:auto;
+    &.btn-next{      
+      width: 150px;
+    }
+  }
+  display: block;
+  cursor: pointer;
+  background: @c-blue-payment;
   padding: 8px 30px;
   font-size: 1.2em;
   font-weight: bold;
@@ -1410,6 +1443,23 @@ DASHBOARD PAGES
       }
     }        
   }
+
+  .payment-button{
+      float:left;
+      width: 100%;
+      height: 100%;
+      margin-top: 23px;
+      margin-left: auto;
+      @media @small-only{
+          //margin-left: 110px;
+        }
+      .button-blue-payment{
+        width: auto;
+        display:inline-block;
+        margin:0px;
+        padding: 6px 30px;
+      }
+    }
 
   // SUMMARY HEADER
   .summary-header{
