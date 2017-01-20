@@ -699,6 +699,7 @@ function editPaymentPlan(pp, params, cb) {
       pp.processingFees.achFeeCapDisplay = pp.processingFees.achFeeCapDisplay || 0;
       pp.paymentMethods = pp.paymentMethods || ['card']
       pp.attempts = attempts
+      pp.productInfo.statementDescriptor = pp.productInfo.statementDescriptor || ""
       return cb(null, pp)
     }
   })
