@@ -76,7 +76,8 @@ module.exports = ['$rootScope', '$scope', 'AuthService', '$state', 'CommerceServ
       }
 
       CommerceService.paymentPlanEdit(params).then(function (res) {
-        pp.status = 'pending',
+        pp.wasProcessed = "false";
+        pp.status = 'pending';
           $rootScope.GlobalAlertSystemAlerts.push({ msg: 'Thank you for resubmitting your payment. It may take a few minutes to retry your transaction and you will be notified via email on the status of the transaction.', type: 'success', dismissOnTimeout: 5000 })
       }).catch(function (err) {
         $rootScope.GlobalAlertSystemAlerts.push({ msg: 'Payment method cannot be updated, please contact us', type: 'danger', dismissOnTimeout: 5000 })
@@ -127,7 +128,8 @@ module.exports = ['$rootScope', '$scope', 'AuthService', '$state', 'CommerceServ
       }
 
       CommerceService.paymentPlanEdit(params).then(function (res) {
-        pp.status = "pending"
+        pp.status = "pending";
+        pp.wasProcessed = "false";
         $rootScope.GlobalAlertSystemAlerts.push({ msg: 'Payment method was updated successfully', type: 'success', dismissOnTimeout: 5000 })
       }).catch(function (err) {
         $rootScope.GlobalAlertSystemAlerts.push({ msg: 'Payment method cannot be updated, please contact us', type: 'danger', dismissOnTimeout: 5000 })
