@@ -10,17 +10,16 @@ module.exports = ['$rootScope', '$scope', 'AuthService', '$state', 'CommerceServ
 
     $rootScope.$on('reloadAccountsOrder', function (event, data) {
       $scope.loading = true;
-      $scope.init($scope.selectOrder)
+      $stateParams.orderId = $scope.orderSelected.orderId;
+      $scope.init()
     })
 
-    $scope.init = function (cb) {
+    $scope.init = function () {
       AuthService.getCurrentUserPromise().then(function (user) {
         PaymentService.listAccounts(user._id).then(function (Accounts) {
 
           $scope.payments = Accounts.data
-          if (cb) {
-            cb($scope.orderSelected, true);
-          }
+          
           CommerceService.orderGet(user._id, 20, -1).then(function (result) {
             if ($stateParams.orderId) {
               $scope.allOrders = result.body.orders.filter(function (order) {
@@ -77,7 +76,6 @@ module.exports = ['$rootScope', '$scope', 'AuthService', '$state', 'CommerceServ
       }
 
       CommerceService.paymentPlanEdit(params).then(function (res) {
-        console.log(res)
         pp.status = 'pending',
           $rootScope.GlobalAlertSystemAlerts.push({ msg: 'Thank you for resubmitting your payment. It may take a few minutes to retry your transaction and you will be notified via email on the status of the transaction.', type: 'success', dismissOnTimeout: 5000 })
       }).catch(function (err) {
@@ -86,7 +84,7 @@ module.exports = ['$rootScope', '$scope', 'AuthService', '$state', 'CommerceServ
       })
     }
 
-    $scope.updateAccount = function (orderId, pp) {
+    $scope.updateAccount = function (orderId, pp, idx) {
       var objAccount;
 
       if (pp.last4 === 'new') {
@@ -116,19 +114,20 @@ module.exports = ['$rootScope', '$scope', 'AuthService', '$state', 'CommerceServ
         version: pp.version || 'v1',
         orderId: orderId,
         paymentPlanId: pp._id,
-        //originalPrice: pp.originalPrice,
-        //description: pp.description,
-        //dateCharge: pp.dateCharge, //.substring(0, 10) + " 10:00",
         wasProcessed: pp.wasProcessed,
         account: pp.account,
         accountBrand: pp.accountBrand,
         last4: pp.last4,
         typeAccount: pp.typeAccount,
         status: pp.status,
-        //attempts: pp.attempts
+      }
+      if(pp.status ==="failed"){
+        params.status = "pending";
+        params.wasProcessed = "false";
       }
 
       CommerceService.paymentPlanEdit(params).then(function (res) {
+        pp.status = "pending"
         $rootScope.GlobalAlertSystemAlerts.push({ msg: 'Payment method was updated successfully', type: 'success', dismissOnTimeout: 5000 })
       }).catch(function (err) {
         $rootScope.GlobalAlertSystemAlerts.push({ msg: 'Payment method cannot be updated, please contact us', type: 'danger', dismissOnTimeout: 5000 })
