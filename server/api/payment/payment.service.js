@@ -244,7 +244,7 @@ function createTicketChargeFailed(order, cb) {
       var comment = doc.values.comment_ticket_payment_failed
       comment = comment.replace('${order.paymentsPlan[0].userInfo.userName}', order.paymentsPlan[0].userInfo.userName)
       comment = comment.replace('${order.paymentsPlan[0].productInfo.organizationName}', order.paymentsPlan[0].productInfo.organizationName)
-      comment = comment.replace('${order.paymentsPlan[0].price}', order.paymentsPlan[0].price)
+      comment = comment.replace('${order.paymentsPlan[0].price}', order.paymentsPlan[0].price.toFixed(2))
       comment = comment.replace('${config.emailVars.baseUrl}', config.emailVars.baseUrl)
       comment = comment.replace('${order.orderId}', order.orderId)
 
