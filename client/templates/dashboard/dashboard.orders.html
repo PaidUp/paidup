@@ -120,7 +120,7 @@
                             </tr>
                           </thead>
                           <tbody>
-                            <tr ng-repeat="pp in order.paymentsPlan">                             
+                            <tr ng-init="index = $index" ng-repeat="pp in order.paymentsPlan">                             
                               <td class="date">
                                 <div class="month">{{(pp.dateCharge | date : 'MMM') | uppercase}}</div>
                                 <div class="day">{{pp.dateCharge | date: 'dd'}}</div>
@@ -132,7 +132,7 @@
                                 <div class="account" style="padding-left: 9px;" ng-show="pp.status !== 'pending' && pp.status !== 'failed'">{{pp.accountBrand}} X-{{pp.last4}}</div>
                                 
                                 <select class="select-account" ng-if="pp.status === 'pending' || pp.status === 'failed'"  required="true"
-                                ng-change="updateAccount(order._id, pp)"  
+                                ng-change="updateAccount(order._id, pp, index)"  
                                 ng-options="acc.last4 as acc.last4==='new' ? acc.brand : acc.brand + acc.bankName + ' X-'+ acc.last4 for acc in pp.accounts"
                                 ng-model="pp.last4">
                                   <option value="">  </option>
@@ -140,7 +140,7 @@
                               </td>
                               <td class="retry-transaction">
                                 <span>{{pp.status.startsWith('disable-') ? 'disabled' : pp.status}}</span>
-                                <span ng-click="retryTransaction(order._id, pp)" ng-if="pp.status === 'failed'">
+                                <span ng-click="retryTransaction(order._id, pp, index)" ng-if="pp.status === 'failed'">
 
                                   <span class="label">Retry Transaction</span>
                                   <button class="icon" type="button">Retry</button>
