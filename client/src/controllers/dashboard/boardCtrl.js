@@ -123,6 +123,8 @@ function ($scope, AuthService, $state, CommerceService, TrackerService, SessionS
     AuthService.getCurrentUserPromise().then(function (user) {
       var organizationId = (user.meta.productRelated[0]) ? user.meta.productRelated[0] : 'Does not have organization'
       CommerceService.orderGetOrganization(organizationId, 200, -1, $scope.dt1, $scope.dt2).then(function (result) {
+        console.log("result");
+        console.log(result);
         // $scope.totalPrice = $scope.getSubTotal(result.body)
         $scope.totalPriceFees = $scope.getSubTotal(result.body, 'sumPrice')
         // $scope.totalDiscount = $scope.getSubTotalDiscount(result.body)
@@ -132,6 +134,7 @@ function ($scope, AuthService, $state, CommerceService, TrackerService, SessionS
         $scope.totalRemaining = $scope.getSubTotalRemaining(result.body)
         $scope.totalRemainingFees = $scope.getSubTotalRemaining(result.body, 'price')
         var finalResult = R.groupBy(function (order) {
+          //console.log(order)
           return order.allProductName[0]
         })
         var fn = finalResult(result.body)
@@ -140,6 +143,9 @@ function ($scope, AuthService, $state, CommerceService, TrackerService, SessionS
           gp[v] = fn[v]
         })
         $scope.groupProducts = gp
+
+console.log(gp)
+
       }).catch(function (err) {
         console.log('err', err)
       })
