@@ -174,7 +174,7 @@
                                 <div class="inline-block">
                                   <span class="green-font">
                                   Order Id
-                                </span>
+                                  </span>
                                   <br>
                                   <span class="value">{{orders.orderId}}</span>
                                 </div>
@@ -183,9 +183,21 @@
                                   Status
                                 </span>
                                   <br>
-                                  <span class="value green-font">{{orders.status}}</span>
+                                  <span class="value">{{orders.status}}</span>
                                 </div>
+                                
+                                <div class="inline-block">
+                                  <span class="green-font">
+                                  Description
+                                </span>
+                                  <br>
+                                  <span class="value">{{orders.description}}</span>
+                                </div>
+
                               </div>
+
+
+
                               <div class="right-side">
                                 <div class="inline-block">
                                   <span class="green-font">
@@ -200,6 +212,7 @@
                             <div class="tables-separator"></div>
 
                             <div class="charges-container" ng-show="showPayments(orders.paymentsPlan, 'pending')">
+                              
                               <div class="green-font charges-title">Pending Charges</div>
 
                               <table class="charges-table">
