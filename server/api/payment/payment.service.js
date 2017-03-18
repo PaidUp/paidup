@@ -258,7 +258,11 @@ function createTicketChargeFailed(order, cb) {
         subject: order.paymentsPlan[0].productInfo.organizationName + ' Payment Failed for ' + subject,
         comment: comment,
         status: 'pending',
-        tags: ['ticket_category_payment_failed_new_card']
+        tags: ['ticket_category_payment_failed_new_card'],
+        customFields: [{
+          id: config.zendesk.customFields.balance,
+          value: order.paymentsPlan[0].price
+        }]
       }
       zendesk.ticketCreate(ticketParams).exec({
         error: function (err) {
