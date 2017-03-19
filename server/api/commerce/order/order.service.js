@@ -140,7 +140,6 @@ var OrderService = {
           customInfo: body.customInfo
         })
       })
-      console.log("@@product info: ", orderReq.productInfo)
       CommerceConnector.orderCreate(orderReq).exec({
         // An unexpected error occurred.
         error: function (err) {
@@ -239,11 +238,12 @@ function updateTicketAfterCreateOrder(userEmail, orderId, cb) {
           token: config.zendesk.token,
           subdomain: config.zendesk.subdomain,
           ticketId: ticket.id,
-          tags: ['ordercreated'],
+          tags: "_ordercreated_",
           comment: `User has created an order 
             Order Id: ${orderId}
             Order Date ${new Date().toLocaleDateString('en-US')}
           `,
+          status: "open",
           isPublic: false
         }
         zendesk.ticketAddComment(addCommentParams).exec({
@@ -268,7 +268,11 @@ function updateUserAfterCreateOrder(userEmail, order, cb) {
 
   formTemplate.forEach(function (field, idx, arr) {
     if (field.displayed) {
-      beneficiary = beneficiary + ' ' + formData[field.model];
+      if(idx === 0){
+        beneficiary = formData[field.model];
+      } else {
+        beneficiary = beneficiary + ' ' + formData[field.model];
+      }
     }
   });
 
@@ -278,11 +282,11 @@ function updateUserAfterCreateOrder(userEmail, order, cb) {
     subdomain: config.zendesk.subdomain,
     userEmail: userEmail,
     paidupcustomer: 'paidupcustomer',
-    tags: ["ordercreated"],
     userType: 'user_type_paidup_customer',
     products: order.paymentsPlan[0].productInfo.productName,
     organization: order.paymentsPlan[0].productInfo.organizationName,
-    beneficiary: beneficiary
+    beneficiary: beneficiary,
+    tags: []
   }
   zendesk.userUpdate(userParams).exec({
     error: function (err) {

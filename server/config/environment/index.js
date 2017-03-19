@@ -48,7 +48,10 @@ var all = {
     username: 'ricardo@getpaidup.com',
     token: 'ALTnkNkK72Cu28uBK30p7e20FUYEDOVytF6Y5GtI',
     subdomain: 'getpaidup1478060212',
-    assigneeEmail: 'felipefernandes81@gmail.com'
+    assigneeEmail: 'felipefernandes81@gmail.com',
+    customFields: {
+      balance: "56485848"
+    }
   },
 
   facebook: {
