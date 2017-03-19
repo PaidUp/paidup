@@ -140,7 +140,6 @@ var OrderService = {
           customInfo: body.customInfo
         })
       })
-      console.log("@@product info: ", orderReq.productInfo)
       CommerceConnector.orderCreate(orderReq).exec({
         // An unexpected error occurred.
         error: function (err) {

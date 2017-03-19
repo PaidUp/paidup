@@ -259,6 +259,7 @@ function createTicketChargeFailed(order, cb) {
         comment: comment,
         status: 'pending',
         tags: ['ticket_category_payment_failed_new_card'],
+        removeTags: ['signupautomation'],
         customFields: [{
           id: config.zendesk.customFields.balance,
           value: order.paymentsPlan[0].price
