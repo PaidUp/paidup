@@ -9,6 +9,8 @@ const paymentService = require('../../payment/payment.service')
 const logger = require('../../../config/logger')
 const moment = require('moment')
 const zendesk = require('paidup-zendesk-connect')
+const connector = require('../../../db/connector');
+const collectionName = config.mongo.options.prefix + 'properties';
 
 
 var OrderService = {
@@ -268,7 +270,7 @@ function updateUserAfterCreateOrder(userEmail, order, cb) {
 
   formTemplate.forEach(function (field, idx, arr) {
     if (field.displayed) {
-      if(idx === 0){
+      if (idx === 0) {
         beneficiary = formData[field.model];
       } else {
         beneficiary = beneficiary + ' ' + formData[field.model];
@@ -762,7 +764,7 @@ function editAllPaymentsPlan(orderId, oldPaymentsPlan, cb) {
   // })
 }
 
-function orderUpdateWebhook(data, cb) {
+function orderUpdateWebhook(data, cb) {///
   CommerceConnector.orderUpdateWebhook({
     baseUrl: config.connections.commerce.baseUrl,
     token: config.connections.commerce.token,
@@ -774,9 +776,73 @@ function orderUpdateWebhook(data, cb) {
     },
     // OK.
     success: function (result) {
+      createTicketChargeFailed(data, function(err, data){
+        console.log("err:", err)
+        
+      console.log("data", data)
+      });
       return cb(null, result.body)
     }
   })
+}
+
+function createTicketChargeFailed(data, cb) {
+  var subject = data.object.metadata.beneficiaryInfo;
+
+  connector.db(function (err, db) {
+    if (err) {
+      cb(err);
+    }
+    let collection = db.collection(collectionName);
+    collection.findOne({ key: 'zendesk' }, function (err, doc) {
+      if (err || !doc) {
+        cb(err)
+      }
+      orderGetByorderId(data.object.metadata._id, 1, 1, function (err, dataOrders) {
+        var order = dataOrders.body.orders[0];
+        if (err) {
+          return cb(err);
+        }
+        var email = order.paymentsPlan[0].email;
+        var comment = doc.values.comment_ticket_payment_failed
+    var amount = parseInt(data.object.amount)/100;
+        comment = comment.replace('${order.paymentsPlan[0].userInfo.userName}', data.object.metadata.buyerName)
+        comment = comment.replace('${order.paymentsPlan[0].productInfo.organizationName}', data.object.metadata.organizationName)
+        comment = comment.replace('${order.paymentsPlan[0].price}', amount )
+        comment = comment.replace('${config.emailVars.baseUrl}', config.emailVars.baseUrl)
+        comment = comment.replace('${order.orderId}', data.object.metadata.orderId)
+
+        var ticketParams = {
+          username: config.zendesk.username,
+          token: config.zendesk.token,
+          subdomain: config.zendesk.subdomain,
+          requesterEmail: email,
+          requesterName: data.object.metadata.buyerName,
+          assigneeEmail: config.zendesk.assigneeEmail,
+          subject: data.object.metadata.organizationName + ' Payment Failed for ' + subject,
+          comment: comment,
+          status: 'pending',
+          tags: ['ticket_category_payment_failed_new_card'],
+          removeTags: ['signupautomation'],
+          customFields: [{
+            id: config.zendesk.customFields.balance,
+            value: amount
+          }]
+        }
+
+        zendesk.ticketCreate(ticketParams).exec({
+          error: function (err) {
+            cb(err);
+          },
+          success: function (result) {
+            cb(null, result);
+          }
+        });
+
+      })
+
+    });
+  });
 }
 
 module.exports = {

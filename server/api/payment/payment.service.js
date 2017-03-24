@@ -193,11 +193,11 @@ function capture(order, cb) {
       success: function (data) {
         data.err = debitErr
         if (debitErr || data.status === 'failed') {
-
           createTicketChargeFailed(order, function (err, data) {
             if (err) {
               logger.error('createTicketChargeFailed error', err)
             }
+            logger.info('createTicketChargeFailed info', data)
           });
           return cb(null, data);
           //paymentEmailService.sendFinalEmailCreditCardv3(order, function (err, dataEmail) {
