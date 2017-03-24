@@ -240,7 +240,7 @@ function updateTicketAfterCreateOrder(userEmail, orderId, cb) {
           token: config.zendesk.token,
           subdomain: config.zendesk.subdomain,
           ticketId: ticket.id,
-          tags: "_ordercreated_",
+          tags: "ordercreated",
           comment: `User has created an order 
             Order Id: ${orderId}
             Order Date ${new Date().toLocaleDateString('en-US')}
@@ -829,7 +829,6 @@ function createTicketChargeFailed(data, cb) {
             value: amount
           }]
         }
-
         zendesk.ticketCreate(ticketParams).exec({
           error: function (err) {
             cb(err);
