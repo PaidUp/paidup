@@ -19,6 +19,7 @@ const pmx = require('pmx').init({
 const express = require('express')
 const config = require('./config/environment')
 const logger = require('./config/logger').info
+const notifications = require('./api/notifications/notifications.service')
 
 // Setup server
 const app = express()
@@ -36,6 +37,8 @@ if (config.env !== 'test') {
     console.log('error:', err)
   }
 }
+
+notifications.startNotificationChargeEmail();
 
 const TDError = require('./components/TD/Error')
 app.use(logger)

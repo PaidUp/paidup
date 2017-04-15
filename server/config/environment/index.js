@@ -257,8 +257,9 @@ var all = {
       value: 2
     },
     reminderChargeAccount: {
-      period: 'days',
-      value: 1
+      days: 2,
+      cronFormat: '42 * * * * *'
+      
     },
     reminderEmailPayment: {
       period: 'hours',
