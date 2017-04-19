@@ -36,7 +36,7 @@
     "jquery": "^2.2.4",
     "lodash": "^4.11.2",
     "method-override": "^2.3.6",
-    "moment": "^2.15.0",
+    "moment": "^2.18.1",
     "mongodb": "^2.2.10",
     "morgan": "^1.7.0",
     "ng-csv": "^0.3.6",

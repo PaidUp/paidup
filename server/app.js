@@ -38,7 +38,7 @@ if (config.env !== 'test') {
   }
 }
 
-notifications.startNotificationChargeEmail();
+//notifications.startNotificationChargeEmail();
 
 const TDError = require('./components/TD/Error')
 app.use(logger)
