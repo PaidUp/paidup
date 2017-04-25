@@ -5,7 +5,7 @@ const CommerceConnector = require('paidup-commerce-connect')
 const config = require('../../config/environment')
 const logger = require('../../config/logger')
 var schedule = require('node-schedule');
-var sg = require('sendgrid')('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');
+var sg = require('sendgrid')(config.sendgrid.token);
 //const nodemailer = require('nodemailer')
 //const emailTemplates = require('email-templates')
 //const transporter = nodemailer.createTransport(config.emailService)
@@ -20,7 +20,7 @@ function startNotificationChargeEmail() {
   logger.debug('start notification email');
   if (!isRunning) {
     isRunning = true;
-    scheduleJob = schedule.scheduleJob('59 * * * * *', function () {
+    scheduleJob = schedule.scheduleJob(notificationConfig.cronFormat, function () {
       logger.debug('start schedule job: '+ new Date());
       logger.debug('start notification charge email');
       loadOrdersForNotifications(function (err, orders) {
@@ -32,7 +32,6 @@ function startNotificationChargeEmail() {
           orders.forEach(function (order, idx, arr) {
             let subs = buildSubstitutions(order)
             if (idx === 0) {
-              console.log(subs);
               emailHandler(subs)
             }
             if (arr.length === idx + 1) {
@@ -44,7 +43,6 @@ function startNotificationChargeEmail() {
         }
       });
     })
-    
   }
 }
 
@@ -88,13 +86,10 @@ function buildSubstitutions(order) {
   if (futureCharges.length) {
     substitutions.futureCharges = table + futureCharges.join(" ") + "</table>"
   }
-
   return substitutions;
-
 }
 
 function loadOrdersForNotifications(cb) {
-
   let date = new Date();
   let numberOfDaysToAdd = notificationConfig.days;
   date.setDate(date.getDate() + numberOfDaysToAdd);
@@ -104,8 +99,6 @@ function loadOrdersForNotifications(cb) {
     }
     cb(null, data);
   })
-
-
 }
 
 function getOrders(date, cb) {
@@ -158,7 +151,7 @@ function emailHandler(substitutions) {
       ],
       "subject": "Charges Notification",
 
-      "template_id": "624c5e45-e88a-4a13-894f-1b989d44f029"
+      "template_id": notificationConfig.template
     }
   });
 
@@ -166,11 +159,8 @@ function emailHandler(substitutions) {
     if (error) {
       console.log('Error response received');
     }
-
   });
 }
-
-startNotificationChargeEmail();
 
 function helperMethod() {
   var helper = require('sendgrid').mail

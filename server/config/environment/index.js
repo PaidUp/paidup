@@ -258,13 +258,17 @@ var all = {
     },
     reminderChargeAccount: {
       days: 2,
-      cronFormat: '42 * * * * *'
+      cronFormat: '42 * * * * *',
+      template: 'c6301a8a-ec32-4961-8b8c-3175ebdf5b5a'
       
     },
     reminderEmailPayment: {
       period: 'hours',
       value: 72
     }
+  },
+  sendgrid: {
+    token: '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'
   },
   cronjob: {
     pidFile: path.normalize(__dirname + '/../../..') + '/var/cronjob.pid',
