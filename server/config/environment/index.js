@@ -258,7 +258,7 @@ var all = {
     },
     reminderChargeAccount: {
       days: 2,
-      cronFormat: '00 05 * * *',
+      cronFormat: '10 * * * * *',
       template: 'c6301a8a-ec32-4961-8b8c-3175ebdf5b5a',
       from: 'felipe@getpaidup.com',
       name: 'Felipe'

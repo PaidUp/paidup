@@ -10,6 +10,7 @@ const MAX_SIZE_META_STRIPE = config.stripe.maxSizeMeta
 const zendesk = require('paidup-zendesk-connect')
 const connector = require('../../db/connector');
 const collectionName = config.mongo.options.prefix + 'properties';
+const mail = require('../../components/util/mail');
 
 
 
@@ -206,6 +207,7 @@ function capture(order, cb) {
           // return cb(null, data)
           //})
         } else {
+          ////####
           paymentEmailService.sendProcessedEmailCreditCardv3(order, function (err, dataEmail) {
             if (err) return cb(err)
             logger.info(' paymentEmailService.sendProcessedEmailCreditCardv3', data.status)
