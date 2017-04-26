@@ -21,7 +21,7 @@ function startNotificationChargeEmail() {
   if (!isRunning) {
     isRunning = true;
     scheduleJob = schedule.scheduleJob(notificationConfig.cronFormat, function () {
-      logger.debug('start schedule job: '+ new Date());
+      logger.debug('start schedule job: ' + new Date());
       logger.debug('start notification charge email');
       loadOrdersForNotifications(function (err, orders) {
         logger.debug('get orders for notification');
@@ -30,16 +30,21 @@ function startNotificationChargeEmail() {
         }
         if (orders.length) {
           orders.forEach(function (order, idx, arr) {
+            let to = {
+              email: order.paymentsPlan[0].email,
+              name: order.paymentsPlan[0].userInfo.userName,
+            }
+            let subject = order.paymentsPlan[0].productInfo.productName;
             let subs = buildSubstitutions(order)
             if (idx === 0) {
-              emailHandler(subs)
+              emailHandler(to, subject, subs)
             }
             if (arr.length === idx + 1) {
-              logger.debug("All emails was sended");
+              logger.debug("All emails was sended: " + new Date());
             }
           });
         } else {
-          logger.debug('There aren´t orders for notification');
+          logger.debug('There aren´t orders for notification: ' + new Date());
         }
       });
     })
@@ -51,15 +56,10 @@ function buildSubstitutions(order) {
   let processedCharges = []
   let today = new Date();
   let substitutions = {
-    toEmail: order.paymentsPlan[0].email,
-    toName: order.paymentsPlan[0].userInfo.userName,
     customerFirstName: order.paymentsPlan[0].userInfo.userName,
-    transactionDate: "",
     orderId: order.orderId,
     orgName: order.paymentsPlan[0].productInfo.organizationName,
     productName: order.paymentsPlan[0].productInfo.productName,
-    paymentPlanDesc: "",
-    trxDesc: "",
     processedCharges: "",
     futureCharges: ""
   }
@@ -116,7 +116,7 @@ function getOrders(date, cb) {
   })
 }
 
-function emailHandler(substitutions) {
+function emailHandler(to, subject, substitutions) {
   var request = sg.emptyRequest({
     method: 'POST',
     path: '/v3/mail/send',
@@ -124,18 +124,18 @@ function emailHandler(substitutions) {
 
     {
       "from": {
-        "email": "felipe@test.com",
-        "name": "Felipe"
+        "email": notificationConfig.from,
+        "name": notificationConfig.name
       },
       "personalizations": [
         {
           "to": [
             {
-              "email": substitutions.toEmail,
-              "name": substitutions.toName
+              "email": to.email,
+              "name": to.name
             }
           ],
-          "subject": "Hello World from the Personalized SendGrid Node.js Library",
+          "subject": subject,
           "substitutions": {
             "-customerFirstName-": substitutions.customerFirstName,
             "-transactionDate-": substitutions.transactionDate,
@@ -149,8 +149,6 @@ function emailHandler(substitutions) {
           }
         }
       ],
-      "subject": "Charges Notification",
-
       "template_id": notificationConfig.template
     }
   });
