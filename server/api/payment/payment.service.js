@@ -10,6 +10,9 @@ const MAX_SIZE_META_STRIPE = config.stripe.maxSizeMeta
 const zendesk = require('paidup-zendesk-connect')
 const connector = require('../../db/connector');
 const collectionName = config.mongo.options.prefix + 'properties';
+const mail = require('../../components/util/mail');
+const commerceService = require('../commerce/order/order.service');
+const moment = require('moment')
 
 
 
@@ -169,55 +172,114 @@ function capture(order, cb) {
     buyerName: cleanString(order.paymentsPlan[0].userInfo.userName)
   }
 
-  debitCardv2(order.paymentsPlan[0].account, order.paymentsPlan[0].price, order.paymentsPlan[0].productInfo.organizationName, order.paymentsPlan[0]._id, order.paymentsPlan[0].paymentId, 
+  debitCardv2(order.paymentsPlan[0].account, order.paymentsPlan[0].price, order.paymentsPlan[0].productInfo.organizationName, order.paymentsPlan[0]._id, order.paymentsPlan[0].paymentId,
     order.paymentsPlan[0].destinationId, order.paymentsPlan[0].totalFee, newmeta, order.paymentsPlan[0].productInfo.statementDescriptor, function (debitErr, data) {
-    if (debitErr) {
-      order.paymentsPlan[0].attempts.push({ dateAttemp: new Date(), status: 'failed', message: debitErr.detail, last4: order.paymentsPlan[0].last4, accountBrand: order.paymentsPlan[0].accountBrand })
-      order.paymentsPlan[0].status = 'failed'
-      logger.error('debitCard debitErr', debitErr)
-    } else {
-      order.paymentsPlan[0].attempts.push({ dateAttemp: new Date(), status: data.status, message: 'done', last4: order.paymentsPlan[0].last4, accountBrand: order.paymentsPlan[0].accountBrand, transferId: data.transfer })
-      order.paymentsPlan[0].status = data.status
-    }
-    order.paymentsPlan[0].wasProcessed = true
-    order.paymentsPlan[0].basePrice = order.paymentsPlan[0].basePrice || 0
-    let params = {
-      baseUrl: config.connections.commerce.baseUrl,
-      token: config.connections.commerce.token,
-      orderId: order._id,
-      paymentPlanId: order.paymentsPlan[0]._id,
-      paymentPlan: order.paymentsPlan[0],
-      userSysId: 'CronJob'
-    }
-    CommerceConnect.orderUpdatePayments(params).exec({
-      success: function (data) {
-        data.err = debitErr
-        if (debitErr || data.status === 'failed') {
-          createTicketChargeFailed(order, function (err, data) {
-            if (err) {
-              logger.error('createTicketChargeFailed error', err)
-            }
-            logger.info('createTicketChargeFailed info', data)
-          });
-          return cb(null, data);
-          //paymentEmailService.sendFinalEmailCreditCardv3(order, function (err, dataEmail) {
-          // if (err) return cb(err)
-          // logger.error('paymentEmailService.sendFinalEmailCreditCardv3 error', err)
-          // return cb(null, data)
-          //})
-        } else {
-          paymentEmailService.sendProcessedEmailCreditCardv3(order, function (err, dataEmail) {
-            if (err) return cb(err)
-            logger.info(' paymentEmailService.sendProcessedEmailCreditCardv3', data.status)
-            return cb(null, data)
-          })
-        }
-      },
-      error: function (err) {
-        return cb(err)
+      if (debitErr) {
+        order.paymentsPlan[0].attempts.push({ dateAttemp: new Date(), status: 'failed', message: debitErr.detail, last4: order.paymentsPlan[0].last4, accountBrand: order.paymentsPlan[0].accountBrand })
+        order.paymentsPlan[0].status = 'failed'
+        logger.error('debitCard debitErr', debitErr)
+      } else {
+        order.paymentsPlan[0].attempts.push({ dateAttemp: new Date(), status: data.status, message: 'done', last4: order.paymentsPlan[0].last4, accountBrand: order.paymentsPlan[0].accountBrand, transferId: data.transfer })
+        order.paymentsPlan[0].status = data.status
       }
+      order.paymentsPlan[0].wasProcessed = true
+      order.paymentsPlan[0].basePrice = order.paymentsPlan[0].basePrice || 0
+      let params = {
+        baseUrl: config.connections.commerce.baseUrl,
+        token: config.connections.commerce.token,
+        orderId: order._id,
+        paymentPlanId: order.paymentsPlan[0]._id,
+        paymentPlan: order.paymentsPlan[0],
+        userSysId: 'CronJob'
+      }
+      CommerceConnect.orderUpdatePayments(params).exec({
+        success: function (data) {
+          data.err = debitErr
+          if (debitErr || data.status === 'failed') {
+            createTicketChargeFailed(order, function (err, data) {
+              if (err) {
+                logger.error('createTicketChargeFailed error', err)
+              }
+              logger.info('createTicketChargeFailed info', data)
+            });
+            return cb(null, data);
+          } else {
+            commerceService.orderGetByorderId(order._id, 1, 1, function (errOrd, ord) {
+              console.log('err order: ', errOrd)
+              console.log('order base: ', JSON.stringify(ord))
+              
+              if (errOrd) {
+                return cb(errOrd);
+              }
+              let to = {
+                email: order.paymentsPlan[0].email,
+                name: order.paymentsPlan[0].userInfo.userName,
+              }
+              let subject = order.paymentsPlan[0].productInfo.productName;
+              let subs = buildSubstitutions(ord.body.orders[0], order.paymentsPlan[0]);
+              let template = config.notifications.charge.template
+
+              mail.send(to, subject, subs, template)
+
+              return cb(null, data)
+              
+            });
+            //paymentEmailService.sendProcessedEmailCreditCardv3(order, function (err, dataEmail) {
+            //  if (err) return cb(err)
+            //  logger.info(' paymentEmailService.sendProcessedEmailCreditCardv3', data.status)
+            //  return cb(null, data)
+            //})
+          }
+        },
+        error: function (err) {
+          return cb(err)
+        }
+      })
     })
-  })
+}
+
+function buildSubstitutions(order, pPlan) {
+  let ppFiltered = order.paymentsPlan.filter(function (pp) {
+    return pPlan._id !== pp._id
+  });
+  order.paymentsPlan = ppFiltered;
+  let futureCharges = []
+  let processedCharges = []
+  let today = new Date();
+  let substitutions = {
+    '-customerFirstName-': order.paymentsPlan[0].userInfo.userName,
+    '-transactionDate-': moment(pPlan.dateCharge).format('MM-DD-YYYY'),
+    '-orderId-': order.orderId,
+    '-orgName-': order.paymentsPlan[0].productInfo.organizationName,
+    '-productName-': order.paymentsPlan[0].productInfo.productName,
+    '-trxDesc-': pPlan.description,
+    '-processedCharges-': '',
+    '-futureCharges-': ''
+  }
+  order.paymentsPlan.forEach(function (pp) {
+    let template = `
+      <tr> 
+        <td>${moment(pp.dateCharge).format('MM-DD-YYYY')}</td>
+        <td>${pp.description}</td>
+        <td>${pp.price}</td>
+        <td>${pp.status}</td>
+        <td>${pp.last4}</td>
+      </tr>
+    `
+    if (pp.status === 'pending') {
+      futureCharges.push(template)
+    } else {
+      processedCharges.push(template)
+    }
+  });
+  let table = "<table width='100%'><tr><th>Date</th><th>Description</th><th>Price</th><th>Status</th><th>Account</th></tr>";
+  if (processedCharges.length) {
+    substitutions['-processedCharges-'] = table + processedCharges.join(" ") + "</table>"
+  }
+  if (futureCharges.length) {
+    substitutions['-futureCharges-'] = table + futureCharges.join(" ") + "</table>"
+  }
+  return substitutions;
 }
 
 function createTicketChargeFailed(order, cb) {
@@ -332,7 +394,7 @@ function updateAccount(dataDetails, cb) {
 }
 
 function getTransfers(stripeId, from, to, cb) {
-  tdPaymentService.init(config.connections.payment) 
+  tdPaymentService.init(config.connections.payment)
   tdPaymentService.getTransfers(stripeId, from, to, function (err, data) {
     if (err) return cb(err)
     return cb(null, data)

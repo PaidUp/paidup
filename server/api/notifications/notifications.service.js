@@ -4,12 +4,8 @@ const moment = require('moment')
 const CommerceConnector = require('paidup-commerce-connect')
 const config = require('../../config/environment')
 const logger = require('../../config/logger')
-var schedule = require('node-schedule');
-var sg = require('sendgrid')(config.sendgrid.token);
-//const nodemailer = require('nodemailer')
-//const emailTemplates = require('email-templates')
-//const transporter = nodemailer.createTransport(config.emailService)
-//const PaidUpProductConnect = require('paidup-product-connect')
+const schedule = require('node-schedule');
+const mail = require('../../components/util/mail');
 
 let notificationConfig = config.notifications.reminderChargeAccount;
 let scheduleJob;
@@ -36,8 +32,9 @@ function startNotificationChargeEmail() {
             }
             let subject = order.paymentsPlan[0].productInfo.productName;
             let subs = buildSubstitutions(order)
+            let template = notificationConfig.template
             if (idx === 0) {
-              emailHandler(to, subject, subs)
+              mail.send(to, subject, subs, template)
             }
             if (arr.length === idx + 1) {
               logger.debug("All emails was sended: " + new Date());
@@ -56,12 +53,12 @@ function buildSubstitutions(order) {
   let processedCharges = []
   let today = new Date();
   let substitutions = {
-    customerFirstName: order.paymentsPlan[0].userInfo.userName,
-    orderId: order.orderId,
-    orgName: order.paymentsPlan[0].productInfo.organizationName,
-    productName: order.paymentsPlan[0].productInfo.productName,
-    processedCharges: "",
-    futureCharges: ""
+    '-customerFirstName-': order.paymentsPlan[0].userInfo.userName,
+    '-orderId-': order.orderId,
+    '-orgName-': order.paymentsPlan[0].productInfo.organizationName,
+    '-productName-': order.paymentsPlan[0].productInfo.productName,
+    '-processedCharges-': "",
+    '-futureCharges-': ""
   }
   order.paymentsPlan.forEach(function (pp) {
     let template = `
@@ -81,10 +78,10 @@ function buildSubstitutions(order) {
   });
   let table = "<table width='100%'><tr><th>Date</th><th>Description</th><th>Price</th><th>Status</th><th>Account</th></tr>";
   if (processedCharges.length) {
-    substitutions.processedCharges = table + processedCharges.join(" ") + "</table>"
+    substitutions['-processedCharges-'] = table + processedCharges.join(" ") + "</table>"
   }
   if (futureCharges.length) {
-    substitutions.futureCharges = table + futureCharges.join(" ") + "</table>"
+    substitutions['-futureCharges-'] = table + futureCharges.join(" ") + "</table>"
   }
   return substitutions;
 }
@@ -114,81 +111,6 @@ function getOrders(date, cb) {
       return cb(null, result.body)
     }
   })
-}
-
-function emailHandler(to, subject, substitutions) {
-  var request = sg.emptyRequest({
-    method: 'POST',
-    path: '/v3/mail/send',
-    body:
-
-    {
-      "from": {
-        "email": notificationConfig.from,
-        "name": notificationConfig.name
-      },
-      "personalizations": [
-        {
-          "to": [
-            {
-              "email": to.email,
-              "name": to.name
-            }
-          ],
-          "subject": subject,
-          "substitutions": {
-            "-customerFirstName-": substitutions.customerFirstName,
-            "-transactionDate-": substitutions.transactionDate,
-            "-orderId-": substitutions.orderId,
-            "-orgName-": substitutions.orgName,
-            "-productName-": substitutions.productName,
-            "-paymentPlanDesc-": substitutions.paymentPlanDesc,
-            "-trxDesc-": substitutions.trxDesc,
-            "-futureCharges-": substitutions.futureCharges,
-            "-processedCharges-": substitutions.processedCharges
-          }
-        }
-      ],
-      "template_id": notificationConfig.template
-    }
-  });
-
-  sg.API(request, function (error, response) {
-    if (error) {
-      console.log('Error response received');
-    }
-  });
-}
-
-function helperMethod() {
-  var helper = require('sendgrid').mail
-
-  let mail = new helper.Mail()
-  let email = new helper.Email("felipe@getpaidup.com", "Felipe")
-  mail.setFrom(email)
-
-  mail.setSubject("Hello World from the SendGrid Node.js Library")
-
-  let personalization = new helper.Personalization()
-  email = new helper.Email("riclara@gmail.com", "Example User")
-  personalization.addTo(email)
-
-  personalization.setSubject("Hello World from the Personalized SendGrid Node.js Library")
-
-  let substitution = new helper.Substitution("%name%", "Example User")
-  personalization.addSubstitution(substitution)
-  substitution = new helper.Substitution("%city%", "Denver")
-  personalization.addSubstitution(substitution)
-
-  mail.addPersonalization(personalization)
-
-  let content = new helper.Content("text/plain", "some text here")
-  mail.addContent(content)
-  content = new helper.Content("text/html", "<html><body>some text here</body></html>")
-  mail.addContent(content)
-
-  mail.setTemplateId("439b6d66-4408-4ead-83de-5c83c2ee313a")
-  return mail.toJSON()
 }
 
 exports.startNotificationChargeEmail = startNotificationChargeEmail
