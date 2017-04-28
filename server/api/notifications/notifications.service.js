@@ -53,12 +53,12 @@ function buildSubstitutions(order) {
   let processedCharges = []
   let today = new Date();
   let substitutions = {
-    customerFirstName: order.paymentsPlan[0].userInfo.userName,
-    orderId: order.orderId,
-    orgName: order.paymentsPlan[0].productInfo.organizationName,
-    productName: order.paymentsPlan[0].productInfo.productName,
-    processedCharges: "",
-    futureCharges: ""
+    '-customerFirstName-': order.paymentsPlan[0].userInfo.userName,
+    '-orderId-': order.orderId,
+    '-orgName-': order.paymentsPlan[0].productInfo.organizationName,
+    '-productName-': order.paymentsPlan[0].productInfo.productName,
+    '-processedCharges-': "",
+    '-futureCharges-': ""
   }
   order.paymentsPlan.forEach(function (pp) {
     let template = `
@@ -78,10 +78,10 @@ function buildSubstitutions(order) {
   });
   let table = "<table width='100%'><tr><th>Date</th><th>Description</th><th>Price</th><th>Status</th><th>Account</th></tr>";
   if (processedCharges.length) {
-    substitutions.processedCharges = table + processedCharges.join(" ") + "</table>"
+    substitutions['-processedCharges-'] = table + processedCharges.join(" ") + "</table>"
   }
   if (futureCharges.length) {
-    substitutions.futureCharges = table + futureCharges.join(" ") + "</table>"
+    substitutions['-futureCharges-'] = table + futureCharges.join(" ") + "</table>"
   }
   return substitutions;
 }

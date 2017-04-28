@@ -24,17 +24,7 @@ function send(to, subject, substitutions, template) {
             }
           ],
           "subject": subject,
-          "substitutions": {
-            "-customerFirstName-": substitutions.customerFirstName,
-            "-transactionDate-": substitutions.transactionDate,
-            "-orderId-": substitutions.orderId,
-            "-orgName-": substitutions.orgName,
-            "-productName-": substitutions.productName,
-            "-paymentPlanDesc-": substitutions.paymentPlanDesc,
-            "-trxDesc-": substitutions.trxDesc,
-            "-futureCharges-": substitutions.futureCharges,
-            "-processedCharges-": substitutions.processedCharges
-          }
+          "substitutions": substitutions
         }
       ],
       "template_id": template

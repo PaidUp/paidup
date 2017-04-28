@@ -248,6 +248,9 @@ var all = {
     }
   },
   notifications: {
+    charge: {
+      template: '624c5e45-e88a-4a13-894f-1b989d44f029'
+    },
     reminderNoPaymentAdded: {
       period: 'minutes',
       value: 2
@@ -258,7 +261,7 @@ var all = {
     },
     reminderChargeAccount: {
       days: 2,
-      cronFormat: '10 * * * * *',
+      cronFormat: '30 05 * * *',
       template: 'c6301a8a-ec32-4961-8b8c-3175ebdf5b5a',
       from: 'felipe@getpaidup.com',
       name: 'Felipe'
