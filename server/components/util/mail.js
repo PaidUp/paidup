@@ -5,7 +5,7 @@ var sg = require('sendgrid')(config.sendgrid.token);
 let notificationConfig = config.notifications.reminderChargeAccount;
 
 function send(to, subject, substitutions, template) {
-  var request = sg.emptyRequest({
+  let paramEmail = {
     method: 'POST',
     path: '/v3/mail/send',
     body:
@@ -29,11 +29,12 @@ function send(to, subject, substitutions, template) {
       ],
       "template_id": template
     }
-  });
+  }
+  var request = sg.emptyRequest(paramEmail);
 
   sg.API(request, function (error, response) {
     if (error) {
-      console.log('Error response received');
+      console.log('Error response received: ', JSON.stringify(error));
     }
   });
 }

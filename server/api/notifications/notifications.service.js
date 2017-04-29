@@ -33,9 +33,7 @@ function startNotificationChargeEmail() {
             let subject = order.paymentsPlan[0].productInfo.productName;
             let subs = buildSubstitutions(order)
             let template = notificationConfig.template
-            if (idx === 0) {
-              mail.send(to, subject, subs, template)
-            }
+            mail.send(to, subject, subs, template)
             if (arr.length === idx + 1) {
               logger.debug("All emails was sended: " + new Date());
             }

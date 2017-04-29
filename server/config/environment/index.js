@@ -251,6 +251,9 @@ var all = {
     charge: {
       template: '624c5e45-e88a-4a13-894f-1b989d44f029'
     },
+    invoice: {
+      template: '303f45fb-14d9-4f0d-969b-40a120cb11fb'
+    },
     reminderNoPaymentAdded: {
       period: 'minutes',
       value: 2
