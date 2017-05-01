@@ -3,6 +3,7 @@
 const CommerceConnector = require('paidup-commerce-connect')
 const ScheduleConnector = require('paidup-schedule-connect')
 const config = require('../../../config/environment')
+const mail = require('../../../components/util/mail');
 const CatalogService = require('../catalog/catalog.service')
 const paymentEmailService = require('../../payment/payment.email.service')
 const paymentService = require('../../payment/payment.service')
@@ -154,32 +155,44 @@ var OrderService = {
       })
     })
   },
-  sendEmail: function sendEmail(last4, body, dataProduct, orderResult) {
-    // body.email
-    let emailParams = {
-      orderId: orderResult.body.orderId,
-      email: body.email,
-      last4: last4,
-      amount: 0,
-      schedules: [],
-      product: dataProduct.details.name
+  sendEmail: function sendEmail(order) {
+    let to = {
+      email: order.paymentsPlan[0].email,
+      name: order.paymentsPlan[0].userInfo.userName,
     }
-    orderResult.body.paymentsPlan.forEach(function (ele, idx, arr) {
-      emailParams.amount = emailParams.amount + ele.price
-      emailParams.schedules.push({
-        nextPaymentDue: ele.dateCharge,
-        price: Number(ele.price).toFixed(2)
-      })
-    })
-    emailParams.amount = Number(emailParams.amount).toFixed(2)
-    paymentEmailService.sendNewOrderEmail(emailParams, function (err, data) {
-      if (err) {
-        logger.error('Send New Order Email: Error', err)
-      } else {
-        logger.debug('Send New Order Email: ', data)
-      }
-    })
+    let subject = order.paymentsPlan[0].productInfo.productName;
+    let subs = buildSubstitutions(order)
+    let template = config.notifications.invoice.template
+
+    mail.send(to, subject, subs, template)
   }
+}
+
+function buildSubstitutions(order) {
+  let futureCharges = []
+  let today = new Date();
+  let substitutions = {
+    '-customerFirstName-': order.paymentsPlan[0].userInfo.userName,
+    '-orderId-': order.orderId,
+    '-orgName-': order.paymentsPlan[0].productInfo.organizationName,
+    '-productName-': order.paymentsPlan[0].productInfo.productName,
+    '-futureCharges-': ""
+  }
+  order.paymentsPlan.forEach(function (pp) {
+    let template = `
+      <tr> 
+        <td>${moment(pp.dateCharge).format('MM-DD-YYYY')}</td>
+        <td>${pp.description}</td>
+        <td>${pp.price}</td>
+        <td>${pp.status}</td>
+        <td>${pp.last4}</td>
+      </tr>
+    `
+    futureCharges.push(template)
+  });
+  let table = "<table width='100%'><tr><th>Date</th><th>Description</th><th>Price</th><th>Status</th><th>Account</th></tr>";
+  substitutions['-futureCharges-'] = table + futureCharges.join(" ") + "</table>"
+  return substitutions;
 }
 
 function createOrder(body, cb) {
@@ -213,7 +226,7 @@ function createOrder(body, cb) {
               }
             });
           })
-          OrderService.sendEmail(last4, body, dataProduct, orderResult)
+          OrderService.sendEmail(orderResult.body)
           cb(null, orderResult)
         }
       })
@@ -776,10 +789,10 @@ function orderUpdateWebhook(data, cb) {///
     },
     // OK.
     success: function (result) {
-      createTicketChargeFailed(data, function(err, data){
+      createTicketChargeFailed(data, function (err, data) {
         console.log("err:", err)
-        
-      console.log("data", data)
+
+        console.log("data", data)
       });
       return cb(null, result.body)
     }
@@ -805,10 +818,10 @@ function createTicketChargeFailed(data, cb) {
         }
         var email = order.paymentsPlan[0].email;
         var comment = doc.values.comment_ticket_payment_failed
-    var amount = parseInt(data.object.amount)/100;
+        var amount = parseInt(data.object.amount) / 100;
         comment = comment.replace('${order.paymentsPlan[0].userInfo.userName}', data.object.metadata.buyerName)
         comment = comment.replace('${order.paymentsPlan[0].productInfo.organizationName}', data.object.metadata.organizationName)
-        comment = comment.replace('${order.paymentsPlan[0].price}', amount )
+        comment = comment.replace('${order.paymentsPlan[0].price}', amount)
         comment = comment.replace('${config.emailVars.baseUrl}', config.emailVars.baseUrl)
         comment = comment.replace('${order.orderId}', data.object.metadata.orderId)
 
