@@ -778,6 +778,12 @@ function editAllPaymentsPlan(orderId, oldPaymentsPlan, cb) {
 }
 
 function orderUpdateWebhook(data, cb) {///
+  if(data.object.status !== 'succeeded'){
+    createTicketChargeFailed(data, function (err, data) {
+        console.log("err:", err)
+      });
+  }
+
   CommerceConnector.orderUpdateWebhook({
     baseUrl: config.connections.commerce.baseUrl,
     token: config.connections.commerce.token,
@@ -789,11 +795,6 @@ function orderUpdateWebhook(data, cb) {///
     },
     // OK.
     success: function (result) {
-      createTicketChargeFailed(data, function (err, data) {
-        console.log("err:", err)
-
-        console.log("data", data)
-      });
       return cb(null, result.body)
     }
   })
