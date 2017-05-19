@@ -85,10 +85,19 @@ function buildSubstitutions(order) {
 }
 
 function loadOrdersForNotifications(cb) {
-  let date = new Date();
+  let gtDate = new Date();
+  let ltDate = new Date();
   let numberOfDaysToAdd = notificationConfig.days;
-  date.setDate(date.getDate() + numberOfDaysToAdd);
-  getOrders(date.toISOString(), function (err, data) {
+  gtDate.setDate(gtDate.getDate() + (numberOfDaysToAdd - 1));
+  gtDate.setHours(23);
+  gtDate.setMinutes(59);
+  gtDate.setSeconds(59);
+  
+  ltDate.setDate(gtDate.getDate() + (numberOfDaysToAdd + 1));
+  ltDate.setHours(0);
+  ltDate.setMinutes(0);
+  ltDate.setSeconds(0);
+  getOrders(gtDate.toISOString(), ltDate.toISOString(), function (err, data) {
     if (err) {
       return cb(err);
     }
@@ -96,11 +105,12 @@ function loadOrdersForNotifications(cb) {
   })
 }
 
-function getOrders(date, cb) {
+function getOrders(gtDate, ltDate, cb) {
   CommerceConnector.orderNotificationCharge({
     baseUrl: config.connections.commerce.baseUrl,
     token: config.connections.commerce.token,
-    date: date
+    gtDate: gtDate,
+    ltDate: ltDate
   }).exec({
     error: function (err) {
       return cb(err)
