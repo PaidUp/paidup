@@ -777,7 +777,7 @@ function editAllPaymentsPlan(orderId, oldPaymentsPlan, cb) {
   // })
 }
 
-function orderUpdateWebhook(data, cb) {///
+function orderUpdateWebhook(data, cb) {
   if(data.object.status !== 'succeeded'){
     createTicketChargeFailed(data, function (err, data) {
         console.log("err:", err)
