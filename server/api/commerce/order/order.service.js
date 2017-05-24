@@ -183,7 +183,7 @@ function buildSubstitutions(order) {
       <tr> 
         <td>${moment(pp.dateCharge).format('MM-DD-YYYY')}</td>
         <td>${pp.description}</td>
-        <td>${pp.price.toFixed(2)}</td>
+        <td>$${pp.price.toFixed(2)}</td>
         <td>${pp.status}</td>
         <td>${pp.accountBrand} x-${pp.last4}</td>
       </tr>
