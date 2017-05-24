@@ -261,9 +261,9 @@ function buildSubstitutions(order, pPlan) {
       <tr> 
         <td>${moment(pp.dateCharge).format('MM-DD-YYYY')}</td>
         <td>${pp.description}</td>
-        <td>${pp.price}</td>
+        <td>$${pp.price.toFixed(2)}</td>
         <td>${pp.status}</td>
-        <td>${pp.last4}</td>
+        <td>${pp.accountBrand} x-${pp.last4}</td>
       </tr>
     `
     if (pp.status === 'pending') {
