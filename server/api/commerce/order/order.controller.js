@@ -144,6 +144,20 @@ exports.orderCancel = function (req, res) {
   })
 }
 
+exports.orderActivate = function (req, res) {
+  let user = req.user
+  if (!req.body.orderId) {
+    return handleError(res, { name: 'ValidationError', message: 'order id is required' })
+  }
+  req.body.userSysId = user._id
+  OrderService.orderActivate(req.body, function (err, data) {
+    if (err) {
+      return res.status(500).json({code: 'OrderService.canelOrder', message: JSON.stringify(err)})
+    }
+    return res.status(200).json(data.body)
+  })
+}
+
 exports.removePaymentPlan = function (req, res) {
   console.log('##req.body: ', req.body)
   let user = req.user

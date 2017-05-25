@@ -425,6 +425,24 @@ function orderCancel(params, cb) {
   })
 }
 
+function orderActivate(params, cb) {
+  CommerceConnector.orderActivate({
+    baseUrl: config.connections.commerce.baseUrl,
+    token: config.connections.commerce.token,
+    orderId: params.orderId,
+    userSysId: params.userSysId
+  }).exec({
+    // An unexpected error occurred.
+    error: function (err) {
+      return cb(err)
+    },
+    // OK.
+    success: function (result) {
+      return cb(null, result)
+    }
+  })
+}
+
 function removePaymentPlan(params, cb) {
   CommerceConnector.orderPaymentRemove({
     baseUrl: config.connections.commerce.baseUrl,
@@ -874,5 +892,6 @@ module.exports = {
   orderHistory: orderHistory,
   orderTransactions: orderTransactions,
   orderCancel: orderCancel,
+  orderActivate: orderActivate,
   removePaymentPlan: removePaymentPlan
 }
