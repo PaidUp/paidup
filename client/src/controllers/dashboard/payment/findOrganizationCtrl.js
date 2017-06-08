@@ -19,6 +19,9 @@ module.exports = ['$scope', '$rootScope', '$state', 'ProductService', 'SetupPaym
         });
         ProductService.categories = $scope.allCategories;
         ProductService.getPnProducts(function (errPn, pnProducts) {
+          console.log('errPn: ', errPn)
+          console.log('pnProducts', pnProducts)
+
           if(errPn){
             return cb(errPn)
           }

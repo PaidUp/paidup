@@ -16,16 +16,19 @@ module.exports = [ '$resource', function ($resource) {
     post: { method: 'POST', isArray: false }
   })
 
-  var UpdateProductsSuggested = $resource('/api/v1/user/:userId/update/products', {
-    userId: ''
-  }, {
+  var AddProductsSuggested = $resource('/api/v1/user/product/add', {}, {
     post: { method: 'POST', isArray: false }
   })
 
-  this.updateProductsSuggested = function (userId, productsSuggested) {
-    return UpdateProductsSuggested.post({
-      userId: userId
-    }, productsSuggested).$promise
+  this.addProductsSuggested = function (productsSuggested) {
+    return AddProductsSuggested.post({}, productsSuggested).$promise
+  }
+
+  var GetProductsSuggested = $resource('/api/v1/user/products/:email', {email:'@email'});
+
+  this.getProductsSuggested = function (email) {
+    console.log(email)
+    return GetProductsSuggested.get({email:email}).$promise
   }
 
   this.createZendeskUser = function (params) {

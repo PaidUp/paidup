@@ -30,15 +30,6 @@ exports.update = function (req, res, next) {
   })
 }
 
-exports.updateProductsSuggested = function (req, res, next) {
-  var id = req.params.userId;
-  var productsSuggested = req.body;
-  userService.updateProductsSuggested(id, productsSuggested, function (err, data) {
-    if (err) return res.status(402).json(err)
-    res.status(200).json(data)
-  })
-}
-
 exports.find = function (req, res, next) {
   userService.find(req.body, function (err, data) {
     if (err) return res.status(402).json(err)
@@ -64,6 +55,20 @@ exports.sendResetPassword = function (req, res, next) {
 
 exports.createZendeskUser = function(req, res, next){
   userService.createZendeskUser(req.body, function (err, data) {
+    if (err) return res.status(402).json(err)
+    res.status(200).json(data)
+  })
+}
+
+exports.addProduct = function (req, res) {
+  userService.create(req.body, function (err, data) {
+    if (err) return res.status(402).json(err)
+    res.status(200).json(data)
+  })
+}
+
+exports.getProducts = function (req, res) {
+  userService.getProducts(req.params.email, function (err, data) {
     if (err) return res.status(402).json(err)
     res.status(200).json(data)
   })

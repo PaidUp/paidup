@@ -6,37 +6,16 @@ module.exports = ['$resource', '$q', '$cookies', '$rootScope', 'UserService', 'S
   var getCategories = $resource('/api/v1/commerce/catalog/categories', {}, {})
 
   ProductService.getPnProducts = function (cb) {
+    console.log('into get products')
     UserService.get(SessionService.getCurrentSession(), function (currentUser) {
-
-      if ($cookies.get('pnProds')) {
-        var pn = $cookies.get('pnProds') ? JSON.parse($cookies.get('pnProds')) : {};
-        var pSuggested = {};
-        if (currentUser.meta.productsSuggested) {
-          pSuggested = JSON.parse(currentUser.meta.productsSuggested)
+      console.log('get user')
+      UserService.getProductsSuggested(currentUser.email).then(function(data){
+        console.log('data: ', data)
+        if(err){
+          return cb(err)
         }
-        var pSuggested = currentUser.meta.productsSuggested ? JSON.parse(currentUser.meta.productsSuggested) : {};
-
-        for (var key in pn) {
-          if (!pSuggested[key]) {
-            pSuggested[key] = {};
-          }
-          for (var keyP in pn[key]) {
-            if (!pSuggested[key][keyP]) {
-              pSuggested[key][keyP] = pn[key][keyP]
-            }
-          }
-        }
-        UserService.updateProductsSuggested(currentUser._id, { value: JSON.stringify(pSuggested) }).then(function (newUser) {
-          $rootScope.currentUser = newUser;
-          ProductService.removePnProducts();
-          cb(null, JSON.parse(newUser.meta.productsSuggested));
-        }).catch(function (err) {
-          cb(err);
-        })
-
-      } else {
-        cb(null, JSON.parse(currentUser.meta.productsSuggested));
-      }
+        cb(null, data)
+      })
     })
   }
 
