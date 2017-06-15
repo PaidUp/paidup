@@ -306,14 +306,15 @@ module.exports = ['$scope', '$rootScope', '$anchorScroll', '$location', '$q', 'S
     var filterMethods = {
       product: function (product) {
         var match = false
-        var products = pnProducts[$scope.categorySelected._id]
-        for (var keyProds in products) {
+        var products = pnProducts.filter(function(pnProd){
+          return pnProd.category === $scope.categorySelected._id
+        });
+        products.forEach(function(prod){
           if (!match) {
-            match = (keyProds === product._id && product.details.status)
-
-            if (match && products[keyProds].pp) {
+            match = (prod.product === product._id && product.details.status)
+            if (match && prod.paymentPlan && prod.paymentPlan.length > 0) {
               Object.keys(product.paymentPlans).forEach(function (ele) {
-                if (ele !== products[keyProds].pp) {
+                if (ele !== prod.paymentPlan) {
                   delete product.paymentPlans[ele]
                 }
               })
@@ -324,8 +325,10 @@ module.exports = ['$scope', '$rootScope', '$anchorScroll', '$location', '$q', 'S
                 }
               })
             }
+
           }
-        }
+
+        })
         return match
       },
       isActive: function (product) {
@@ -342,7 +345,7 @@ module.exports = ['$scope', '$rootScope', '$anchorScroll', '$location', '$q', 'S
     }
 
     function filterProd(prod) {
-      if (pnProducts !== null && typeof pnProducts === 'object' && pnProducts[$scope.categorySelected._id] && Object.keys(pnProducts[$scope.categorySelected._id]).length > 0) {
+      if (pnProducts !== null && pnProducts.length > 0) {
         return filterMethods.product(prod)
       } else {
         return filterMethods.isActive(prod)
