@@ -61,7 +61,7 @@ exports.createZendeskUser = function(req, res, next){
 }
 
 exports.addProduct = function (req, res) {
-  userService.create(req.body, function (err, data) {
+  userService.addProduct(req.body, function (err, data) {
     if (err) return res.status(402).json(err)
     res.status(200).json(data)
   })

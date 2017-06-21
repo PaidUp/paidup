@@ -7,11 +7,22 @@ module.exports = ['$resource', '$q', '$cookies', '$rootScope', 'UserService', 'S
 
   ProductService.getPnProducts = function (cb) {
     UserService.get(SessionService.getCurrentSession(), function (currentUser) {
-      UserService.getProductsSuggested(currentUser.email).then(function(data){
-        cb(null, data.products)
-      }).catch(function (err) {
-        cb(err);
-      })
+      var pnSession = $cookies.get('pnProds') ? JSON.parse($cookies.get('pnProds')) : null;
+      if (pnSession) {
+        pnSession['email'] = currentUser.email
+        UserService.addProductsSuggested(pnSession).then(function (data) {
+          $cookies.remove('pnProds')
+          cb(null, data.products)
+        }).catch(function (err) {
+          cb(err);
+        })
+      } else {
+        UserService.getProductsSuggested(currentUser.email).then(function (data) {
+          cb(null, data.products)
+        }).catch(function (err) {
+          cb(err);
+        })
+      }
     })
   }
 
