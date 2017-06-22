@@ -14,6 +14,7 @@ router.post('/update', authService.isAuthenticated(), controller.update)
 router.post('/email/sendWelcome', controller.sendWelcome)
 router.post('/email/sendResetPassword', controller.sendResetPassword)
 router.post('/product/add', controller.addProduct)
+router.post('/product/delete', controller.deleteProduct)
 router.get('/products/:email', controller.getProducts)
 
 router.use('/contact', require('./contact/index'))

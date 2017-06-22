@@ -67,6 +67,13 @@ exports.addProduct = function (req, res) {
   })
 }
 
+exports.deleteProduct = function (req, res) {
+  userService.deleteProduct(req.body, function (err, data) {
+    if (err) return res.status(402).json(err)
+    res.status(200).json(data)
+  })
+}
+
 exports.getProducts = function (req, res) {
   userService.getProducts(req.params.email, function (err, data) {
     if (err) return res.status(402).json(err)

@@ -24,6 +24,14 @@ module.exports = [ '$resource', function ($resource) {
     return AddProductsSuggested.post({}, productsSuggested).$promise
   }
 
+  var DeleteProductsSuggested = $resource('/api/v1/user/product/delete', {}, {
+    post: { method: 'POST', isArray: false }
+  })
+
+  this.deleteProductsSuggested = function (productsSuggested) {
+    return DeleteProductsSuggested.post({}, productsSuggested).$promise
+  }
+
   var GetProductsSuggested = $resource('/api/v1/user/products/:email', {email:'@email'});
 
   this.getProductsSuggested = function (email) {

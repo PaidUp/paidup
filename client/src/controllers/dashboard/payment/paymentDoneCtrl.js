@@ -32,20 +32,12 @@ module.exports = ['$scope', '$rootScope', '$state', 'SetupPaymentService', 'Prod
 
     function removePnProduct() {
       UserService.get(SessionService.getCurrentSession(), function (currentUser) {
-        var pnProducts = currentUser.meta.productsSuggested ? JSON.parse(currentUser.meta.productsSuggested) : {};
-
-        if (pnProducts[SetupPaymentService.categorySelected._id]) {
-          if (pnProducts[SetupPaymentService.categorySelected._id][SetupPaymentService.productSelected._id]) {
-            delete pnProducts[SetupPaymentService.categorySelected._id][SetupPaymentService.productSelected._id]
-          }
-          if (Object.keys(pnProducts[SetupPaymentService.categorySelected._id]).length === 0) {
-            delete pnProducts[SetupPaymentService.categorySelected._id]
-          }
-
-        }
-        UserService.updateProductsSuggested(currentUser._id, { value: JSON.stringify(pnProducts) }).then(function (newUser) {
-          $rootScope.currentUser = newUser;
-          ProductService.removePnProducts();
+        UserService.deleteProductsSuggested({
+          email: currentUser.email, 
+          category: SetupPaymentService.categorySelected._id,
+          product: SetupPaymentService.productSelected._id
+        }).then(function (result) {
+          
         }).catch(function (err) {
           console.log(err)
         })

@@ -142,6 +142,14 @@ function addProduct(data, cb) {
   })
 }
 
+function deleteProduct(data, cb) {
+  tdUserService.init(config.connections.user)
+  tdUserService.deleteProduct(data, function (err, data) {
+    if (err) return cb(err)
+    return cb(null, data)
+  })
+}
+
 function getProducts(email, cb) {
   tdUserService.init(config.connections.user)
   tdUserService.getProducts(email, function (err, data) {
@@ -162,3 +170,4 @@ exports.updateProductsSuggested = updateProductsSuggested
 exports.createZendeskUser = createZendeskUser
 exports.addProduct = addProduct
 exports.getProducts = getProducts
+exports.deleteProduct = deleteProduct
