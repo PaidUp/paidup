@@ -1,6 +1,6 @@
 'use strict'
 
-module.exports = [ '$scope', 'AuthService', '$state', 'SessionService', function ($scope, AuthService, $state, SessionService) {
+module.exports = [ '$scope', 'AuthService', '$state', 'SessionService', 'ProductService', function ($scope, AuthService, $state, SessionService, ProductService) {
   $scope.PageOptions.pageClass = 'dashboard-page'
 
   //$scope.isReferring = SessionService.getReferringDomain() ? true : false;
@@ -20,4 +20,6 @@ module.exports = [ '$scope', 'AuthService', '$state', 'SessionService', function
     AuthService.logout()
     $state.go('login')
   }
+
+  ProductService.cleanPnProducts();
 }]

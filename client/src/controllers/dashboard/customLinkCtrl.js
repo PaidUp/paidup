@@ -13,7 +13,7 @@ module.exports = ['$scope', '$state', '$rootScope', '$stateParams', 'ProductServ
         }
         ProductService.setPnProducts(pnProds);
       } else {
-        ProductService.removePnProducts();
+        ProductService.setCleanPnProducts();
       }
       $location.path(dest)
       $location.replace();
