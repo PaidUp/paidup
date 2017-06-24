@@ -134,6 +134,30 @@ function createZendeskUser(params, cb) {
   });
 }
 
+function addProduct(data, cb) {
+  tdUserService.init(config.connections.user)
+  tdUserService.addProduct(data, function (err, data) {
+    if (err) return cb(err)
+    return cb(null, data)
+  })
+}
+
+function deleteProduct(data, cb) {
+  tdUserService.init(config.connections.user)
+  tdUserService.deleteProduct(data, function (err, data) {
+    if (err) return cb(err)
+    return cb(null, data)
+  })
+}
+
+function getProducts(email, cb) {
+  tdUserService.init(config.connections.user)
+  tdUserService.getProducts(email, function (err, data) {
+    if (err) return cb(err)
+    return cb(null, data)
+  })
+}
+
 exports.create = create
 exports.createAll = createAll
 exports.current = current
@@ -144,3 +168,6 @@ exports.sendEmailWelcome = sendEmailWelcome
 exports.sendEmailResetPassword = sendEmailResetPassword
 exports.updateProductsSuggested = updateProductsSuggested
 exports.createZendeskUser = createZendeskUser
+exports.addProduct = addProduct
+exports.getProducts = getProducts
+exports.deleteProduct = deleteProduct

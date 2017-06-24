@@ -7,55 +7,54 @@ module.exports = ['$resource', '$q', '$cookies', '$rootScope', 'UserService', 'S
 
   ProductService.getPnProducts = function (cb) {
     UserService.get(SessionService.getCurrentSession(), function (currentUser) {
-
-      if ($cookies.get('pnProds')) {
-        var pn = $cookies.get('pnProds') ? JSON.parse($cookies.get('pnProds')) : {};
-        var pSuggested = {};
-        if (currentUser.meta.productsSuggested) {
-          pSuggested = JSON.parse(currentUser.meta.productsSuggested)
-        }
-        var pSuggested = currentUser.meta.productsSuggested ? JSON.parse(currentUser.meta.productsSuggested) : {};
-
-        for (var key in pn) {
-          if (!pSuggested[key]) {
-            pSuggested[key] = {};
-          }
-          for (var keyP in pn[key]) {
-            if (!pSuggested[key][keyP]) {
-              pSuggested[key][keyP] = pn[key][keyP]
-            }
-          }
-        }
-        UserService.updateProductsSuggested(currentUser._id, { value: JSON.stringify(pSuggested) }).then(function (newUser) {
-          $rootScope.currentUser = newUser;
-          ProductService.removePnProducts();
-          cb(null, JSON.parse(newUser.meta.productsSuggested));
+      var pnSession = $cookies.get('pnProds') ? JSON.parse($cookies.get('pnProds')) : null;
+      if (pnSession) {
+        pnSession['email'] = currentUser.email
+        UserService.addProductsSuggested(pnSession).then(function (data) {
+          $cookies.remove('pnProds')
+          cb(null, data.products)
         }).catch(function (err) {
           cb(err);
         })
-
       } else {
-        cb(null, JSON.parse(currentUser.meta.productsSuggested));
+        UserService.getProductsSuggested(currentUser.email).then(function (data) {
+          cb(null, data.products)
+        }).catch(function (err) {
+          cb(err);
+        })
       }
     })
   }
 
-  ProductService.cleanPnProducts = function (cb) {
-    UserService.get(SessionService.getCurrentSession(), function (currentUser) {
-      UserService.updateProductsSuggested(currentUser._id, { value: '{}' }).then(function (newUser) {
-        $rootScope.currentUser = newUser;
-        ProductService.removePnProducts();
-        cb(null, {});
-      }).catch(function (err) {
-        cb(err);
+  ProductService.cleanPnProducts = function () {
+    if (ProductService.getCleanPnProducts()) {
+      UserService.get(SessionService.getCurrentSession(), function (currentUser) {
+        UserService.deleteProductsSuggested({ email: currentUser.email }).then(function (result) {
+          ProductService.removePnProducts();
+          ProductService.removeCleanPnProducts();
+        }).catch(function (err) {
+          console.log(err)
+        })
       })
-    })
+    }
   }
 
   ProductService.categories = [];
 
   ProductService.setPnProducts = function (pnProds) {
     $cookies.put('pnProds', JSON.stringify(pnProds))
+  }
+
+  ProductService.setCleanPnProducts = function () {
+    $cookies.put('cleanPnProds', true)
+  }
+
+  ProductService.getCleanPnProducts = function () {
+    return $cookies.get('cleanPnProds')
+  }
+
+  ProductService.removeCleanPnProducts = function (pnProds) {
+    $cookies.remove('cleanPnProds')
   }
 
   ProductService.removePnProducts = function (pnProds) {

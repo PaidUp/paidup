@@ -22,17 +22,16 @@ module.exports = ['$scope', '$rootScope', '$state', 'ProductService', 'SetupPaym
           if(errPn){
             return cb(errPn)
           }
-
-          if (Object.keys(pnProducts).length > 0) {
+          if(pnProducts.length > 0){
             $scope.filteredCategories = $scope.allCategories.filter(function (product) {
               var match = false;
-              for (var key in pnProducts) {
+              pnProducts.forEach(function(pnProduct){
                 if (!match) {
-                  match = (key === product._id && product.isActive)
+                  match = (pnProduct.category === product._id && product.isActive)
                 }
-              }
+              })
               return match;
-            });
+            })
             cb(null, true);
           } else {
             loadPreviousCategories($scope.allCategories, function (err, res) {
@@ -45,7 +44,6 @@ module.exports = ['$scope', '$rootScope', '$state', 'ProductService', 'SetupPaym
         });
       }).catch(function (err) {
         $rootScope.GlobalAlertSystemAlerts.push({ msg: 'No search results', type: 'warn', dismissOnTimeout: 5000 })
-        console.log('findOrg err', err)
         cb(err);
       });
     }
