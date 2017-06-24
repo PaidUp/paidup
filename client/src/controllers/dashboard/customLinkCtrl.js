@@ -36,7 +36,7 @@ module.exports = ['$scope', '$state', '$rootScope', '$stateParams', 'ProductServ
         });
 
       } else {
-        managePnProducts('login');
+        managePnProducts('/login');
       }
     }
   }]
