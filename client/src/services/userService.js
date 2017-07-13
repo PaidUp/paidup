@@ -35,7 +35,6 @@ module.exports = [ '$resource', function ($resource) {
   var GetProductsSuggested = $resource('/api/v1/user/products/:email', {email:'@email'});
 
   this.getProductsSuggested = function (email) {
-    console.log(email)
     return GetProductsSuggested.get({email:email}).$promise
   }
 
@@ -52,7 +51,7 @@ module.exports = [ '$resource', function ($resource) {
   this.get = function (token, callback) {
     var cb = callback || angular.noop
     return User.get({action: 'current', token: token}, cb)
-  // return User.get({token: token}, cb)
+  //return User.get({token: token}, cb)
   }
 
   this.getUser = function (userId) { // change name

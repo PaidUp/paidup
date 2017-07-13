@@ -463,7 +463,7 @@ function removePaymentPlan(params, cb) {
 }
 
 // machinepack exec order-get-organization --organizationId='acct_18AQWDGKajSrnujf' --token='TDCommerceToken-CHANGE-ME!' --baseUrl='http://localhost:9002' --limit='1000' --sort='1'
-function orderGetOrganization(organizationId, limit, sort, from, to, cb) {
+function orderGetOrganization(organizationId, limit, sort, from, to, productIds, cb) {
   CommerceConnector.orderGetOrganization({
     baseUrl: config.connections.commerce.baseUrl,
     token: config.connections.commerce.token,
@@ -471,7 +471,8 @@ function orderGetOrganization(organizationId, limit, sort, from, to, cb) {
     limit: limit,
     sort: sort,
     fromDate: from,
-    toDate: to
+    toDate: to,
+    productIds: productIds
   }).exec({
     // An unexpected error occurred.
     error: function (err) {

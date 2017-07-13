@@ -49,10 +49,11 @@ exports.orderGet = function (req, res) {
 }
 
 exports.orderGetOrganization = function (req, res) {
+  console.log('req.query: ', req.query)
   OrganizationService.getOrganization(req.params.organizationId, function (err, organizationData) {
     if (err) return res.status(400).json(err)
     if (!organizationData.paymentId) return res.status(400).json({message: 'Organization does not activated', status: '400'})
-    OrderService.orderGetOrganization(organizationData.paymentId, req.params.limit, req.params.sort, req.params.from, req.params.to, function (err, result) {
+    OrderService.orderGetOrganization(organizationData.paymentId, req.params.limit, req.params.sort, req.params.from, req.params.to, req.query.productIds, function (err, result) {
       if (err) return res.status(400).json(err)
       return res.status(200).json(result)
     })
