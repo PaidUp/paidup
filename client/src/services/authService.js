@@ -96,20 +96,18 @@ module.exports = ['$rootScope', '$http', 'UserService', 'SessionService', 'Faceb
         email: user.email,
         password: user.password,
         rememberMe: user.rememberMe
+      }).then(function successCallback(response) {
+        SessionService.addSession(response.data)
+        UserService.get(response.data.token, function (user) {
+          UserService.currentUser = user;
+          $rootScope.currentUser = user
+          success(user)
+        })
+      }, function errorCallback(err) {
+        context.logout()
+        err.email = user.email
+        error(err)
       })
-        .success(function (data) {
-          SessionService.addSession(data)
-          UserService.get(data.token, function (user) {
-            UserService.currentUser = user;
-            $rootScope.currentUser = user
-            success(user)
-          })
-        })
-        .error(function (err) {
-          context.logout()
-          error(err)
-          err.email = user.email
-        })
     },
 
     /**
@@ -156,13 +154,13 @@ module.exports = ['$rootScope', '$http', 'UserService', 'SessionService', 'Faceb
           error('user.authResponse undefined')
           return
         }
-        $http.post('/api/v1/auth/facebook', { facebookToken: user.authResponse.accessToken, isParent: isParent }).success(function (data) {
-          $rootScope.currentUser = UserService.get(data.token, function (user) {
-            SessionService.addSession(data)
+        $http.post('/api/v1/auth/facebook', { facebookToken: user.authResponse.accessToken, isParent: isParent }).then(function (response) {
+          $rootScope.currentUser = UserService.get(response.data.token, function (user) {
+            SessionService.addSession(response.data)
             success(user)
+          }, function (data) {
+            error(data)
           })
-        }).error(function (data) {
-          error(data)
         })
       }
       Facebook.login(loginSuccess, { scope: 'email' })
@@ -191,13 +189,13 @@ module.exports = ['$rootScope', '$http', 'UserService', 'SessionService', 'Faceb
         userId: userId,
         email: credentials.email,
         password: credentials.password
-      }).success(function (data) {
-        $rootScope.currentUser = UserService.get(data.token, function (user) {
-          SessionService.addSession(data)
+      }).then(function (response) {
+        $rootScope.currentUser = UserService.get(response.data.token, function (user) {
+          SessionService.addSession(response.data)
           success(user)
+        }, function (err) {
+          error(err)
         })
-      }).error(function (err) {
-        error(err)
       })
     },
 
@@ -216,7 +214,7 @@ module.exports = ['$rootScope', '$http', 'UserService', 'SessionService', 'Faceb
         email: email
       }, {
           withCredentials: false
-        }).success(success).error(error)
+        }).then(success, error)
     },
 
     resetPassword: function (token, password, successFn, errorFn) {
@@ -227,7 +225,7 @@ module.exports = ['$rootScope', '$http', 'UserService', 'SessionService', 'Faceb
         password: password
       }, {
           withCredentials: false
-        }).success(success).error(error)
+        }).then(success, error)
     },
 
     updatePassword: function (oldPassword, newPassword, userId) {
@@ -241,9 +239,9 @@ module.exports = ['$rootScope', '$http', 'UserService', 'SessionService', 'Faceb
       if (token) {
         $http.post('/api/v1/auth/session/salt', {
           token: token
-        }).success(function (data) {
-          cb(null, data)
-        }).error(function (err) {
+        }).then(function (response) {
+          cb(null, response.data)
+        }, function (err) {
           console.log('err', err)
           cb(err)
         })
@@ -259,17 +257,16 @@ module.exports = ['$rootScope', '$http', 'UserService', 'SessionService', 'Faceb
         verifyToken: token
       }, {
           withCredentials: false
-        }).success(success).error(error)
+        }).then(success, error)
     },
 
     resendEmail: function (userId, successFn, errorFn) {
       var success = successFn || angular.noop
       var error = errorFn || angular.noop
       $http.get('/api/v1/auth/verify-request/userId/' + userId)
-        .success(function (data) {
+        .then(function (data) {
           success()
-        })
-        .error(error)
+        }, error)
     },
 
     updateEmail: function (email, userId) {

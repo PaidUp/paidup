@@ -40,8 +40,8 @@ module.exports = ['$resource', function ($resource) {
     return Orders.get({ userId: userId, limit: limit, sort: sort }).$promise
   }
 
-  this.orderGetOrganization = function (organizationId, limit, sort, from, to) {
-    return orderOrganization.get({ organizationId: organizationId, limit: limit, sort: sort, from: from, to: to }).$promise
+  this.orderGetOrganization = function (organizationId, limit, sort, from, to, productIds) {
+    return orderOrganization.get({ organizationId: organizationId, limit: limit, sort: sort, from: from, to: to, productIds: productIds }).$promise
   }
 
   this.createOrder = function (params) {

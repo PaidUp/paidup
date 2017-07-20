@@ -122,9 +122,8 @@ function ($scope, AuthService, $state, CommerceService, TrackerService, SessionS
     $scope.groupProducts = []
     AuthService.getCurrentUserPromise().then(function (user) {
       var organizationId = (user.meta.productRelated[0]) ? user.meta.productRelated[0] : 'Does not have organization'
-      CommerceService.orderGetOrganization(organizationId, 200, -1, $scope.dt1, $scope.dt2).then(function (result) {
-        console.log("result");
-        console.log(result);
+      var teams = user.teams.join();
+      CommerceService.orderGetOrganization(organizationId, 200, -1, $scope.dt1, $scope.dt2, teams).then(function (result) {
         // $scope.totalPrice = $scope.getSubTotal(result.body)
         $scope.totalPriceFees = $scope.getSubTotal(result.body, 'sumPrice')
         // $scope.totalDiscount = $scope.getSubTotalDiscount(result.body)
@@ -143,9 +142,6 @@ function ($scope, AuthService, $state, CommerceService, TrackerService, SessionS
           gp[v] = fn[v]
         })
         $scope.groupProducts = gp
-
-console.log(gp)
-
       }).catch(function (err) {
         console.log('err', err)
       })
