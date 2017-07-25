@@ -169,14 +169,17 @@ var OrderService = {
 }
 
 function buildSubstitutions(order) {
-  let futureCharges = []
+  let nextCharges = []
+  let pendingCharges = []
   let today = new Date();
   let substitutions = {
-    '-customerFirstName-': order.paymentsPlan[0].userInfo.userName,
-    '-orderId-': order.orderId,
+    '-orderId-': order.orderId,    
+    '-userFirstName-': order.paymentsPlan[0].userInfo.userName.split(' ')[0],
+    '-beneficiaryFirstName-': order.paymentsPlan[0].customInfo.formData.athleteFirstName,
     '-orgName-': order.paymentsPlan[0].productInfo.organizationName,
-    '-productName-': order.paymentsPlan[0].productInfo.productName,
-    '-futureCharges-': ""
+    '-programName-': order.paymentsPlan[0].productInfo.productName,  
+    '-nextCharges-':'',
+    '-pendingCharges-': ''
   }
   order.paymentsPlan.forEach(function (pp) {
     let template = `
@@ -188,10 +191,17 @@ function buildSubstitutions(order) {
         <td>${pp.accountBrand} x-${pp.last4}</td>
       </tr>
     `
-    futureCharges.push(template)
+    if(pp.dateCharge > today){
+      pendingCharges.push(template)
+    } else {
+      nextCharges.push(template)
+    }
   });
   let table = "<table width='100%'><tr><th>Date</th><th>Description</th><th>Price</th><th>Status</th><th>Account</th></tr>";
-  substitutions['-futureCharges-'] = table + futureCharges.join(" ") + "</table>"
+  if (pendingCharges.length && !nextCharges.length) {
+    substitutions['-nextCharges-'] = table + nextCharges.join(" ") + "</table>"
+    
+  }
   return substitutions;
 }
 
