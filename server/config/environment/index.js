@@ -253,7 +253,9 @@ var all = {
     },
     invoice: {
       template: {
-        option1: '303f45fb-14d9-4f0d-969b-40a120cb11fb'
+        allFuturePayments: '4089244c-b74e-48d8-86a9-71102a4ee69d',
+        asapAndFuturePayments: '614fa5f8-824e-470b-8add-ce22ac26ea37',
+        asapPayments: '387b08a5-18ea-4c17-972b-46ff046c3390'
       }
     },
     reminderNoPaymentAdded: {
