@@ -249,7 +249,10 @@ var all = {
   },
   notifications: {
     charge: {
-      template: '624c5e45-e88a-4a13-894f-1b989d44f029'
+      template: {
+        noFuturePayments: 'cf4ac7cb-8571-4e4c-9c2e-59ae49e21118',
+        withFuturePayments: 'f7f3c212-fe1c-4381-9db0-a330c9f43b76'
+      }
     },
     invoice: {
       template: {
@@ -269,7 +272,10 @@ var all = {
     reminderChargeAccount: {
       days: 4,
       cronFormat: '30 05 * * *',
-      template: 'c6301a8a-ec32-4961-8b8c-3175ebdf5b5a',
+      template:  {
+        noFuturePayments: '91cc82fe-d8a4-46a3-8de7-6e581f74f7fe',
+        withFuturePayments: '5c40bb3c-2a41-494d-9541-f12ac50892c4'
+      },
       from: 'felipe@getpaidup.com',
       name: 'Felipe'
       

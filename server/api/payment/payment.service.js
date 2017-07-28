@@ -204,10 +204,7 @@ function capture(order, cb) {
             });
             return cb(null, data);
           } else {
-            commerceService.orderGetByorderId(order._id, 1, 1, function (errOrd, ord) {
-              console.log('err order: ', errOrd)
-              console.log('order base: ', JSON.stringify(ord))
-              
+            commerceService.orderGetByorderId(order._id, 1, 1, function (errOrd, ord) { 
               if (errOrd) {
                 return cb(errOrd);
               }
@@ -216,19 +213,11 @@ function capture(order, cb) {
                 name: order.paymentsPlan[0].userInfo.userName,
               }
               let subject = order.paymentsPlan[0].productInfo.productName;
-              let subs = buildSubstitutions(ord.body.orders[0], order.paymentsPlan[0]);
-              let template = config.notifications.charge.template
-
-              mail.send(to, subject, subs, template)
-
+              let subs = buildSubstitutions(ord.body.orders[0], order.paymentsPlan[0], function(template, subs){
+                mail.send(to, subject, subs, template)
+              });
               return cb(null, data)
-              
             });
-            //paymentEmailService.sendProcessedEmailCreditCardv3(order, function (err, dataEmail) {
-            //  if (err) return cb(err)
-            //  logger.info(' paymentEmailService.sendProcessedEmailCreditCardv3', data.status)
-            //  return cb(null, data)
-            //})
           }
         },
         error: function (err) {
@@ -238,23 +227,24 @@ function capture(order, cb) {
     })
 }
 
-function buildSubstitutions(order, pPlan) {
+function buildSubstitutions(order, pPlan, cb) {
   let ppFiltered = order.paymentsPlan.filter(function (pp) {
     return pPlan._id !== pp._id
   });
   order.paymentsPlan = ppFiltered;
-  let futureCharges = []
-  let processedCharges = []
+  let pendingCharges = []
   let today = new Date();
   let substitutions = {
-    '-customerFirstName-': order.paymentsPlan[0].userInfo.userName,
-    '-transactionDate-': moment(pPlan.dateCharge).format('MM-DD-YYYY'),
+    '-userFirstName-': ppFiltered[0].userInfo.userName.split(' ')[0],
+    '-invoiceId-': order.orderId,
+    '-beneficiaryFirstName-': ppFiltered[0].customInfo.formData.athleteFirstName,
+    '-beneficiaryLastName-': ppFiltered[0].customInfo.formData.athleteLastName,
     '-orderId-': order.orderId,
-    '-orgName-': order.paymentsPlan[0].productInfo.organizationName,
-    '-productName-': order.paymentsPlan[0].productInfo.productName,
+    '-trxAmount-': ppFiltered[0].price,
+    '-orgName-': pPlan.productInfo.organizationName,
+    '-productName-': ppFiltered[0].productInfo.productName,
     '-trxDesc-': pPlan.description,
-    '-processedCharges-': '',
-    '-futureCharges-': ''
+    '-pendingCharges-': '',
   }
   order.paymentsPlan.forEach(function (pp) {
     let template = `
@@ -267,19 +257,17 @@ function buildSubstitutions(order, pPlan) {
       </tr>
     `
     if (pp.status === 'pending') {
-      futureCharges.push(template)
-    } else {
-      processedCharges.push(template)
-    }
+      pendingCharges.push(template)
+    } 
   });
   let table = "<table width='100%'><tr><th>Date</th><th>Description</th><th>Price</th><th>Status</th><th>Account</th></tr>";
-  if (processedCharges.length) {
-    substitutions['-processedCharges-'] = table + processedCharges.join(" ") + "</table>"
+  if (pendingCharges.length) {
+    substitutions['-pendingCharges-'] = table + processedCharges.join(" ") + "</table>"
+    cb(config.notifications.charge.template.withFuturePayments, substitutions);
+  } else {
+    cb(config.notifications.charge.template.noFuturePayments, substitutions);
   }
-  if (futureCharges.length) {
-    substitutions['-futureCharges-'] = table + futureCharges.join(" ") + "</table>"
-  }
-  return substitutions;
+  
 }
 
 function createTicketChargeFailed(order, cb) {

@@ -161,14 +161,13 @@ var OrderService = {
       name: order.paymentsPlan[0].userInfo.userName,
     }
     let subject = order.paymentsPlan[0].productInfo.productName;
-    let subs = buildSubstitutions(order)
-    let template = config.notifications.invoice.template
-
-    mail.send(to, subject, subs, template)
+    let subs = buildSubstitutions(order, function(template, substitutions){
+      mail.send(to, subject, subs, template) 
+    })
   }
 }
 
-function buildSubstitutions(order) {
+function buildSubstitutions(order, cb) {
   let nextCharges = []
   let pendingCharges = []
   let today = new Date();
@@ -176,6 +175,7 @@ function buildSubstitutions(order) {
     '-orderId-': order.orderId,    
     '-userFirstName-': order.paymentsPlan[0].userInfo.userName.split(' ')[0],
     '-beneficiaryFirstName-': order.paymentsPlan[0].customInfo.formData.athleteFirstName,
+    '-beneficiaryLastName-': order.paymentsPlan[0].customInfo.formData.athleteLastName,
     '-orgName-': order.paymentsPlan[0].productInfo.organizationName,
     '-programName-': order.paymentsPlan[0].productInfo.productName,  
     '-nextCharges-':'',
@@ -198,11 +198,17 @@ function buildSubstitutions(order) {
     }
   });
   let table = "<table width='100%'><tr><th>Date</th><th>Description</th><th>Price</th><th>Status</th><th>Account</th></tr>";
+  substitutions['-pendingCharges-'] = pendingCharges.length ? table + pendingCharges.join(" ") + "</table>" : '';
+  substitutions['-nextCharges-'] = nextCharges.length ? table + nextCharges.join(" ") + "</table>" : '';
+  
   if (pendingCharges.length && !nextCharges.length) {
-    substitutions['-nextCharges-'] = table + nextCharges.join(" ") + "</table>"
-    
+    cb(config.notifications.invoice.template.allFuturePayments, substitutions);
+  } else if (!pendingCharges.length && nextCharges.length){
+    cb(config.notifications.invoice.template.asapPayments, substitutions);
+  } else {
+    cb(config.notifications.invoice.template.asapAndFuturePayments, substitutions);
   }
-  return substitutions;
+  
 }
 
 function createOrder(body, cb) {
