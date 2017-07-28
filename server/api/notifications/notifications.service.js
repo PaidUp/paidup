@@ -31,9 +31,9 @@ function startNotificationChargeEmail() {
               name: order.paymentsPlan[0].userInfo.userName,
             }
             let subject = order.paymentsPlan[0].productInfo.productName;
-            let subs = buildSubstitutions(order)
-            let template = notificationConfig.template
-            mail.send(to, subject, subs, template)
+            let subs = buildSubstitutions(order, function(template, subs){
+              mail.send(to, subject, subs, template)              
+            })
             if (arr.length === idx + 1) {
               logger.debug("All emails was sended: " + new Date());
             }
@@ -46,9 +46,8 @@ function startNotificationChargeEmail() {
   }
 }
 
-function buildSubstitutions(order cb) {
+function buildSubstitutions(order, cb) {
   let pendingCharges = [];
-  let today = new Date();
   let counter = 0;
   let nextPP = {};
   

@@ -262,7 +262,7 @@ function buildSubstitutions(order, pPlan, cb) {
   });
   let table = "<table width='100%'><tr><th>Date</th><th>Description</th><th>Price</th><th>Status</th><th>Account</th></tr>";
   if (pendingCharges.length) {
-    substitutions['-pendingCharges-'] = table + processedCharges.join(" ") + "</table>"
+    substitutions['-pendingCharges-'] = table + pendingCharges.join(" ") + "</table>"
     cb(config.notifications.charge.template.withFuturePayments, substitutions);
   } else {
     cb(config.notifications.charge.template.noFuturePayments, substitutions);

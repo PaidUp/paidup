@@ -161,7 +161,7 @@ var OrderService = {
       name: order.paymentsPlan[0].userInfo.userName,
     }
     let subject = order.paymentsPlan[0].productInfo.productName;
-    let subs = buildSubstitutions(order, function(template, substitutions){
+    let subs = buildSubstitutions(order, function(template, subs){
       mail.send(to, subject, subs, template) 
     })
   }
@@ -171,13 +171,15 @@ function buildSubstitutions(order, cb) {
   let nextCharges = []
   let pendingCharges = []
   let today = new Date();
+  today.setHours(23);
+  today.setMinutes(59);
   let substitutions = {
     '-orderId-': order.orderId,    
     '-userFirstName-': order.paymentsPlan[0].userInfo.userName.split(' ')[0],
     '-beneficiaryFirstName-': order.paymentsPlan[0].customInfo.formData.athleteFirstName,
     '-beneficiaryLastName-': order.paymentsPlan[0].customInfo.formData.athleteLastName,
     '-orgName-': order.paymentsPlan[0].productInfo.organizationName,
-    '-programName-': order.paymentsPlan[0].productInfo.productName,  
+    '-productName-': order.paymentsPlan[0].productInfo.productName,  
     '-nextCharges-':'',
     '-pendingCharges-': ''
   }
@@ -191,7 +193,7 @@ function buildSubstitutions(order, cb) {
         <td>${pp.accountBrand} x-${pp.last4}</td>
       </tr>
     `
-    if(pp.dateCharge > today){
+    if(moment(pp.dateCharge).isAfter(today)){
       pendingCharges.push(template)
     } else {
       nextCharges.push(template)
