@@ -72,12 +72,13 @@ function buildSubstitutions(order, cb) {
   });
   let substitutions = {
     '-invoiceId-': order.orderId,
-    '-customerFirstName-': order.paymentsPlan[0].userInfo.userName.split(' ')[0],
+    '-userFirstName-': order.paymentsPlan[0].userInfo.userName.split(' ')[0],
     '-beneficiaryFirstName-': order.paymentsPlan[0].customInfo.formData.athleteFirstName,
     '-beneficiaryLastName-': order.paymentsPlan[0].customInfo.formData.athleteLastName,
-    '-orgName-': pPlan.productInfo.organizationName,
-    '-productName-': ppFiltered[0].productInfo.productName,
-    '-trxAmount-': nextPP.price,
+    '-orgName-': nextPP.productInfo.organizationName,
+    '-productName-': order.paymentsPlan[0].productInfo.productName,
+    '-trxAmount-': nextPP.price.toFixed(2),
+    '-trxAccount-': nextPP.last4,
     '-trxDate-': moment(nextPP.dateCharge).format('MM-DD-YYYY'),
     '-trxDesc-': nextPP.description,
     '-orderId-': order.orderId,
@@ -97,12 +98,12 @@ function loadOrdersForNotifications(cb) {
   let gtDate = new Date();
   let ltDate = new Date();
   let numberOfDaysToAdd = notificationConfig.days;
-  gtDate.setDate(gtDate.getDate() + (numberOfDaysToAdd - 1));
+  gtDate.setTime(gtDate.getTime() + (numberOfDaysToAdd - 1) * 86400000 );
   gtDate.setHours(23);
   gtDate.setMinutes(59);
   gtDate.setSeconds(59);
   
-  ltDate.setDate(gtDate.getDate() + (numberOfDaysToAdd + 1));
+  ltDate.setTime(ltDate.getTime() + (numberOfDaysToAdd + 1) * 86400000 );
   ltDate.setHours(0);
   ltDate.setMinutes(0);
   ltDate.setSeconds(0);

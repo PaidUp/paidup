@@ -216,8 +216,8 @@ function capture(order, cb) {
               let subs = buildSubstitutions(ord.body.orders[0], order.paymentsPlan[0], function(template, subs){
                 mail.send(to, subject, subs, template)
               });
-              return cb(null, data)
             });
+              return cb(null, data)            
           }
         },
         error: function (err) {
@@ -240,7 +240,8 @@ function buildSubstitutions(order, pPlan, cb) {
     '-beneficiaryFirstName-': ppFiltered[0].customInfo.formData.athleteFirstName,
     '-beneficiaryLastName-': ppFiltered[0].customInfo.formData.athleteLastName,
     '-orderId-': order.orderId,
-    '-trxAmount-': ppFiltered[0].price,
+    '-trxAccount-': pPlan.last4,
+    '-trxAmount-': ppFiltered[0].price.toFixed(2),
     '-orgName-': pPlan.productInfo.organizationName,
     '-productName-': ppFiltered[0].productInfo.productName,
     '-trxDesc-': pPlan.description,
