@@ -190,7 +190,8 @@ function capture(order, cb) {
         orderId: order._id,
         paymentPlanId: order.paymentsPlan[0]._id,
         paymentPlan: order.paymentsPlan[0],
-        userSysId: 'CronJob'
+        userSysId: 'CronJob',
+        generateInvoice: true
       }
       CommerceConnect.orderUpdatePayments(params).exec({
         success: function (data) {
@@ -228,6 +229,7 @@ function capture(order, cb) {
 }
 
 function buildSubstitutions(order, pPlan, cb) {
+  console.log('pPlan: ', pPlan)
   let ppFiltered = order.paymentsPlan.filter(function (pp) {
     return pPlan._id !== pp._id
   });
@@ -236,7 +238,7 @@ function buildSubstitutions(order, pPlan, cb) {
   let today = new Date();
   let substitutions = {
     '-userFirstName-': ppFiltered[0].userInfo.userName.split(' ')[0],
-    '-invoiceId-': order.orderId,
+    '-invoiceId-': pPlan.invoiceId,
     '-beneficiaryFirstName-': ppFiltered[0].customInfo.formData.athleteFirstName,
     '-beneficiaryLastName-': ppFiltered[0].customInfo.formData.athleteLastName,
     '-orderId-': order.orderId,
