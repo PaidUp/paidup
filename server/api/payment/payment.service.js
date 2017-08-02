@@ -205,19 +205,15 @@ function capture(order, cb) {
             });
             return cb(null, data);
           } else {
-            commerceService.orderGetByorderId(order._id, 1, 1, function (errOrd, ord) { 
-              if (errOrd) {
-                return cb(errOrd);
-              }
+          
               let to = {
-                email: order.paymentsPlan[0].email,
-                name: order.paymentsPlan[0].userInfo.userName,
+                email: data.body.paymentsPlan[0].email,
+                name: data.body.paymentsPlan[0].userInfo.userName,
               }
-              let subject = order.paymentsPlan[0].productInfo.productName;
-              let subs = buildSubstitutions(ord.body.orders[0], order.paymentsPlan[0], function(template, subs){
+              let subject = data.body.paymentsPlan[0].productInfo.productName;
+              let subs = buildSubstitutions(data.body, order.paymentsPlan[0], function(template, subs){
                 mail.send(to, subject, subs, template)
               });
-            });
               return cb(null, data)            
           }
         },
@@ -230,23 +226,27 @@ function capture(order, cb) {
 
 function buildSubstitutions(order, pPlan, cb) {
   console.log('pPlan: ', pPlan)
+  let newPP = {};
   let ppFiltered = order.paymentsPlan.filter(function (pp) {
-    return pPlan._id !== pp._id
+    if(pPlan._id === pp._id){
+      newPP = pp;
+    } 
+    return pPlan._id !== pp._id;
   });
   order.paymentsPlan = ppFiltered;
   let pendingCharges = []
   let today = new Date();
   let substitutions = {
     '-userFirstName-': ppFiltered[0].userInfo.userName.split(' ')[0],
-    '-invoiceId-': pPlan.invoiceId,
+    '-invoiceId-': newPP.invoiceId,
     '-beneficiaryFirstName-': ppFiltered[0].customInfo.formData.athleteFirstName,
     '-beneficiaryLastName-': ppFiltered[0].customInfo.formData.athleteLastName,
     '-orderId-': order.orderId,
-    '-trxAccount-': pPlan.last4,
+    '-trxAccount-': newPP.last4,
     '-trxAmount-': ppFiltered[0].price.toFixed(2),
-    '-orgName-': pPlan.productInfo.organizationName,
+    '-orgName-': newPP.productInfo.organizationName,
     '-productName-': ppFiltered[0].productInfo.productName,
-    '-trxDesc-': pPlan.description,
+    '-trxDesc-': newPP.description,
     '-pendingCharges-': '',
   }
   order.paymentsPlan.forEach(function (pp) {
