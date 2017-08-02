@@ -31,9 +31,9 @@ function startNotificationChargeEmail() {
               name: order.paymentsPlan[0].userInfo.userName,
             }
             let subject = order.paymentsPlan[0].productInfo.productName;
-            let subs = buildSubstitutions(order)
-            let template = notificationConfig.template
-            mail.send(to, subject, subs, template)
+            let subs = buildSubstitutions(order, function(template, subs){
+              mail.send(to, subject, subs, template)              
+            })
             if (arr.length === idx + 1) {
               logger.debug("All emails was sended: " + new Date());
             }
@@ -46,18 +46,11 @@ function startNotificationChargeEmail() {
   }
 }
 
-function buildSubstitutions(order) {
-  let futureCharges = []
-  let processedCharges = []
-  let today = new Date();
-  let substitutions = {
-    '-customerFirstName-': order.paymentsPlan[0].userInfo.userName,
-    '-orderId-': order.orderId,
-    '-orgName-': order.paymentsPlan[0].productInfo.organizationName,
-    '-productName-': order.paymentsPlan[0].productInfo.productName,
-    '-processedCharges-': "",
-    '-futureCharges-': ""
-  }
+function buildSubstitutions(order, cb) {
+  let pendingCharges = [];
+  let counter = 0;
+  let nextPP = {};
+  
   order.paymentsPlan.forEach(function (pp) {
     let template = `
       <tr> 
@@ -69,31 +62,48 @@ function buildSubstitutions(order) {
       </tr>
     `
     if (pp.status === 'pending') {
-      futureCharges.push(template)
-    } else {
-      processedCharges.push(template)
+      if(!counter){
+        nextPP = pp;
+        counter = counter + 1;
+      } else {
+        pendingCharges.push(template)
+      }
     }
   });
+  let substitutions = {
+    '-invoiceId-': order.orderId,
+    '-userFirstName-': order.paymentsPlan[0].userInfo.userName.split(' ')[0],
+    '-beneficiaryFirstName-': order.paymentsPlan[0].customInfo.formData.athleteFirstName,
+    '-beneficiaryLastName-': order.paymentsPlan[0].customInfo.formData.athleteLastName,
+    '-orgName-': nextPP.productInfo.organizationName,
+    '-productName-': order.paymentsPlan[0].productInfo.productName,
+    '-trxAmount-': nextPP.price.toFixed(2),
+    '-trxAccount-': nextPP.last4,
+    '-trxDate-': moment(nextPP.dateCharge).format('MM-DD-YYYY'),
+    '-trxDesc-': nextPP.description,
+    '-orderId-': order.orderId,
+    '-pendingCharges-': ""
+  }
+
   let table = "<table width='100%'><tr><th>Date</th><th>Description</th><th>Price</th><th>Status</th><th>Account</th></tr>";
-  if (processedCharges.length) {
-    substitutions['-processedCharges-'] = table + processedCharges.join(" ") + "</table>"
+  if (pendingCharges.length) {
+    substitutions['-pendingCharges-'] = table + pendingCharges.join(" ") + "</table>"    
+    cb(notificationConfig.template.withFuturePayments, substitutions)
+  } else {
+    cb(notificationConfig.template.noFuturePayments, substitutions)
   }
-  if (futureCharges.length) {
-    substitutions['-futureCharges-'] = table + futureCharges.join(" ") + "</table>"
-  }
-  return substitutions;
 }
 
 function loadOrdersForNotifications(cb) {
   let gtDate = new Date();
   let ltDate = new Date();
   let numberOfDaysToAdd = notificationConfig.days;
-  gtDate.setDate(gtDate.getDate() + (numberOfDaysToAdd - 1));
+  gtDate.setTime(gtDate.getTime() + (numberOfDaysToAdd - 1) * 86400000 );
   gtDate.setHours(23);
   gtDate.setMinutes(59);
   gtDate.setSeconds(59);
   
-  ltDate.setDate(gtDate.getDate() + (numberOfDaysToAdd + 1));
+  ltDate.setTime(ltDate.getTime() + (numberOfDaysToAdd + 1) * 86400000 );
   ltDate.setHours(0);
   ltDate.setMinutes(0);
   ltDate.setSeconds(0);

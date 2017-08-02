@@ -161,22 +161,27 @@ var OrderService = {
       name: order.paymentsPlan[0].userInfo.userName,
     }
     let subject = order.paymentsPlan[0].productInfo.productName;
-    let subs = buildSubstitutions(order)
-    let template = config.notifications.invoice.template
-
-    mail.send(to, subject, subs, template)
+    let subs = buildSubstitutions(order, function(template, subs){
+      mail.send(to, subject, subs, template) 
+    })
   }
 }
 
-function buildSubstitutions(order) {
-  let futureCharges = []
+function buildSubstitutions(order, cb) {
+  let nextCharges = []
+  let pendingCharges = []
   let today = new Date();
+  today.setHours(23);
+  today.setMinutes(59);
   let substitutions = {
-    '-customerFirstName-': order.paymentsPlan[0].userInfo.userName,
-    '-orderId-': order.orderId,
+    '-orderId-': order.orderId,    
+    '-userFirstName-': order.paymentsPlan[0].userInfo.userName.split(' ')[0],
+    '-beneficiaryFirstName-': order.paymentsPlan[0].customInfo.formData.athleteFirstName,
+    '-beneficiaryLastName-': order.paymentsPlan[0].customInfo.formData.athleteLastName,
     '-orgName-': order.paymentsPlan[0].productInfo.organizationName,
-    '-productName-': order.paymentsPlan[0].productInfo.productName,
-    '-futureCharges-': ""
+    '-productName-': order.paymentsPlan[0].productInfo.productName,  
+    '-nextCharges-':'',
+    '-pendingCharges-': ''
   }
   order.paymentsPlan.forEach(function (pp) {
     let template = `
@@ -188,11 +193,24 @@ function buildSubstitutions(order) {
         <td>${pp.accountBrand} x-${pp.last4}</td>
       </tr>
     `
-    futureCharges.push(template)
+    if(moment(pp.dateCharge).isAfter(today)){
+      pendingCharges.push(template)
+    } else {
+      nextCharges.push(template)
+    }
   });
   let table = "<table width='100%'><tr><th>Date</th><th>Description</th><th>Price</th><th>Status</th><th>Account</th></tr>";
-  substitutions['-futureCharges-'] = table + futureCharges.join(" ") + "</table>"
-  return substitutions;
+  substitutions['-pendingCharges-'] = pendingCharges.length ? table + pendingCharges.join(" ") + "</table>" : '';
+  substitutions['-nextCharges-'] = nextCharges.length ? table + nextCharges.join(" ") + "</table>" : '';
+  
+  if (pendingCharges.length && !nextCharges.length) {
+    cb(config.notifications.invoice.template.allFuturePayments, substitutions);
+  } else if (!pendingCharges.length && nextCharges.length){
+    cb(config.notifications.invoice.template.asapPayments, substitutions);
+  } else {
+    cb(config.notifications.invoice.template.asapAndFuturePayments, substitutions);
+  }
+  
 }
 
 function createOrder(body, cb) {
