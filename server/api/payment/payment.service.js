@@ -225,7 +225,6 @@ function capture(order, cb) {
 }
 
 function buildSubstitutions(order, pPlan, cb) {
-  console.log('pPlan: ', pPlan)
   let newPP = {};
   let ppFiltered = order.paymentsPlan.filter(function (pp) {
     if(pPlan._id === pp._id){
