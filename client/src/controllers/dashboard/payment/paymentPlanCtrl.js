@@ -81,6 +81,7 @@ module.exports = ['$scope', '$rootScope', '$anchorScroll', '$location', '$q', 'S
       $scope.total = 0
       TrackerService.track('Select Payment Plan', { 'PaymentPlanSelected': $scope.models.paymentPlanSelected })
       SetupPaymentService.paymentPlanSelected = $scope.models.productSelected.paymentPlans[$scope.models.paymentPlanSelected]
+      SetupPaymentService.paymentPlanSelectedId = $scope.models.paymentPlanSelected
       setPaymentMethods($scope.models.productSelected.paymentPlans[$scope.models.paymentPlanSelected].paymentMethods)
 
       var paymentMethods = $scope.models.productSelected.paymentPlans[$scope.models.paymentPlanSelected].paymentMethods
@@ -310,6 +311,7 @@ module.exports = ['$scope', '$rootScope', '$anchorScroll', '$location', '$q', 'S
           return pnProd.category === $scope.categorySelected._id
         });
         products.forEach(function(prod){
+          match = prod.product === '';
           if (!match) {
             match = (prod.product === product._id && product.details.status)
             if (match && prod.paymentPlan && prod.paymentPlan.length > 0) {

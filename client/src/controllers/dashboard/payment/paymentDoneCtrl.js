@@ -35,7 +35,8 @@ module.exports = ['$scope', '$rootScope', '$state', 'SetupPaymentService', 'Prod
         UserService.deleteProductsSuggested({
           email: currentUser.email, 
           category: SetupPaymentService.categorySelected._id,
-          product: SetupPaymentService.productSelected._id
+          product: SetupPaymentService.productSelected._id,
+          paymentPlan: SetupPaymentService.paymentPlanSelectedId
         }).then(function (result) {
           
         }).catch(function (err) {
