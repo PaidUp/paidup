@@ -186,11 +186,11 @@ function buildSubstitutions(order, cb) {
   order.paymentsPlan.forEach(function (pp) {
     let template = `
       <tr> 
+        <td>${pp.description}</td>    
         <td>${moment(pp.dateCharge).format('MM-DD-YYYY')}</td>
-        <td>${pp.description}</td>
         <td>$${pp.price.toFixed(2)}</td>
-        <td>${pp.status}</td>
         <td>${pp.accountBrand} x-${pp.last4}</td>
+        <td>${pp.status}</td>        
       </tr>
     `
     if(moment(pp.dateCharge).isAfter(today)){
@@ -199,7 +199,7 @@ function buildSubstitutions(order, cb) {
       nextCharges.push(template)
     }
   });
-  let table = "<table width='100%'><tr><th>Date</th><th>Description</th><th>Price</th><th>Status</th><th>Account</th></tr>";
+  let table = "<table width='100%'><tr><th>Description</th><th>Date</th><th>Price</th><th>Account</th><th>Status</th></tr>";
   substitutions['-pendingCharges-'] = pendingCharges.length ? table + pendingCharges.join(" ") + "</table>" : '';
   substitutions['-nextCharges-'] = nextCharges.length ? table + nextCharges.join(" ") + "</table>" : '';
   

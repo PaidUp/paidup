@@ -54,11 +54,11 @@ function buildSubstitutions(order, cb) {
   order.paymentsPlan.forEach(function (pp) {
     let template = `
       <tr> 
-        <td>${moment(pp.dateCharge).format('MM-DD-YYYY')}</td>
         <td>${pp.description}</td>
+        <td>${moment(pp.dateCharge).format('MM-DD-YYYY')}</td>
         <td>$${pp.price.toFixed(2)}</td>
-        <td>${pp.status}</td>
         <td>${pp.accountBrand} x-${pp.last4}</td>
+        <td>${pp.status}</td>
       </tr>
     `
     if (pp.status === 'pending') {
@@ -71,7 +71,7 @@ function buildSubstitutions(order, cb) {
     }
   });
   let substitutions = {
-    '-invoiceId-': order.orderId,
+    '-invoiceId-': order.invoiceId,
     '-userFirstName-': order.paymentsPlan[0].userInfo.userName.split(' ')[0],
     '-beneficiaryFirstName-': order.paymentsPlan[0].customInfo.formData.athleteFirstName,
     '-beneficiaryLastName-': order.paymentsPlan[0].customInfo.formData.athleteLastName,
@@ -86,7 +86,7 @@ function buildSubstitutions(order, cb) {
     '-pendingCharges-': ""
   }
 
-  let table = "<table width='100%'><tr><th>Date</th><th>Description</th><th>Price</th><th>Status</th><th>Account</th></tr>";
+  let table = "<table width='100%'><tr><th>Description</th><th>Date</th><th>Price</th><th>Account</th><th>Status</th></tr>";
   if (pendingCharges.length) {
     substitutions['-pendingCharges-'] = table + pendingCharges.join(" ") + "</table>"    
     cb(notificationConfig.template.withFuturePayments, substitutions)
