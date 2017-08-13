@@ -71,7 +71,7 @@ function buildSubstitutions(order, cb) {
     }
   });
   let substitutions = {
-    '-invoiceId-': order.orderId,
+    '-invoiceId-': order.invoiceId,
     '-userFirstName-': order.paymentsPlan[0].userInfo.userName.split(' ')[0],
     '-beneficiaryFirstName-': order.paymentsPlan[0].customInfo.formData.athleteFirstName,
     '-beneficiaryLastName-': order.paymentsPlan[0].customInfo.formData.athleteLastName,

@@ -190,8 +190,7 @@ function capture(order, cb) {
         orderId: order._id,
         paymentPlanId: order.paymentsPlan[0]._id,
         paymentPlan: order.paymentsPlan[0],
-        userSysId: 'CronJob',
-        generateInvoice: true
+        userSysId: 'CronJob'
       }
       CommerceConnect.orderUpdatePayments(params).exec({
         success: function (data) {
