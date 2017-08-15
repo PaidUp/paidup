@@ -223,6 +223,7 @@ module.exports = ['$scope', 'UserService', '$timeout', '$rootScope', 'AuthServic
         key: config.plaidKey,
         product: config.plaidProduct,
         selectAccount: true,
+        apiVersion: 'v2',
         onLoad: function () {
           // The Link module finished loading.
           console.log('onLoad...')

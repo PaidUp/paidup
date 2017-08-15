@@ -195,7 +195,7 @@ var all = {
     appearsOnStatementAs: 'Conv. Select'
   },
   plaid: {
-    env: 'tartan',
+    env: 'sandbox',
     clientName: 'Paidup dev.',
     key: 'e84244e3e19c760db516f6e4a1afff',
     product: 'auth'
