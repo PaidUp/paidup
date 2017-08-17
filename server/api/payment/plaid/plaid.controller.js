@@ -6,8 +6,6 @@ const camelize = require('camelize')
 
 exports.authenticate = function (req, res) {
   paymentService.plaidAuthenticate(req.body, function (err, account) {
-    console.log('err', err)
-    console.log('account', account)
     if (err) {
       return handleError(res, err)
     }
@@ -27,8 +25,6 @@ exports.authenticate = function (req, res) {
           })
         }
         paymentService.associateCard(userPrepared.meta.TDPaymentId, account.stripe_bank_account_token, function (err, dataAssociate) {
-          console.log('err', err)
-          console.log('dataAssociate', dataAssociate)
           if (err) {
             return handleError(res, err)
           }
