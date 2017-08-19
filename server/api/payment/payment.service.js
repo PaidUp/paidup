@@ -236,7 +236,7 @@ function buildSubstitutions(order, pPlan, cb) {
   let today = new Date();
   let substitutions = {
     '-userFirstName-': ppFiltered[0].userInfo.userName.split(' ')[0],
-    '-invoiceId-': newPP.invoiceId,
+    '-invoiceId-': (newPP.invoiceId && newPP.invoiceId.length > 0) ? newPP.invoiceId : order.orderId,
     '-beneficiaryFirstName-': ppFiltered[0].customInfo.formData.athleteFirstName,
     '-beneficiaryLastName-': ppFiltered[0].customInfo.formData.athleteLastName,
     '-orderId-': order.orderId,
