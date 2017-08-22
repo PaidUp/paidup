@@ -55,6 +55,8 @@ module.exports = ['$scope', '$rootScope', '$anchorScroll', '$location', '$q', 'S
         gotoAnchor(steps.select)
 
         // define products
+        console.log('$scope.categorySelected.products: ', $scope.categorySelected.products)
+        
         $scope.products = $scope.categorySelected.products.filter(filterProd).sort(compare)
       })
 
@@ -306,6 +308,7 @@ module.exports = ['$scope', '$rootScope', '$anchorScroll', '$location', '$q', 'S
 
     var filterMethods = {
       product: function (product) {
+        let pps = {}
         var match = false
         var products = pnProducts.filter(function(pnProd){
           return pnProd.category === $scope.categorySelected._id
@@ -316,21 +319,23 @@ module.exports = ['$scope', '$rootScope', '$anchorScroll', '$location', '$q', 'S
             match = (prod.product === product._id && product.details.status)
             if (match && prod.paymentPlan && prod.paymentPlan.length > 0) {
               Object.keys(product.paymentPlans).forEach(function (ele) {
-                if (ele !== prod.paymentPlan) {
-                  delete product.paymentPlans[ele]
+                if (ele === prod.paymentPlan) {
+                  pps[ele] = product.paymentPlans[ele]
                 }
               })
             } else {
               Object.keys(product.paymentPlans).forEach(function (ele) {
-                if (!product.paymentPlans[ele].visible) {
-                  delete product.paymentPlans[ele]
+                if (product.paymentPlans[ele].visible) {
+                  pps[ele] = product.paymentPlans[ele]
                 }
               })
             }
-
           }
-
         })
+
+        if(Object.keys(pps).length){
+          product.paymentPlans = pps;      
+        }
         return match
       },
       isActive: function (product) {
