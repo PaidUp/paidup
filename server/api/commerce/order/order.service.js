@@ -81,6 +81,7 @@ var OrderService = {
         token: config.connections.commerce.token,
         userId: body.userId,
         description: dataProduct.details.description,
+        season: dataProduct.details.season || '',
         paymentsPlan: []
       }
 
