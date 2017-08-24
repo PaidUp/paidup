@@ -54,9 +54,6 @@ module.exports = ['$scope', '$rootScope', '$anchorScroll', '$location', '$q', 'S
 
         gotoAnchor(steps.select)
 
-        // define products
-        console.log('$scope.categorySelected.products: ', $scope.categorySelected.products)
-        
         $scope.products = $scope.categorySelected.products.filter(filterProd).sort(compare)
       })
 
