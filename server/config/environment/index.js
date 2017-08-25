@@ -248,6 +248,8 @@ var all = {
     }
   },
   notifications: {
+    from: 'felipe@getpaidup.com',
+    name: 'Felipe',
     charge: {
       template: {
         noFuturePayments: 'cf4ac7cb-8571-4e4c-9c2e-59ae49e21118',
@@ -275,10 +277,7 @@ var all = {
       template:  {
         noFuturePayments: '91cc82fe-d8a4-46a3-8de7-6e581f74f7fe',
         withFuturePayments: '5c40bb3c-2a41-494d-9541-f12ac50892c4'
-      },
-      from: 'felipe@getpaidup.com',
-      name: 'Felipe'
-      
+      }
     },
     reminderEmailPayment: {
       period: 'hours',
