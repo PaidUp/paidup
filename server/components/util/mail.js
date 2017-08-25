@@ -2,7 +2,7 @@
 
 const config = require('../../config/environment')
 var sg = require('sendgrid')(config.sendgrid.token);
-let notificationConfig = config.notifications.reminderChargeAccount;
+let notificationConfig = config.notifications;
 
 function send(to, subject, substitutions, template) {
   let paramEmail = {
