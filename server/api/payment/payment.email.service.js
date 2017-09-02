@@ -92,7 +92,7 @@ exports.sendEmailReminderPaymentParents = function (user, nameTeam, schedule, va
 
 exports.sendProcessedEmailCreditCardv3 = function (data, cb) {
   let emailVars = JSON.parse(JSON.stringify(config.emailVars))
-  emailVars.userFirstName = data.paymentsPlan[0].userInfo.userName
+  emailVars.userFirstName = data.paymentsPlan[0].userInfo ? data.paymentsPlan[0].userInfo.userName : ''
   emailVars.amount = parseFloat(data.paymentsPlan[0].price).toFixed(2)
   emailVars.accountLast4Digits = data.paymentsPlan[0].last4
   emailVars.team = data.paymentsPlan[0].productInfo.productName
@@ -118,7 +118,7 @@ exports.sendProcessedEmailCreditCardv3 = function (data, cb) {
 
 exports.sendFinalEmailCreditCardv3 = function (data, cb) {
   let emailVars = JSON.parse(JSON.stringify(config.emailVars))
-  emailVars.userFirstName = data.paymentsPlan[0].userInfo.userName
+  emailVars.userFirstName = data.paymentsPlan[0].userInfo ? data.paymentsPlan[0].userInfo.userName : ''
   emailVars.amount = parseFloat(data.paymentsPlan[0].price).toFixed(2)
   emailVars.accountLast4Digits = data.paymentsPlan[0].last4
   emailVars.team = data.paymentsPlan[0].productInfo.productName

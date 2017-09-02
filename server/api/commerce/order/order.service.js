@@ -158,7 +158,7 @@ var OrderService = {
   sendEmail: function sendEmail(order) {
     let to = {
       email: order.paymentsPlan[0].email,
-      name: order.paymentsPlan[0].userInfo.userName,
+      name: order.paymentsPlan[0].userInfo ? order.paymentsPlan[0].userInfo.userName : '',
     }
     let subject = order.paymentsPlan[0].productInfo.productName;
     let subs = buildSubstitutions(order, function(template, subs){
@@ -175,7 +175,7 @@ function buildSubstitutions(order, cb) {
   today.setMinutes(59);
   let substitutions = {
     '-orderId-': order.orderId,    
-    '-userFirstName-': order.paymentsPlan[0].userInfo.userName.split(' ')[0],
+    '-userFirstName-': order.paymentsPlan[0].userInfo ? order.paymentsPlan[0].userInfo.userName.split(' ')[0] : '',
     '-beneficiaryFirstName-': order.paymentsPlan[0].customInfo.formData.athleteFirstName,
     '-beneficiaryLastName-': order.paymentsPlan[0].customInfo.formData.athleteLastName,
     '-orgName-': order.paymentsPlan[0].productInfo.organizationName,
@@ -582,8 +582,8 @@ function orderTransactions(organizationId, cb) {
             transaction.paymentsPlan.attempts.status) || "",
           depositId: transaction.paymentsPlan.attempts.transferId || "",
           orderId: transaction.orderId || "",
-          customerId: transaction.paymentsPlan.userInfo.userId || "",
-          customerName: transaction.paymentsPlan.userInfo.userName || "",
+          customerId: transaction.paymentsPlan.userInfo ? transaction.paymentsPlan.userInfo.userId : "",
+          customerName: ransaction.paymentsPlan.userInfo ? transaction.paymentsPlan.userInfo.userName : "",
           accounType: transaction.paymentsPlan.attempts.accountBrand || "",
           last4: transaction.paymentsPlan.attempts.last4 ? transaction.paymentsPlan.attempts.last4 : "",
         }
