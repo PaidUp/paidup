@@ -583,7 +583,7 @@ function orderTransactions(organizationId, cb) {
           depositId: transaction.paymentsPlan.attempts.transferId || "",
           orderId: transaction.orderId || "",
           customerId: transaction.paymentsPlan.userInfo ? transaction.paymentsPlan.userInfo.userId : "",
-          customerName: ransaction.paymentsPlan.userInfo ? transaction.paymentsPlan.userInfo.userName : "",
+          customerName: transaction.paymentsPlan.userInfo ? transaction.paymentsPlan.userInfo.userName : "",
           accounType: transaction.paymentsPlan.attempts.accountBrand || "",
           last4: transaction.paymentsPlan.attempts.last4 ? transaction.paymentsPlan.attempts.last4 : "",
         }
