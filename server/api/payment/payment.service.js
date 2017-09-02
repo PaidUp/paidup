@@ -169,7 +169,7 @@ function capture(order, cb) {
     _id: order._id,
     orderId: order.orderId,
     scheduleId: order.paymentsPlan[0]._id,
-    buyerName: cleanString(order.paymentsPlan[0].userInfo.userName)
+    buyerName: cleanString(order.paymentsPlan[0].userInfo ? order.paymentsPlan[0].userInfo.userName : '')
   }
 
   debitCardv2(order.paymentsPlan[0].account, order.paymentsPlan[0].price, order.paymentsPlan[0].productInfo.organizationName, order.paymentsPlan[0]._id, order.paymentsPlan[0].paymentId,
@@ -207,7 +207,7 @@ function capture(order, cb) {
           
               let to = {
                 email: data.body.paymentsPlan[0].email,
-                name: data.body.paymentsPlan[0].userInfo.userName,
+                name: data.body.paymentsPlan[0].userInfo ? data.body.paymentsPlan[0].userInfo.userName : '',
               }
               let subject = data.body.paymentsPlan[0].productInfo.productName;
               let subs = buildSubstitutions(data.body, order.paymentsPlan[0], function(template, subs){
@@ -235,7 +235,7 @@ function buildSubstitutions(order, pPlan, cb) {
   let pendingCharges = []
   let today = new Date();
   let substitutions = {
-    '-userFirstName-': ppFiltered[0].userInfo.userName.split(' ')[0],
+    '-userFirstName-': ppFiltered[0].userInfo ? ppFiltered[0].userInfo.userName.split(' ')[0] : '',
     '-invoiceId-': (newPP.invoiceId && newPP.invoiceId.length > 0) ? newPP.invoiceId : order.orderId,
     '-beneficiaryFirstName-': ppFiltered[0].customInfo.formData.athleteFirstName,
     '-beneficiaryLastName-': ppFiltered[0].customInfo.formData.athleteLastName,
@@ -293,7 +293,7 @@ function createTicketChargeFailed(order, cb) {
       }
 
       var comment = doc.values.comment_ticket_payment_failed
-      comment = comment.replace('${order.paymentsPlan[0].userInfo.userName}', order.paymentsPlan[0].userInfo.userName)
+      comment = comment.replace('${order.paymentsPlan[0].userInfo.userName}', order.paymentsPlan[0].userInfo ? order.paymentsPlan[0].userInfo.userName : '')
       comment = comment.replace('${order.paymentsPlan[0].productInfo.organizationName}', order.paymentsPlan[0].productInfo.organizationName)
       comment = comment.replace('${order.paymentsPlan[0].price}', order.paymentsPlan[0].price.toFixed(2))
       comment = comment.replace('${config.emailVars.baseUrl}', config.emailVars.baseUrl)
@@ -304,7 +304,7 @@ function createTicketChargeFailed(order, cb) {
         token: config.zendesk.token,
         subdomain: config.zendesk.subdomain,
         requesterEmail: order.paymentsPlan[0].email,
-        requesterName: order.paymentsPlan[0].userInfo.userName,
+        requesterName: order.paymentsPlan[0].userInfo ? order.paymentsPlan[0].userInfo.userName : '',
         assigneeEmail: config.zendesk.assigneeEmail,
         subject: order.paymentsPlan[0].productInfo.organizationName + ' Payment Failed for ' + subject,
         comment: comment,
