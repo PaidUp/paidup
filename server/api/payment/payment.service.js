@@ -235,15 +235,15 @@ function buildSubstitutions(order, pPlan, cb) {
   let pendingCharges = []
   let today = new Date();
   let substitutions = {
-    '-userFirstName-': ppFiltered[0].userInfo ? ppFiltered[0].userInfo.userName.split(' ')[0] : '',
+    '-userFirstName-': newPP.userInfo ? newPP.userInfo.userName.split(' ')[0] : '',
     '-invoiceId-': (newPP.invoiceId && newPP.invoiceId.length > 0) ? newPP.invoiceId : order.orderId,
-    '-beneficiaryFirstName-': ppFiltered[0].customInfo.formData.athleteFirstName,
-    '-beneficiaryLastName-': ppFiltered[0].customInfo.formData.athleteLastName,
+    '-beneficiaryFirstName-': newPP.customInfo.formData.athleteFirstName,
+    '-beneficiaryLastName-': newPP.customInfo.formData.athleteLastName,
     '-orderId-': order.orderId,
     '-trxAccount-': newPP.accountBrand + ' x-' + newPP.last4,
     '-trxAmount-': '$' + newPP.price.toFixed(2),
     '-orgName-': newPP.productInfo.organizationName,
-    '-productName-': ppFiltered[0].productInfo.productName,
+    '-productName-': newPP.productInfo.productName,
     '-trxDesc-': newPP.description,
     '-pendingCharges-': '',
   }
