@@ -24,11 +24,11 @@ function startNotificationChargeEmail() {
         if (err) {
           logger.error(err);
         }
-        if (orders.length) {
+        if (orders && orders.length) {
           orders.forEach(function (order, idx, arr) {
             let to = {
               email: order.paymentsPlan[0].email,
-              name: order.paymentsPlan[0].userInfo.userName,
+              name: order.paymentsPlan[0].userInfo ? order.paymentsPlan[0].userInfo.userName : '',
             }
             let subject = order.paymentsPlan[0].productInfo.productName;
             let subs = buildSubstitutions(order, function(template, subs){
@@ -71,8 +71,8 @@ function buildSubstitutions(order, cb) {
     }
   });
   let substitutions = {
-    '-invoiceId-': (order.invoiceId && order.invoiceId.length > 0 ) ? order.invoiceId : 'invoice',
-    '-userFirstName-': order.paymentsPlan[0].userInfo.userName.split(' ')[0],
+    '-invoiceId-': (nextPP.invoiceId && nextPP.invoiceId.length > 0 ) ? nextPP.invoiceId : 'invoice',
+    '-userFirstName-': order.paymentsPlan[0].userInfo ? order.paymentsPlan[0].userInfo.userName.split(' ')[0] : '',
     '-beneficiaryFirstName-': order.paymentsPlan[0].customInfo.formData.athleteFirstName,
     '-beneficiaryLastName-': order.paymentsPlan[0].customInfo.formData.athleteLastName,
     '-orgName-': nextPP.productInfo.organizationName,
