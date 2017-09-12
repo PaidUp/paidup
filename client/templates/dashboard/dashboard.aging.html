@@ -87,7 +87,7 @@
                       <span class="green-font">$</span> {{getTotalDues(orderOverDues, 30, 14) | currency:""}}
                     </td>
                     <td class="aging-value">
-                      <span class="green-font">$</span> {{getTotalDues(orderOverDues, 360, 30) | currency:""}}
+                      <span class="green-font">$</span> {{getTotalDues(orderOverDues, 3600, 30) | currency:""}}
                     </td>
                     <td class="aging-value">
                       <span class="green-font">$</span> {{getTotalDue(orderOverDues) | currency:""}}
@@ -124,7 +124,7 @@
                         <span class="green-font">$</span> {{getTotalDues([{paymentsPlan: order.paymentsPlan}], 30, 14) | currency:""}}
                       </td>
                       <td class="aging-value">
-                        <span class="green-font">$</span> {{getTotalDues([{paymentsPlan: order.paymentsPlan}], 360, 30) | currency:""}}
+                        <span class="green-font">$</span> {{getTotalDues([{paymentsPlan: order.paymentsPlan}], 3600, 30) | currency:""}}
                       </td>
                       <td class="aging-value">
                         <span class="green-font">$</span> {{getTotalDue([{paymentsPlan: order.paymentsPlan}]) | currency:""}}
