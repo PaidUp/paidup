@@ -46,7 +46,7 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
     if (rightLimit){
       return new Date(dateCharge) > new Date(new Date(me).setDate(new Date(me).getDate() - leftLimit)) && new Date(dateCharge) < new Date(new Date(me).setDate(new Date(me).getDate() - rightLimit))      
     }
-    return new Date(dateCharge) > new Date(new Date(me).setDate(new Date(me).getDate() - leftLimit))
+    return new Date(dateCharge) < new Date(new Date(me).setDate(new Date(me).getDate() - leftLimit))
     
   }
 
