@@ -43,7 +43,7 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
 
   function getDatesByDays (dateCharge, leftLimit, rightLimit) {
     var me = new Date()
-      return new Date(dateCharge) > new Date(new Date(me).setDate(new Date(me).getDate() - leftLimit)) && rightLimit &&new Date(dateCharge) < new Date(new Date(me).setDate(new Date(me).getDate() - rightLimit))        
+      return new Date(dateCharge) > new Date(new Date(me).setDate(new Date(me).getDate() - leftLimit)) && new Date(dateCharge) < new Date(new Date(me).setDate(new Date(me).getDate() - rightLimit))        
   }
 
   $scope.getTotalDues = function get0130Due (orders, left, right) {
@@ -77,7 +77,7 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
         $scope.overDue0130 = $scope.getTotalDues(dueOrders, 7, 0)
         $scope.overDue3160 = $scope.getTotalDues(dueOrders, 14, 7)
         $scope.overDue6190 = $scope.getTotalDues(dueOrders, 30, 14)
-        $scope.overDue9100 = $scope.getTotalDues(dueOrders, 30)
+        $scope.overDue9100 = $scope.getTotalDues(dueOrders, 3600, 30)
         $scope.ordersOverDues = groupByProductName(dueOrders)
       }).catch(function (err) {
         console.log('err', err)
