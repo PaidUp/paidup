@@ -41,10 +41,15 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
     return new Date(dateCharge) > new Date(new Date(me).setMonth(new Date(me).getMonth() - leftLimit)) && new Date(dateCharge) < new Date(new Date(me).setMonth(new Date(me).getMonth() - rightLimit))
   }
 
+  function getDatesByDays (dateCharge, leftLimit, rightLimit) {
+    var me = new Date()
+    return new Date(dateCharge) > new Date(new Date(me).setDate(new Date(me).getDate() - leftLimit)) && new Date(dateCharge) < new Date(new Date(me).setDate(new Date(me).getDate() - rightLimit))
+  }
+
   $scope.getTotalDues = function get0130Due (orders, left, right) {
     return orders.map(function (order) {
       return order.paymentsPlan.reduce(function (totalDue, pp) {
-        return getDates(pp.dateCharge, left, right) ? totalDue + pp.price : totalDue
+        return getDatesByDays(pp.dateCharge, left, right) ? totalDue + pp.price : totalDue
       }, 0)
     }).reduce(function (total, dues) {
       return total + dues
@@ -69,10 +74,10 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
         })
         var dueOrders = getDueOrders(result.body)
         $scope.overDueTotal = $scope.getTotalDue(dueOrders)
-        $scope.overDue0130 = $scope.getTotalDues(dueOrders, 1, 0)
-        $scope.overDue3160 = $scope.getTotalDues(dueOrders, 2, 1)
-        $scope.overDue6190 = $scope.getTotalDues(dueOrders, 3, 2)
-        $scope.overDue9100 = $scope.getTotalDues(dueOrders, 12, 3)
+        $scope.overDue0130 = $scope.getTotalDues(dueOrders, 7, 0)
+        $scope.overDue3160 = $scope.getTotalDues(dueOrders, 14, 7)
+        $scope.overDue6190 = $scope.getTotalDues(dueOrders, 30, 14)
+        $scope.overDue9100 = $scope.getTotalDues(dueOrders, 360, 30)
         $scope.ordersOverDues = groupByProductName(dueOrders)
       }).catch(function (err) {
         console.log('err', err)

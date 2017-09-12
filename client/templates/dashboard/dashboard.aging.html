@@ -41,10 +41,10 @@
                 <tr>
                   <th class="date">Date</th>
                   <th class="user">User</th>
-                  <th class="aging-value">1-30 Days Overdue</th>
-                  <th class="aging-value">31-60 Days Overdue</th>
-                  <th class="aging-value">61-90 Days Overdue</th>
-                  <th class="aging-value">Over 90 Days Overdue</th>
+                  <th class="aging-value">1-7 Days Overdue</th>
+                  <th class="aging-value">8-15 Days Overdue</th>
+                  <th class="aging-value">16-30 Days Overdue</th>
+                  <th class="aging-value">Over 31 Days Overdue</th>
                   <th class="aging-value">Total Overdue</th>
                 </tr>
               </thead>
@@ -78,16 +78,16 @@
                   <tr ng-click="expandCategory1 = !expandCategory1">
                     <td colspan="2" class="name">{{orderOverDues[0].allProductName[0]}}</td>
                     <td class="aging-value">
-                      <span class="green-font">$</span> {{getTotalDues(orderOverDues, 1, 0) | currency:""}}
+                      <span class="green-font">$</span> {{getTotalDues(orderOverDues, 7, 0) | currency:""}}
                     </td>
                     <td class="aging-value">
-                      <span class="green-font">$</span> {{getTotalDues(orderOverDues, 2, 1) | currency:""}}
+                      <span class="green-font">$</span> {{getTotalDues(orderOverDues, 14, 7) | currency:""}}
                     </td>
                     <td class="aging-value">
-                      <span class="green-font">$</span> {{getTotalDues(orderOverDues, 3, 2) | currency:""}}
+                      <span class="green-font">$</span> {{getTotalDues(orderOverDues, 30, 14) | currency:""}}
                     </td>
                     <td class="aging-value">
-                      <span class="green-font">$</span> {{getTotalDues(orderOverDues, 12, 3) | currency:""}}
+                      <span class="green-font">$</span> {{getTotalDues(orderOverDues, 360, 30) | currency:""}}
                     </td>
                     <td class="aging-value">
                       <span class="green-font">$</span> {{getTotalDue(orderOverDues) | currency:""}}
@@ -115,16 +115,16 @@
                         <div class="clearfix"></div>
                       </td>
                       <td class="aging-value">
-                        <span class="green-font">$</span> {{getTotalDues([{paymentsPlan: order.paymentsPlan}], 1, 0) | currency:""}}
+                        <span class="green-font">$</span> {{getTotalDues([{paymentsPlan: order.paymentsPlan}], 7, 0) | currency:""}}
                       </td>
                       <td class="aging-value">
-                        <span class="green-font">$</span> {{getTotalDues([{paymentsPlan: order.paymentsPlan}], 2, 1) | currency:""}}
+                        <span class="green-font">$</span> {{getTotalDues([{paymentsPlan: order.paymentsPlan}], 14, 7) | currency:""}}
                       </td>
                       <td class="aging-value">
-                        <span class="green-font">$</span> {{getTotalDues([{paymentsPlan: order.paymentsPlan}], 3, 2) | currency:""}}
+                        <span class="green-font">$</span> {{getTotalDues([{paymentsPlan: order.paymentsPlan}], 30, 14) | currency:""}}
                       </td>
                       <td class="aging-value">
-                        <span class="green-font">$</span> {{getTotalDues([{paymentsPlan: order.paymentsPlan}], 12, 3) | currency:""}}
+                        <span class="green-font">$</span> {{getTotalDues([{paymentsPlan: order.paymentsPlan}], 360, 30) | currency:""}}
                       </td>
                       <td class="aging-value">
                         <span class="green-font">$</span> {{getTotalDue([{paymentsPlan: order.paymentsPlan}]) | currency:""}}
