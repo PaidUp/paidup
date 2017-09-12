@@ -43,11 +43,7 @@ module.exports = [ '$scope', 'AuthService', '$state', 'CommerceService', 'Tracke
 
   function getDatesByDays (dateCharge, leftLimit, rightLimit) {
     var me = new Date()
-    if (rightLimit){
-      return new Date(dateCharge) > new Date(new Date(me).setDate(new Date(me).getDate() - leftLimit)) && new Date(dateCharge) < new Date(new Date(me).setDate(new Date(me).getDate() - rightLimit))      
-    }
-    return new Date(dateCharge) < new Date(new Date(me).setDate(new Date(me).getDate() - leftLimit))
-    
+      return new Date(dateCharge) > new Date(new Date(me).setDate(new Date(me).getDate() - leftLimit)) && rightLimit &&new Date(dateCharge) < new Date(new Date(me).setDate(new Date(me).getDate() - rightLimit))        
   }
 
   $scope.getTotalDues = function get0130Due (orders, left, right) {
