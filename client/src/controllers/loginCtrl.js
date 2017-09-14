@@ -94,7 +94,7 @@ module.exports = ['$scope', 'AuthService', 'TrackerService', '$translate', '$loc
       }
       var error = function (err) {
         $scope.loading = false
-        $scope.error = err.message
+        $scope.error = err.data.message
       }
       AuthService.login(credentials, success, error)
     }
