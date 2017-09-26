@@ -20,6 +20,7 @@ const express = require('express')
 const config = require('./config/environment')
 const logger = require('./config/logger').info
 const notifications = require('./api/notifications/notifications.service')
+const catalogService = require('./api/commerce/catalog/catalog.service')
 
 // Setup server
 const app = express()
@@ -39,6 +40,7 @@ if (config.env !== 'test') {
 }
 
 notifications.startNotificationChargeEmail();
+catalogService.startCronCleanCategories();
 
 const TDError = require('./components/TD/Error')
 app.use(logger)

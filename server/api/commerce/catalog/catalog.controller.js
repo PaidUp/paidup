@@ -47,9 +47,16 @@ exports.groupedProducts = function (req, res) {
 }
 
 exports.getCategories = function (req, res) {
-  catalogService.getCategires(function (err, categories) {
+  catalogService.getCategories(function (err, categories) {
     if (err) return res.status(500).json({status: err.status, message: JSON.stringify(err.message)})
     res.status(200).json({categories: categories.body})
+  })
+}
+
+exports.cleanCategories = function (req, res) {
+  catalogService.clearCategoriesCache(function (err, categories) {
+    if (err) return res.status(500).json({status: err.status, message: JSON.stringify(err.message)})
+    res.status(200).json({cleanCategoriesCache: true})
   })
 }
 
