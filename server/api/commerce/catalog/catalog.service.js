@@ -43,7 +43,7 @@ function startCronCleanCategories(){
   service.clearCategoriesCache(function(err, data){
     console.log('start cron clean categories');
   })
-  service.getCategories.scheduleCategories = schedule.scheduleJob('*/30 * * * * *', function(){
+  service.getCategories.scheduleCategories = schedule.scheduleJob('30 6 * * *', function(){
     service.clearCategoriesCache(function(err, data){
       console.log('categories cleaned');
     })
