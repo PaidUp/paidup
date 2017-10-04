@@ -11,25 +11,23 @@
   <link rel="icon" href="favicon.ico">
   <title>PaidUp</title>
 
+  <base href="/" />
+  
   <link href="/css/materialize.min.css" rel="stylesheet">
   <link href="/css/font-awesome.min.css" rel="stylesheet">
-  <script src="//cdn.jsdelivr.net/ramda/latest/ramda.min.js"></script>
-
-  <base href="/" />
+  <!--script src="//cdn.jsdelivr.net/ramda/latest/ramda.min.js"></script-->
+  <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+  <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
 
 </head>
 <body ng-app='paidUpApp' ng-Controller='AppCtrl' ng-class='PageOptions.pageClass'>
+  <noscript>For full functionality of this site it is necessary to enable JavaScript.
+            Here are the <a href="https://www.enable-javascript.com/" target="_blank">
+            instructions how to enable JavaScript in your web browser</a>.
+  </noscript>
   <div ui-view></div>
   <div ng-include="'/templates/footer.html'"></div>
-
-  <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
-  <!--script src="https://cdn.plaid.com/link/stable/link-initialize.js"></script-->
-  <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
-
-  <!-- begin olark code 
-  <noscript><a href="https://www.olark.com/site/9293-999-10-7448/contact" title="Contact us" target="_blank">Questions? Feedback?</a> powered by <a href="http://www.olark.com?welcome" title="Olark live chat software">Olark live chat software</a></noscript>
-   end olark code -->
-   <div class="alerts-container">   
+   <div id="alerts-container" class="alerts-container alerts-container-noscript">
     <uib-alert ng-repeat="alert in GlobalAlertSystemAlerts" type="{{alert.type}}" close="GlobalAlertSystemClose($index)" dismiss-on-timeout="{{alert.dismissOnTimeout}}">{{alert.msg}}</uib-alert>
   </div>
 </body>

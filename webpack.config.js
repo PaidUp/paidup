@@ -64,6 +64,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'Custom template using Handlebars',
       template: path.join(__dirname, 'client/index.hbs'),
+      inject: 'head',
       assets: {
         "style": "style.[hash].css",
       }

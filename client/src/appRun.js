@@ -53,6 +53,8 @@ module.exports = ['$rootScope', 'AuthService', '$state', '$timeout', 'localStora
     
     $rootScope.checkZD();
 
+    angular.element(document.querySelector("#alerts-container")).removeClass("alerts-container-noscript");
+
     //$rootScope.$on('$viewContentLoaded', function() {
     //  $templateCache.removeAll();
     //});
