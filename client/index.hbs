@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,7 +13,7 @@
   <title>PaidUp</title>
 
   <base href="/" />
-  
+
   <link href="/css/materialize.min.css" rel="stylesheet">
   <link href="/css/font-awesome.min.css" rel="stylesheet">
   <script src="//cdn.jsdelivr.net/ramda/latest/ramda.min.js"></script>
@@ -20,15 +21,29 @@
   <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
 
 </head>
+
 <body ng-app='paidUpApp' ng-Controller='AppCtrl' ng-class='PageOptions.pageClass'>
-  <noscript>For full functionality of this site it is necessary to enable JavaScript.
-            Here are the <a href="https://www.enable-javascript.com/" target="_blank">
+  
+  <noscript>
+    <div class="noscript ng-scope login-page row">
+      <div class="col s12 center logo">
+        <a href="https://getpaidup.com">
+      <img src="../img/noscript/paidup-logo.png" alt="logo" >
+      
+      </div>
+      <div class="box col s12 center">
+        </a> For full functionality of this site it is necessary to enable JavaScript. Here are the <a href="https://www.enable-javascript.com/"
+          target="_blank">
             instructions how to enable JavaScript in your web browser</a>.
+      </div>
+    </div>
   </noscript>
+  
   <div ui-view></div>
   <div ng-include="'/templates/footer.html'"></div>
-   <div id="alerts-container" class="alerts-container alerts-container-noscript">
+  <div id="alerts-container" class="alerts-container alerts-container-noscript">
     <uib-alert ng-repeat="alert in GlobalAlertSystemAlerts" type="{{alert.type}}" close="GlobalAlertSystemClose($index)" dismiss-on-timeout="{{alert.dismissOnTimeout}}">{{alert.msg}}</uib-alert>
   </div>
 </body>
+
 </html>
