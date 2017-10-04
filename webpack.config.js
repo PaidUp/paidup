@@ -15,7 +15,7 @@ module.exports = {
   context: path.join(__dirname, 'client'),
   entry: {
     vendor: ['angular', 'angular-ui-router', 'angular-resource', 'angular-sanitize', 'angular-cookies', 'angular-translate', 'angular-animate',
-      'angular-ui-bootstrap', 'angular-ui-bootstrap', 'angulartics-google-analytics', 'angular-ui-mask', 'angular-local-storage', 'angulartics-mixpanel'],
+      'angular-ui-bootstrap', 'angulartics-google-analytics', 'angular-ui-mask', 'angular-local-storage', 'angulartics-mixpanel'],
     main: './src/app.js',
     less: './less/style.less'
   },
@@ -55,6 +55,11 @@ module.exports = {
       name: "vendor",
       minChunks: Infinity,
     }),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      }
+    }),
     new ManifestPlugin(),
     new ChunkManifestPlugin({
       filename: "chunk-manifest.json",
@@ -65,6 +70,13 @@ module.exports = {
       title: 'Custom template using Handlebars',
       template: path.join(__dirname, 'client/index.hbs'),
       inject: 'head',
+      minify: {
+        minifyJS: true,
+        caseSensitive: true,
+        collapseInlineTagWhitespace: true,
+        collapseWhitespace: true,
+        conservativeCollapse: true
+      },
       assets: {
         "style": "style.[hash].css",
       }

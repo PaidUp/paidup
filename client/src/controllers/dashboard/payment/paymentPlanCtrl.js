@@ -305,7 +305,7 @@ module.exports = ['$scope', '$rootScope', '$anchorScroll', '$location', '$q', 'S
 
     var filterMethods = {
       product: function (product) {
-        let pps = {}
+        var pps = {}
         var match = false
         var products = pnProducts.filter(function(pnProd){
           return pnProd.category === $scope.categorySelected._id
