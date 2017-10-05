@@ -6,12 +6,7 @@
   <div class="inputs">
     <form name="form" novalidate>
       <div class="input-container">
-        <input 
-        type="text" 
-        name="uOrganization" 
-        placeholder="Organization Name" 
-        required 
-        ng-model="search.name" />
+        <input type="text" name="uOrganization" placeholder="Organization Name" required ng-model="search.name" />
         <small class="error" ng-show="form.uOrganization.$error.required && form.uOrganization.$touched">Please enter an Organization name</small>
       </div>
       <button class="button-green btn-find" ng-show="false" ng-click="findOrg()">find</button>
@@ -24,21 +19,25 @@
     </form>
   </div>
 
-  <div class="teams" ng-show="hideCategories || !search.name.length" >
+  <div class="teams" ng-show="hideCategories || !search.name.length">
     <p ng-show="filteredCategories.length > 0">Do these look familiar? Setup a payment with them again.</p>
     <div class="team" ng-repeat="category in filteredCategories">
-      <img src="{{category.image}}" ui-sref="dashboard.payment.plan({categoryId: category._id})" ng-click="selectCategory(category)" class="team-img" alt="">
-      <div class="name">{{category.name}}</div>
-      <div class="loc">{{category.location ? category.location : 'N/A'}}</div>
+      <div ui-sref="dashboard.payment.plan({categoryId: category._id})" ng-click="selectCategory(category)">
+        <img src="{{category.image}}" class="team-img" alt="">
+        <div class="name">{{category.name}}</div>
+        <div class="loc">{{category.location ? category.location : 'N/A'}}</div>
+      </div>
     </div>
   </div>
 
   <div class="teams" ng-show="hideCategories || search.name.length">
     <p ng-show="(allCategories|filter:search).length > 0">Do these look familiar? Setup a payment with them again.</p>
     <div class="team" ng-repeat="category in allCategories | filter:search">
-    <img src="{{category.image}}" ui-sref="dashboard.payment.plan({categoryId: category._id})" ng-click="selectCategory(category)" class="team-img" alt="">
-      <div class="name">{{category.name}}</div>
-      <div class="loc">{{category.location ? category.location : 'N/A'}}</div>
+      <div ui-sref="dashboard.payment.plan({categoryId: category._id})" ng-click="selectCategory(category)">
+        <img src="{{category.image}}" class="team-img" alt="">
+        <div class="name">{{category.name}}</div>
+        <div class="loc">{{category.location ? category.location : 'N/A'}}</div>
+      </div>
     </div>
   </div>
 </div>
