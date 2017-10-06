@@ -52,6 +52,7 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
     })
     .state('dashboard.summary', {
       abstract: true,
+      controller: 'CustomerBoardCtrl',
       templateUrl: require('../templates/dashboard/dashboard.summary.html')
     })
     .state('dashboard.summary.components', {
