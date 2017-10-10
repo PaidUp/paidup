@@ -108,6 +108,7 @@ var OrderService = {
           destinationId: dataProduct.details.paymentId,
           dateCharge: ele.dateCharge,
           originalPrice: ele.originalPrice,
+          refund: 0,
           totalFee: ele.totalFee,
           feePaidUp: ele.feePaidUp,
           feeStripe: ele.feeStripe,
@@ -704,6 +705,7 @@ function editOrder(params, cb) {
 
 function editPaymentPlan(pp, params, cb) {
   let originalPrice = params.originalPrice || pp.originalPrice
+  let refund = params.refund || pp.refund || 0
   let description = params.description || pp.description
   let dateCharge = params.dateCharge || pp.dateCharge
   let status = params.status || pp.status
@@ -741,6 +743,7 @@ function editPaymentPlan(pp, params, cb) {
       pp.price = result.body.owedPrice
       pp.basePrice = result.body.basePrice
       pp.originalPrice = originalPrice
+      pp.refund = refund
       pp.description = description
       pp.dateCharge = dateCharge
       pp.wasProcessed = wasProcessed

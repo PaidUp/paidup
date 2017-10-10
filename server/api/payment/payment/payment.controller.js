@@ -32,7 +32,7 @@ exports.getDepositDetilsRefund = function (req, res) {
 }
 
 exports.refund = function (req, res) {
-  paymentService.refund(req.body.chargeId, req.body.reason, function (err, data) {
+  paymentService.refund(req.body.chargeId, req.body.reason, req.body.amount, function (err, data) {
       if (err) {
         return handleError(res, err);
       }

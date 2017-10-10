@@ -454,9 +454,9 @@ function getDepositChargeRefund(paymentId, accountId, cb) {
   })
 }
 
-function refund(chargeId, reason, cb) {
+function refund(chargeId, reason, amount, cb) {
   tdPaymentService.init(config.connections.payment)
-  tdPaymentService.refund(chargeId, reason, function (err, data) {
+  tdPaymentService.refund(chargeId, reason, amount, function (err, data) {
     if (err) return cb(err)
     return cb(null, data)
   })
