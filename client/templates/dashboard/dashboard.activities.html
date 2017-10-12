@@ -77,12 +77,21 @@
                 </td>
                 <td class="status">
                   <div class="{{recentOrder.paymentsPlan.status === 'succeeded' ? 'green-font' : 'red-font' }}">
-                    <i class="{{recentOrder.paymentsPlan.status === 'succeeded' ? 'fa fa-check' : 'fa fa-times' }}"></i> <span>{{recentOrder.paymentsPlan.status.startsWith('disable-') ? 'disabled' : recentOrder.paymentsPlan.status}}</span>
+                    <i class="{{recentOrder.paymentsPlan.status === 'succeeded' ? 'fa fa-check' : 'fa fa-times' }}"></i> 
+                    <span>{{recentOrder.paymentsPlan.status.startsWith('disable-') ? 'disabled' : recentOrder.paymentsPlan.status}}</span>
+                    
+                    <div ng-if="recentOrder.paymentsPlan.status.startsWith('refunded')" class="tooltip"><i class="info fa fa-info" aria-hidden="true"></i>
+                      <span class="tooltiptext">
+                        <div ng-if="attempt.status.startsWith('refunded')" ng-repeat="attempt in recentOrder.paymentsPlan.attempts">
+                            Refunded {{ attempt.amount | currency:"$"}} on {{attempt.dateAttemp | date : "MM/dd/yyyy" }}                           
+                        </div>
+                      </span>
+                    </div>
                   </div>
                 </td>
                 <td class="total">
                   <span class="green-font">$</span> 
-                  {{recentOrder.paymentsPlan.price | currency:""}}
+                  {{recentOrder.paymentsPlan.refund ? recentOrder.paymentsPlan.refund + recentOrder.paymentsPlan.price : recentOrder.paymentsPlan.price | currency:""}}
                 </td>
               </tr>
               <tr>

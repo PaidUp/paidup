@@ -2513,24 +2513,40 @@ ul.uib-datepicker-popup{
   position: relative;
   display: inline-block;
   /*border-bottom: 1px dotted black;  If you want dots under the hoverable text */
+ 
+  text-align: center;
+
+  color: #8a6d3b;
+  background-color: #fcf8e3;
+  border-color: #faebcc;
+ 
+  font-size: 16px;
+  margin: 0 auto;
+  @media @medium-up{
+    width:30px;
+    height:30px;
+    border-radius: 18px;
+    line-height: 34px;
+                
+  }
 }
 
 /* Tooltip text */
 .tooltip .tooltiptext {
   visibility: hidden;
-  width: 120px;
   background-color: #555;
   color: #fff;
   text-align: center;
-  padding: 5px 0;
+  padding: 5px;
   border-radius: 6px;
+  white-space: nowrap;
 
   /* Position the tooltip text */
   position: absolute;
   z-index: 1;
   bottom: 125%;
   left: 50%;
-  margin-left: -60px;
+  margin-left: -180px;
 
   /* Fade in tooltip */
   opacity: 0;

@@ -704,8 +704,8 @@ function editOrder(params, cb) {
 }
 
 function editPaymentPlan(pp, params, cb) {
-  let originalPrice = params.originalPrice || pp.originalPrice
-  let refund = params.refund || pp.refund || 0
+  let originalPrice = typeof params.originalPrice === 'number' ? params.originalPrice : pp.originalPrice
+  let refund = typeof params.refund === 'number' ? params.refund : pp.refund
   let description = params.description || pp.description
   let dateCharge = params.dateCharge || pp.dateCharge
   let status = params.status || pp.status
