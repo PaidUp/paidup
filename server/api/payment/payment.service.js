@@ -179,7 +179,14 @@ function capture(order, cb) {
         order.paymentsPlan[0].status = 'failed'
         logger.error('debitCard debitErr', debitErr)
       } else {
-        order.paymentsPlan[0].attempts.push({ dateAttemp: new Date(), status: data.status, message: 'done', last4: order.paymentsPlan[0].last4, accountBrand: order.paymentsPlan[0].accountBrand, transferId: data.transfer })
+        order.paymentsPlan[0].attempts.push({ 
+          dateAttemp: new Date(), 
+          amount: order.paymentsPlan[0].price,
+          status: data.status, 
+          message: 'done', 
+          last4: order.paymentsPlan[0].last4, 
+          accountBrand: order.paymentsPlan[0].accountBrand, 
+          transferId: data.transfer })
         order.paymentsPlan[0].status = data.status
       }
       order.paymentsPlan[0].wasProcessed = true
