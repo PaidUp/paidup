@@ -590,13 +590,13 @@ function orderTransactions(organizationId, cb) {
           totalFee: transaction.paymentsPlan.totalFee,
           depositAmount: (transaction.paymentsPlan.status === 'succeeded' || transaction.paymentsPlan.status === 'refunded-partially') ? transaction.paymentsPlan.price - transaction.paymentsPlan.totalFee : 0,
           orderId: transaction.orderId,
-          customerId: transaction.paymentsPlan.userInfo.userId,
-          customerName: transaction.paymentsPlan.userInfo.userName,
+          customerId: transaction.paymentsPlan.userInfo.userId || '',
+          customerName: transaction.paymentsPlan.userInfo.userName || '',
         }
 
         headerMeta.forEach(function (trh, idx, arr) {
           if (transaction.paymentsPlan.customInfo) {
-            row[trh] = transaction.paymentsPlan.customInfo.formData[trh];
+            row[trh] = transaction.paymentsPlan.customInfo.formData[trh] || '';
           }
         });
 
