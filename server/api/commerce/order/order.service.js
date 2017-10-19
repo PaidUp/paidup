@@ -746,6 +746,15 @@ function editPaymentPlan(pp, params, cb) {
     // OK.
     success: function (result) {
       result.body = JSON.parse(result.body)
+      let atts = attempts.map(attemp => {
+        console.log(typeof attemp.totalFee)
+        if (attemp.status.startsWith('refunded') && typeof attemp.totalFee === 'undefined' ){
+          attemp.totalFee = result.body.totalFee;
+          attemp.feeStripe = result.body.feeStripe;
+          attemp.feePaidUp = result.body.feePaidUp;
+        }
+        return attemp;
+      })
       pp.version = result.body.version
       pp.price = result.body.owedPrice
       pp.basePrice = result.body.basePrice
@@ -765,7 +774,7 @@ function editPaymentPlan(pp, params, cb) {
       pp.processingFees.achFeeCapActual = pp.processingFees.achFeeCapActual || 0;
       pp.processingFees.achFeeCapDisplay = pp.processingFees.achFeeCapDisplay || 0;
       pp.paymentMethods = pp.paymentMethods || ['card']
-      pp.attempts = attempts
+      pp.attempts = atts
       pp.productInfo.statementDescriptor = pp.productInfo.statementDescriptor || ""
       return cb(null, pp)
     }

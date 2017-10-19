@@ -175,18 +175,32 @@ function capture(order, cb) {
   debitCardv2(order.paymentsPlan[0].account, order.paymentsPlan[0].price, order.paymentsPlan[0].productInfo.organizationName, order.paymentsPlan[0]._id, order.paymentsPlan[0].paymentId,
     order.paymentsPlan[0].destinationId, order.paymentsPlan[0].totalFee, newmeta, order.paymentsPlan[0].productInfo.statementDescriptor, function (debitErr, data) {
       if (debitErr) {
-        order.paymentsPlan[0].attempts.push({ dateAttemp: new Date(), status: 'failed', message: debitErr.detail, last4: order.paymentsPlan[0].last4, accountBrand: order.paymentsPlan[0].accountBrand })
+        order.paymentsPlan[0].attempts.push({
+          dateAttemp: new Date(),
+          status: 'failed',
+          message: debitErr.detail,
+          last4: order.paymentsPlan[0].last4,
+          accountBrand: order.paymentsPlan[0].accountBrand,
+          amount: order.paymentsPlan[0].price,
+          totalFee: order.paymentsPlan[0].totalFee,
+          feePaidUp: order.paymentsPlan[0].feePaidUp,
+          feeStripe: order.paymentsPlan[0].feeStripe
+        })
         order.paymentsPlan[0].status = 'failed'
         logger.error('debitCard debitErr', debitErr)
       } else {
-        order.paymentsPlan[0].attempts.push({ 
-          dateAttemp: new Date(), 
+        order.paymentsPlan[0].attempts.push({
+          dateAttemp: new Date(),
           amount: order.paymentsPlan[0].price,
-          status: data.status, 
-          message: 'done', 
-          last4: order.paymentsPlan[0].last4, 
-          accountBrand: order.paymentsPlan[0].accountBrand, 
-          transferId: data.transfer })
+          totalFee: order.paymentsPlan[0].totalFee,
+          feePaidUp: order.paymentsPlan[0].feePaidUp,
+          feeStripe: order.paymentsPlan[0].feeStripe,
+          status: data.status,
+          message: 'done',
+          last4: order.paymentsPlan[0].last4,
+          accountBrand: order.paymentsPlan[0].accountBrand,
+          transferId: data.transfer
+        })
         order.paymentsPlan[0].status = data.status
       }
       order.paymentsPlan[0].wasProcessed = true
@@ -211,16 +225,16 @@ function capture(order, cb) {
             });
             return cb(null, data);
           } else {
-          
-              let to = {
-                email: data.body.paymentsPlan[0].email,
-                name: data.body.paymentsPlan[0].userInfo ? data.body.paymentsPlan[0].userInfo.userName : '',
-              }
-              let subject = data.body.paymentsPlan[0].productInfo.productName;
-              let subs = buildSubstitutions(data.body, order.paymentsPlan[0], function(template, subs){
-                mail.send(to, subject, subs, template)
-              });
-              return cb(null, data)            
+
+            let to = {
+              email: data.body.paymentsPlan[0].email,
+              name: data.body.paymentsPlan[0].userInfo ? data.body.paymentsPlan[0].userInfo.userName : '',
+            }
+            let subject = data.body.paymentsPlan[0].productInfo.productName;
+            let subs = buildSubstitutions(data.body, order.paymentsPlan[0], function (template, subs) {
+              mail.send(to, subject, subs, template)
+            });
+            return cb(null, data)
           }
         },
         error: function (err) {
@@ -233,9 +247,9 @@ function capture(order, cb) {
 function buildSubstitutions(order, pPlan, cb) {
   let newPP = {};
   let ppFiltered = order.paymentsPlan.filter(function (pp) {
-    if(pPlan._id === pp._id){
+    if (pPlan._id === pp._id) {
       newPP = pp;
-    } 
+    }
     return pPlan._id !== pp._id;
   });
   order.paymentsPlan = ppFiltered;
@@ -266,7 +280,7 @@ function buildSubstitutions(order, pPlan, cb) {
     `
     if (pp.status === 'pending') {
       pendingCharges.push(template)
-    } 
+    }
   });
   let table = "<table width='100%'><tr><th>Description</th><th>Date</th><th>Price</th><th>Account</th><th>Status</th></tr>";
   if (pendingCharges.length) {
@@ -275,7 +289,7 @@ function buildSubstitutions(order, pPlan, cb) {
   } else {
     cb(config.notifications.charge.template.noFuturePayments, substitutions);
   }
-  
+
 }
 
 function createTicketChargeFailed(order, cb) {
