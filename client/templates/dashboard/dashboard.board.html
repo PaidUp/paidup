@@ -211,7 +211,7 @@
                             </div>
                             <div class="tables-separator"></div>
 
-                            <div class="charges-container" ng-show="showPayments(orders.paymentsPlan, 'pending')">
+                            <div class="charges-container" ng-show="lstPaymentsPending(orders.paymentsPlan).length">
                               
                               <div class="green-font charges-title">Pending Charges</div>
 
@@ -259,7 +259,7 @@
 
                             <div class="tables-separator"></div>
 
-                            <div class="charges-container" ng-show="showPayments(orders.paymentsPlan, 'succeeded')">
+                            <div class="charges-container" ng-show="lstPaymentsHistory(orders.paymentsPlan).length">
                               <div class="green-font charges-title">Payment History</div>
 
                               <table class="charges-table">

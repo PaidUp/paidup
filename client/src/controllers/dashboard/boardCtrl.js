@@ -208,19 +208,26 @@ function ($scope, AuthService, $state, CommerceService, TrackerService, SessionS
     return CommerceService.getVisibleBeneficiaryData(customInfo)
   }
 
-  $scope.showPayments = function showPayments(pps, filter) {
-    // return true
-    return pps.filter(function (pp) { return (pp.status === filter || pp.status === 'canceled'  || pp.status === 'failed' || pp.status.startsWith('disable')) }).length
+  $scope.lstPaymentsHistory = function (pps) {
+    var res = pps.filter((pp)=>{
+      return (pp.status !== 'failed' && pp.status !== 'pending' )
+    })
+    return res;
   }
 
-  $scope.getPaymentsHistory = function getPaymentsHistory(pp) {
-    if (pp.status === 'pending') return false
-    return true
+  $scope.lstPaymentsPending = function (pps) {
+    var res = pps.filter((pp)=>{
+      return (pp.status === 'failed' || pp.status === 'pending' )
+    })
+    return res
   }
 
-  $scope.getPaymentsPending = function getPaymentsPending(pp) {
-    if (pp.status === 'failed' || pp.status === 'pending' || pp.status === 'canceled' || pp.status.startsWith('disable') ) return true
-    return false
+  $scope.getPaymentsHistory = function (pp) {
+    return (pp.status !== 'failed' && pp.status !== 'pending' )
+  }
+
+  $scope.getPaymentsPending = function (pp) {
+    return (pp.status === 'failed' || pp.status === 'pending' )
   }
 
   $scope.setDataCustomInfo = function setDataCustomInfo(customInfo) {
