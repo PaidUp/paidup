@@ -211,7 +211,7 @@
                             </div>
                             <div class="tables-separator"></div>
 
-                            <div class="charges-container" ng-show="showPayments(orders.paymentsPlan, 'pending')">
+                            <div class="charges-container" ng-show="lstPaymentsPending(orders.paymentsPlan).length">
                               
                               <div class="green-font charges-title">Pending Charges</div>
 
@@ -223,7 +223,7 @@
                                     <th>Account</th>
                                     <th>Status</th>
                                     <!--<th>Base Price</th>-->
-                                    <th>Paid</th>
+                                    <th>Owed</th>
                                     <th>Deposit</th>
                                   </tr>
                                 </thead>
@@ -259,7 +259,7 @@
 
                             <div class="tables-separator"></div>
 
-                            <div class="charges-container" ng-show="showPayments(orders.paymentsPlan, 'succeeded')">
+                            <div class="charges-container" ng-show="lstPaymentsHistory(orders.paymentsPlan).length">
                               <div class="green-font charges-title">Payment History</div>
 
                               <table class="charges-table">
@@ -275,30 +275,37 @@
                                   </tr>
                                 </thead>
                                 <div class="month">{{(at.dateAttemp | date : 'MMM') | uppercase}}</div>
-                                <tbody ng-repeat="pp in orders.paymentsPlan | filter:getPaymentsHistory">
-                                  <tr ng-repeat="at in pp.attempts | orderBy:'dateAttemp'">
+                                <tbody >
+                                  <tr ng-repeat="pp in orders.paymentsPlan | filter:getPaymentsHistory">
                                     <td class="date">
-                                      <div class="month">{{(at.dateAttemp | date : 'MMM') | uppercase}}</div>
-                                      <div class="day">{{at.dateAttemp | date: 'dd'}}</div>
+                                      <div class="month">{{(pp.dateCharge | date : 'MMM') | uppercase}}</div>
+                                      <div class="day">{{pp.dateCharge | date: 'dd'}}</div>
                                     </td>
                                     <td class="details">
                                       {{pp.description}}
                                     </td>
                                     <td class="account">
                                       <i class="fa fa-{{pp.brand ? ('cc-'+pp.brand | lowercase) : 'credit-card-alt'}}"></i>
-                                      <a href="" class="green-link">x-{{at.last4}}</a>
+                                      <a href="" class="green-link">x-{{pp.last4}}</a>
                                     </td>
                                     <td class="status">
-                                      <span>{{at.status}}</span>
+                                      <span>{{pp.status}}</span>
+                                      <div ng-if="pp.status.startsWith('refunded')" class="tooltip"><i class="info fa fa-info" aria-hidden="true"></i>
+                                        <span class="tooltiptext">
+                                          <div ng-if="attempt.status.startsWith('refunded')" ng-repeat="attempt in pp.attempts">
+                                              Refunded {{ attempt.amount | currency:"$"}} on {{attempt.dateAttemp | date : "MM/dd/yyyy" }}                           
+                                          </div>
+                                        </span>
+                                      </div>
                                     </td>
                                     <!--<td>
                                       <span class="green-font">$</span> {{pp.basePrice | currency:""}}
                                     </td>-->
                                     <td>
-                                      <span class="green-font">$</span>{{at.status === 'refunded' ? '-' : ''}} {{pp.price | currency:""}}
+                                      <span class="green-font">$</span>{{pp.refund ? pp.price + pp.refund : pp.price | currency:""}}
                                     </td>
                                     <td>
-                                      <span class="green-font">$</span>{{at.status === 'refunded' ? '-' : ''}} {{(pp.price - pp.totalFee) | currency:""}}
+                                      <span class="green-font">$</span> {{pp.status === 'refunded' ? 0 : (pp.price - pp.totalFee) | currency:""}}
                                     </td>
                                   </tr>
                                 </tbody>

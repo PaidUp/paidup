@@ -126,7 +126,7 @@
                               <th>Details</th>
                               <th class="centered">Account</th>
                               <th class="centered">Status</th>
-                              <th>Owed</th>
+                              <th>Paid</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -156,11 +156,18 @@
                                   <button class="icon" type="button">Retry</button>
                                   
                                 </span>
-                                
+
+                                <div ng-if="pp.status.startsWith('refunded')" class="tooltip"><i class="info fa fa-info" aria-hidden="true"></i>
+                                  <span class="tooltiptext">
+                                    <div ng-if="attempt.status.startsWith('refunded')" ng-repeat="attempt in pp.attempts">
+                                        Refunded {{ attempt.amount | currency:"$"}} on {{attempt.dateAttemp | date : "MM/dd/yyyy" }}                           
+                                    </div>
+                                  </span>
+                                </div>
                               </td>
                               <td class="total">
                                 <span class="green-font">$</span> 
-                                {{pp.price | currency:""}}
+                                {{(pp.refund ? pp.price + pp.refund : pp.price) | currency:""}}
                               </td>
                             </tr>
                           </tr>

@@ -108,6 +108,7 @@ var OrderService = {
           destinationId: dataProduct.details.paymentId,
           dateCharge: ele.dateCharge,
           originalPrice: ele.originalPrice,
+          refund: 0,
           totalFee: ele.totalFee,
           feePaidUp: ele.feePaidUp,
           feeStripe: ele.feeStripe,
@@ -162,8 +163,8 @@ var OrderService = {
       name: order.paymentsPlan[0].userInfo ? order.paymentsPlan[0].userInfo.userName : '',
     }
     let subject = order.paymentsPlan[0].productInfo.productName;
-    let subs = buildSubstitutions(order, function(template, subs){
-      mail.send(to, subject, subs, template) 
+    let subs = buildSubstitutions(order, function (template, subs) {
+      mail.send(to, subject, subs, template)
     })
   }
 }
@@ -175,13 +176,13 @@ function buildSubstitutions(order, cb) {
   today.setHours(23);
   today.setMinutes(59);
   let substitutions = {
-    '-orderId-': order.orderId,    
+    '-orderId-': order.orderId,
     '-userFirstName-': order.paymentsPlan[0].userInfo ? order.paymentsPlan[0].userInfo.userName.split(' ')[0] : '',
     '-beneficiaryFirstName-': order.paymentsPlan[0].customInfo.formData.athleteFirstName,
     '-beneficiaryLastName-': order.paymentsPlan[0].customInfo.formData.athleteLastName,
     '-orgName-': order.paymentsPlan[0].productInfo.organizationName,
-    '-productName-': order.paymentsPlan[0].productInfo.productName,  
-    '-nextCharges-':'',
+    '-productName-': order.paymentsPlan[0].productInfo.productName,
+    '-nextCharges-': '',
     '-pendingCharges-': ''
   }
   order.paymentsPlan.forEach(function (pp) {
@@ -194,7 +195,7 @@ function buildSubstitutions(order, cb) {
         <td>${pp.status}</td>        
       </tr>
     `
-    if(moment(pp.dateCharge).isAfter(today)){
+    if (moment(pp.dateCharge).isAfter(today)) {
       pendingCharges.push(template)
     } else {
       nextCharges.push(template)
@@ -203,15 +204,15 @@ function buildSubstitutions(order, cb) {
   let table = "<table width='100%'><tr><th>Description</th><th>Date</th><th>Price</th><th>Account</th><th>Status</th></tr>";
   substitutions['-pendingCharges-'] = pendingCharges.length ? table + pendingCharges.join(" ") + "</table>" : '';
   substitutions['-nextCharges-'] = nextCharges.length ? table + nextCharges.join(" ") + "</table>" : '';
-  
+
   if (pendingCharges.length && !nextCharges.length) {
     cb(config.notifications.invoice.template.allFuturePayments, substitutions);
-  } else if (!pendingCharges.length && nextCharges.length){
+  } else if (!pendingCharges.length && nextCharges.length) {
     cb(config.notifications.invoice.template.asapPayments, substitutions);
   } else {
     cb(config.notifications.invoice.template.asapAndFuturePayments, substitutions);
   }
-  
+
 }
 
 function createOrder(body, cb) {
@@ -551,9 +552,8 @@ function orderTransactions(organizationId, cb) {
     },
     // OK.
     success: function (transactions) {
-      let header = ['transactionId', 'created', 'organizationId', 'organization', 'location', 'productId', 'product',
-        'amount', 'status', 'totalFee', 'depositAmount', 'depositId', 'orderId', 'customerId', 'customerName',
-        'accounType', 'last4Digits'];
+      let header = ['created', 'invoice', 'description', 'organizationId', 'organization', 'location', 'productId', 'product',
+        'amount', 'refund', 'pending', 'status', 'processingFee', 'paidupFee', 'totalFee', 'depositAmount', 'orderId', 'customerId', 'customerName'];
       let headerMeta = [];
 
       transactions.body.forEach(function (tr, idx, arr) {
@@ -566,47 +566,55 @@ function orderTransactions(organizationId, cb) {
         }
       });
 
-      let res = transactions.body.map(function (transaction) {
-        let ele = {
-          transactionId: transaction.paymentsPlan.attempts._id || "",
-          created: moment(transaction.paymentsPlan.attempts.dateAttemp).format('MM/DD/YYYY hh:mm') || "",
-          organizationId: transaction.paymentsPlan.productInfo.organizationId || "",
-          organization: transaction.paymentsPlan.productInfo.organizationName || "",
-          location: transaction.paymentsPlan.productInfo.organizationLocation || "",
-          productId: transaction.paymentsPlan.productInfo.productId || "",
-          product: transaction.paymentsPlan.productInfo.productName || "",
-          amount: transaction.paymentsPlan.price || "",
-          status: transaction.paymentsPlan.attempts.status || "",
-          totalFee: transaction.paymentsPlan.totalFee || "",
-          depositAmount: getDepositAmount(transaction.paymentsPlan.price || "",
-            transaction.paymentsPlan.totalFee || "",
-            transaction.paymentsPlan.attempts.status) || "",
-          depositId: transaction.paymentsPlan.attempts.transferId || "",
-          orderId: transaction.orderId || "",
-          customerId: transaction.paymentsPlan.userInfo ? transaction.paymentsPlan.userInfo.userId : "",
-          customerName: transaction.paymentsPlan.userInfo ? transaction.paymentsPlan.userInfo.userName : "",
-          accounType: transaction.paymentsPlan.attempts.accountBrand || "",
-          last4: transaction.paymentsPlan.attempts.last4 ? transaction.paymentsPlan.attempts.last4 : "",
+      let reduceResult = transactions.body.reduce(function (resp, transaction) {
+        let key = transaction.orderId + transaction.paymentsPlan.description;
+        if (resp[key]) {
+          return resp
+        }
+
+        let row = {
+          created: moment(transaction.paymentsPlan.dateCharge).format('MM/DD/YYYY hh:mm'),
+          invoice: transaction.paymentsPlan.invoiceId || '',
+          description: transaction.paymentsPlan.description || '',
+          organizationId: transaction.paymentsPlan.productInfo.organizationId || '',
+          organization: transaction.paymentsPlan.productInfo.organizationName || '',
+          location: transaction.paymentsPlan.productInfo.organizationLocation || '',
+          productId: transaction.paymentsPlan.productInfo.productId || '',
+          product: transaction.paymentsPlan.productInfo.productName || '',
+          amount: transaction.paymentsPlan.refund ? transaction.paymentsPlan.refund + transaction.paymentsPlan.price : transaction.paymentsPlan.price,
+          refund: transaction.paymentsPlan.refund || 0,
+          pending: (transaction.paymentsPlan.status === 'pending' || transaction.paymentsPlan.status === 'failed') ? transaction.paymentsPlan.price : 0,
+          status: transaction.paymentsPlan.status || '',
+          processingFee: transaction.paymentsPlan.feeStripe || 0,
+          paidupFee: transaction.paymentsPlan.feePaidUp || 0,
+          totalFee: transaction.paymentsPlan.totalFee || 0,
+          depositAmount: (transaction.paymentsPlan.status === 'succeeded' || transaction.paymentsPlan.status === 'refunded-partially') ? transaction.paymentsPlan.price - transaction.paymentsPlan.totalFee : 0,
+          orderId: transaction.orderId || '',
+          customerId: transaction.paymentsPlan.userInfo.userId || '',
+          customerName: transaction.paymentsPlan.userInfo.userName || '',
         }
 
         headerMeta.forEach(function (trh, idx, arr) {
           if (transaction.paymentsPlan.customInfo) {
-            ele[trh] = transaction.paymentsPlan.customInfo.formData[trh] || "";
-          } else {
-            ele[trh] = '';
+            row[trh] = transaction.paymentsPlan.customInfo.formData[trh] || '';
           }
         });
-        return ele;
-      })
+
+        resp[key] = row;
+
+        return resp;
+
+      }, {});
 
       headerMeta.forEach(function (trh, idx, arr) {
         header.push(trh + " (metadata)")
       })
 
-      transactions.body = res;
       return cb(null, {
         header: header,
-        content: res
+        content: Object.keys(reduceResult).map(function(key) {
+          return reduceResult[key];
+        })
       })
     }
   })
@@ -703,7 +711,8 @@ function editOrder(params, cb) {
 }
 
 function editPaymentPlan(pp, params, cb) {
-  let originalPrice = params.originalPrice || pp.originalPrice
+  let originalPrice = typeof params.originalPrice === 'number' ? params.originalPrice : pp.originalPrice
+  let refund = typeof params.refund === 'number' ? params.refund : pp.refund
   let description = params.description || pp.description
   let dateCharge = params.dateCharge || pp.dateCharge
   let status = params.status || pp.status
@@ -737,10 +746,20 @@ function editPaymentPlan(pp, params, cb) {
     // OK.
     success: function (result) {
       result.body = JSON.parse(result.body)
+      let atts = attempts.map(attemp => {
+        console.log(typeof attemp.totalFee)
+        if (attemp.status.startsWith('refunded') && typeof attemp.totalFee === 'undefined' ){
+          attemp.totalFee = result.body.totalFee;
+          attemp.feeStripe = result.body.feeStripe;
+          attemp.feePaidUp = result.body.feePaidUp;
+        }
+        return attemp;
+      })
       pp.version = result.body.version
       pp.price = result.body.owedPrice
       pp.basePrice = result.body.basePrice
       pp.originalPrice = originalPrice
+      pp.refund = refund
       pp.description = description
       pp.dateCharge = dateCharge
       pp.wasProcessed = wasProcessed
@@ -755,7 +774,7 @@ function editPaymentPlan(pp, params, cb) {
       pp.processingFees.achFeeCapActual = pp.processingFees.achFeeCapActual || 0;
       pp.processingFees.achFeeCapDisplay = pp.processingFees.achFeeCapDisplay || 0;
       pp.paymentMethods = pp.paymentMethods || ['card']
-      pp.attempts = attempts
+      pp.attempts = atts
       pp.productInfo.statementDescriptor = pp.productInfo.statementDescriptor || ""
       return cb(null, pp)
     }
@@ -816,10 +835,10 @@ function editAllPaymentsPlan(orderId, oldPaymentsPlan, cb) {
 }
 
 function orderUpdateWebhook(data, cb) {
-  if(data.object.status !== 'succeeded'){
+  if (data.object.status !== 'succeeded') {
     createTicketChargeFailed(data, function (err, data) {
-        console.log("err:", err)
-      });
+      console.log("err:", err)
+    });
   }
 
   CommerceConnector.orderUpdateWebhook({
