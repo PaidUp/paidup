@@ -71,7 +71,7 @@ function ($scope, PaymentService, AuthService, $state, TrackerService, SessionSe
   $scope.getBankName = function getBankName(charges) {
     return charges.reduce(function (t, c) {
       // return t + ((c.amount / 100) - c.metadata.totalFee)
-      return c.bank_account.bank_name
+      return c.bank_name
     }, '')
   }
 
