@@ -196,6 +196,8 @@ module.exports = ['$rootScope', '$http', 'UserService', 'SessionService', 'Faceb
         }, function (err) {
           error(err)
         })
+      }, function(err){
+        error(err)
       })
     },
 
