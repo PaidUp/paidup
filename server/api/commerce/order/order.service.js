@@ -759,7 +759,7 @@ function editPaymentPlan(pp, params, cb) {
       pp.price = result.body.owedPrice
       pp.basePrice = result.body.basePrice
       pp.originalPrice = originalPrice
-      pp.refund = refund
+      pp.refund = refund || 0
       pp.description = description
       pp.dateCharge = dateCharge
       pp.wasProcessed = wasProcessed
