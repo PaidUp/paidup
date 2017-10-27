@@ -83,7 +83,6 @@ function ($scope, AuthService, $state, CommerceService, TrackerService, SessionS
     var csv = convertArrayOfObjectsToCSV({
       data: [$scope.groupProducts]
     })
-    console.log('csv', csv)
     if (csv == null) return
 
     filename = args.filename || 'export.csv'
