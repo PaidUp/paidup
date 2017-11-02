@@ -21,6 +21,7 @@ const config = require('./config/environment')
 const logger = require('./config/logger').info
 const notifications = require('./api/notifications/notifications.service')
 const catalogService = require('./api/commerce/catalog/catalog.service')
+const connection = require('./db/connector')
 
 // Setup server
 const app = express()
@@ -39,6 +40,7 @@ if (config.env !== 'test') {
   }
 }
 
+connection.db(function(err, db){})
 notifications.startNotificationChargeEmail();
 catalogService.startCronCleanCategories();
 
