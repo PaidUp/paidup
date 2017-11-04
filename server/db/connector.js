@@ -5,7 +5,6 @@ const url = require('../config/environment').mongo.uri;
 
 function handlerDB(cb) {
     if (handlerDB.db && handlerDB.db.serverConfig && handlerDB.db.serverConfig.isConnected()) {
-        console.log('@@@ old instance')
         return cb(null, handlerDB.db);
     }
     MongoClient.connect(url, function (err, db) {
