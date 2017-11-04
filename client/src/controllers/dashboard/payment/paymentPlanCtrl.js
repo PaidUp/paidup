@@ -327,6 +327,12 @@ module.exports = ['$scope', '$rootScope', '$anchorScroll', '$location', '$q', 'S
                 }
               })
             }
+          } else {
+            Object.keys(product.paymentPlans).forEach(function (ele) {
+              if (product.paymentPlans[ele].visible) {
+                pps[ele] = product.paymentPlans[ele]
+              }
+            })
           }
         })
 
