@@ -7,6 +7,7 @@ require('angular-sanitize')
 require('angular-cookies')
 require('angular-translate')
 require('angular-animate')
+require('bugsnag-js')
 require('./vendor/angular-facebook')
 require('./vendor/dynamic-forms')
 require('./vendor/zendesk')
@@ -19,6 +20,7 @@ require('angular-ui-mask')
 require('angular-local-storage')
 require('angulartics-mixpanel')
 require('ng-csv')
+require('angular-bugsnag')
 
 var paidUpApp = angular.module('paidUpApp', [
   'ui.router',
@@ -35,7 +37,8 @@ var paidUpApp = angular.module('paidUpApp', [
   'ui.bootstrap',
   'dynform',
   'angulartics.mixpanel',
-  'ngCsv'
+  'ngCsv',
+  'angular-bugsnag'
 ])
 
 paidUpApp.config(require('./appConfig'))

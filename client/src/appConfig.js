@@ -2,8 +2,8 @@
 var englishTranslations = require('./translations/en')
 var spanishTranslations = require('./translations/es')
 
-module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$locationProvider', '$translateProvider', '$httpProvider', 'uiMask.ConfigProvider', '$provide', 'localStorageServiceProvider', '$analyticsProvider',
-  function ($stateProvider, $urlRouterProvider, FacebookProvider, $locationProvider, $translateProvider, $httpProvider, uiMaskConfigProvider, $provide, localStorageServiceProvider, $analyticsProvider) {
+module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$locationProvider', '$translateProvider', '$httpProvider', 'uiMask.ConfigProvider', '$provide', 'localStorageServiceProvider', '$analyticsProvider', 'bugsnagProvider',
+  function ($stateProvider, $urlRouterProvider, FacebookProvider, $locationProvider, $translateProvider, $httpProvider, uiMaskConfigProvider, $provide, localStorageServiceProvider, $analyticsProvider, bugsnagProvider) {
   // UI MAsk
   uiMaskConfigProvider.clearOnBlur(false)
   uiMaskConfigProvider.maskDefinitions({'D': /^[0-9]*$/})
@@ -13,7 +13,13 @@ module.exports = ['$stateProvider', '$urlRouterProvider', 'FacebookProvider', '$
     enabled: true
   })
 
-    $analyticsProvider.virtualPageviews(false);
+  bugsnagProvider
+  .noConflict()
+  .apiKey('d68afbc3bf2925bd7fa75c7337ea9a29')
+  //.releaseStage('development')
+  .appVersion('0.1.0');
+
+  $analyticsProvider.virtualPageviews(false);
 
   localStorageServiceProvider
       .setPrefix('PaidUp')

@@ -69,7 +69,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'Custom template using Handlebars',
       template: path.join(__dirname, 'client/index.hbs'),
-      inject: 'head',
+      inject: 'body',
       minify: {
         minifyJS: true,
         caseSensitive: true,

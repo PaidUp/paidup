@@ -1,8 +1,8 @@
 'use strict'
 var angular = require('angular')
 
-module.exports = ['$scope', 'AuthService', 'TrackerService', '$translate', '$location', '$window', 'SessionService', '$rootScope',
-  function ($scope, AuthService, TrackerService, $translate, $location, $window, SessionService, $rootScope) {
+module.exports = ['$scope', 'AuthService', 'TrackerService', '$translate', '$location', '$window', 'SessionService', '$rootScope', 'bugsnag',
+  function ($scope, AuthService, TrackerService, $translate, $location, $window, SessionService, $rootScope, bugsnag) {
     // Initialization
 
     $scope.PageOptions.pageClass = 'login-page'
@@ -91,6 +91,13 @@ module.exports = ['$scope', 'AuthService', 'TrackerService', '$translate', '$loc
         $location.path(getRedirectPageLogin(user))
         AuthService.trackerLogin('Login', 'Email')
         $rootScope.checkZD();
+        bugsnag.user = {
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          roles: user.roles,
+          contacts: user.contacts
+        };
       }
       var error = function (err) {
         $scope.loading = false
@@ -105,6 +112,13 @@ module.exports = ['$scope', 'AuthService', 'TrackerService', '$translate', '$loc
         $location.path(getRedirectPageLogin(user))
         AuthService.trackerLogin('Login', 'Facebook')
         $rootScope.checkZD();
+        bugsnag.user = {
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          roles: user.roles,
+          contacts: user.contacts
+        };
       }
       var error = function (err) {
         console.log("facebookLogin error")
