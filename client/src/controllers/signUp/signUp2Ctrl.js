@@ -60,7 +60,7 @@ module.exports = ['$scope', 'SignUpService', '$state', 'UserService', 'AuthServi
           console.log('ERROR', err)
           $location.hash('top')
           $anchorScroll()
-          var msg = err.data ? err.data.message : err.data || err;
+          var msg = err.data ? err.data.message : err.message || err;
           $scope.error = msg + '. Redirecting to Step 1.'
           $timeout(function () {
             $state.go('^.step1')
