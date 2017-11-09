@@ -208,14 +208,14 @@ function ($scope, AuthService, $state, CommerceService, TrackerService, SessionS
   }
 
   $scope.lstPaymentsHistory = function (pps) {
-    var res = pps.filter((pp)=>{
+    var res = pps.filter(function (pp) {
       return (pp.status !== 'failed' && pp.status !== 'pending' )
     })
     return res;
   }
 
   $scope.lstPaymentsPending = function (pps) {
-    var res = pps.filter((pp)=>{
+    var res = pps.filter(function (pp) {
       return (pp.status === 'failed' || pp.status === 'pending' )
     })
     return res

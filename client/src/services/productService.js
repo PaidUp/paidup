@@ -4,6 +4,7 @@
 module.exports = ['$resource', '$q', '$cookies', '$rootScope', 'UserService', 'SessionService', function ($resource, $q, $cookies, $rootScope, UserService, SessionService) {
   var ProductService = this;
   var getCategories = $resource('/api/v1/commerce/catalog/categories', {}, {})
+  var prods = null;
 
   ProductService.saveProductSuggest = function () {
     var pnSession = $cookies.get('pnProds') ? JSON.parse($cookies.get('pnProds')) : null;
@@ -23,6 +24,9 @@ module.exports = ['$resource', '$q', '$cookies', '$rootScope', 'UserService', 'S
   ProductService.getPnProducts = function (cb) {
     UserService.get(SessionService.getCurrentSession(), function (currentUser) {
       UserService.getProductsSuggested(currentUser.email).then(function (data) {
+        if(data.products.length === 0 && prods){
+          data.products.push(prods);
+        }
         cb(null, data.products)
       }).catch(function (err) {
         cb(err);
@@ -46,7 +50,8 @@ module.exports = ['$resource', '$q', '$cookies', '$rootScope', 'UserService', 'S
   ProductService.categories = [];
 
   ProductService.setPnProducts = function (pnProds) {
-    $cookies.put('pnProds', JSON.stringify(pnProds))
+    //$cookies.put('pnProds', JSON.stringify(pnProds))
+    prods = pnProds;
   }
 
   ProductService.setCleanPnProducts = function () {
