@@ -8,8 +8,6 @@ const transporter = nodemailer.createTransport(config.emailService)
 const zendesk = require('paidup-zendesk-connect')
 
 function create(data, cb) {
-  console.log('data: ', data);
-
   tdUserService.init(config.connections.user)
   tdUserService.create(data, function (err, data) {
     if (err) return cb(err)
