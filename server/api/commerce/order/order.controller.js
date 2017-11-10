@@ -99,7 +99,8 @@ exports.orderHistory = function (req, res) {
 }
 
 exports.orderTransactions = function (req, res) {
-  OrganizationService.getOrganization(req.body.organizationId, function (err, organizationData) {
+  let organizationId = req.body.organizationId || req.params.organizationId;
+  OrganizationService.getOrganization(organizationId, function (err, organizationData) {
     if (err) return res.status(400).json(err)
     if (!organizationData.paymentId) return res.status(400).json({message: 'Organization does not activated', status: '400'})
     
