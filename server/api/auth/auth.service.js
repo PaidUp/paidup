@@ -12,19 +12,23 @@ const collectionName = config.mongo.options.prefix + 'third_party_client';
  * Attaches the user object to the request if authenticated
  * Otherwise returns 403
  */
-function isAuthenticated() {
+function isAuthenticated(resource) {
   return compose()
     .use(function (req, res, next) {
       let token = getTokenFromRequest(req)
       req.headers.authorization = 'Bearer ' + token
       tdUserService.init(config.connections.user)
       tdUserService.current(token, function (err, data) {
-        if (err) next(err)
-        if (data && data._id) {
+        if (err) {
+          return next(err)
+        } else  if(data && resource && data.permissions[resource]){
+          req.user = data
+          return next();
+        } else if (!resource && data && data._id) {
           req.user = data
           return next()
         } else {
-          return res.sendStatus(401)
+          return res.status(401).end();
         }
       })
     })

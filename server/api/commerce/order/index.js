@@ -4,13 +4,15 @@ const express = require('express')
 const authService = require('../../auth/auth.service')
 const controller = require('./order.controller')
 const router = express.Router()
+const permissionPrefix = "commerce|order|";
 
 router.post('/create', authService.isAuthenticated(), controller.createOrder)
 router.get('/recent/:userId/:limit', authService.isAuthenticated(), controller.orderPaymentRecent)
 router.get('/next/:userId/:limit', authService.isAuthenticated(), controller.orderPaymentNext)
 router.get('/active/:userId/:limit', authService.isAuthenticated(), controller.orderPaymentActive)
 
-router.get('/organization/:organizationId/:limit/:sort/:from/:to', authService.isAuthenticated(), controller.orderGetOrganization)
+const orderGetOrganization = "/organization/:organizationId/:limit/:sort/:from/:to";
+router.get(orderGetOrganization, authService.isAuthenticated(), controller.orderGetOrganization)
 router.get('/:userId/:limit/:sort', authService.isAuthenticated(), controller.orderGet)
 router.post('/cancel', authService.isAuthenticated(), controller.orderCancel)
 router.post('/activate', authService.isAuthenticated(), controller.orderActivate)

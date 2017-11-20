@@ -1,6 +1,6 @@
 'use strict'
 
-module.exports = [ '$scope', 'AuthService', '$state', 'SessionService', 'ProductService', function ($scope, AuthService, $state, SessionService, ProductService) {
+module.exports = [ '$rootScope', '$scope', 'AuthService', '$state', 'SessionService', 'ProductService', function ($rootScope, $scope, AuthService, $state, SessionService, ProductService) {
   $scope.PageOptions.pageClass = 'dashboard-page'
 
   //$scope.isReferring = SessionService.getReferringDomain() ? true : false;
@@ -15,6 +15,11 @@ module.exports = [ '$scope', 'AuthService', '$state', 'SessionService', 'Product
   }, function (e) {
     console.log(e)
   })
+  var permissions = $rootScope.currentUser.permissions;
+  $scope.hasPermission = {
+    "dashboard.deposits" : permissions["payment/transfer/:destinationId/from/:from/to/:to"]
+
+  }
 
   $scope.logout = function () {
     AuthService.logout()

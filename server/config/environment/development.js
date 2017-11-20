@@ -10,6 +10,6 @@ module.exports = {
   seedDB: true,
   cors : {
     enable : true,
-    corsWhitelist : ['http://localhost:4000', 'https://admin.getpaidup.com', 'https://admstg.getpaidup.com', 'https://admdev.getpaidup.com']
+    corsWhitelist : ['http://localhost:8080', 'https://admin.getpaidup.com', 'https://admstg.getpaidup.com', 'https://admdev.getpaidup.com']
   }
 }
