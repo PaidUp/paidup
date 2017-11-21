@@ -15,10 +15,9 @@ module.exports = [ '$rootScope', '$scope', 'AuthService', '$state', 'SessionServ
   }, function (e) {
     console.log(e)
   })
-  var permissions = $rootScope.currentUser.permissions;
+  var permissions = $rootScope.currentUser.permissions || {};
   $scope.hasPermission = {
     "dashboard.deposits" : permissions["payment/transfer/:destinationId/from/:from/to/:to"]
-
   }
 
   $scope.logout = function () {
