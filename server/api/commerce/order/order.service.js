@@ -583,7 +583,7 @@ function orderTransactions(organizationId, cb) {
           product: transaction.paymentsPlan.productInfo.productName || '',
           amount: transaction.paymentsPlan.refund ? transaction.paymentsPlan.refund + transaction.paymentsPlan.price : transaction.paymentsPlan.price,
           refund: transaction.paymentsPlan.refund || 0,
-          pending: (transaction.paymentsPlan.status === 'pending' || transaction.paymentsPlan.status === 'failed') ? transaction.paymentsPlan.price : 0,
+          pending: (transaction.status !== "canceled" && (transaction.paymentsPlan.status === 'pending' || transaction.paymentsPlan.status === 'failed') ) ? transaction.paymentsPlan.price : 0,
           status: transaction.paymentsPlan.status || '',
           processingFee: transaction.paymentsPlan.feeStripe || 0,
           paidupFee: transaction.paymentsPlan.feePaidUp || 0,
@@ -747,7 +747,6 @@ function editPaymentPlan(pp, params, cb) {
     success: function (result) {
       result.body = JSON.parse(result.body)
       let atts = attempts.map(attemp => {
-        console.log(typeof attemp.totalFee)
         if (attemp.status.startsWith('refunded') && typeof attemp.totalFee === 'undefined' ){
           attemp.totalFee = result.body.totalFee;
           attemp.feeStripe = result.body.feeStripe;
