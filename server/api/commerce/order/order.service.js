@@ -540,11 +540,12 @@ function orderHistory(params, cb) {
   })
 };
 
-function orderTransactions(organizationId, cb) {
+function orderTransactions(organizationId, teams, cb) {
   CommerceConnector.orderTransactionsOrganization({
     baseUrl: config.connections.commerce.baseUrl,
     token: config.connections.commerce.token,
-    organizationId: organizationId
+    organizationId: organizationId,
+    teams : teams
   }).exec({
     // An unexpected error occurred.
     error: function (err) {

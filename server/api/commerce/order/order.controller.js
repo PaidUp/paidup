@@ -104,7 +104,7 @@ exports.orderTransactions = function (req, res) {
     if (err) return res.status(400).json(err)
     if (!organizationData.paymentId) return res.status(400).json({message: 'Organization does not activated', status: '400'})
     
-    OrderService.orderTransactions(organizationData.paymentId, function (err, data) {
+    OrderService.orderTransactions(organizationData.paymentId, req.user.teams, function (err, data) {
     if (err) {
       return res.status(500).json({code: 'commerceService.orderTransactions', message: JSON.stringify(err)})
     }
