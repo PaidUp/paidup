@@ -110,16 +110,17 @@ module.exports = ['$scope', 'UserService', '$timeout', '$rootScope', 'AuthServic
       $scope.editingAccount = true
     }
 
-    $scope.deleteAccount = function () {
-      $scope.accountModalTitle = 'Are you sure you want to delete this Account'
-      $scope.deletingAccount = true
-    }
-
     $scope.cancelEditing = function () {
       $scope.editingAccount = false
       if ($scope.isNewCard) {
         $scope.showAccountModal = false
       }
+    }
+
+    $scope.deleteAccount = function (accountId) {
+      PaymentService.deleteSource(accountId).then(function(resp){
+        console.log(resp);
+      })
     }
 
     $scope.selectAccount = function (accountId) {

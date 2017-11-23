@@ -16,6 +16,7 @@ module.exports = ['$resource', function ($resource) {
   var accountServices = $resource('/api/v1/payment/account/:action', {}, {})
   var paymentServices = $resource('/api/v1/payment/:paymentId/account/:organizationId', {}, {})
   var paymentServicesRefund = $resource('/api/v1/payment/:paymentId/account/:organizationId/refund', {}, {})
+  var Source = $resource('/api/v1/payment/method/:accountId', {}, {})
 
   var discount = $resource('/api/v1/commerce/cart/coupon/add', {}, {
     apply: {
@@ -101,6 +102,10 @@ module.exports = ['$resource', function ($resource) {
 
   this.deleteBankAccount = function (customerId, bankId) {
     return DeleteBank.get({ customerId: customerId, bankId: bankId }).$promise
+  }
+
+  this.deleteSource = function (accountId) {
+    return Source.delete({ accountId: accountId }).$promise
   }
 
   this.verifyBankAccount = function (bankInfo) {

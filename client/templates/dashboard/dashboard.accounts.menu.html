@@ -15,11 +15,14 @@
 
     <div class="">
       <ul class="accounts-list">
-        <li ng-repeat="account in accounts" ng-class="account.selected ? 'clearfix selected' : 'clearfix'" ng-click="showAccount(account)">
-          <div class="icon-container"><i class="fa fa-{{getBrandCardClass(account.brand || account.object)}}"></i></div>
-          <div class="account-name">
+        <li ng-repeat="account in accounts" ng-class="account.selected ? 'clearfix selected' : 'clearfix'" >
+          <div class="icon-container" ng-click="showAccount(account)"><i class="fa fa-{{getBrandCardClass(account.brand || account.object)}}"></i></div>
+          <div class="account-name" ng-click="showAccount(account)">
             <div ng-bind="account.name || account.bankName"></div>
             <div class="card-number" ng-bind="account.last4">{{account.last4}}</div>
+          </div>
+          <div class="account-remove" ng-click="deleteAccount(account.id)">
+            Remove
           </div>
         </li>
       </ul>

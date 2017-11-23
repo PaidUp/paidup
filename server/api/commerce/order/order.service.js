@@ -915,6 +915,25 @@ function createTicketChargeFailed(data, cb) {
   });
 }
 
+function getOrdersByPaymentMethod(userId, accountId, status, cb){
+  CommerceConnector.orderGetBySource({
+    baseUrl: config.connections.commerce.baseUrl,
+    token: config.connections.commerce.token,
+    userId: userId,
+    accountId: accountId,
+    status: status
+  }).exec({
+    // An unexpected error occurred.
+    error: function (err) {
+      return cb(err)
+    },
+    // OK.
+    success: function (result) {
+      return cb(null, result.body)
+    }
+  })
+}
+
 module.exports = {
   createOrder: createOrder,
   orderPaymentRecent: orderPaymentRecent,
@@ -932,5 +951,6 @@ module.exports = {
   orderTransactions: orderTransactions,
   orderCancel: orderCancel,
   orderActivate: orderActivate,
-  removePaymentPlan: removePaymentPlan
+  removePaymentPlan: removePaymentPlan,
+  getOrdersByPaymentMethod: getOrdersByPaymentMethod
 }

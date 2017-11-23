@@ -44,7 +44,7 @@
     "ng-csv": "^0.3.6",
     "node-schedule": "^1.2.1",
     "nodemailer": "^2.3.2",
-    "paidup-commerce-connect": "^0.20.5",
+    "paidup-commerce-connect": "^0.20.9",
     "paidup-product-connect": "^0.5.2",
     "paidup-schedule-connect": "^2.7.0",
     "paidup-zendesk-connect": "https://github.com/PaidUp/PUZendesk-connect.git#v0.7.8",
