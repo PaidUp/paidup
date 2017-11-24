@@ -119,8 +119,12 @@ module.exports = ['$scope', 'UserService', '$timeout', '$rootScope', 'AuthServic
 
     $scope.deleteAccount = function (accountId) {
       PaymentService.deleteSource(accountId).then(function(resp){
-        console.log(resp);
-      })
+        $rootScope.GlobalAlertSystemAlerts.push({msg: "Your account has been removed.", type: 'success', dismissOnTimeout: 10000});
+        init();
+        $rootScope.$emit('reloadAccountsOrder');
+      }).catch(function(err){
+        $rootScope.GlobalAlertSystemAlerts.push({msg: "You cannot delete this account because it is associated with at least one payment. Please visit the 'Orders' section and associate any payments with a new payment account and then try deleting this account again.", type: 'danger', dismissOnTimeout: 10000})
+      });
     }
 
     $scope.selectAccount = function (accountId) {
