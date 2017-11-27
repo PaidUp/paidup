@@ -155,7 +155,7 @@ module.exports = ['$rootScope', '$http', 'UserService', 'SessionService', 'Faceb
           return
         }
         $http.post('/api/v1/auth/facebook', { facebookToken: user.authResponse.accessToken, isParent: isParent }).then(function (response) {
-          $rootScope.currentUser = UserService.get(response.data.token, function (user) {
+          $rootScope.currentUser = UserService.getWithToken(response.data.token, function (user) {
             SessionService.addSession(response.data)
             success(user)
           }, function (data) {
