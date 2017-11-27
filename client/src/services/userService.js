@@ -54,12 +54,6 @@ module.exports = [ '$resource', function ($resource) {
   //return User.get({token: token}, cb)
   }
 
-  this.getWithToken = function (token, callback) {
-    var cb = callback || angular.noop
-    return User.get({action: 'current', token: token}, cb)
-  //return User.get({token: token}, cb)
-  }
-
   this.getUser = function (userId) { // change name
     return User.post({}, {_id: userId}).$promise
   }
