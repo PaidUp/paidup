@@ -13,6 +13,9 @@
     <button ng-click="localLogin()" class="button-green" ng-disabled="loading" ng-bind-html="loading ? loader : 'LOGIN'"></button>
       <a ng-click="forgotLink()" class="forgot-link waves-effect">Forgot your password?</a>      
       <button ng-click="facebookLogin()" class="button-facebook" ng-disabled="loading" ng-bind-html="loading ? loader : facebookLoginTemplate"></button>
+      <div>
+        <input type="checkbox" id="cbox2" value="second_checkbox" ng-model="user.rememberMe"> <label for="cbox2">Remember me</label>
+      </div>
       <div class="horizontal-bar"></div>
       <button ui-sref="signup.step0" class="button-green btn-sign-up" ng-disabled="loading" ng-bind-html="loading ? loader : 'Sign Up'"></button>
       
