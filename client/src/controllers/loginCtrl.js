@@ -83,7 +83,7 @@ module.exports = ['$scope', 'AuthService', 'TrackerService', '$translate', '$loc
       $scope.loading = true
       $scope.error = ''
       var credentials = {
-        rememberMe: u.rememberMe,
+        rememberMe: u.rememberMe || false,
         email: u.email,
         password: u.password
       }
