@@ -83,7 +83,7 @@ module.exports = ['$scope', 'AuthService', 'TrackerService', '$translate', '$loc
       $scope.loading = true
       $scope.error = ''
       var credentials = {
-        rememberMe: true,
+        rememberMe: u.rememberMe || false,
         email: u.email,
         password: u.password
       }
@@ -125,7 +125,7 @@ module.exports = ['$scope', 'AuthService', 'TrackerService', '$translate', '$loc
         console.log(err)
         $scope.loading = false
       }
-      AuthService.loginFacebook(success, error)
+      AuthService.loginFacebook($scope.user.rememberMe, success, error)
     }
 
     function getRedirectPageLogin(user) {

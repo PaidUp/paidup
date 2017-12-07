@@ -142,7 +142,7 @@ module.exports = ['$rootScope', '$http', 'UserService', 'SessionService', 'Faceb
       }
     },
 
-    loginFacebook: function (successFn, errorFn) {
+    loginFacebook: function (rememberMe, successFn, errorFn) {
       var success = successFn || angular.noop
       var error = errorFn || angular.noop
       var loginSuccess = function (user) {
@@ -154,7 +154,8 @@ module.exports = ['$rootScope', '$http', 'UserService', 'SessionService', 'Faceb
           error('user.authResponse undefined')
           return
         }
-        $http.post('/api/v1/auth/facebook', { facebookToken: user.authResponse.accessToken, isParent: isParent }).then(function (response) {
+        $http.post('/api/v1/auth/facebook', { rememberMe: rememberMe, facebookToken: user.authResponse.accessToken, isParent: isParent }).then(function (response) {
+          SessionService.addSession(response.data);
           $rootScope.currentUser = UserService.get(response.data.token, function (user) {
             SessionService.addSession(response.data)
             success(user)

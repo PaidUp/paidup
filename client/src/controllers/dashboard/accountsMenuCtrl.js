@@ -110,16 +110,21 @@ module.exports = ['$scope', 'UserService', '$timeout', '$rootScope', 'AuthServic
       $scope.editingAccount = true
     }
 
-    $scope.deleteAccount = function () {
-      $scope.accountModalTitle = 'Are you sure you want to delete this Account'
-      $scope.deletingAccount = true
-    }
-
     $scope.cancelEditing = function () {
       $scope.editingAccount = false
       if ($scope.isNewCard) {
         $scope.showAccountModal = false
       }
+    }
+
+    $scope.deleteAccount = function (accountId) {
+      PaymentService.deleteSource(accountId).then(function(resp){
+        $rootScope.GlobalAlertSystemAlerts.push({msg: "Your account has been removed.", type: 'success', dismissOnTimeout: 10000});
+        init();
+        $rootScope.$emit('reloadAccountsOrder');
+      }).catch(function(err){
+        $rootScope.GlobalAlertSystemAlerts.push({msg: "You cannot delete this account because it is associated with at least one payment. Please visit the 'Orders' section and associate any payments with a new payment account and then try deleting this account again.", type: 'danger', dismissOnTimeout: 10000})
+      });
     }
 
     $scope.selectAccount = function (accountId) {

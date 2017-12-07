@@ -99,11 +99,12 @@ exports.orderHistory = function (req, res) {
 }
 
 exports.orderTransactions = function (req, res) {
-  OrganizationService.getOrganization(req.body.organizationId, function (err, organizationData) {
+  let organizationId = req.body.organizationId || req.params.organizationId;
+  OrganizationService.getOrganization(organizationId, function (err, organizationData) {
     if (err) return res.status(400).json(err)
     if (!organizationData.paymentId) return res.status(400).json({message: 'Organization does not activated', status: '400'})
     
-    OrderService.orderTransactions(organizationData.paymentId, function (err, data) {
+    OrderService.orderTransactions(organizationData.paymentId, req.user.teams, function (err, data) {
     if (err) {
       return res.status(500).json({code: 'commerceService.orderTransactions', message: JSON.stringify(err)})
     }
@@ -159,7 +160,6 @@ exports.orderActivate = function (req, res) {
 }
 
 exports.removePaymentPlan = function (req, res) {
-  console.log('##req.body: ', req.body)
   let user = req.user
   if (!req.body.orderId) {
     return handleError(res, { name: 'ValidationError', message: 'order id is required' })

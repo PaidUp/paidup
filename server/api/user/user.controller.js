@@ -17,7 +17,8 @@ exports.createAll = function (req, res, next) {
 }
 
 exports.current = function (req, res, next) {
-  userService.current(req.query, function (err, data) {
+  let params = {token: req.query.token || req.headers.authorization.slice(7, req.headers.authorization.length)};
+  userService.current(params, function (err, data) {
     if (err) return res.status(402).json(err)
     res.status(200).json(data)
   })

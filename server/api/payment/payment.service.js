@@ -491,6 +491,27 @@ function retrieveTransfer(transferId, cb) {
   })
 }
 
+function deleteBankAccount(customerId, bankId, cb) {
+  tdPaymentService.init(config.connections.payment)
+  tdPaymentService.deleteBankAccount({
+    customerId: customerId,
+    bankId: bankId
+  }, function (err, data) {
+    if (err) return cb(err)
+    return cb(null, data)
+  })
+}
+
+function deleteCardAccount(customerId, cardId, cb) {
+  tdPaymentService.init(config.connections.payment)
+  tdPaymentService.deleteCardAccount({
+    customerId: customerId,
+    cardId: cardId
+  }, function (err, data) {
+    if (err) return cb(err)
+    return cb(null, data)
+  })
+}
 exports.createCustomer = createCustomer
 exports.associateCard = associateCard
 exports.createCard = createCard
@@ -524,4 +545,6 @@ exports.getDepositCharge = getDepositCharge
 exports.getDepositChargeRefund = getDepositChargeRefund
 exports.retrieveTransfer = retrieveTransfer
 exports.refund = refund
+exports.deleteBankAccount = deleteBankAccount;
+exports.deleteCardAccount = deleteCardAccount;
 

@@ -50,7 +50,7 @@ module.exports = [ '$resource', function ($resource) {
 
   this.get = function (token, callback) {
     var cb = callback || angular.noop
-    return User.get({action: 'current', token: token}, cb)
+    return User.get({action: 'current'}, cb)
   //return User.get({token: token}, cb)
   }
 
