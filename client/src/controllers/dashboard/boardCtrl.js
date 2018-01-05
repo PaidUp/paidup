@@ -38,7 +38,21 @@ module.exports = ['$scope', 'AuthService', '$state', 'CommerceService', 'Tracker
         } else {
           return 0 
         }
-      }, 0)
+      }, 0);
+    }
+
+    function getTotalRemaining(orders) {
+      var res = orders.reduce(function (result, sTotals) {
+        if (sTotals.status !== "canceled") {
+          return result + sTotals.paymentsPlan.reduce(function (previousPrice, pp) {
+            var sum = (pp.status === 'failed' || pp.status === 'pending') ?  (pp.price - pp.totalFee) : 0
+            return previousPrice + sum
+          }, 0)
+        } else {
+          return 0 
+        }
+      }, 0);
+      return res;
     }
 
     $scope.getCVS = function getCVS() {
@@ -133,8 +147,8 @@ module.exports = ['$scope', 'AuthService', '$state', 'CommerceService', 'Tracker
           $scope.totalDiscountFees = $scope.getSubTotalDiscount(result.body, 'originalPrice')
           // $scope.totalPaid = $scope.getSubTotalPaid(result.body)
           $scope.totalPaidFees = $scope.getSubTotalPaid(result.body, 'price')
-          $scope.totalRemaining = $scope.getSubTotalRemaining(result.body)
-          $scope.totalRemainingFees = $scope.getSubTotalRemaining(result.body, 'price')
+          $scope.totalRemaining = getTotalRemaining(result.body)
+          //$scope.totalRemainingFees = $scope.getSubTotalRemaining(result.body, 'price')
           var finalResult = R.groupBy(function (order) {
             //console.log(order)
             return order.allProductName[0]
