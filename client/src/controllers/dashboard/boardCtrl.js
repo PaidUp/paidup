@@ -26,9 +26,8 @@ module.exports = ['$scope', 'AuthService', '$state', 'CommerceService', 'Tracker
         }, 0)
       }, 0)
     }
-
     $scope.getSubTotalRemaining = function getSubTotalRemaining(subTotals, key) {
-      return subTotals.reduce(function (result, sTotals) {
+      var res = subTotals.reduce(function (result, sTotals) {
         if (sTotals.status !== "canceled") {
           return result + sTotals.paymentsPlan.reduce(function (previousPrice, pp) {
             // var sum = (pp.status === 'failed' || pp.status === 'pending') ? (pp[(!key || key !== 'price') ? 'originalPrice' : key]) : 0
@@ -36,20 +35,21 @@ module.exports = ['$scope', 'AuthService', '$state', 'CommerceService', 'Tracker
             return previousPrice + sum
           }, 0)
         } else {
-          return 0 
+          return 0
         }
       }, 0);
+      return res;
     }
 
     function getTotalRemaining(orders) {
       var res = orders.reduce(function (result, sTotals) {
         if (sTotals.status !== "canceled") {
           return result + sTotals.paymentsPlan.reduce(function (previousPrice, pp) {
-            var sum = (pp.status === 'failed' || pp.status === 'pending') ?  (pp.price - pp.totalFee) : 0
+            var sum = (pp.status === 'failed' || pp.status === 'pending') ? (pp.price - pp.totalFee) : 0
             return previousPrice + sum
           }, 0)
         } else {
-          return 0 
+          return 0
         }
       }, 0);
       return res;
@@ -141,14 +141,6 @@ module.exports = ['$scope', 'AuthService', '$state', 'CommerceService', 'Tracker
         var organizationId = (user.meta.productRelated[0]) ? user.meta.productRelated[0] : 'Does not have organization'
         var teams = user.teams.join();
         CommerceService.orderGetOrganization(organizationId, 200, -1, $scope.dt1, $scope.dt2, teams).then(function (result) {
-          // $scope.totalPrice = $scope.getSubTotal(result.body)
-          $scope.totalPriceFees = $scope.getSubTotal(result.body, 'sumPrice')
-          // $scope.totalDiscount = $scope.getSubTotalDiscount(result.body)
-          $scope.totalDiscountFees = $scope.getSubTotalDiscount(result.body, 'originalPrice')
-          // $scope.totalPaid = $scope.getSubTotalPaid(result.body)
-          $scope.totalPaidFees = $scope.getSubTotalPaid(result.body, 'price')
-          $scope.totalRemaining = getTotalRemaining(result.body)
-          //$scope.totalRemainingFees = $scope.getSubTotalRemaining(result.body, 'price')
           var finalResult = R.groupBy(function (order) {
             //console.log(order)
             return order.allProductName[0]
@@ -156,7 +148,38 @@ module.exports = ['$scope', 'AuthService', '$state', 'CommerceService', 'Tracker
           var fn = finalResult(result.body)
           var gp = {}
           Object.keys(fn).sort().forEach(function (v, i) {
-            gp[v] = fn[v]
+            var productInfo = fn[v]
+            var subTotal = 0
+            var subDiscount = 0
+            var subPaid = 0
+            var subRemaining = 0
+
+            var newProductInfo = productInfo.map(function (ele) {
+              var total = ele.sumPrice
+              $scope.totalPriceFees = $scope.totalPriceFees + total;
+              var discount = $scope.getSubTotalDiscount([ele])
+              $scope.totalDiscountFees = $scope.totalDiscountFees + discount
+              var paid = $scope.getSubTotalPaid([ele], 'price')
+              $scope.totalPaidFees = $scope.totalPaidFees + paid
+              var remaining = $scope.getSubTotalRemaining([ele], 'price')
+              $scope.totalRemainingFees = $scope.totalRemainingFees + remaining
+              subTotal = total + subTotal
+              subDiscount = subDiscount + discount
+              subPaid = subPaid + paid;
+              subRemaining = subRemaining + remaining
+              ele['discount'] = discount
+              ele['paid'] = paid
+              ele['remaining'] = remaining
+              return ele;
+            });
+
+            gp[v] = {
+              total: subTotal,
+              discount: subDiscount,
+              paid: subPaid,
+              remaining: subRemaining,
+              pps: newProductInfo
+            }
           })
           $scope.groupProducts = gp
         }).catch(function (err) {
