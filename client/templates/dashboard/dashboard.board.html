@@ -107,7 +107,7 @@
                     <span class="green-font">$</span> {{totalPaidFees | currency:""}}
                   </td>
                   <td class="remaining">
-                    <span class="green-font">$</span>{{totalRemaining | currency:""}}
+                    <span class="green-font">$</span>{{totalRemainingFees | currency:""}}
                   </td>
                 </tr>
               </tbody>
@@ -119,16 +119,16 @@
                   <tr ng-click="expandCategory1 = !expandCategory1">
                     <td colspan="2" class="name">{{key}}</td>
                     <td class="tot">
-                      <span class="green-font">$</span> {{getSubTotal(productInfo, 'sumPrice') | currency:""}}
+                      <span class="green-font">$</span> {{ productInfo.total | currency:""}}
                     </td>
                     <td class="discount">
-                      <span class="green-font">$</span> {{getSubTotalDiscount(productInfo) | currency:""}}
+                      <span class="green-font">$</span> {{ productInfo.discount | currency:""}}
                     </td>
                     <td class="paid">
-                      <span class="green-font">$</span> {{getSubTotalPaid(productInfo, 'price') | currency:""}}
+                      <span class="green-font">$</span> {{productInfo.paid | currency:""}}
                     </td>
                     <td class="remaining">
-                      <span class="green-font">$</span> {{getSubTotalRemaining(productInfo, 'price') | currency:""}}
+                      <span class="green-font">$</span> {{productInfo.remaining | currency:""}}
                     </td>
                   </tr>
                 </tbody>
@@ -137,7 +137,7 @@
               <div ng-class="expandCategory1 ? 'category-table active' : 'category-table'">
                 <table class="transactions-table board-table">
                   <tbody>
-                    <tr ng-click="expandSection11 = !expandSection11" ng-class="expandSection11 ? 'user-row active' : 'user-row'" ng-repeat-start="orders in productInfo | orderBy:'-createAt'">
+                    <tr ng-click="expandSection11 = !expandSection11" ng-class="expandSection11 ? 'user-row active' : 'user-row'" ng-repeat-start="orders in productInfo.pps | orderBy:'-createAt'">
                       <td class="date">
                         <div class="month">{{(orders.createAt | date : 'MMM') | uppercase}}</div>
                         <div class="day">{{orders.createAt | date: 'dd'}}</div>
@@ -156,13 +156,13 @@
                         <span class="green-font">$</span> {{orders.sumPrice | currency:""}}
                       </td>
                       <td class="discount">
-                        <span class="green-font">$</span> {{getSubTotalDiscount([orders]) | currency:""}}
+                        <span class="green-font">$</span> {{orders.discount | currency:""}}
                       </td>
                       <td class="paid">
-                        <span class="green-font">$</span> {{getSubTotalPaid([orders], 'price') | currency:""}}
+                        <span class="green-font">$</span> {{orders.paid | currency:""}}
                       </td>
                       <td class="remaining">
-                        <span class="green-font">$</span> {{getSubTotalRemaining([orders], 'price') | currency:""}}
+                        <span class="green-font">$</span> {{orders.remaining | currency:""}}
                       </td>
                     </tr>
                     <tr class="expandable" ng-repeat-end>
