@@ -191,6 +191,7 @@ module.exports = ['$rootScope', '$http', 'UserService', 'SessionService', 'Faceb
         email: credentials.email,
         password: credentials.password
       }).then(function (response) {
+        SessionService.addSession(response.data)
         $rootScope.currentUser = UserService.get(response.data.token, function (user) {
           SessionService.addSession(response.data)
           success(user)
