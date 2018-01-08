@@ -21,6 +21,7 @@ require('angular-local-storage')
 require('angulartics-mixpanel')
 require('ng-csv')
 require('angular-bugsnag')
+require('bowser')
 
 var paidUpApp = angular.module('paidUpApp', [
   'ui.router',

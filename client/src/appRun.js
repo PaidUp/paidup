@@ -55,6 +55,12 @@ module.exports = ['$rootScope', 'AuthService', '$state', '$timeout', 'localStora
 
     angular.element(document.querySelector("#alerts-container")).removeClass("alerts-container-noscript");
 
+    var bowser = require('bowser');
+
+    if (bowser.msie) {
+    $rootScope.GlobalAlertSystemAlerts.push({msg: 'Certain features on our site may not work properly because you are using an older browser. Please upgrade your browser version or use a different browser (we recommend using Google Chrome).', type: 'danger'})
+    }
+
     //$rootScope.$on('$viewContentLoaded', function() {
     //  $templateCache.removeAll();
     //});
