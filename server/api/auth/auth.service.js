@@ -19,8 +19,9 @@ function isAuthenticated(resource) {
       req.headers.authorization = 'Bearer ' + token
       tdUserService.init(config.connections.user)
       tdUserService.current(token, function (err, data) {
-        if (err) {
-          return next(err)
+        if (err && err.code === 'AuthFailed') {
+          return res.status(401).end();
+          //return next(err)
         } else  if(data && resource && data.permissions[resource]){
           req.user = data
           return next();
