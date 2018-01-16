@@ -10,6 +10,17 @@ let pmx = require('pmx')
 let cors = require('cors')
 
 module.exports = function (app) {
+  if (process.env.NODE_ENV === 'development') {
+    const whitelist = config.cors.corsWhitelist
+    let corsOptions = {
+      origin: function (origin, callback) {
+        var originIsWhitelisted = whitelist.indexOf(origin) !== -1
+        callback(null, originIsWhitelisted)
+      }
+    }
+    app.use(cors(corsOptions))
+  }
+
   app.use(function (req, res, next) {
     fs.stat(config.root + '/var/maintenance.pid', function (err, stat) {
       if (err == null) {
@@ -22,17 +33,6 @@ module.exports = function (app) {
       }
     })
   })
-
-  if (process.env.NODE_ENV === 'development') {
-    const whitelist = config.cors.corsWhitelist
-    let corsOptions = {
-      origin: function (origin, callback) {
-        var originIsWhitelisted = whitelist.indexOf(origin) !== -1
-        callback(null, originIsWhitelisted)
-      }
-    }
-    app.use(cors(corsOptions))
-  }
 
   // Insert routes below
   app.use('/api/v1/auth', require('./api/auth'))
