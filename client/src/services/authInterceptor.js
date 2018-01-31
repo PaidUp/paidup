@@ -5,6 +5,9 @@ module.exports = [ '$rootScope', '$q', 'SessionService', '$location', function (
     // Add authorization token to headers
     request: function (config) {
       config.headers = config.headers || {}
+      config.headers['Cache-Control'] = 'no-cache'
+      config.headers.Pragma = 'no-cache'
+      config.headers.Expires = 'Sat, 01 Jan 2000 00:00:00 GMT'
       if (SessionService.getCurrentSession()) {
         config.headers.Authorization = 'Bearer ' + SessionService.getCurrentSession()
       }
