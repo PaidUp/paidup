@@ -23,7 +23,7 @@
 </head>
 
 <body ng-app='paidUpApp' ng-Controller='AppCtrl' ng-class='PageOptions.pageClass'>
-  
+  <div style="height: 30px; width: 100%; background: yellow; color: red; font-size: 18px; font-weight: bold"><i style="color: orange" class="fa fa-warning"></i> <span>PaidUp has moved! Visit <a style="color: blue" href="https://paidup.app">https://paidup.app</a> to make payments for 2018/2019 season programs. To view your older payment history, please login below.</span></div>
   <noscript>
     <div class="noscript ng-scope login-page row">
       <div class="col s12 center logo">
@@ -38,7 +38,6 @@
       </div>
     </div>
   </noscript>
-  
   <div ui-view></div>
   <div ng-include="'/templates/footer.html'"></div>
   <div id="alerts-container" class="alerts-container alerts-container-noscript">
