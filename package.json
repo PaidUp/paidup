@@ -36,7 +36,7 @@
     "errorhandler": "1.4.3",
     "express": "4.13.4",
     "express-csv": "^0.6.0",
-    "jquery": "^2.2.4",
+    "jquery": "^3.5.0",
     "lodash": "^4.11.2",
     "method-override": "^2.3.6",
     "moment": "^2.18.1",
